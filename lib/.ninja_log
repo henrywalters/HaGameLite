@@ -1,0 +1,5 @@
+# ninja log v5
+2	3116	1671294771775924186	CMakeFiles/HaGame2.dir/impl/hagame.cpp.o	2a6c0c201efea5ee
+0	37	1671296499583607461	build.ninja	3990255e4063dd5f
+3116	3201	1671294771875953984	libHaGame2.a	2578cf6b64b7a5eb
+7	2383	1671296042872170003	CMakeFiles/HaGame2.dir/impl/window.cpp.o	7c040871b9e044ea

@@ -1,0 +1,2 @@
+/home/henry/emsdk/upstream/emscripten/emar qc libHaGame2.a CMakeFiles/HaGame2.dir/impl/hagame.cpp.o CMakeFiles/HaGame2.dir/impl/window.cpp.o
+/home/henry/emsdk/upstream/emscripten/emranlib libHaGame2.a
