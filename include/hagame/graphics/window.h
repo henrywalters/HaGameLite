@@ -11,12 +11,14 @@
 #include "color.h"
 
 namespace hg::graphics {
+
     class Window {
     public:
         // Sized window
         Window(std::string _title, Resolution _size = HD);
 
         void initialize();
+        void clear();
         void render();
         void close();
 
@@ -29,6 +31,7 @@ namespace hg::graphics {
         void setSize(Resolution _size) {
             m_size = _size;
             glfwSetWindowSize(m_window, m_size[0], m_size[1]);
+            glViewport(0, 0, m_size[0], m_size[1]);
         }
         Resolution getSize() { return m_size; }
 

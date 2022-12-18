@@ -129,6 +129,30 @@ HaGame2/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/build
 .PHONY : HaGame2/fast
 
+impl/glad.o: impl/glad.c.o
+.PHONY : impl/glad.o
+
+# target to build an object file
+impl/glad.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/glad.c.o
+.PHONY : impl/glad.c.o
+
+impl/glad.i: impl/glad.c.i
+.PHONY : impl/glad.i
+
+# target to preprocess a source file
+impl/glad.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/glad.c.i
+.PHONY : impl/glad.c.i
+
+impl/glad.s: impl/glad.c.s
+.PHONY : impl/glad.s
+
+# target to generate assembly for a file
+impl/glad.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/glad.c.s
+.PHONY : impl/glad.c.s
+
 impl/hagame.o: impl/hagame.cpp.o
 .PHONY : impl/hagame.o
 
@@ -152,6 +176,54 @@ impl/hagame.s: impl/hagame.cpp.s
 impl/hagame.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/hagame.cpp.s
 .PHONY : impl/hagame.cpp.s
+
+impl/shader.o: impl/shader.cpp.o
+.PHONY : impl/shader.o
+
+# target to build an object file
+impl/shader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/shader.cpp.o
+.PHONY : impl/shader.cpp.o
+
+impl/shader.i: impl/shader.cpp.i
+.PHONY : impl/shader.i
+
+# target to preprocess a source file
+impl/shader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/shader.cpp.i
+.PHONY : impl/shader.cpp.i
+
+impl/shader.s: impl/shader.cpp.s
+.PHONY : impl/shader.s
+
+# target to generate assembly for a file
+impl/shader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/shader.cpp.s
+.PHONY : impl/shader.cpp.s
+
+impl/shaderProgram.o: impl/shaderProgram.cpp.o
+.PHONY : impl/shaderProgram.o
+
+# target to build an object file
+impl/shaderProgram.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/shaderProgram.cpp.o
+.PHONY : impl/shaderProgram.cpp.o
+
+impl/shaderProgram.i: impl/shaderProgram.cpp.i
+.PHONY : impl/shaderProgram.i
+
+# target to preprocess a source file
+impl/shaderProgram.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/shaderProgram.cpp.i
+.PHONY : impl/shaderProgram.cpp.i
+
+impl/shaderProgram.s: impl/shaderProgram.cpp.s
+.PHONY : impl/shaderProgram.s
+
+# target to generate assembly for a file
+impl/shaderProgram.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/shaderProgram.cpp.s
+.PHONY : impl/shaderProgram.cpp.s
 
 impl/window.o: impl/window.cpp.o
 .PHONY : impl/window.o
@@ -186,9 +258,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... HaGame2"
+	@echo "... impl/glad.o"
+	@echo "... impl/glad.i"
+	@echo "... impl/glad.s"
 	@echo "... impl/hagame.o"
 	@echo "... impl/hagame.i"
 	@echo "... impl/hagame.s"
+	@echo "... impl/shader.o"
+	@echo "... impl/shader.i"
+	@echo "... impl/shader.s"
+	@echo "... impl/shaderProgram.o"
+	@echo "... impl/shaderProgram.i"
+	@echo "... impl/shaderProgram.s"
 	@echo "... impl/window.o"
 	@echo "... impl/window.i"
 	@echo "... impl/window.s"

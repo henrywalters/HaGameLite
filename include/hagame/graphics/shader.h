@@ -10,6 +10,7 @@
 namespace hg::graphics {
 
     class Shader {
+    public:
         unsigned int id;
 
         // Static Members

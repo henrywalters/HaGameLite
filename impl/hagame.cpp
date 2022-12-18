@@ -7,6 +7,7 @@
 // #include "../include/hagame/graphics/window.h"
 #include "../impl/window.cpp"
 #include "../impl/shader.cpp"
+#include "../impl/shaderProgram.cpp"
 
 // Include the Emscripten library only if targetting WebAssembly
 #ifdef __EMSCRIPTEN__

@@ -7,6 +7,7 @@
 
 #include "vector.h"
 #include "hypercube.h"
+#include "matrix.h"
 
 namespace hg {
     using Vec4 = math::Vector<4, float>;
@@ -16,6 +17,10 @@ namespace hg {
     using Vec4i = math::Vector<4, int>;
     using Vec3i = math::Vector<3, int>;
     using Vec2i = math::Vector<2, int>;
+
+    using Mat2 = math::Matrix<2, 2, float>;
+    using Mat3 = math::Matrix<3, 3, float>;
+    using Mat4 = math::Matrix<4, 4, float>;
 
     using Rect = math::Hypercube<2, float>;
     using Cube = math::Hypercube<3, float>;

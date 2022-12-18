@@ -1,41 +1,55 @@
-CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
-  /home/henry/CLionProjects/HaGame2/impl/hagame.cpp \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/math/aliases.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/math/vector.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/functional \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/search.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/comp.h \
+CMakeFiles/HaGame2.dir/impl/shaderProgram.cpp.o: \
+  /home/henry/CLionProjects/HaGame2/impl/shaderProgram.cpp \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/glfw.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/emscripten.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_asm.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_macros.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_types.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_js.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/wget.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/version.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/glad.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/khrplatform.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stdint.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__config \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__config_site \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/iterator_operations.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/iter_swap.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/declval.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/swap.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/move.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/type_traits \
+  /home/henry/emsdk/upstream/lib/clang/16/include/stdint.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/stdint.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/bits/alltypes.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/bits/stdint.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/GLFW/glfw3.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stddef.h \
+  /home/henry/emsdk/upstream/lib/clang/16/include/stddef.h \
+  /home/henry/emsdk/upstream/lib/clang/16/include/__stddef_max_align_t.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/GLES3/gl3.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/GLES3/gl3platform.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/KHR/khrplatform.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/shaderProgram.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/string \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/max.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/comp.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/comp_ref_type.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__debug \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__assert \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__verbose_abort \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__availability \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cstddef \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/enable_if.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/integral_constant.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/is_integral.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/remove_cv.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/remove_const.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/remove_volatile.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/version \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/type_traits \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/invoke.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/add_lvalue_reference.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/is_referenceable.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/integral_constant.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/is_same.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/apply_cv.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/is_const.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/is_volatile.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/remove_reference.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cstddef \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/enable_if.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/is_integral.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/remove_cv.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/remove_const.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/remove_volatile.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stddef.h \
-  /home/henry/emsdk/upstream/lib/clang/16/include/stddef.h \
-  /home/henry/emsdk/upstream/lib/clang/16/include/__stddef_max_align_t.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/version \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/conditional.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/decay.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/add_pointer.h \
@@ -50,6 +64,7 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/is_reference_wrapper.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/is_void.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/nat.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/declval.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/forward.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/add_const.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/add_cv.h \
@@ -135,13 +150,8 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/remove_pointer.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/type_identity.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cstdint \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stdint.h \
-  /home/henry/emsdk/upstream/lib/clang/16/include/stdint.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/stdint.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/bits/alltypes.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/bits/stdint.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/ranges_iterator_concept.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/concepts.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/max_element.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/iterator_traits.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/incrementable_traits.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/is_primary_template.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/is_valid_expansion.h \
@@ -162,6 +172,7 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__concepts/movable.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__concepts/swappable.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/exchange.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/move.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__concepts/derived_from.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__concepts/different_from.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__concepts/equality_comparable.h \
@@ -171,22 +182,46 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__concepts/semiregular.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__concepts/relation.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__concepts/totally_ordered.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/iter_move.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/iterator_traits.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/readable_traits.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/initializer_list \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__undef_macros \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/min.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/min_element.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/identity.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/remove.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/find.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/find_if.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/remove_if.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__format/enable_insertable.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/hash.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/unary_function.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__tuple \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/pair.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/common_comparison_category.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/ordering.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/synth_three_way.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/three_way_comparable.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/unwrap_ref.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/piecewise_construct.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/swap.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cstring \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/compat/string.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/string.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/string.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/features.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/strings.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/limits \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ios/fpos.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/iosfwd \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__mbstate_t.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/compat/wchar.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/wchar.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/wchar.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/distance.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/concepts.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/iter_move.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/pointer_traits.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/addressof.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/advance.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/unreachable.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cstdlib \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/compat/stdlib.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stdlib.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/stdlib.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/features.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/alloca.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/limits \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__undef_macros \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/distance.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/access.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/enable_borrowed_range.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/auto_cast.h \
@@ -194,37 +229,75 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/data.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/enable_view.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/size.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/initializer_list \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/reverse_iterator.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/unwrap_iter.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/compare_three_way_result.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/advance.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/unreachable.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cstdlib \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/compat/stdlib.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stdlib.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/stdlib.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/alloca.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/iter_swap.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/iterator.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/next.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/prev.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/identity.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/pair.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/common_comparison_category.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/ordering.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/synth_three_way.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/three_way_comparable.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/unwrap_ref.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__tuple \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/piecewise_construct.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/compare_three_way.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__debug \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/binary_function.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/binary_negate.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/bind.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/weak_result_type.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/unary_function.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/tuple \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/subrange.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/dangling.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/view_interface.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/empty.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/wrap_iter.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/allocate_at_least.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/allocator_traits.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/construct_at.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/access.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/voidify.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/swap_allocator.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__string/char_traits.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/copy_n.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/copy.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/unwrap_range.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/fill_n.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/find_end.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/iterator_operations.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/iter_swap.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/ranges_iterator_concept.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/search.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/find_first_of.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cstdio \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stdio.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/stdio.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/wasi/api.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cwchar \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cwctype \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cctype \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/compat/ctype.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/ctype.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/ctype.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/compat/wctype.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/wctype.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/wctype.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__string/extern_template_lists.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/climits \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/limits.h \
+  /home/henry/emsdk/upstream/lib/clang/16/include/limits.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/limits.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/bits/limits.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/memory \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/move.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/allocation_guard.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/allocator.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/new \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/exception \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stdexcept \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/allocator_arg_t.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/uses_allocator.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/assume_aligned.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/auto_ptr.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/compressed_pair.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/tuple \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/integer_sequence.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/exception \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/iosfwd \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__mbstate_t.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/compat/wchar.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/wchar.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/wchar.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/new \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/typeinfo \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/utility \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/as_const.h \
@@ -237,6 +310,7 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/compare \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/compare_partial_order_fallback.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/partial_order.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/compare_three_way.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/weak_order.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/strong_order.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__bit/bit_cast.h \
@@ -246,55 +320,23 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/math.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__type_traits/promote.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/compare_strong_order_fallback.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/compare_three_way_result.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/compare_weak_order_fallback.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__compare/is_eq.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/bind_back.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/perfect_forward.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/bind_front.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/binder1st.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/binder2nd.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/boyer_moore_searcher.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/fill_n.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/hash.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cstring \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/compat/string.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/string.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/string.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/strings.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/operations.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/shared_ptr.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/reference_wrapper.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/access.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/allocation_guard.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/allocator_traits.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/construct_at.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/voidify.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/allocator.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/allocate_at_least.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stdexcept \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/auto_ptr.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/compressed_pair.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/concepts.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/ranges_construct_at.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/ranges_uninitialized_algorithms.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/in_out_result.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/uninitialized_algorithms.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/copy.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/unwrap_iter.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/unwrap_range.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/reverse_iterator.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/iterator.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/subrange.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/dangling.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/view_interface.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ranges/empty.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/move.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/raw_storage_iterator.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/shared_ptr.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/binary_function.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/operations.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/reference_wrapper.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/weak_result_type.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/unique_ptr.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/atomic \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__chrono/duration.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/ratio \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/climits \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/limits.h \
-  /home/henry/emsdk/upstream/lib/clang/16/include/limits.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/limits.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/bits/limits.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__thread/poll_with_backoff.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__chrono/high_resolution_clock.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__chrono/steady_clock.h \
@@ -311,7 +353,6 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/errno.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/errno.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/bits/errno.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/wasi/api.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/pthread.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/sched.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/chrono \
@@ -327,20 +368,6 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__chrono/year_month.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__chrono/year_month_day.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__chrono/year_month_weekday.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/array \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/equal.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/lexicographical_compare.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/comp_ref_type.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/swap_ranges.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/algorithm \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__bits \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/memory \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/assume_aligned.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/concepts.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/ranges_construct_at.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/ranges_uninitialized_algorithms.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/in_out_result.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/raw_storage_iterator.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/temporary_buffer.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/iterator \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/back_insert_iterator.h \
@@ -370,7 +397,10 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/size.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/sortable.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/unreachable_sentinel.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__iterator/wrap_iter.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/string_view \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__fwd/string_view.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/algorithm \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__bits \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/adjacent_find.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/all_of.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/any_of.h \
@@ -381,16 +411,12 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/copy_backward.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/ranges_copy.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/copy_if.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/copy_n.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/count.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/count_if.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/equal.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/equal_range.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/upper_bound.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/fill.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/find.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/find_end.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/find_first_of.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/find_if.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/find_if_not.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/for_each.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/for_each_n.h \
@@ -403,20 +429,18 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/in_out_out_result.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/includes.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/inplace_merge.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/min.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/min_element.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/rotate.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/move_backward.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/swap_ranges.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/is_heap.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/is_heap_until.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/is_partitioned.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/is_permutation.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/is_sorted.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/is_sorted_until.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/lexicographical_compare.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/make_heap.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/sift_down.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/max.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/max_element.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/merge.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/min_max_result.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/minmax.h \
@@ -541,9 +565,7 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/ranges_unique_copy.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/unique_copy.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/ranges_upper_bound.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/remove.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/remove_copy.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/remove_if.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/replace.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/replace_copy.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/replace_copy_if.h \
@@ -553,15 +575,23 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/shift_left.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/shift_right.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__algorithm/transform.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/functional \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/binary_negate.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/bind.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/bind_back.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/perfect_forward.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/bind_front.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/binder1st.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/binder2nd.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/boyer_moore_searcher.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/array \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/unordered_map \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/is_transparent.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__hash_table \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__memory/swap_allocator.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__node_handle \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/optional \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/vector \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__bit_reference \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__format/enable_insertable.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__split_buffer \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/compose.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/default_searcher.h \
@@ -572,24 +602,9 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/pointer_to_binary_function.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/pointer_to_unary_function.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__functional/unary_negate.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/string \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__ios/fpos.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__string/char_traits.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cstdio \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stdio.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/stdio.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cwchar \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cwctype \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cctype \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/compat/ctype.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/ctype.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/ctype.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/compat/wctype.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/wctype.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/wctype.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__string/extern_template_lists.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/string_view \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__fwd/string_view.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/shader.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/../math/aliases.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/../math/vector.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/sstream \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/istream \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/ostream \
@@ -610,42 +625,7 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: \
   /home/henry/emsdk/upstream/lib/clang/16/include/stdarg.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/streambuf \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__bsd_locale_fallbacks.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/math/constants.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/math/hypercube.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/math/matrix.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/math/quaternion.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/utils/timer.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/utils/./clock.h \
-  /home/henry/CLionProjects/HaGame2/impl/../impl/window.cpp \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/window.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/glfw.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/emscripten.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_asm.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_macros.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_types.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_js.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/wget.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/version.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/glad.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/khrplatform.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/GLFW/glfw3.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/GLES3/gl3.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/GLES3/gl3platform.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/KHR/khrplatform.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/../math/aliases.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/resolution.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/color.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/rgb.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/hsv.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/input/input.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/input/inputDevice.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/input/../math/aliases.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/input/devices/keyboardMouse.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/input/devices/../../math/aliases.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/input/devices/../inputDevice.h \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/input/devices/../../utils/clock.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/iostream \
-  /home/henry/CLionProjects/HaGame2/impl/../impl/shader.cpp \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/shader.h \
-  /home/henry/CLionProjects/HaGame2/impl/../impl/shaderProgram.cpp \
-  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/shaderProgram.h
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/../math/constants.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/../math/hypercube.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/../math/matrix.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/../math/quaternion.h

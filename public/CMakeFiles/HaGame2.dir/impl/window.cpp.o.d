@@ -1,6 +1,7 @@
 CMakeFiles/HaGame2.dir/impl/window.cpp.o: \
   /home/henry/CLionProjects/HaGame2/impl/window.cpp \
   /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/window.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/glfw.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/emscripten.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_asm.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_macros.h \
@@ -8,17 +9,19 @@ CMakeFiles/HaGame2.dir/impl/window.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_js.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/wget.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/version.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/GLFW/glfw3.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stddef.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/glad.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/khrplatform.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stdint.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__config \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__config_site \
-  /home/henry/emsdk/upstream/lib/clang/16/include/stddef.h \
-  /home/henry/emsdk/upstream/lib/clang/16/include/__stddef_max_align_t.h \
-  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stdint.h \
   /home/henry/emsdk/upstream/lib/clang/16/include/stdint.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/stdint.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/bits/alltypes.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/bits/stdint.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/GLFW/glfw3.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stddef.h \
+  /home/henry/emsdk/upstream/lib/clang/16/include/stddef.h \
+  /home/henry/emsdk/upstream/lib/clang/16/include/__stddef_max_align_t.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/GLES3/gl3.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/GLES3/gl3platform.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/KHR/khrplatform.h \
@@ -623,6 +626,8 @@ CMakeFiles/HaGame2.dir/impl/window.cpp.o: \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__bsd_locale_fallbacks.h \
   /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/../math/constants.h \
   /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/../math/hypercube.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/../math/matrix.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/../math/quaternion.h \
   /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/resolution.h \
   /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/color.h \
   /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/rgb.h \

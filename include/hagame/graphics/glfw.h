@@ -11,8 +11,7 @@
 #define GLFW_INCLUDE_ES3
 #endif
 
+#include "../../../thirdparty/glad.h"
 #include <GLFW/glfw3.h>
-#define GL_GLEXT_PROTOTYPES
-#include <GL/glext.h>
 
 #endif //HAGAME2_GLFW_H

@@ -67,9 +67,15 @@ build CMakeFiles/HaGame2.dir/impl/shader.cpp.o: CXX_COMPILER__HaGame2_Release /h
   OBJECT_DIR = CMakeFiles/HaGame2.dir
   OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl
 
-build CMakeFiles/HaGame2.dir/impl/glad.c.o: C_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/glad.c || cmake_object_order_depends_target_HaGame2
-  DEP_FILE = CMakeFiles/HaGame2.dir/impl/glad.c.o.d
+build CMakeFiles/HaGame2.dir/thirdparty/glad.c.o: C_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/thirdparty/glad.c || cmake_object_order_depends_target_HaGame2
+  DEP_FILE = CMakeFiles/HaGame2.dir/thirdparty/glad.c.o.d
   FLAGS = -O3 -DNDEBUG -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/HaGame2.dir
+  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/thirdparty
+
+build CMakeFiles/HaGame2.dir/impl/shaderProgram.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/shaderProgram.cpp || cmake_object_order_depends_target_HaGame2
+  DEP_FILE = CMakeFiles/HaGame2.dir/impl/shaderProgram.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -fcolor-diagnostics -std=gnu++20
   OBJECT_DIR = CMakeFiles/HaGame2.dir
   OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl
 
@@ -81,7 +87,7 @@ build CMakeFiles/HaGame2.dir/impl/glad.c.o: C_COMPILER__HaGame2_Release /home/he
 #############################################
 # Link the static library libHaGame2.a
 
-build libHaGame2.a: CXX_STATIC_LIBRARY_LINKER__HaGame2_Release CMakeFiles/HaGame2.dir/impl/hagame.cpp.o CMakeFiles/HaGame2.dir/impl/window.cpp.o CMakeFiles/HaGame2.dir/impl/shader.cpp.o CMakeFiles/HaGame2.dir/impl/glad.c.o
+build libHaGame2.a: CXX_STATIC_LIBRARY_LINKER__HaGame2_Release CMakeFiles/HaGame2.dir/impl/hagame.cpp.o CMakeFiles/HaGame2.dir/impl/window.cpp.o CMakeFiles/HaGame2.dir/impl/shader.cpp.o CMakeFiles/HaGame2.dir/thirdparty/glad.c.o CMakeFiles/HaGame2.dir/impl/shaderProgram.cpp.o
   LANGUAGE_COMPILE_FLAGS = -O3 -DNDEBUG
   OBJECT_DIR = CMakeFiles/HaGame2.dir
   POST_BUILD = :

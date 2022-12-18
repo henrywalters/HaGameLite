@@ -1,0 +1,19 @@
+CMakeFiles/HaGame2.dir/impl/glad.c.o: \
+  /home/henry/CLionProjects/HaGame2/impl/glad.c \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/stdio.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/wasi/api.h \
+  /home/henry/emsdk/upstream/lib/clang/16/include/stddef.h \
+  /home/henry/emsdk/upstream/lib/clang/16/include/__stddef_max_align_t.h \
+  /home/henry/emsdk/upstream/lib/clang/16/include/stdint.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/stdint.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/bits/alltypes.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/bits/stdint.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/features.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/compat/stdlib.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/stdlib.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/alloca.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/compat/string.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/string.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/strings.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/glad.h \
+  /home/henry/CLionProjects/HaGame2/impl/../include/hagame/graphics/khrplatform.h
