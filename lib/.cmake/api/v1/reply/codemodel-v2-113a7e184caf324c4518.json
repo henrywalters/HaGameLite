@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.24"
@@ -19,7 +19,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "Release",
 			"projects" : 
 			[
 				{
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "HaGame2::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-HaGame2-Debug-dda2035f1d41b32b6ab8.json",
+					"jsonFile" : "target-HaGame2-Release-77ed1b051cdb643ea90b.json",
 					"name" : "HaGame2",
 					"projectIndex" : 0
 				}
@@ -49,7 +49,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/henry/CLionProjects/HaGame2/cmake-build-debug",
+		"build" : "/home/henry/CLionProjects/HaGame2/lib",
 		"source" : "/home/henry/CLionProjects/HaGame2"
 	},
 	"version" : 

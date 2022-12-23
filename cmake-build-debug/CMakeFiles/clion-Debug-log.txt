@@ -1,6 +1,0 @@
-/home/henry/Downloads/clion-2022.3/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/henry/Downloads/clion-2022.3/bin/ninja/linux/ninja -DCMAKE_CXX_COMPILER=clang++ -G Ninja -S /home/henry/CLionProjects/HaGame2 -B /home/henry/CLionProjects/HaGame2/cmake-build-debug
-INCLUDE DIRS = 
-LIBS = glfw
--- Configuring done
--- Generating done
--- Build files have been written to: /home/henry/CLionProjects/HaGame2/cmake-build-debug

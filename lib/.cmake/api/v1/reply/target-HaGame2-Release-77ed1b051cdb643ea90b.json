@@ -146,7 +146,8 @@
 				40,
 				43,
 				45,
-				46
+				46,
+				47
 			]
 		}
 	],
@@ -397,6 +398,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "include/hagame/utils/macros.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/hagame/core/gameObject.h",
 			"sourceGroupIndex" : 1
 		}
 	],
