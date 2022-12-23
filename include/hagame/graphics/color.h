@@ -142,10 +142,10 @@ namespace hg::graphics {
             }
 
             hh = hsv[0];
-            if (hh >= PI * 2)
+            if (hh >= math::PI * 2)
                 hh = 0.0;
 
-            hh /= PI / 3;
+            hh /= math::PI / 3;
 
             i = (long)hh;
 

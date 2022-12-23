@@ -15,7 +15,7 @@ namespace hg::math {
     public:
 
         Quaternion() {
-            Quaternion(0, Vector<3, T>({ 0, 0, 0 }));
+            Quaternion(0, Vector<3, T>(0, 0, 0));
         }
 
         Quaternion(T rotation, Vector<3, T> axisOfRotation) {
@@ -92,7 +92,7 @@ namespace hg::math {
         }
 
         Vector<3, T> imaginary() {
-            return Vector<3, T>({ this->vector[1], this->vector[2], this->vector[3] });
+            return Vector<3, T>(this->vector[1], this->vector[2], this->vector[3]);
         }
 
         T real() {
@@ -126,29 +126,29 @@ namespace hg::math {
             T yaw_b = 1 - 2 * (c * c + d * d);
             T yaw = atan2(yaw_a, yaw_b);
 
-            return Vector<3, T>({ yaw, pitch, roll });
+            return Vector<3, T>(yaw, pitch, roll);
         }
 
     };
 
     template<class T>
     Quaternion<T> operator *(const Quaternion<T>& lhs, const Quaternion<T>& rhs) {
-        return Quaternion({
+        return Quaternion(
                                   lhs[0] * rhs[0] - lhs[1] * rhs[1] - lhs[2] * rhs[2] - lhs[3] * rhs[3],
                                   lhs[0] * rhs[1] + lhs[1] * rhs[0] + lhs[2] * rhs[3] - lhs[3] * rhs[2],
                                   lhs[0] * rhs[2] - lhs[1] * rhs[3] + lhs[2] * rhs[0] + lhs[3] * rhs[1],
                                   lhs[0] * rhs[3] + lhs[1] * rhs[2] + lhs[2] * rhs[1] + lhs[3] * rhs[0]
-                          });
+                          );
     }
 
     template<class T>
     Quaternion<T> operator *(T scalar, const Quaternion<T>& rhs) {
-        return Quaternion({
+        return Quaternion(
                                   rhs[0] * scalar,
                                   rhs[1] * scalar,
                                   rhs[2] * scalar,
                                   rhs[3] * scalar
-                          });
+                          );
     }
 
     template<class T>

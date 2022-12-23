@@ -55,17 +55,17 @@ build CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: CXX_COMPILER__HaGame2_Release /h
   OBJECT_DIR = CMakeFiles/HaGame2.dir
   OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl
 
-build CMakeFiles/HaGame2.dir/impl/window.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/window.cpp || cmake_object_order_depends_target_HaGame2
-  DEP_FILE = CMakeFiles/HaGame2.dir/impl/window.cpp.o.d
+build CMakeFiles/HaGame2.dir/impl/graphics/window.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/graphics/window.cpp || cmake_object_order_depends_target_HaGame2
+  DEP_FILE = CMakeFiles/HaGame2.dir/impl/graphics/window.cpp.o.d
   FLAGS = -O3 -DNDEBUG -fcolor-diagnostics -std=gnu++20
   OBJECT_DIR = CMakeFiles/HaGame2.dir
-  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl
+  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl/graphics
 
-build CMakeFiles/HaGame2.dir/impl/shader.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/shader.cpp || cmake_object_order_depends_target_HaGame2
-  DEP_FILE = CMakeFiles/HaGame2.dir/impl/shader.cpp.o.d
+build CMakeFiles/HaGame2.dir/impl/graphics/shader.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/graphics/shader.cpp || cmake_object_order_depends_target_HaGame2
+  DEP_FILE = CMakeFiles/HaGame2.dir/impl/graphics/shader.cpp.o.d
   FLAGS = -O3 -DNDEBUG -fcolor-diagnostics -std=gnu++20
   OBJECT_DIR = CMakeFiles/HaGame2.dir
-  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl
+  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl/graphics
 
 build CMakeFiles/HaGame2.dir/thirdparty/glad.c.o: C_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/thirdparty/glad.c || cmake_object_order_depends_target_HaGame2
   DEP_FILE = CMakeFiles/HaGame2.dir/thirdparty/glad.c.o.d
@@ -73,11 +73,53 @@ build CMakeFiles/HaGame2.dir/thirdparty/glad.c.o: C_COMPILER__HaGame2_Release /h
   OBJECT_DIR = CMakeFiles/HaGame2.dir
   OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/thirdparty
 
-build CMakeFiles/HaGame2.dir/impl/shaderProgram.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/shaderProgram.cpp || cmake_object_order_depends_target_HaGame2
-  DEP_FILE = CMakeFiles/HaGame2.dir/impl/shaderProgram.cpp.o.d
+build CMakeFiles/HaGame2.dir/impl/graphics/shaderProgram.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/graphics/shaderProgram.cpp || cmake_object_order_depends_target_HaGame2
+  DEP_FILE = CMakeFiles/HaGame2.dir/impl/graphics/shaderProgram.cpp.o.d
   FLAGS = -O3 -DNDEBUG -fcolor-diagnostics -std=gnu++20
   OBJECT_DIR = CMakeFiles/HaGame2.dir
-  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl
+  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl/graphics
+
+build CMakeFiles/HaGame2.dir/impl/physics/transform.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/physics/transform.cpp || cmake_object_order_depends_target_HaGame2
+  DEP_FILE = CMakeFiles/HaGame2.dir/impl/physics/transform.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -fcolor-diagnostics -std=gnu++20
+  OBJECT_DIR = CMakeFiles/HaGame2.dir
+  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl/physics
+
+build CMakeFiles/HaGame2.dir/impl/graphics/mesh.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/graphics/mesh.cpp || cmake_object_order_depends_target_HaGame2
+  DEP_FILE = CMakeFiles/HaGame2.dir/impl/graphics/mesh.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -fcolor-diagnostics -std=gnu++20
+  OBJECT_DIR = CMakeFiles/HaGame2.dir
+  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl/graphics
+
+build CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/graphics/primitives/quad.cpp || cmake_object_order_depends_target_HaGame2
+  DEP_FILE = CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -fcolor-diagnostics -std=gnu++20
+  OBJECT_DIR = CMakeFiles/HaGame2.dir
+  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl/graphics/primitives
+
+build CMakeFiles/HaGame2.dir/impl/utils/file.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/utils/file.cpp || cmake_object_order_depends_target_HaGame2
+  DEP_FILE = CMakeFiles/HaGame2.dir/impl/utils/file.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -fcolor-diagnostics -std=gnu++20
+  OBJECT_DIR = CMakeFiles/HaGame2.dir
+  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl/utils
+
+build CMakeFiles/HaGame2.dir/impl/utils/string.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/utils/string.cpp || cmake_object_order_depends_target_HaGame2
+  DEP_FILE = CMakeFiles/HaGame2.dir/impl/utils/string.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -fcolor-diagnostics -std=gnu++20
+  OBJECT_DIR = CMakeFiles/HaGame2.dir
+  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl/utils
+
+build CMakeFiles/HaGame2.dir/impl/graphics/primitives/cube.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/graphics/primitives/cube.cpp || cmake_object_order_depends_target_HaGame2
+  DEP_FILE = CMakeFiles/HaGame2.dir/impl/graphics/primitives/cube.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -fcolor-diagnostics -std=gnu++20
+  OBJECT_DIR = CMakeFiles/HaGame2.dir
+  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl/graphics/primitives
+
+build CMakeFiles/HaGame2.dir/impl/graphics/primitives/disc.cpp.o: CXX_COMPILER__HaGame2_Release /home/henry/CLionProjects/HaGame2/impl/graphics/primitives/disc.cpp || cmake_object_order_depends_target_HaGame2
+  DEP_FILE = CMakeFiles/HaGame2.dir/impl/graphics/primitives/disc.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -fcolor-diagnostics -std=gnu++20
+  OBJECT_DIR = CMakeFiles/HaGame2.dir
+  OBJECT_FILE_DIR = CMakeFiles/HaGame2.dir/impl/graphics/primitives
 
 
 # =============================================================================
@@ -87,7 +129,7 @@ build CMakeFiles/HaGame2.dir/impl/shaderProgram.cpp.o: CXX_COMPILER__HaGame2_Rel
 #############################################
 # Link the static library libHaGame2.a
 
-build libHaGame2.a: CXX_STATIC_LIBRARY_LINKER__HaGame2_Release CMakeFiles/HaGame2.dir/impl/hagame.cpp.o CMakeFiles/HaGame2.dir/impl/window.cpp.o CMakeFiles/HaGame2.dir/impl/shader.cpp.o CMakeFiles/HaGame2.dir/thirdparty/glad.c.o CMakeFiles/HaGame2.dir/impl/shaderProgram.cpp.o
+build libHaGame2.a: CXX_STATIC_LIBRARY_LINKER__HaGame2_Release CMakeFiles/HaGame2.dir/impl/hagame.cpp.o CMakeFiles/HaGame2.dir/impl/graphics/window.cpp.o CMakeFiles/HaGame2.dir/impl/graphics/shader.cpp.o CMakeFiles/HaGame2.dir/thirdparty/glad.c.o CMakeFiles/HaGame2.dir/impl/graphics/shaderProgram.cpp.o CMakeFiles/HaGame2.dir/impl/physics/transform.cpp.o CMakeFiles/HaGame2.dir/impl/graphics/mesh.cpp.o CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.o CMakeFiles/HaGame2.dir/impl/utils/file.cpp.o CMakeFiles/HaGame2.dir/impl/utils/string.cpp.o CMakeFiles/HaGame2.dir/impl/graphics/primitives/cube.cpp.o CMakeFiles/HaGame2.dir/impl/graphics/primitives/disc.cpp.o
   LANGUAGE_COMPILE_FLAGS = -O3 -DNDEBUG
   OBJECT_DIR = CMakeFiles/HaGame2.dir
   POST_BUILD = :

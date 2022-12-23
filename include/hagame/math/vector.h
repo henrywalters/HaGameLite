@@ -68,7 +68,7 @@ namespace hg::math {
 
             // Static Helpers
 
-            static Vector Identity() {
+            static constexpr Vector Identity() {
                 Vector vect;
                 for (int i = 0; i < size; i++) {
                     vect[i] = 1;
@@ -76,57 +76,57 @@ namespace hg::math {
                 return vect;
             }
 
-            static Vector Zero() {
+            static constexpr Vector Zero() {
                 Vector vect;
                 return vect;
             }
 
-            static Vector<3, T> Right() {
-                return Vector({ 1, 0, 0 });
+            static constexpr Vector<3, T> Right() {
+                return Vector(1, 0, 0);
             }
 
-            static Vector<3, T> Left() {
-                return Vector({ -1, 0, 0 });
+            static constexpr Vector<3, T> Left() {
+                return Vector(-1, 0, 0);
             }
 
-            static Vector<3, T> Top() {
-                return Vector({ 0, 1, 0 });
+            static constexpr Vector<3, T> Top() {
+                return Vector(0, 1, 0);
             }
 
-            static Vector<3, T> Bottom() {
-                return Vector({ 0, -1, 0 });
+            static constexpr Vector<3, T> Bottom() {
+                return Vector(0, -1, 0);
             }
 
-            static Vector<3, T> Face() {
-                return Vector({ 0, 0, 1 });
+            static constexpr Vector<3, T> Face() {
+                return Vector(0, 0, 1);
             }
 
-            static Vector<3, T> Back() {
-                return Vector({ 0, 0, -1 });
+            static constexpr Vector<3, T> Back() {
+                return Vector(0, 0, -1);
             }
 
-            static Vector<3, T> Right(T value) {
-                return Vector({ value, 0, 0 });
+            static constexpr Vector<3, T> Right(T value) {
+                return Vector(value, 0, 0);
             }
 
-            static Vector<3, T> Left(T value) {
-                return Vector({ -value, 0, 0 });
+            static constexpr Vector<3, T> Left(T value) {
+                return Vector(-value, 0, 0);
             }
 
-            static Vector<3, T> Top(T value) {
-                return Vector({ 0, value, 0 });
+            static constexpr Vector<3, T> Top(T value) {
+                return Vector(0, value, 0);
             }
 
-            static Vector<3, T> Bottom(T value) {
-                return Vector({ 0, -value, 0 });
+            static constexpr Vector<3, T> Bottom(T value) {
+                return Vector(0, -value, 0);
             }
 
-            static Vector<3, T> Face(T value) {
-                return Vector({ 0, 0, value });
+            static constexpr Vector<3, T> Face(T value) {
+                return Vector(0, 0, value);
             }
 
-            static Vector<3, T> Back(T value) {
-                return Vector({ 0, 0, -value });
+            static constexpr Vector<3, T> Back(T value) {
+                return Vector(0, 0, -value);
             }
 
             // Basic accessors
@@ -143,19 +143,19 @@ namespace hg::math {
             }
 
             constexpr Vector<2, T> xy() {
-                return Vector<2, T>({ vector[0], vector[1] });
+                return Vector<2, T>(vector[0], vector[1]);
             }
 
             constexpr Vector<2, T> xz() {
-                return Vector<2, T>({ vector[0], vector[2] });
+                return Vector<2, T>(vector[0], vector[2]);
             }
 
             constexpr Vector<2, T> yz() {
-                return Vector<2, T>({ vector[1], vector[2] });
+                return Vector<2, T>(vector[1], vector[2]);
             }
 
             constexpr Vector<3, T> xyz() {
-                return Vector<3, T>({ vector[0], vector[1], vector[2] });
+                return Vector<3, T>(vector[0], vector[1], vector[2]);
             }
 
             // Basic functions
@@ -318,11 +318,11 @@ namespace hg::math {
 
 
             Vector<3, T> cross(Vector vect) const {
-                return Vector<3, T>({
+                return Vector<3, T>(
                     vector[1] * vect[2] - vector[2] * vect[1],
                     -(vector[0] * vect[2] - vector[2] * vect[0]),
                     vector[0] * vect[1] - vector[1] * vect[0]
-                });
+                );
             }
 
             // element-wise multiplication
@@ -501,5 +501,21 @@ namespace hg::math {
             Vector<size, T> copy = Vector<size, T>(rhs);
             return copy * scalar;
         }
-    }
+
+        template <size_t size, class T>
+        Vector<size, T> normalize(Vector<size, T> vector) {
+            return vector.normalized();
+        }
+
+        template <size_t size, class T>
+        Vector<size, T> cross(Vector<size, T> a, Vector<size, T> b) {
+            return a.cross(b);
+        }
+
+        template <size_t size, class T>
+        T dot(Vector<size, T> a, Vector<size, T> b) {
+            return a.dot(b);
+        }
+
+}
 #endif //HAGAME2_VECTOR_H

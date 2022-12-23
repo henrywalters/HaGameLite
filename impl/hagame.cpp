@@ -5,9 +5,9 @@
 #include "../include/hagame/math/matrix.h"
 #include "../include/hagame/math/hypercube.h"
 // #include "../include/hagame/graphics/window.h"
-#include "../impl/window.cpp"
-#include "../impl/shader.cpp"
-#include "../impl/shaderProgram.cpp"
+#include "graphics/window.cpp"
+#include "graphics/shader.cpp"
+#include "graphics/shaderProgram.cpp"
 
 // Include the Emscripten library only if targetting WebAssembly
 #ifdef __EMSCRIPTEN__

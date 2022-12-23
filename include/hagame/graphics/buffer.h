@@ -31,8 +31,8 @@ namespace hg::graphics {
             glDeleteBuffers(1, &id);
         }
 
-        static std::shared_ptr<Buffer> Dynamic(int maxSize) {
-            std::shared_ptr<Buffer<DataType, Type>> buffer = std::make_shared<Buffer<DataType, Type>>();
+        static std::unique_ptr<Buffer> Dynamic(int maxSize) {
+            std::unique_ptr<Buffer<DataType, Type>> buffer = std::make_unique<Buffer<DataType, Type>>();
             buffer->initialize();
             buffer->dynamic = true;
             buffer->max = maxSize;
@@ -42,8 +42,8 @@ namespace hg::graphics {
             return buffer;
         }
 
-        static std::shared_ptr<Buffer> Dynamic(std::vector<DataType> data) {
-            std::shared_ptr<Buffer<DataType, Type>> buffer = std::make_shared<Buffer<DataType, Type>>();
+        static std::unique_ptr<Buffer> Dynamic(std::vector<DataType> data) {
+            std::unique_ptr<Buffer<DataType, Type>> buffer = std::make_unique<Buffer<DataType, Type>>();
             buffer->initialize();
             buffer->dynamic = true;
             buffer->allocated = data.size();
@@ -54,8 +54,8 @@ namespace hg::graphics {
             return buffer;
         }
 
-        static std::shared_ptr<Buffer> Static(std::vector<DataType> data) {
-            std::shared_ptr<Buffer<DataType, Type>> buffer = std::make_shared<Buffer<DataType, Type>>();
+        static std::unique_ptr<Buffer> Static(std::vector<DataType> data) {
+            std::unique_ptr<Buffer<DataType, Type>> buffer = std::make_unique<Buffer<DataType, Type>>();
             buffer->initialize();
             buffer->dynamic = false;
             buffer->max = data.size();

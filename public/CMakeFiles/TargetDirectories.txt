@@ -1,3 +1,0 @@
-/home/henry/CLionProjects/HaGame2/public/CMakeFiles/HaGame2.dir
-/home/henry/CLionProjects/HaGame2/public/CMakeFiles/edit_cache.dir
-/home/henry/CLionProjects/HaGame2/public/CMakeFiles/rebuild_cache.dir

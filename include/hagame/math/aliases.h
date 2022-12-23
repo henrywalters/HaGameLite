@@ -8,6 +8,7 @@
 #include "vector.h"
 #include "hypercube.h"
 #include "matrix.h"
+#include "quaternion.h"
 
 namespace hg {
     using Vec4 = math::Vector<4, float>;
@@ -27,6 +28,8 @@ namespace hg {
 
     using Recti = math::Hypercube<2, int>;
     using Cubei = math::Hypercube<3, int>;
+
+    using Quat = math::Quaternion<float>;
 }
 
 #endif //HAGAME2_ALIASES_H

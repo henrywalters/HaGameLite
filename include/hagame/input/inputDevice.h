@@ -31,9 +31,9 @@ namespace hg::input {
         bool rShoulder, rShoulderPressed;
 
         void clear() {
-            rAxis.zero();
-            lAxis.zero();
-            dPad.zero();
+            //rAxis.zero();
+            //lAxis.zero();
+            //dPad.zero();
         }
 
     protected:
