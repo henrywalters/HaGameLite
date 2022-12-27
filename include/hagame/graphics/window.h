@@ -22,32 +22,32 @@ namespace hg::graphics {
         void render();
         void close();
 
-        void setTitle(std::string _title) {
+        void title(std::string _title) {
             m_title = _title;
             glfwSetWindowTitle(m_window, m_title.c_str());
         }
-        std::string getTitle() { return m_title; }
+        std::string title() { return m_title; }
 
-        void setSize(Resolution _size) {
+        void size(Resolution _size) {
             m_size = _size;
             glfwSetWindowSize(m_window, m_size[0], m_size[1]);
             glViewport(0, 0, m_size[0], m_size[1]);
         }
-        Resolution getSize() { return m_size; }
+        Resolution size() { return m_size; }
 
-        void setColor(Color _color) {
+        void color(Color _color) {
             m_color = _color;
             glClearColor(m_color[0], m_color[1], m_color[2], m_color[3]);
         }
-        Color getColor() { return m_color; }
+        Color color() { return m_color; }
 
-        void setRunning(bool _running) {
+        void running(bool _running) {
             m_running = _running;
-            if (!getRunning()) {
+            if (!running()) {
                 glfwSetWindowShouldClose(m_window, GLFW_TRUE);
             }
         }
-        bool getRunning() { return m_running; }
+        bool running() { return m_running; }
     private:
 
         GLFWwindow* m_window;

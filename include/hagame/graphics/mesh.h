@@ -26,7 +26,7 @@ namespace hg::graphics {
     class MeshInstance {
     public:
 
-        MeshInstance(std::shared_ptr<Mesh> mesh);
+        MeshInstance(Mesh* mesh);
 
         // Update the MeshInstance to reflect the current mesh state
         void update();
@@ -34,7 +34,7 @@ namespace hg::graphics {
         void render();
 
     private:
-        std::shared_ptr<Mesh> m_mesh;
+        Mesh* m_mesh;
         std::unique_ptr<VertexBuffer<Vertex>> m_vbo;
         std::unique_ptr<ElementBuffer<unsigned int>> m_ebo;
         std::unique_ptr<VertexArray> m_vao;

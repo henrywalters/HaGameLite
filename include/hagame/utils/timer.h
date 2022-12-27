@@ -7,7 +7,6 @@
 
 #include "./clock.h"
 
-
 namespace hg::utils {
 
     // Record the amount of time that has passed

@@ -3,7 +3,7 @@
 //
 #include "../../include/hagame/graphics/mesh.h"
 
-hg::graphics::MeshInstance::MeshInstance(std::shared_ptr<Mesh> mesh) {
+hg::graphics::MeshInstance::MeshInstance(Mesh* mesh) {
     m_mesh = mesh;
     initialize();
 }

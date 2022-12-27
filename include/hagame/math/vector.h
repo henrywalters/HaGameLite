@@ -399,6 +399,18 @@ namespace hg::math {
                 return out * (1 / scale);
             }
 
+            void clamp(T low, T high) {
+                for (int i = 0; i < size; i++) {
+                    vector[i] = std::clamp(vector[i], low, high);
+                }
+            }
+
+            void clamp(Vector low, Vector high) {
+                for (int i = 0; i < size; i++) {
+                    vector[i] = std::clamp(vector[i], low[i], high[i]);
+                }
+            }
+
             // Operator Overloads
 
             T operator[](const int i) const {
