@@ -24,7 +24,6 @@ void hg::graphics::MeshInstance::initialize() {
 }
 
 void hg::graphics::MeshInstance::update() {
-    m_vbo->clear();
     auto newSize = m_mesh->vertices.size();
     m_vbo->resize(newSize);
     m_ebo->resize(newSize);

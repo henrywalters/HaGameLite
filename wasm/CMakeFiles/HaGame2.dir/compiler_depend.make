@@ -616,6 +616,7 @@ CMakeFiles/HaGame2.dir/impl/graphics/mesh.cpp.o: /home/henry/CLionProjects/HaGam
   /home/henry/CLionProjects/HaGame2/include/hagame/math/hypercube.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/math/matrix.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/math/quaternion.h \
+  /home/henry/CLionProjects/HaGame2/include/hagame/math/transform.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/graphics/buffer.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cassert \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/assert.h \
@@ -1253,6 +1254,7 @@ CMakeFiles/HaGame2.dir/impl/graphics/primitives/cube.cpp.o: /home/henry/CLionPro
   /home/henry/CLionProjects/HaGame2/include/hagame/math/hypercube.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/math/matrix.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/math/quaternion.h \
+  /home/henry/CLionProjects/HaGame2/include/hagame/math/transform.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/graphics/buffer.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cassert \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/assert.h \
@@ -1892,6 +1894,7 @@ CMakeFiles/HaGame2.dir/impl/graphics/primitives/disc.cpp.o: /home/henry/CLionPro
   /home/henry/CLionProjects/HaGame2/include/hagame/math/hypercube.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/math/matrix.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/math/quaternion.h \
+  /home/henry/CLionProjects/HaGame2/include/hagame/math/transform.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/graphics/buffer.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cassert \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/assert.h \
@@ -2531,6 +2534,7 @@ CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.o: /home/henry/CLionPro
   /home/henry/CLionProjects/HaGame2/include/hagame/math/hypercube.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/math/matrix.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/math/quaternion.h \
+  /home/henry/CLionProjects/HaGame2/include/hagame/math/transform.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/graphics/buffer.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cassert \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/assert.h \
@@ -5103,7 +5107,7 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: /home/henry/CLionProjects/HaGame2/impl
   /home/henry/CLionProjects/HaGame2/include/hagame/graphics/shaderProgram.h
 
 CMakeFiles/HaGame2.dir/impl/physics/transform.cpp.o: /home/henry/CLionProjects/HaGame2/impl/physics/transform.cpp \
-  /home/henry/CLionProjects/HaGame2/include/hagame/physics/transform.h \
+  /home/henry/CLionProjects/HaGame2/include/hagame/math/transform.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/math/aliases.h \
   /home/henry/CLionProjects/HaGame2/include/hagame/math/vector.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/functional \
@@ -6982,8 +6986,6 @@ CMakeFiles/HaGame2.dir/thirdparty/glad.c.o: /home/henry/CLionProjects/HaGame2/th
 
 /home/henry/CLionProjects/HaGame2/impl/utils/file.cpp:
 
-/home/henry/CLionProjects/HaGame2/include/hagame/physics/transform.h:
-
 /home/henry/CLionProjects/HaGame2/impl/physics/transform.cpp:
 
 /home/henry/CLionProjects/HaGame2/include/hagame/utils/timer.h:
@@ -7047,6 +7049,8 @@ CMakeFiles/HaGame2.dir/thirdparty/glad.c.o: /home/henry/CLionProjects/HaGame2/th
 /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cassert:
 
 /home/henry/CLionProjects/HaGame2/include/hagame/graphics/buffer.h:
+
+/home/henry/CLionProjects/HaGame2/include/hagame/math/transform.h:
 
 /home/henry/CLionProjects/HaGame2/include/hagame/math/quaternion.h:
 

@@ -8,6 +8,7 @@
 #include <memory>
 #include <vector>
 #include <cassert>
+#include <iostream>
 
 #include "glfw.h"
 
@@ -114,7 +115,7 @@ namespace hg::graphics {
 
         void clear() {
             bind();
-            glClearBufferData(Type, GL_RG32F, GL_RG32F, GL_FLOAT, NULL);
+            glBufferData(Type, sizeof(DataType) * max, NULL, GL_DYNAMIC_DRAW);
             allocated = 0;
         }
 

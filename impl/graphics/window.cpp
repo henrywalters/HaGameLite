@@ -82,10 +82,6 @@ void hg::graphics::Window::initialize() {
         ForceExit();
     }
 
-    glfwSetKeyCallback(m_window, KeyCallback);
-    glfwSetCursorPosCallback(m_window, MouseCursorPosCallback);
-    glfwSetMouseButtonCallback(m_window, MouseButtonCallback);
-
     glfwMakeContextCurrent(m_window);
 
     gladLoadGLES2Loader((GLADloadproc) glfwGetProcAddress);
@@ -128,20 +124,8 @@ void hg::graphics::Window::render() {
     glfwPollEvents();
 }
 
-void hg::graphics::Window::KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    hg::input::Input::KeyboardMouse().keyCallback(key, action);
-}
-
-void hg::graphics::Window::MouseCursorPosCallback(GLFWwindow *window, double xPos, double yPos) {
-    hg::input::Input::KeyboardMouse().cursorPosCallback(xPos, yPos);
-}
-
-void hg::graphics::Window::MouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
-    hg::input::Input::KeyboardMouse().mouseButtonCallback(button, action);
-}
-
 void hg::graphics::Window::clear() {
-    hg::input::Input::KeyboardMouse().clear();
+    input.keyboardMouse.clear();
     // Clear the window with the background color
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_BLEND);

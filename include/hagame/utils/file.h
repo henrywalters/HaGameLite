@@ -10,8 +10,14 @@
 
 namespace hg::utils {
 
+    struct FileBuffer {
+        size_t size;
+        unsigned char* data;
+    };
+
     std::string f_read(std::string file);
     std::vector<std::string> f_readLines(std::string file);
+    FileBuffer f_readToBuffer(std::string file);
     void f_write(std::string file, std::string content);
     void f_writeLines(std::string file, std::vector<std::string> lines);
     void f_append(std::string file, std::string content);

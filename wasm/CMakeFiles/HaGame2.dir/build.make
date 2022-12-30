@@ -70,6 +70,7 @@ include CMakeFiles/HaGame2.dir/progress.make
 include CMakeFiles/HaGame2.dir/flags.make
 
 CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: CMakeFiles/HaGame2.dir/flags.make
+CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: CMakeFiles/HaGame2.dir/includes_CXX.rsp
 CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: /home/henry/CLionProjects/HaGame2/impl/hagame.cpp
 CMakeFiles/HaGame2.dir/impl/hagame.cpp.o: CMakeFiles/HaGame2.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/henry/CLionProjects/HaGame2/wasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/HaGame2.dir/impl/hagame.cpp.o"
@@ -84,6 +85,7 @@ CMakeFiles/HaGame2.dir/impl/hagame.cpp.s: cmake_force
 	/home/henry/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/henry/CLionProjects/HaGame2/impl/hagame.cpp -o CMakeFiles/HaGame2.dir/impl/hagame.cpp.s
 
 CMakeFiles/HaGame2.dir/impl/graphics/window.cpp.o: CMakeFiles/HaGame2.dir/flags.make
+CMakeFiles/HaGame2.dir/impl/graphics/window.cpp.o: CMakeFiles/HaGame2.dir/includes_CXX.rsp
 CMakeFiles/HaGame2.dir/impl/graphics/window.cpp.o: /home/henry/CLionProjects/HaGame2/impl/graphics/window.cpp
 CMakeFiles/HaGame2.dir/impl/graphics/window.cpp.o: CMakeFiles/HaGame2.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/henry/CLionProjects/HaGame2/wasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/HaGame2.dir/impl/graphics/window.cpp.o"
@@ -98,6 +100,7 @@ CMakeFiles/HaGame2.dir/impl/graphics/window.cpp.s: cmake_force
 	/home/henry/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/henry/CLionProjects/HaGame2/impl/graphics/window.cpp -o CMakeFiles/HaGame2.dir/impl/graphics/window.cpp.s
 
 CMakeFiles/HaGame2.dir/impl/graphics/shader.cpp.o: CMakeFiles/HaGame2.dir/flags.make
+CMakeFiles/HaGame2.dir/impl/graphics/shader.cpp.o: CMakeFiles/HaGame2.dir/includes_CXX.rsp
 CMakeFiles/HaGame2.dir/impl/graphics/shader.cpp.o: /home/henry/CLionProjects/HaGame2/impl/graphics/shader.cpp
 CMakeFiles/HaGame2.dir/impl/graphics/shader.cpp.o: CMakeFiles/HaGame2.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/henry/CLionProjects/HaGame2/wasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/HaGame2.dir/impl/graphics/shader.cpp.o"
@@ -112,6 +115,7 @@ CMakeFiles/HaGame2.dir/impl/graphics/shader.cpp.s: cmake_force
 	/home/henry/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/henry/CLionProjects/HaGame2/impl/graphics/shader.cpp -o CMakeFiles/HaGame2.dir/impl/graphics/shader.cpp.s
 
 CMakeFiles/HaGame2.dir/thirdparty/glad.c.o: CMakeFiles/HaGame2.dir/flags.make
+CMakeFiles/HaGame2.dir/thirdparty/glad.c.o: CMakeFiles/HaGame2.dir/includes_C.rsp
 CMakeFiles/HaGame2.dir/thirdparty/glad.c.o: /home/henry/CLionProjects/HaGame2/thirdparty/glad.c
 CMakeFiles/HaGame2.dir/thirdparty/glad.c.o: CMakeFiles/HaGame2.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/henry/CLionProjects/HaGame2/wasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/HaGame2.dir/thirdparty/glad.c.o"
@@ -126,6 +130,7 @@ CMakeFiles/HaGame2.dir/thirdparty/glad.c.s: cmake_force
 	/home/henry/emsdk/upstream/emscripten/emcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/henry/CLionProjects/HaGame2/thirdparty/glad.c -o CMakeFiles/HaGame2.dir/thirdparty/glad.c.s
 
 CMakeFiles/HaGame2.dir/impl/graphics/shaderProgram.cpp.o: CMakeFiles/HaGame2.dir/flags.make
+CMakeFiles/HaGame2.dir/impl/graphics/shaderProgram.cpp.o: CMakeFiles/HaGame2.dir/includes_CXX.rsp
 CMakeFiles/HaGame2.dir/impl/graphics/shaderProgram.cpp.o: /home/henry/CLionProjects/HaGame2/impl/graphics/shaderProgram.cpp
 CMakeFiles/HaGame2.dir/impl/graphics/shaderProgram.cpp.o: CMakeFiles/HaGame2.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/henry/CLionProjects/HaGame2/wasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/HaGame2.dir/impl/graphics/shaderProgram.cpp.o"
@@ -140,6 +145,7 @@ CMakeFiles/HaGame2.dir/impl/graphics/shaderProgram.cpp.s: cmake_force
 	/home/henry/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/henry/CLionProjects/HaGame2/impl/graphics/shaderProgram.cpp -o CMakeFiles/HaGame2.dir/impl/graphics/shaderProgram.cpp.s
 
 CMakeFiles/HaGame2.dir/impl/physics/transform.cpp.o: CMakeFiles/HaGame2.dir/flags.make
+CMakeFiles/HaGame2.dir/impl/physics/transform.cpp.o: CMakeFiles/HaGame2.dir/includes_CXX.rsp
 CMakeFiles/HaGame2.dir/impl/physics/transform.cpp.o: /home/henry/CLionProjects/HaGame2/impl/physics/transform.cpp
 CMakeFiles/HaGame2.dir/impl/physics/transform.cpp.o: CMakeFiles/HaGame2.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/henry/CLionProjects/HaGame2/wasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/HaGame2.dir/impl/physics/transform.cpp.o"
@@ -154,6 +160,7 @@ CMakeFiles/HaGame2.dir/impl/physics/transform.cpp.s: cmake_force
 	/home/henry/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/henry/CLionProjects/HaGame2/impl/physics/transform.cpp -o CMakeFiles/HaGame2.dir/impl/physics/transform.cpp.s
 
 CMakeFiles/HaGame2.dir/impl/graphics/mesh.cpp.o: CMakeFiles/HaGame2.dir/flags.make
+CMakeFiles/HaGame2.dir/impl/graphics/mesh.cpp.o: CMakeFiles/HaGame2.dir/includes_CXX.rsp
 CMakeFiles/HaGame2.dir/impl/graphics/mesh.cpp.o: /home/henry/CLionProjects/HaGame2/impl/graphics/mesh.cpp
 CMakeFiles/HaGame2.dir/impl/graphics/mesh.cpp.o: CMakeFiles/HaGame2.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/henry/CLionProjects/HaGame2/wasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/HaGame2.dir/impl/graphics/mesh.cpp.o"
@@ -168,6 +175,7 @@ CMakeFiles/HaGame2.dir/impl/graphics/mesh.cpp.s: cmake_force
 	/home/henry/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/henry/CLionProjects/HaGame2/impl/graphics/mesh.cpp -o CMakeFiles/HaGame2.dir/impl/graphics/mesh.cpp.s
 
 CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.o: CMakeFiles/HaGame2.dir/flags.make
+CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.o: CMakeFiles/HaGame2.dir/includes_CXX.rsp
 CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.o: /home/henry/CLionProjects/HaGame2/impl/graphics/primitives/quad.cpp
 CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.o: CMakeFiles/HaGame2.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/henry/CLionProjects/HaGame2/wasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.o"
@@ -182,6 +190,7 @@ CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.s: cmake_force
 	/home/henry/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/henry/CLionProjects/HaGame2/impl/graphics/primitives/quad.cpp -o CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.s
 
 CMakeFiles/HaGame2.dir/impl/utils/file.cpp.o: CMakeFiles/HaGame2.dir/flags.make
+CMakeFiles/HaGame2.dir/impl/utils/file.cpp.o: CMakeFiles/HaGame2.dir/includes_CXX.rsp
 CMakeFiles/HaGame2.dir/impl/utils/file.cpp.o: /home/henry/CLionProjects/HaGame2/impl/utils/file.cpp
 CMakeFiles/HaGame2.dir/impl/utils/file.cpp.o: CMakeFiles/HaGame2.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/henry/CLionProjects/HaGame2/wasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/HaGame2.dir/impl/utils/file.cpp.o"
@@ -196,6 +205,7 @@ CMakeFiles/HaGame2.dir/impl/utils/file.cpp.s: cmake_force
 	/home/henry/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/henry/CLionProjects/HaGame2/impl/utils/file.cpp -o CMakeFiles/HaGame2.dir/impl/utils/file.cpp.s
 
 CMakeFiles/HaGame2.dir/impl/utils/string.cpp.o: CMakeFiles/HaGame2.dir/flags.make
+CMakeFiles/HaGame2.dir/impl/utils/string.cpp.o: CMakeFiles/HaGame2.dir/includes_CXX.rsp
 CMakeFiles/HaGame2.dir/impl/utils/string.cpp.o: /home/henry/CLionProjects/HaGame2/impl/utils/string.cpp
 CMakeFiles/HaGame2.dir/impl/utils/string.cpp.o: CMakeFiles/HaGame2.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/henry/CLionProjects/HaGame2/wasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/HaGame2.dir/impl/utils/string.cpp.o"
@@ -210,6 +220,7 @@ CMakeFiles/HaGame2.dir/impl/utils/string.cpp.s: cmake_force
 	/home/henry/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/henry/CLionProjects/HaGame2/impl/utils/string.cpp -o CMakeFiles/HaGame2.dir/impl/utils/string.cpp.s
 
 CMakeFiles/HaGame2.dir/impl/graphics/primitives/cube.cpp.o: CMakeFiles/HaGame2.dir/flags.make
+CMakeFiles/HaGame2.dir/impl/graphics/primitives/cube.cpp.o: CMakeFiles/HaGame2.dir/includes_CXX.rsp
 CMakeFiles/HaGame2.dir/impl/graphics/primitives/cube.cpp.o: /home/henry/CLionProjects/HaGame2/impl/graphics/primitives/cube.cpp
 CMakeFiles/HaGame2.dir/impl/graphics/primitives/cube.cpp.o: CMakeFiles/HaGame2.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/henry/CLionProjects/HaGame2/wasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/HaGame2.dir/impl/graphics/primitives/cube.cpp.o"
@@ -224,6 +235,7 @@ CMakeFiles/HaGame2.dir/impl/graphics/primitives/cube.cpp.s: cmake_force
 	/home/henry/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/henry/CLionProjects/HaGame2/impl/graphics/primitives/cube.cpp -o CMakeFiles/HaGame2.dir/impl/graphics/primitives/cube.cpp.s
 
 CMakeFiles/HaGame2.dir/impl/graphics/primitives/disc.cpp.o: CMakeFiles/HaGame2.dir/flags.make
+CMakeFiles/HaGame2.dir/impl/graphics/primitives/disc.cpp.o: CMakeFiles/HaGame2.dir/includes_CXX.rsp
 CMakeFiles/HaGame2.dir/impl/graphics/primitives/disc.cpp.o: /home/henry/CLionProjects/HaGame2/impl/graphics/primitives/disc.cpp
 CMakeFiles/HaGame2.dir/impl/graphics/primitives/disc.cpp.o: CMakeFiles/HaGame2.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/henry/CLionProjects/HaGame2/wasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/HaGame2.dir/impl/graphics/primitives/disc.cpp.o"

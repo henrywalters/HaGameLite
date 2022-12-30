@@ -5,13 +5,13 @@
 # compile CXX with /home/henry/emsdk/upstream/emscripten/em++
 C_DEFINES = 
 
-C_INCLUDES = 
+C_INCLUDES = @CMakeFiles/HaGame2.dir/includes_C.rsp
 
 C_FLAGS = 
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = @CMakeFiles/HaGame2.dir/includes_CXX.rsp
 
 CXX_FLAGS = -std=gnu++20
 

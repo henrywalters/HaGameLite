@@ -13,15 +13,19 @@ namespace hg::graphics::primitives {
     class Quad : public Mesh {
     public:
 
-        Quad(Vec2 size): m_size(size) {
+        Quad(Vec2 size, Vec2 offset = Vec2::Zero()):
+            m_size(size),
+            m_offset(offset) {
             computeMesh();
         }
 
+        HG_GET_SET(Vec2, offset, computeMesh);
         HG_GET_SET(Vec2, size, computeMesh);
 
     private:
 
         Vec2 m_size;
+        Vec2 m_offset;
 
         void computeMesh();
     };

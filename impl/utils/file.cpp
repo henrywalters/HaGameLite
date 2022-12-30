@@ -20,6 +20,22 @@ std::vector<std::string> hg::utils::f_readLines(std::string file) {
     return s_split(f_read(file), '\n');
 }
 
+hg::utils::FileBuffer hg::utils::f_readToBuffer(std::string file) {
+    FileBuffer buffer;
+
+    FILE* f = fopen(file.c_str(), "rb");
+    fseek(f, 0, SEEK_END);
+    buffer.size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
+    buffer.data = (unsigned char*) malloc(buffer.size);
+
+    fread(buffer.data, buffer.size, 1, f);
+    fclose(f);
+
+    return buffer;
+}
+
 void hg::utils::f_write(std::string file, std::string content) {
     std::ofstream stream(file, std::ios::trunc);
     stream << content;

@@ -13,10 +13,7 @@ namespace hg::input {
     class Input {
     public:
 
-        static devices::KeyboardMouse& KeyboardMouse() {
-            static devices::KeyboardMouse keyboardMouse;
-            return keyboardMouse;
-        }
+        devices::KeyboardMouse keyboardMouse;
 
     };
 

@@ -9,11 +9,18 @@
 #include "../math/aliases.h"
 #include "resolution.h"
 #include "color.h"
+#include "../core/pubsub.h"
+#include "../input/input.h"
 
 namespace hg::graphics {
 
+    class Windows;
+
     class Window {
     public:
+
+        input::Input input;
+
         // Sized window
         Window(std::string _title, Resolution _size = HD);
 
@@ -48,7 +55,12 @@ namespace hg::graphics {
             }
         }
         bool running() { return m_running; }
+
+        GLFWwindow* window() const { return m_window; }
+
     private:
+
+        friend class Windows;
 
         GLFWwindow* m_window;
 
@@ -61,12 +73,6 @@ namespace hg::graphics {
         static void ErrorCallback(int error, const char* description);
 
         static void ForceExit();
-
-        static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-
-        static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
-
-        static void MouseCursorPosCallback(GLFWwindow* window, double xPos, double yPos);
     };
 }
 

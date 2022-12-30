@@ -17,16 +17,24 @@ namespace hg {
         math::Transform transform;
         std::string name = "";
 
-        void update(double dt) {
-            onUpdate(dt);
-        }
+        virtual void update(double dt) {}
+
+        HG_GET(GameObject*, parent);
+        HG_GET(std::vector<GameObject*>, children);
+
+        void addChild(GameObject* child);
+        void removeChild(GameObject* child);
 
     protected:
         [[nodiscard]] std::string toString() const override {
-            return "GameObject #" + std::to_string(id());
+            return "GameObject<" + std::to_string(id()) + ">";
         }
 
-        virtual void onUpdate(double dt) {};
+    private:
+
+        GameObject* m_parent = nullptr;
+        std::vector<GameObject*> m_children;
+
     };
 }
 

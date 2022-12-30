@@ -8,27 +8,12 @@
 #include <string>
 #include <ostream>
 #include "../utils/macros.h"
+#include "../utils/uuid.h"
 
 namespace hg {
 
-    static long LAST_OBJECT_ID = 0;
-
-    class Object {
+    class Object : public utils::UUID {
     public:
-
-        Object():
-            m_id(LAST_OBJECT_ID++)
-        {}
-
-        HG_GET(long, id);
-
-        bool operator ==(const Object& object) {
-            return id() == object.id();
-        }
-
-        bool operator !=(const Object& object) {
-            return id() != object.id();
-        }
 
         operator std::string() const {
             return toString();
@@ -41,10 +26,6 @@ namespace hg {
 
     protected:
         virtual std::string toString() const = 0;
-
-    private:
-
-        unsigned long m_id;
 
     };
 }
