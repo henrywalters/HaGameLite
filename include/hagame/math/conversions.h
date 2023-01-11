@@ -8,11 +8,11 @@
 #include "constants.h"
 
 namespace hg::math {
-    constexpr float rad2deg(float rad) {
+    constexpr float deg2rad(float rad) {
         return rad * (PI / 180.0f);
     }
 
-    constexpr float deg2rad(float deg) {
+    constexpr float rad2deg(float deg) {
         return deg * (180.f / PI);
     }
 }

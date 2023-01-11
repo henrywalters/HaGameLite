@@ -1,6 +1,7 @@
 //
 // Created by henry on 12/29/22.
 //
+
 #include "../../include/hagame/graphics/windows.h"
 
 hg::Publisher<hg::graphics::WindowEvents, hg::graphics::WindowEvent> hg::graphics::Windows::Events = hg::Publisher<hg::graphics::WindowEvents, hg::graphics::WindowEvent>();

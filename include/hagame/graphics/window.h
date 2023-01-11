@@ -9,7 +9,7 @@
 #include "../math/aliases.h"
 #include "resolution.h"
 #include "color.h"
-#include "../core/pubsub.h"
+#include "../utils/pubsub.h"
 #include "../input/input.h"
 
 namespace hg::graphics {

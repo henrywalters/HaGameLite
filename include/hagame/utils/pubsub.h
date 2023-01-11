@@ -8,7 +8,7 @@
 #include <functional>
 #include <memory>
 
-#include "../utils/uuid.h"
+#include "uuid.h"
 
 namespace hg {
     template <class EventId, class EventType>

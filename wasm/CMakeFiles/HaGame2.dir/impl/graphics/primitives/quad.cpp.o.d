@@ -619,6 +619,7 @@ CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.o: \
   /home/henry/CLionProjects/HaGame2/impl/graphics/primitives/../../../include/hagame/graphics/primitives/../buffer.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cassert \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/assert.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/iostream \
   /home/henry/CLionProjects/HaGame2/impl/graphics/primitives/../../../include/hagame/graphics/primitives/../glfw.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/emscripten.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_asm.h \

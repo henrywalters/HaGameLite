@@ -23,7 +23,7 @@ namespace hg::utils {
             }
         }
 
-        static float ToSeconds(long duration) {
+        static double ToSeconds(long duration) {
             return (duration / 1000000.0f);
         }
     };

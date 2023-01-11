@@ -529,5 +529,10 @@ namespace hg::math {
             return a.dot(b);
         }
 
+        template <size_t size, class T>
+        T dot2(Vector<size, T> a) {
+            return a.dot(a);
+        }
+
 }
 #endif //HAGAME2_VECTOR_H

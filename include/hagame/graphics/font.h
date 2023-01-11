@@ -56,7 +56,7 @@ namespace hg::graphics {
 
         float m_scale = 1.0f;
         float m_lineSpacing = 1.0f;
-        int m_fontSize = 24;
+        int m_fontSize = 36;
         int m_ascent, m_descent, m_lineGap;
         FontMap m_fontMap;
         stbtt_fontinfo* m_font;

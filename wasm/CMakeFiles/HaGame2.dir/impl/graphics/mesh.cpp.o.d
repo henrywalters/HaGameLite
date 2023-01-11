@@ -618,6 +618,7 @@ CMakeFiles/HaGame2.dir/impl/graphics/mesh.cpp.o: \
   /home/henry/CLionProjects/HaGame2/impl/graphics/../../include/hagame/graphics/buffer.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cassert \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/assert.h \
+  /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/iostream \
   /home/henry/CLionProjects/HaGame2/impl/graphics/../../include/hagame/graphics/glfw.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/emscripten.h \
   /home/henry/emsdk/upstream/emscripten/cache/sysroot/include/emscripten/em_asm.h \

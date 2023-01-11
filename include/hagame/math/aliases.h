@@ -30,6 +30,11 @@ namespace hg {
     using Cubei = math::Hypercube<3, int>;
 
     using Quat = math::Quaternion<float>;
+
+    inline float cross2(Vec2 a, Vec2 b) {
+        return a.x() * b.y() - a.y() * b.x();
+    }
+
 }
 
 #endif //HAGAME2_ALIASES_H
