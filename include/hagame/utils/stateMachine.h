@@ -29,6 +29,10 @@ namespace hg::utils {
             m_active(std::nullopt)
         {}
 
+        void clear() {
+            m_states.clear();
+        }
+
         // Instantiate a new object in the state machine
         template <class SceneType>
         T* add(std::string name) {

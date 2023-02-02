@@ -7,6 +7,7 @@
 
 #include "object.h"
 #include "entity.h"
+#include "../utils/random.h"
 
 namespace hg {
 
@@ -14,6 +15,11 @@ namespace hg {
 
     class Scene : public Object {
     public:
+
+        Scene():
+            m_random(std::make_unique<utils::Random>()),
+            m_game(nullptr)
+        {}
 
         friend class Game;
 
@@ -26,12 +32,16 @@ namespace hg {
 
         Game* game() { return m_game; }
 
+        utils::Random* random() { return m_random.get(); }
+
     protected:
         std::string toString() const {
             return "Scene<" + std::to_string(id()) + ">";
         }
 
     private:
+
+        std::unique_ptr<utils::Random> m_random;
 
         Game* m_game;
     };

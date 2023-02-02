@@ -7,6 +7,7 @@
 
 #include "vector.h"
 #include "hypercube.h"
+#include "hypersphere.h"
 #include "matrix.h"
 #include "quaternion.h"
 
@@ -22,6 +23,9 @@ namespace hg {
     using Mat2 = math::Matrix<2, 2, float>;
     using Mat3 = math::Matrix<3, 3, float>;
     using Mat4 = math::Matrix<4, 4, float>;
+
+    using Circle = math::Hypersphere<2, float>;
+    using Sphere = math::Hypersphere<3, float>;
 
     using Rect = math::Hypercube<2, float>;
     using Cube = math::Hypercube<3, float>;

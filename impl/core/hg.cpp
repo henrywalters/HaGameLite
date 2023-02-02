@@ -14,11 +14,11 @@ void hg::HG::Run(hg::Game *game) {
     emscripten_set_main_loop(hg::HG::TickEmscripten, 0, false);
 #else
 
-    while (game->m_window->running()) {
+    while (game->running()) {
         game->tick();
     }
 
-    game->m_window->close();
+    game->destroy();
 
     glfwSwapInterval(1);
 #endif

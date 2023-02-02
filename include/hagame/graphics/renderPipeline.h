@@ -5,18 +5,32 @@
 #ifndef HAGAME2_RENDERPIPELINE_H
 #define HAGAME2_RENDERPIPELINE_H
 
-namespace hg::graphics {
+#include "rawTexture.h"
 
+namespace hg {
     class Scene;
+}
+
+namespace hg::graphics {
 
     class RenderPipeline {
     public:
 
-        virtual void onBeforeRender() {}
-        virtual void onRender() {}
-        virtual void onAfterRender() {}
+        virtual void clear() {}
+        virtual void render(Vec2i size) {}
+        virtual void cleanup() {}
 
-        HG_GET(Scene*, scene);
+        virtual RawTexture<GL_RGBA>* outputTexture() {
+            return nullptr;
+        }
+
+        void scene(Scene* _scene) {
+            m_scene = _scene;
+        }
+
+        Scene* scene() const {
+            return m_scene;
+        }
 
     private:
 

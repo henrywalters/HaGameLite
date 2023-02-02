@@ -20,13 +20,12 @@ namespace hg {
 
         friend class HG;
 
-        Game(std::string name, graphics::Resolution resolution = graphics::HD):
+        Game(std::string name):
             m_name(name),
-            m_resolution(resolution),
             m_lastTick(utils::Clock::Now()),
-            m_elapsedTime(0) {}
+            m_elapsedTime(0),
+            m_running(true) {}
 
-        virtual void onResize(Vec2i size) {}
         virtual void onInit() {}
         virtual void onBeforeUpdate() {}
         virtual void onUpdate(double dt) {}
@@ -37,13 +36,7 @@ namespace hg {
             return &m_scenes;
         }
 
-        graphics::Window* window() { return m_window; }
-
-        void renderPipeline(graphics::RenderPipeline* pipeline) {
-            m_renderPipeline = pipeline;
-        }
-
-        graphics::RenderPipeline* renderPipeline() { return m_renderPipeline; }
+        HG_GET_SET(bool, running, destroy);
 
     protected:
         std::string toString() const {
@@ -51,17 +44,21 @@ namespace hg {
         }
 
     private:
+
+        bool m_running;
+
+
+
         std::string m_name;
-        graphics::Resolution m_resolution;
         utils::StateMachine<Scene> m_scenes;
-        graphics::Window* m_window = nullptr;
-        graphics::RenderPipeline* m_renderPipeline = nullptr;
         long long m_lastTick;
         double m_elapsedTime;
 
         void initialize();
 
         void tick();
+
+        void destroy();
     };
 }
 

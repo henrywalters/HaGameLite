@@ -8,8 +8,6 @@
 
 void hg::Game::initialize() {
 
-    m_window = graphics::Windows::Create(m_name, m_resolution);
-
     m_scenes.events.subscribe(utils::StateMode::Init, [&](auto scene) {
         scene->m_game = this;
         scene->onInit();
@@ -23,14 +21,6 @@ void hg::Game::initialize() {
         state->onDeactivate();
     });
 
-    graphics::Windows::Events.subscribe(graphics::WindowEvents::Close, [&](auto glfwWindow) {
-        m_window->running(false);
-    });
-
-    graphics::Windows::Events.subscribe(graphics::WindowEvents::Resize, [&](auto glfwWindow) {
-        onResize(m_window->size());
-    });
-
     onInit();
 }
 
@@ -41,13 +31,7 @@ void hg::Game::tick() {
     m_elapsedTime += dt;
     m_lastTick = now;
 
-    window()->clear();
-
     onBeforeUpdate();
-
-    if (renderPipeline() != nullptr) {
-        renderPipeline()->onBeforeRender();
-    }
 
     onUpdate(dt);
 
@@ -55,15 +39,10 @@ void hg::Game::tick() {
         scenes()->active()->onUpdate(dt);
     }
 
-    if (renderPipeline() != nullptr) {
-        renderPipeline()->onRender();
-    }
-
     onAfterUpdate();
+}
 
-    if (renderPipeline() != nullptr) {
-        renderPipeline()->onAfterRender();
-    }
-
-    window()->render();
+void hg::Game::destroy() {
+    m_scenes.clear();
+    onDestroy();
 }
