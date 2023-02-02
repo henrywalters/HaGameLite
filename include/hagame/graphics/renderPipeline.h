@@ -6,12 +6,22 @@
 #define HAGAME2_RENDERPIPELINE_H
 
 namespace hg::graphics {
+
+    class Scene;
+
     class RenderPipeline {
     public:
 
         virtual void onBeforeRender() {}
         virtual void onRender() {}
         virtual void onAfterRender() {}
+
+        HG_GET(Scene*, scene);
+
+    private:
+
+        Scene* m_scene;
+
     };
 }
 

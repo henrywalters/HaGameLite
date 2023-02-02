@@ -9,8 +9,13 @@
 #include "entity.h"
 
 namespace hg {
+
+    class Game;
+
     class Scene : public Object {
     public:
+
+        friend class Game;
 
         EntityManager entities;
 
@@ -19,10 +24,16 @@ namespace hg {
         virtual void onDeactivate() {}
         virtual void onUpdate(double dt) {}
 
+        Game* game() { return m_game; }
+
     protected:
         std::string toString() const {
             return "Scene<" + std::to_string(id()) + ">";
         }
+
+    private:
+
+        Game* m_game;
     };
 }
 

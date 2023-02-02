@@ -2,6 +2,7 @@
 // Created by henry on 1/9/23.
 //
 
+#include <iostream>
 #include "../../../include/hagame/core/game.h"
 #include "../../include/hagame/graphics/windows.h"
 
@@ -10,6 +11,7 @@ void hg::Game::initialize() {
     m_window = graphics::Windows::Create(m_name, m_resolution);
 
     m_scenes.events.subscribe(utils::StateMode::Init, [&](auto scene) {
+        scene->m_game = this;
         scene->onInit();
     });
 
@@ -30,4 +32,38 @@ void hg::Game::initialize() {
     });
 
     onInit();
+}
+
+void hg::Game::tick() {
+    auto now = utils::Clock::Now();
+    auto delta = now - m_lastTick;
+    auto dt = utils::Clock::ToSeconds(delta);
+    m_elapsedTime += dt;
+    m_lastTick = now;
+
+    window()->clear();
+
+    onBeforeUpdate();
+
+    if (renderPipeline() != nullptr) {
+        renderPipeline()->onBeforeRender();
+    }
+
+    onUpdate(dt);
+
+    if (scenes()->hasActive()) {
+        scenes()->active()->onUpdate(dt);
+    }
+
+    if (renderPipeline() != nullptr) {
+        renderPipeline()->onRender();
+    }
+
+    onAfterUpdate();
+
+    if (renderPipeline() != nullptr) {
+        renderPipeline()->onAfterRender();
+    }
+
+    window()->render();
 }

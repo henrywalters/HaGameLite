@@ -32,6 +32,14 @@ namespace hg {
                 return uuid != _uuid;
             }
 
+            bool operator ==(const uint64_t _id) {
+                return uuid == _id;
+            }
+
+            bool operator !=(const uint64_t _id) {
+                return !(uuid == _id);
+            }
+
             uint64_t id() const { return uuid; }
 
         private:

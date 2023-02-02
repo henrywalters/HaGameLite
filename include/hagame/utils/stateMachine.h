@@ -30,16 +30,20 @@ namespace hg::utils {
         {}
 
         // Instantiate a new object in the state machine
+        template <class SceneType>
         T* add(std::string name) {
-            auto state = std::make_unique<T>();
-            m_states.insert(std::make_pair(name, state));
-            events.emit(StateMode::Init, state.get());
-            return state.get();
+            m_states.insert(std::make_pair(name, std::make_unique<SceneType>()));
+            events.emit(StateMode::Init, m_states[name].get());
+            return m_states[name].get();
         }
 
         // Check if the state exists
         bool has(std::string name) {
             return m_states.find(name) != m_states.end();
+        }
+
+        bool hasActive() {
+            return m_active.has_value();
         }
 
         // Activate a state without triggering an event
@@ -55,7 +59,7 @@ namespace hg::utils {
                 throw std::runtime_error("State does not exist");
             }
 
-            if (m_active == name) {
+            if (m_active.value() == name) {
                 events.emit(StateMode::Inactive, m_states[name].get());
                 m_active = std::nullopt;
             }
@@ -65,21 +69,19 @@ namespace hg::utils {
             if (!has(name)) {
                 throw std::runtime_error("State does not exist");
             }
-            if (m_active != name) {
-                if (m_active.has_value()) {
-                    deactivate(m_active.value());
-                }
-
-                m_active = name;
-                events.emit(StateMode::Active, m_states[m_active].get());
+            if (m_active.has_value() && m_active.value() != name) {
+                deactivate(m_active.value());
             }
+
+            m_active = name;
+            events.emit(StateMode::Active, m_states[m_active.value()].get());
         }
 
         T* active() {
-            if (!m_active.has_value()) {
+            if (!hasActive()) {
                 throw std::runtime_error("No active state");
             }
-            return m_states[m_active].get();
+            return m_states[m_active.value()].get();
         }
 
     private:

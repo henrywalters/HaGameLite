@@ -20,7 +20,7 @@ void hg::HG::Run(hg::Game *game) {
 
     game->m_window->close();
 
-    glfwSwapInterval(-1);
+    glfwSwapInterval(1);
 #endif
 }
 
