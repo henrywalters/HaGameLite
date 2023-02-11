@@ -2,10 +2,13 @@
 // Created by henry on 12/28/22.
 //
 
+#include <iostream>
 #include "../../../include/hagame/core/gameObject.h"
 
 void hg::GameObject::addChild(GameObject *child) {
-    if (child->m_parent != nullptr && child->m_parent != this) {
+
+    if (child->m_parent != nullptr) {
+        
         child->m_parent->removeChild(child);
     }
     child->m_parent = this;

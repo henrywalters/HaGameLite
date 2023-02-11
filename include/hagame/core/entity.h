@@ -6,8 +6,10 @@
 #define HAGAME2_ENTITY_H
 
 #include <memory>
+#include <iostream>
 
 #include "gameObject.h"
+#include "component.h"
 #include <entt/entity/registry.hpp>
 
 namespace hg {
@@ -16,30 +18,40 @@ namespace hg {
     class Entity : public GameObject {
     public:
 
+
+        HG_GET(std::vector<Component*>, components);
+
         bool active = true;
 
         Entity(uint32_t enttId, entt::basic_registry<uint32_t, std::allocator<uint32_t>>* registry):
                 m_enttId(enttId),
                 m_registry(registry)
-        {};
+        {
+            name = toString();
+        };
 
         // Constructs a new instance of the component in memory. Be careful with the returned pointer! Another addComponent call or loss of scope may invalidate the pointer
-        template <class T>
+        template <IsComponent T>
         T* addComponent() {
             T* component = &m_registry->emplace<T>(m_enttId);
+            m_components.push_back(component);
             return component;
         }
 
-        template <class T, class... Args>
+        template <IsComponent T, class... Args>
         T* addComponent(Args &&... args) {
             T* component = &m_registry->emplace<T>(m_enttId, std::forward<Args>(args)...);
+            m_components.push_back(component);
             return component;
         }
 
 
         template <class T>
         void removeComponent() {
-            m_registry->erase<T>(m_enttId);
+            if (hasComponent<T>()) {
+                m_components.erase(std::find(m_components.begin(), m_components.end(), getComponent<T>()));
+                m_registry->erase<T>(m_enttId);
+            }
         }
 
         template <class T>
@@ -73,6 +85,7 @@ namespace hg {
             return NULL;
         }
 
+
     protected:
         [[nodiscard]] std::string toString() const override {
             return "Entity<" + std::to_string(id()) + ">";
@@ -85,6 +98,8 @@ namespace hg {
         uint32_t m_enttId;
         entt::basic_registry<uint32_t, std::allocator<uint32_t>> * m_registry;
 
+        std::vector<Component*> m_components;
+
     };
 
     class EntityManager {
@@ -92,6 +107,18 @@ namespace hg {
 
         EntityManager() {
             m_registry = std::make_unique<entt::basic_registry<uint32_t, std::allocator<uint32_t>>>();
+        }
+
+        bool exists(utils::UUID id) {
+            return m_idMap.find(id) != m_idMap.end();
+        }
+
+        Entity* get(utils::UUID id) {
+            if (!exists(id)) {
+                return nullptr;
+            }
+
+            return m_idMap[id].get();
         }
 
         // Instantiate a new entity belonging to the registry

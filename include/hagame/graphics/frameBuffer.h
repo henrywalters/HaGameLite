@@ -27,6 +27,8 @@ namespace hg::graphics {
 
         void attachTexture(Texture* texture);
 
+        void clear(int attachmentIdx = 0);
+
         template <GLuint TextureType>
         void attachRawTexture(RawTexture<TextureType>* texture);
 

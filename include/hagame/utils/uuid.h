@@ -9,18 +9,20 @@
 namespace hg {
     namespace utils {
 
+        using UUID_SIZE = uint32_t;
+
         static std::random_device device;
         static std::mt19937_64 engine(device());
-        static std::uniform_int_distribution<uint64_t> uniDist;
+        static std::uniform_int_distribution<UUID_SIZE> uniDist;
 
         class UUID {
         public:
 
             UUID() : uuid(uniDist(engine)) {}
-            UUID(uint64_t _uuid) : uuid(_uuid) {}
+            UUID(UUID_SIZE _uuid) : uuid(_uuid) {}
             UUID(const UUID& _uuid) = default;
 
-            operator uint64_t() const {
+            operator UUID_SIZE() const {
                 return uuid;
             }
 
@@ -32,19 +34,19 @@ namespace hg {
                 return uuid != _uuid;
             }
 
-            bool operator ==(const uint64_t _id) {
+            bool operator ==(const UUID_SIZE _id) {
                 return uuid == _id;
             }
 
-            bool operator !=(const uint64_t _id) {
+            bool operator !=(const UUID_SIZE _id) {
                 return !(uuid == _id);
             }
 
-            uint64_t id() const { return uuid; }
+            UUID_SIZE id() const { return uuid; }
 
         private:
 
-            uint64_t uuid;
+            UUID_SIZE uuid;
         };
     }
 }

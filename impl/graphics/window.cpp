@@ -71,8 +71,8 @@ void hg::graphics::Window::initialize() {
         Window::ForceExit();
     }
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 
     m_window = glfwCreateWindow(m_size[0], m_size[1], m_title.c_str(), NULL, NULL);
 

@@ -40,11 +40,12 @@ template<class KeyType>
 hg::graphics::RenderPass *hg::graphics::RenderPasses<KeyType>::create(KeyType key, Vec2i size) {
     m_passes.insert(std::make_pair(key, std::make_unique<RenderPass>()));
     auto pass = get(key);
+    pass->texture = std::make_unique<RawTexture<GL_RGBA>>(size);
     pass->buffer = std::make_unique<FrameBuffer>();
     pass->buffer->initialize();
     pass->buffer->bind();
     pass->buffer->initializeRenderBufferObject(size);
-    pass->texture = std::make_unique<RawTexture<GL_RGBA>>(size);
+
     pass->buffer->attachRawTexture(pass->texture.get());
     return pass;
 }

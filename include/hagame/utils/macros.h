@@ -18,9 +18,20 @@
         method();                   \
     }
 
+#define HG_SET_SIMPLE(type, name) \
+    void name(const type& value)         \
+    {                               \
+        m_##name = value;           \
+    }
+
 
 #define HG_GET_SET(type, name, method) \
     HG_GET(type, name)                 \
     HG_SET(type, name, method)
+
+#define HG_GET_SET_SIMPLE(type, name) \
+    HG_GET(type, name)                 \
+    HG_SET(type, name, method)
+
 
 #endif //HAGAME2_MACROS_H
