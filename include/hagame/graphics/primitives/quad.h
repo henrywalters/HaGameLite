@@ -16,18 +16,19 @@ namespace hg::graphics::primitives {
         Quad(Vec2 size, Vec2 offset = Vec2::Zero()):
             m_size(size),
             m_offset(offset) {
-            computeMesh();
+            update();
         }
 
-        HG_GET_SET(Vec2, offset, computeMesh);
-        HG_GET_SET(Vec2, size, computeMesh);
+        HG_GET_SET(Vec2, offset, update);
+        HG_GET_SET(Vec2, size, update);
 
     private:
 
         Vec2 m_size;
         Vec2 m_offset;
 
-        void computeMesh();
+    protected:
+        void computeMesh() override;
     };
 }
 

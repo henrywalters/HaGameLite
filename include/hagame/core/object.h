@@ -15,6 +15,8 @@ namespace hg {
     class Object : public utils::UUID {
     public:
 
+        virtual ~Object() {}
+
         Object() = default;
 
         operator std::string() const {

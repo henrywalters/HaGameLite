@@ -8,7 +8,7 @@
 #include <thread>
 
 namespace hg::utils {
-    class LoopingThread {
+class LoopingThread {
     public:
 
         LoopingThread() {}
@@ -54,10 +54,12 @@ namespace hg::utils {
                 }
                 catch(std::runtime_error& e)
                 {
+                    std::cout << e.what() << "\n";
                     // Some more specific
                 }
                 catch(...)
                 {
+                    std::cout << "Failed for unknown reason\n";
                     // Make sure that nothing leaves the thread for now...
                 }
             }

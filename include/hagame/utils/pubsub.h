@@ -21,6 +21,41 @@ namespace hg {
      *
      */
 
+    struct NotificationListener {
+        utils::UUID id;
+        std::function<void()> onNotify;
+    };
+
+    class Notifier {
+    private:
+        std::unordered_map<uint32_t, std::shared_ptr<NotificationListener>> subscribers;
+        uint32_t subCount = 0;
+        uint32_t activeSubCount = 0;
+    public:
+
+        std::shared_ptr<NotificationListener> subscribe(std::function<void()> onNotifyFn) {
+            auto subscriber = std::make_shared<NotificationListener>();
+            subscriber->onNotify= onNotifyFn;
+            subscriber->id = subCount;
+            subCount++;
+            activeSubCount++;
+            subscribers.insert(std::make_pair(subscriber->id, subscriber));
+            return subscriber;
+        }
+
+        void unsubscribe(std::shared_ptr<NotificationListener> subscriber) {
+            subscribers.erase(subscriber->id);
+            activeSubCount--;
+            subscriber.reset();
+        }
+
+        void emit() {
+            for (auto& [id, subscriber] : subscribers) {
+                subscriber->onNotify();
+            }
+        }
+    };
+
     template <class EventType>
     struct EventListener {
         utils::UUID id;

@@ -5,6 +5,8 @@
 #ifndef HAGAME2_KEYBOARDMOUSE_H
 #define HAGAME2_KEYBOARDMOUSE_H
 
+#include <iostream>
+
 #include "../../math/aliases.h"
 #include "../inputDevice.h"
 #include "../../utils/clock.h"
@@ -52,6 +54,12 @@ namespace hg::input::devices {
         MouseState mouse;
         KeyboardState keyboard;
 
+        void clear() {
+            mouse.leftPressed = false;
+            mouse.rightPressed = false;
+            mouse.middlePressed = false;
+        }
+
         void cursorPosCallback(double xPos, double yPos) {
             auto newMousePos = Vec2(xPos, yPos);
             auto mouseDelta = newMousePos - lastMousePos;
@@ -66,15 +74,15 @@ namespace hg::input::devices {
         }
 
         void mouseButtonCallback(int button, int action) {
-            if (button == M_LEFT && action != 0) {
+            if (button == M_LEFT) {
                 UpdateState(mouse.left, mouse.leftPressed, action != 0);
             }
 
-            if (button == M_RIGHT && action != 0) {
+            if (button == M_RIGHT) {
                 UpdateState(mouse.right, mouse.rightPressed, action != 0);
             }
 
-            if (button == M_MIDDLE && action != 0) {
+            if (button == M_MIDDLE) {
                 UpdateState(mouse.middle, mouse.middlePressed, action != 0);
             }
         }
@@ -122,9 +130,9 @@ namespace hg::input::devices {
         static const int R_SHIFT = 344;
         static const int ESC = 256;
 
-        static const int M_LEFT = 1;
-        static const int M_MIDDLE = 3;
-        static const int M_RIGHT = 2;
+        static const int M_LEFT = 0;
+        static const int M_MIDDLE = 2;
+        static const int M_RIGHT = 1;
 
         static constexpr int LetterIndex(char letter) {
             return letter - 65;

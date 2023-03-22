@@ -46,6 +46,11 @@ namespace hg::utils {
             return m_states.find(name) != m_states.end();
         }
 
+        template <class Type>
+        Type* get(std::string name) {
+            return static_cast<Type*>(m_states[name].get());
+        }
+
         bool hasActive() {
             return m_active.has_value();
         }
@@ -86,6 +91,14 @@ namespace hg::utils {
                 throw std::runtime_error("No active state");
             }
             return m_states[m_active.value()].get();
+        }
+
+        std::vector<std::string> states() const {
+            std::vector<std::string> states;
+            for (const auto& [name, state] : m_states) {
+                states.push_back(name);
+            }
+            return states;
         }
 
     private:

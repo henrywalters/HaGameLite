@@ -5,6 +5,7 @@
 #include "../../../include/hagame/graphics/primitives/quad.h"
 
 void hg::graphics::primitives::Quad::computeMesh() {
+
     vertices.clear();
     indices.clear();
 

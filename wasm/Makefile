@@ -57,18 +57,18 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/henry/CLionProjects/HaGame2
+CMAKE_SOURCE_DIR = /home/henry/development/games/HaGameLite
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/henry/CLionProjects/HaGame2/wasm
+CMAKE_BINARY_DIR = /home/henry/development/games/HaGameLite/wasm
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/local/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/local/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/henry/CLionProjects/HaGame2/wasm/CMakeFiles /home/henry/CLionProjects/HaGame2/wasm//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/henry/development/games/HaGameLite/wasm/CMakeFiles /home/henry/development/games/HaGameLite/wasm//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/henry/CLionProjects/HaGame2/wasm/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/henry/development/games/HaGameLite/wasm/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -129,29 +129,53 @@ HaGame2/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/build
 .PHONY : HaGame2/fast
 
-impl/core/entity.o: impl/core/entity.cpp.o
-.PHONY : impl/core/entity.o
+impl/core/component.o: impl/core/component.cpp.o
+.PHONY : impl/core/component.o
 
 # target to build an object file
-impl/core/entity.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/entity.cpp.o
-.PHONY : impl/core/entity.cpp.o
+impl/core/component.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/component.cpp.o
+.PHONY : impl/core/component.cpp.o
 
-impl/core/entity.i: impl/core/entity.cpp.i
-.PHONY : impl/core/entity.i
+impl/core/component.i: impl/core/component.cpp.i
+.PHONY : impl/core/component.i
 
 # target to preprocess a source file
-impl/core/entity.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/entity.cpp.i
-.PHONY : impl/core/entity.cpp.i
+impl/core/component.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/component.cpp.i
+.PHONY : impl/core/component.cpp.i
 
-impl/core/entity.s: impl/core/entity.cpp.s
-.PHONY : impl/core/entity.s
+impl/core/component.s: impl/core/component.cpp.s
+.PHONY : impl/core/component.s
 
 # target to generate assembly for a file
-impl/core/entity.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/entity.cpp.s
-.PHONY : impl/core/entity.cpp.s
+impl/core/component.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/component.cpp.s
+.PHONY : impl/core/component.cpp.s
+
+impl/core/game.o: impl/core/game.cpp.o
+.PHONY : impl/core/game.o
+
+# target to build an object file
+impl/core/game.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/game.cpp.o
+.PHONY : impl/core/game.cpp.o
+
+impl/core/game.i: impl/core/game.cpp.i
+.PHONY : impl/core/game.i
+
+# target to preprocess a source file
+impl/core/game.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/game.cpp.i
+.PHONY : impl/core/game.cpp.i
+
+impl/core/game.s: impl/core/game.cpp.s
+.PHONY : impl/core/game.s
+
+# target to generate assembly for a file
+impl/core/game.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/game.cpp.s
+.PHONY : impl/core/game.cpp.s
 
 impl/core/gameObject.o: impl/core/gameObject.cpp.o
 .PHONY : impl/core/gameObject.o
@@ -177,6 +201,54 @@ impl/core/gameObject.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/gameObject.cpp.s
 .PHONY : impl/core/gameObject.cpp.s
 
+impl/core/hg.o: impl/core/hg.cpp.o
+.PHONY : impl/core/hg.o
+
+# target to build an object file
+impl/core/hg.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/hg.cpp.o
+.PHONY : impl/core/hg.cpp.o
+
+impl/core/hg.i: impl/core/hg.cpp.i
+.PHONY : impl/core/hg.i
+
+# target to preprocess a source file
+impl/core/hg.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/hg.cpp.i
+.PHONY : impl/core/hg.cpp.i
+
+impl/core/hg.s: impl/core/hg.cpp.s
+.PHONY : impl/core/hg.s
+
+# target to generate assembly for a file
+impl/core/hg.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/hg.cpp.s
+.PHONY : impl/core/hg.cpp.s
+
+impl/core/scene.o: impl/core/scene.cpp.o
+.PHONY : impl/core/scene.o
+
+# target to build an object file
+impl/core/scene.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/scene.cpp.o
+.PHONY : impl/core/scene.cpp.o
+
+impl/core/scene.i: impl/core/scene.cpp.i
+.PHONY : impl/core/scene.i
+
+# target to preprocess a source file
+impl/core/scene.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/scene.cpp.i
+.PHONY : impl/core/scene.cpp.i
+
+impl/core/scene.s: impl/core/scene.cpp.s
+.PHONY : impl/core/scene.s
+
+# target to generate assembly for a file
+impl/core/scene.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/scene.cpp.s
+.PHONY : impl/core/scene.cpp.s
+
 impl/graphics/font.o: impl/graphics/font.cpp.o
 .PHONY : impl/graphics/font.o
 
@@ -200,6 +272,30 @@ impl/graphics/font.s: impl/graphics/font.cpp.s
 impl/graphics/font.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/font.cpp.s
 .PHONY : impl/graphics/font.cpp.s
+
+impl/graphics/image.o: impl/graphics/image.cpp.o
+.PHONY : impl/graphics/image.o
+
+# target to build an object file
+impl/graphics/image.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/image.cpp.o
+.PHONY : impl/graphics/image.cpp.o
+
+impl/graphics/image.i: impl/graphics/image.cpp.i
+.PHONY : impl/graphics/image.i
+
+# target to preprocess a source file
+impl/graphics/image.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/image.cpp.i
+.PHONY : impl/graphics/image.cpp.i
+
+impl/graphics/image.s: impl/graphics/image.cpp.s
+.PHONY : impl/graphics/image.s
+
+# target to generate assembly for a file
+impl/graphics/image.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/image.cpp.s
+.PHONY : impl/graphics/image.cpp.s
 
 impl/graphics/mesh.o: impl/graphics/mesh.cpp.o
 .PHONY : impl/graphics/mesh.o
@@ -393,6 +489,30 @@ impl/graphics/text.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/text.cpp.s
 .PHONY : impl/graphics/text.cpp.s
 
+impl/graphics/texture.o: impl/graphics/texture.cpp.o
+.PHONY : impl/graphics/texture.o
+
+# target to build an object file
+impl/graphics/texture.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/texture.cpp.o
+.PHONY : impl/graphics/texture.cpp.o
+
+impl/graphics/texture.i: impl/graphics/texture.cpp.i
+.PHONY : impl/graphics/texture.i
+
+# target to preprocess a source file
+impl/graphics/texture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/texture.cpp.i
+.PHONY : impl/graphics/texture.cpp.i
+
+impl/graphics/texture.s: impl/graphics/texture.cpp.s
+.PHONY : impl/graphics/texture.s
+
+# target to generate assembly for a file
+impl/graphics/texture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/texture.cpp.s
+.PHONY : impl/graphics/texture.cpp.s
+
 impl/graphics/window.o: impl/graphics/window.cpp.o
 .PHONY : impl/graphics/window.o
 
@@ -489,6 +609,30 @@ impl/physics/transform.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/physics/transform.cpp.s
 .PHONY : impl/physics/transform.cpp.s
 
+impl/utils/config.o: impl/utils/config.cpp.o
+.PHONY : impl/utils/config.o
+
+# target to build an object file
+impl/utils/config.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/utils/config.cpp.o
+.PHONY : impl/utils/config.cpp.o
+
+impl/utils/config.i: impl/utils/config.cpp.i
+.PHONY : impl/utils/config.i
+
+# target to preprocess a source file
+impl/utils/config.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/utils/config.cpp.i
+.PHONY : impl/utils/config.cpp.i
+
+impl/utils/config.s: impl/utils/config.cpp.s
+.PHONY : impl/utils/config.s
+
+# target to generate assembly for a file
+impl/utils/config.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/utils/config.cpp.s
+.PHONY : impl/utils/config.cpp.s
+
 impl/utils/file.o: impl/utils/file.cpp.o
 .PHONY : impl/utils/file.o
 
@@ -537,29 +681,29 @@ impl/utils/string.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/utils/string.cpp.s
 .PHONY : impl/utils/string.cpp.s
 
-thirdparty/glad.o: thirdparty/glad.c.o
-.PHONY : thirdparty/glad.o
+thirdparty/glad/glad.o: thirdparty/glad/glad.c.o
+.PHONY : thirdparty/glad/glad.o
 
 # target to build an object file
-thirdparty/glad.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/thirdparty/glad.c.o
-.PHONY : thirdparty/glad.c.o
+thirdparty/glad/glad.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/thirdparty/glad/glad.c.o
+.PHONY : thirdparty/glad/glad.c.o
 
-thirdparty/glad.i: thirdparty/glad.c.i
-.PHONY : thirdparty/glad.i
+thirdparty/glad/glad.i: thirdparty/glad/glad.c.i
+.PHONY : thirdparty/glad/glad.i
 
 # target to preprocess a source file
-thirdparty/glad.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/thirdparty/glad.c.i
-.PHONY : thirdparty/glad.c.i
+thirdparty/glad/glad.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/thirdparty/glad/glad.c.i
+.PHONY : thirdparty/glad/glad.c.i
 
-thirdparty/glad.s: thirdparty/glad.c.s
-.PHONY : thirdparty/glad.s
+thirdparty/glad/glad.s: thirdparty/glad/glad.c.s
+.PHONY : thirdparty/glad/glad.s
 
 # target to generate assembly for a file
-thirdparty/glad.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/thirdparty/glad.c.s
-.PHONY : thirdparty/glad.c.s
+thirdparty/glad/glad.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/thirdparty/glad/glad.c.s
+.PHONY : thirdparty/glad/glad.c.s
 
 # Help Target
 help:
@@ -570,15 +714,27 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... HaGame2"
-	@echo "... impl/core/entity.o"
-	@echo "... impl/core/entity.i"
-	@echo "... impl/core/entity.s"
+	@echo "... impl/core/component.o"
+	@echo "... impl/core/component.i"
+	@echo "... impl/core/component.s"
+	@echo "... impl/core/game.o"
+	@echo "... impl/core/game.i"
+	@echo "... impl/core/game.s"
 	@echo "... impl/core/gameObject.o"
 	@echo "... impl/core/gameObject.i"
 	@echo "... impl/core/gameObject.s"
+	@echo "... impl/core/hg.o"
+	@echo "... impl/core/hg.i"
+	@echo "... impl/core/hg.s"
+	@echo "... impl/core/scene.o"
+	@echo "... impl/core/scene.i"
+	@echo "... impl/core/scene.s"
 	@echo "... impl/graphics/font.o"
 	@echo "... impl/graphics/font.i"
 	@echo "... impl/graphics/font.s"
+	@echo "... impl/graphics/image.o"
+	@echo "... impl/graphics/image.i"
+	@echo "... impl/graphics/image.s"
 	@echo "... impl/graphics/mesh.o"
 	@echo "... impl/graphics/mesh.i"
 	@echo "... impl/graphics/mesh.s"
@@ -603,6 +759,9 @@ help:
 	@echo "... impl/graphics/text.o"
 	@echo "... impl/graphics/text.i"
 	@echo "... impl/graphics/text.s"
+	@echo "... impl/graphics/texture.o"
+	@echo "... impl/graphics/texture.i"
+	@echo "... impl/graphics/texture.s"
 	@echo "... impl/graphics/window.o"
 	@echo "... impl/graphics/window.i"
 	@echo "... impl/graphics/window.s"
@@ -615,15 +774,18 @@ help:
 	@echo "... impl/physics/transform.o"
 	@echo "... impl/physics/transform.i"
 	@echo "... impl/physics/transform.s"
+	@echo "... impl/utils/config.o"
+	@echo "... impl/utils/config.i"
+	@echo "... impl/utils/config.s"
 	@echo "... impl/utils/file.o"
 	@echo "... impl/utils/file.i"
 	@echo "... impl/utils/file.s"
 	@echo "... impl/utils/string.o"
 	@echo "... impl/utils/string.i"
 	@echo "... impl/utils/string.s"
-	@echo "... thirdparty/glad.o"
-	@echo "... thirdparty/glad.i"
-	@echo "... thirdparty/glad.s"
+	@echo "... thirdparty/glad/glad.o"
+	@echo "... thirdparty/glad/glad.i"
+	@echo "... thirdparty/glad/glad.s"
 .PHONY : help
 
 

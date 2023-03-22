@@ -4,7 +4,7 @@
 
 #ifndef HAGAME2_INPUTDEVICE_H
 #define HAGAME2_INPUTDEVICE_H
-
+#include <iostream>
 #include "../math/aliases.h"
 
 namespace hg::input {
@@ -30,7 +30,7 @@ namespace hg::input {
         bool lShoulder, lShoulderPressed;
         bool rShoulder, rShoulderPressed;
 
-        void clear() {
+        virtual void clear() {
             //rAxis.zero();
             //lAxis.zero();
             //dPad.zero();

@@ -10,6 +10,7 @@
 #include "../../include/hagame/graphics/glfw.h"
 
 #include "../../include/hagame/graphics/font.h"
+#include "../../include/hagame/utils/file.h"
 
 hg::graphics::FontCharacter::~FontCharacter() {
     glDeleteTextures(1, &id);
@@ -17,7 +18,9 @@ hg::graphics::FontCharacter::~FontCharacter() {
 
 hg::graphics::Font::Font(std::string ttf) {
     m_font = new stbtt_fontinfo();
-    if (!stbtt_InitFont(m_font, (unsigned char*) ttf.c_str(), 0)) {
+    auto buffer = utils::f_readToBuffer(ttf);
+    std::cout << buffer.data << "\n";
+    if (!stbtt_InitFont(m_font, buffer.data, 0)) {
         std::cout << "FAILED TO INITIALIZE FONT\n";
         throw std::runtime_error("Failed to load Font");
     }
@@ -52,7 +55,7 @@ void hg::graphics::Font::loadChar(char character, FontCharacter* fontChar) {
     glTexImage2D(
             GL_TEXTURE_2D,
             0,
-            GL_RED,
+            GL_R8,
             fontChar->size[0],
             fontChar->size[1],
             0,

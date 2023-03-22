@@ -8,6 +8,7 @@
 #include "object.h"
 #include "scene.h"
 #include "../utils/stateMachine.h"
+#include "../utils/loopingThread.h"
 #include "../graphics/renderPipeline.h"
 #include "../graphics/window.h"
 
@@ -15,7 +16,7 @@ namespace hg {
 
     class HG;
 
-    class Game : public Object {
+class Game : public utils::LoopingThread {
     public:
 
         friend class HG;
@@ -24,7 +25,21 @@ namespace hg {
             m_name(name),
             m_lastTick(utils::Clock::Now()),
             m_elapsedTime(0),
-            m_running(true) {}
+            m_running(true) {
+            m_scenes = std::make_unique<utils::StateMachine<Scene>>();
+        }
+
+        utils::StateMachine<Scene>* scenes() {
+            return m_scenes.get();
+        }
+
+        void tick();
+        void initialize();
+        void destroy();
+
+        HG_GET_SET(bool, running, destroy);
+
+    protected:
 
         virtual void onInit() {}
         virtual void onBeforeUpdate() {}
@@ -32,33 +47,23 @@ namespace hg {
         virtual void onAfterUpdate() {}
         virtual void onDestroy() {}
 
-        utils::StateMachine<Scene>* scenes() {
-            return &m_scenes;
+        void onTick() override {
+            tick();
         }
 
-        HG_GET_SET(bool, running, destroy);
-
-    protected:
-        std::string toString() const {
-            return "Game<" + std::to_string(id()) + ">";
+        void onAbort() override {
+            destroy();
         }
 
     private:
 
         bool m_running;
 
-
-
         std::string m_name;
-        utils::StateMachine<Scene> m_scenes;
+        std::unique_ptr<utils::StateMachine<Scene>> m_scenes;
         long long m_lastTick;
         double m_elapsedTime;
 
-        void initialize();
-
-        void tick();
-
-        void destroy();
     };
 }
 

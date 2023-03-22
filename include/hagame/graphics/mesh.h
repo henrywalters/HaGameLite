@@ -7,6 +7,7 @@
 
 #include <memory>
 
+#include "../utils/pubsub.h"
 #include "../math/aliases.h"
 #include "../math/transform.h"
 #include "buffer.h"
@@ -20,6 +21,18 @@ namespace hg::graphics {
     public:
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
+
+        Notifier onUpdate;
+
+        void update() {
+            computeMesh();
+            onUpdate.emit();
+        }
+
+    protected:
+
+        virtual void computeMesh() {}
+
     };
 
     // A MeshInstance is an instance of a Mesh able to be rendered. This is easier to use, but slower, than the MeshBufferInstance
@@ -29,7 +42,7 @@ namespace hg::graphics {
         MeshInstance(Mesh* mesh);
 
         // Update the MeshInstance to reflect the current mesh state
-        void update();
+        void update(Mesh* mesh);
 
         void render();
 

@@ -53,7 +53,7 @@ void hg::graphics::Text::draw(hg::graphics::Font *font, std::string message, hg:
 
             m_quad->size(charSize);
             m_quad->offset(pos.resize<2>() + charPos + charSize * 0.5);
-            m_mesh->update();
+            m_mesh->update(m_quad.get());
 
             glBindTexture(GL_TEXTURE_2D, character->id);
             m_mesh->render();

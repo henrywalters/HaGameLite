@@ -2,6 +2,7 @@
 // Created by henry on 1/18/23.
 //
 #include "../../include/hagame/graphics/image.h"
+#define STB_IMAGE_IMPLEMENTATION
 #include "../../thirdparty/stb/stb_image.h"
 
 hg::graphics::Image::Image(std::string _path, hg::graphics::ImageType _type): path(_path), type(_type) {

@@ -12,6 +12,7 @@ namespace hg {
     public:
         static Game* s_emscriptenGame;
         static void Run(Game* game);
+        static void RunAsync(Game* game);
     private:
 
         static void TickEmscripten();

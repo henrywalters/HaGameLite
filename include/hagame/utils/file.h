@@ -15,6 +15,14 @@ namespace hg::utils {
         unsigned char* data;
     };
 
+    struct FileParts {
+        std::string path;
+        std::string fullName;
+        std::string name;
+        std::string extension;
+        bool isDir;
+    };
+
     std::string f_read(std::string file);
     std::vector<std::string> f_readLines(std::string file);
     FileBuffer f_readToBuffer(std::string file);
@@ -22,6 +30,10 @@ namespace hg::utils {
     void f_writeLines(std::string file, std::vector<std::string> lines);
     void f_append(std::string file, std::string content);
     void f_appendLines(std::string file, std::vector<std::string> lines);
+    FileParts f_getParts(std::string file);
+
+    std::vector<std::string> d_listFiles(std::string path);
+    std::vector<std::string> d_listDirs(std::string path);
 
 
 }

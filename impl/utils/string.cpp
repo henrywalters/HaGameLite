@@ -36,3 +36,54 @@ std::string hg::utils::s_join(std::vector<std::string> strs, std::string delim) 
     }
     return out;
 }
+
+std::string hg::utils::s_trim(std::string str) {
+    std::string out = "";
+    bool foundNonWhiteSpace = false;
+    int lastWhiteSpace = 0;
+    int lastNonWhiteSpace = 0;
+
+    for (int i = 0; i < str.size(); i++) {
+        if (!foundNonWhiteSpace) {
+            if (str[i] != ' ') {
+                foundNonWhiteSpace = true;
+                lastWhiteSpace = i;
+                out += str[i];
+            }
+        }
+        else {
+            if (str[i] != ' ') {
+                lastNonWhiteSpace = i;
+            }
+        }
+    }
+
+    for (int i = lastWhiteSpace + 1; i <= lastNonWhiteSpace; i++) {
+        out += str[i];
+    }
+
+    return out;
+}
+
+std::vector<std::string> s_partition(std::string str, char start, char end) {
+    std::vector<std::string> partitions;
+    std::string part = "";
+    bool inPart = false;
+
+    for (int i = 0; i < str.size(); i++) {
+        auto c = str[i];
+        if (c == start) {
+            part = "";
+            inPart = true;
+        }
+        else if (c == end && inPart) {
+            partitions.push_back(part);
+            inPart = false;
+        }
+        else {
+            part += c;
+        }
+    }
+
+    return partitions;
+}

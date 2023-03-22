@@ -1,8 +1,8 @@
-# Install script for directory: /home/henry/CLionProjects/HaGame2
+# Install script for directory: /home/henry/development/games/HaGameLite
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/henry/emsdk/upstream/emscripten/cache/sysroot")
+  set(CMAKE_INSTALL_PREFIX "/home/henry/Downloads/emsdk/upstream/emscripten/cache/sysroot")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/henry/CLionProjects/HaGame2/wasm/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/henry/development/games/HaGameLite/wasm/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

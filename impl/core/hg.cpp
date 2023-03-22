@@ -20,10 +20,15 @@ void hg::HG::Run(hg::Game *game) {
 
     game->destroy();
 
-    glfwSwapInterval(1);
 #endif
+}
+
+void hg::HG::RunAsync(hg::Game *game) {
+    game->initialize();
+    game->run();
 }
 
 void hg::HG::TickEmscripten() {
     s_emscriptenGame->tick();
 }
+

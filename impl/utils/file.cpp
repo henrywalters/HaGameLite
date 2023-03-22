@@ -4,6 +4,7 @@
 
 #include <fstream>
 #include <streambuf>
+#include <filesystem>
 
 #include "../../include/hagame/utils/file.h"
 #include "../../include/hagame/utils/string.h"
@@ -54,4 +55,50 @@ void hg::utils::f_append(std::string file, std::string content) {
 
 void hg::utils::f_appendLines(std::string file, std::vector<std::string> lines) {
     f_append(file, s_join(lines, "\n"));
+}
+
+hg::utils::FileParts hg::utils::f_getParts(std::string file) {
+    FileParts parts;
+    parts.isDir = std::filesystem::is_directory(file);
+
+    auto pathParts = utils::s_split(file, '/');
+    parts.fullName = pathParts[pathParts.size() - 1];
+    parts.path = "";
+
+    for (int i = 0; i < pathParts.size() - 1; i++) {
+        parts.path += pathParts[i] + "/";
+    }
+
+    if (parts.isDir) {
+        parts.extension = "";
+        parts.name = parts.fullName;
+    } else {
+        auto fileParts = utils::s_split(parts.fullName, '.');
+        parts.extension = fileParts[1];
+        parts.name = fileParts[0];
+    }
+
+    return parts;
+}
+
+std::vector<std::string> hg::utils::d_listDirs(std::string path) {
+    std::vector<std::string> out;
+
+    for (const auto& entry : std::filesystem::directory_iterator(path)) {
+        if (entry.is_directory()) {
+            out.push_back(entry.path());
+        }
+    }
+    return out;
+}
+
+std::vector<std::string> hg::utils::d_listFiles(std::string path) {
+    std::vector<std::string> out;
+
+    for (const auto& entry : std::filesystem::directory_iterator(path)) {
+        if (!entry.is_directory()) {
+            out.push_back(entry.path());
+        }
+    }
+    return out;
 }

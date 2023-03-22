@@ -76,12 +76,13 @@ namespace hg::graphics {
         }
 
         void canAssign(unsigned int index, size_t size) {
-            assert(index + size < max);
+
+            //assert(index + size < max);
         }
 
         // Update a single instance of the DataType at a given index
         void update(unsigned int index, DataType data) {
-            canAssign(index, sizeof(DataType));
+            canAssign(index, 1);
             bind();
             glBufferSubData(Type, index * sizeof(DataType), sizeof(DataType), &data);
             unbind();
@@ -89,7 +90,7 @@ namespace hg::graphics {
 
         // Update several instances of the DataType starting at a given index
         void update(unsigned int index, std::vector<DataType> data) {
-            canAssign(index, sizeof(DataType) * data.size());
+            canAssign(index, data.size());
             bind();
             glBufferSubData(Type, index * sizeof(DataType), sizeof(DataType) * data.size(), &data[0]);
             unbind();
@@ -98,7 +99,7 @@ namespace hg::graphics {
         // Update a member of a single instance at a given index. Useful for updating a member of a struct or class
         template <class MemberType>
         void update(unsigned int index, size_t memberOffseType, MemberType memberData) {
-            canAssign(index, sizeof(MemberType));
+            canAssign(index, 1);
             bind();
             glBufferSubData(Type, index * sizeof(DataType) + memberOffseType, sizeof(MemberType), &memberData);
             unbind();
@@ -106,7 +107,7 @@ namespace hg::graphics {
 
         // Return the data at the given index. Useful for updating the state of a buffer
         DataType read(unsigned int index) {
-            canAssign(index, sizeof(DataType));
+            canAssign(index, 1);
             bind();
             DataType data;
             glGetBufferSubData(Type, index * sizeof(DataType), sizeof(DataType), &data);

@@ -10,8 +10,9 @@
 
 namespace hg::utils {
     std::vector<std::string> s_split(std::string str, char delim);
+    std::vector<std::string> s_partition(std::string str, char start, char end);
     std::string s_join(std::vector<std::string> strs, std::string delim);
-
+    std::string s_trim(std::string str);
 }
 
 #endif //HAGAME2_STRING_H

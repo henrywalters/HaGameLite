@@ -7,6 +7,14 @@
 
 #include "object.h"
 #include <any>
+#include <unordered_map>
+#include <entt/core/hashed_string.hpp>
+#include <entt/core/utility.hpp>
+#include <entt/entity/registry.hpp>
+#include <entt/meta/factory.hpp>
+#include <entt/meta/meta.hpp>
+#include <entt/meta/resolve.hpp>
+#include "../utils/config.h"
 
 namespace hg {
 
@@ -26,6 +34,9 @@ namespace hg {
         void updateParams(ComponentParams params) {
             onUpdateParams(params);
         }
+
+        virtual void load(utils::Config* config, std::string section) {}
+        virtual void save(utils::Config* config, std::string section) {}
 
     protected:
 
@@ -51,6 +62,15 @@ namespace hg {
 
     template <typename T>
     concept IsComponent = std::is_base_of<Component, T>::value;
+
+    template <IsComponent T>
+    entt::meta_factory<T> RegisterComponent(std::string id) {
+        auto factory = entt::meta<T>().type(entt::hashed_string {id.c_str()}.value())
+                .template func<&entt::registry::emplace<T>>(entt::hashed_string{(id + "_emplace").c_str()}.value());
+        return factory;
+    }
+
+    entt::meta_type GetComponent(std::string id);
 }
 
 #endif //HAGAME2_COMPONENT_H

@@ -8,17 +8,17 @@
 
 void hg::Game::initialize() {
 
-    m_scenes.events.subscribe(utils::StateMode::Init, [&](auto scene) {
+    m_scenes->events.subscribe(utils::StateMode::Init, [&](auto scene) {
         scene->m_game = this;
-        scene->onInit();
+        scene->init();
     });
 
-    m_scenes.events.subscribe(utils::StateMode::Active, [&](auto scene) {
-        scene->onActivate();
+    m_scenes->events.subscribe(utils::StateMode::Active, [&](auto scene) {
+        scene->activate();
     });
 
-    m_scenes.events.subscribe(utils::StateMode::Inactive, [&](auto state) {
-        state->onDeactivate();
+    m_scenes->events.subscribe(utils::StateMode::Inactive, [&](auto state) {
+        state->deactivate();
     });
 
     onInit();
@@ -36,13 +36,13 @@ void hg::Game::tick() {
     onUpdate(dt);
 
     if (scenes()->hasActive()) {
-        scenes()->active()->onUpdate(dt);
+        scenes()->active()->update(dt);
     }
 
     onAfterUpdate();
 }
 
 void hg::Game::destroy() {
-    m_scenes.clear();
+    m_scenes->clear();
     onDestroy();
 }

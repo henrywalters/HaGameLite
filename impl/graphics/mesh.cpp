@@ -23,7 +23,8 @@ void hg::graphics::MeshInstance::initialize() {
     m_vao->defineAttribute<Vertex>(m_vbo.get(), DataType::Float, 2, 2, offsetof(Vertex, texCoords));
 }
 
-void hg::graphics::MeshInstance::update() {
+void hg::graphics::MeshInstance::update(Mesh* mesh) {
+    m_mesh = mesh;
     auto newSize = m_mesh->vertices.size();
     m_vbo->resize(newSize);
     m_ebo->resize(newSize);

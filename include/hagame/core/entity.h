@@ -30,6 +30,29 @@ namespace hg {
             name = toString();
         };
 
+        entt::meta_any addComponent(std::string id) {
+            //&m_registry->emplace<GetComponent(id)::Type>m_enttId);
+            auto emplace_fn = GetComponent(id).func(entt::hashed_string{(id + "_emplace").c_str()}.value());
+            auto invoked = emplace_fn.invoke({}, entt::forward_as_meta(m_registry), m_enttId);
+            //return invoked;
+            auto component = invoked.try_cast<Component>();
+            std::cout << component << "\n";
+            if (component == nullptr) {
+                std::cout << "WARNING: Failed to find Component: " << id << " Are you sure its registered?\n";
+            } else {
+                m_components.push_back(component);
+            }
+
+            for (auto&& curr : m_registry->storage()) {
+                auto id = curr.first;
+
+                std::cout << id << " = " << "\n";
+            }
+
+            return invoked;
+            //return component;
+        }
+
         // Constructs a new instance of the component in memory. Be careful with the returned pointer! Another addComponent call or loss of scope may invalidate the pointer
         template <IsComponent T>
         T* addComponent() {
@@ -139,6 +162,7 @@ namespace hg {
 
         // Destroy an entity
         void remove(Entity* entity) {
+            std::cout << "REMOVING " << entity << "\n";
             for (auto child : entity->children()) {
                 remove((Entity*) child);
             }
@@ -147,9 +171,10 @@ namespace hg {
                 entity->parent()->removeChild(entity);
             }
 
+            m_registry->destroy(entity->m_enttId);
             m_enttMap[entity->m_enttId].reset();
             m_idMap[entity->id()].reset();
-            m_registry->destroy(entity->m_enttId);
+
         }
 
         void forEach(std::function<void(Entity*)> lambda) {
