@@ -11,6 +11,8 @@
 #include "../utils/random.h"
 #include "../utils/config.h"
 
+class b2World;
+
 namespace hg {
 
     class Game;
@@ -33,12 +35,11 @@ namespace hg {
         EntityManager entities;
 
         Game* game() { return m_game; }
+        b2World* physics2d() { return m_physics2d; }
 
         utils::Random* random() { return m_random.get(); }
 
-        void init() {
-            onInit();
-        }
+        void init();
 
         void activate() {
             for (const auto& script : scripts) {
@@ -77,6 +78,7 @@ namespace hg {
     private:
 
         std::unique_ptr<utils::Random> m_random;
+        b2World* m_physics2d;
 
         Game* m_game;
     };

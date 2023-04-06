@@ -5,35 +5,22 @@
 #ifndef HAGAME2_SPRITE_H
 #define HAGAME2_SPRITE_H
 
-#include "../../core/component.h"
-#include "../primitives/quad.h"
+#include "quad.h"
 
 namespace hg::graphics {
-    class Sprite : public hg::Component {
+    class Sprite : public Quad {
     public:
 
-        Sprite(Vec2 size):
-            quad(size),
-            m_mesh(std::make_unique<MeshInstance>(&quad))
-        {
-            quad.onUpdate.subscribe([&]() {
-                m_mesh->update(&quad);
-            });
-        }
+        Sprite(Vec2 size, Vec2 offset = Vec2::Zero()):
+            Quad(size, offset)
+        {}
 
         std::string texture;
-        primitives::Quad quad;
-
-        MeshInstance* mesh() const { return m_mesh.get(); }
 
     protected:
         std::string toString() const override {
             return "Sprite<" + std::to_string(id()) + ">";
         }
-    private:
-
-        std::unique_ptr<MeshInstance> m_mesh;
-
 
     };
 }

@@ -41,6 +41,7 @@ namespace hg::input::devices {
         bool rCtrl, rCtrlPressed = false;
         bool lShift, lShiftPressed = false;
         bool rShift, rShiftPressed = false;
+        bool enter, enterPressed = false;
 
         bool esc, escPressed = false;
     };
@@ -116,6 +117,10 @@ namespace hg::input::devices {
                 UpdateState(keyboard.esc, keyboard.escPressed, action != 0);
             }
 
+            if (key == ENTER) {
+                UpdateState(keyboard.enter, keyboard.enterPressed, action != 0);
+            }
+
             lAxis[0] = ((int) keyboard.letters[LetterIndex('D')]) - ((int) keyboard.letters[LetterIndex(('A'))]);
             lAxis[1] = ((int) keyboard.letters[LetterIndex('W')]) - ((int) keyboard.letters[LetterIndex(('S'))]);
         }
@@ -129,6 +134,7 @@ namespace hg::input::devices {
         static const int L_SHIFT = 340;
         static const int R_SHIFT = 344;
         static const int ESC = 256;
+        static const int ENTER = 257;
 
         static const int M_LEFT = 0;
         static const int M_MIDDLE = 2;

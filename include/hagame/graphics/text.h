@@ -27,6 +27,8 @@ namespace hg::graphics {
         Text();
 
         void draw(Font* font, std::string message, Vec3 pos = Vec3::Zero(), TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
+        void draw(Font* font, std::string message, Vec3 size, Vec3 pos, TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
+        void draw(Font* font, std::vector<std::string> lines, Vec3 pos = Vec3::Zero(), TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
 
     private:
         std::unique_ptr<primitives::Quad> m_quad;

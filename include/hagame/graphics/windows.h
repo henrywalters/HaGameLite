@@ -24,6 +24,8 @@ namespace hg::graphics {
 
         static void Destroy(Window* window);
 
+        static std::vector<Window*> All();
+
     private:
 
         static std::unordered_map<GLFWwindow*, std::shared_ptr<Window>> s_windows;

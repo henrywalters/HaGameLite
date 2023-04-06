@@ -18,7 +18,7 @@ namespace hg::math {
         template <class T>
         class Quaternion;
 
-        // Highly generic vector class that can be extended to fit any needs.
+        // Generic vector class that can be extended to fit any needs.
         template<size_t size, class T>
         class Vector {
         public:
@@ -359,7 +359,7 @@ namespace hg::math {
             }
 
             template <size_t toSize>
-            Vector<toSize, T> resize(T defaultValue = 0.0) {
+            Vector<toSize, T> resize(T defaultValue = 0.0) const {
                 Vector<toSize, T> copy = Vector<toSize, T>();
                 for (int i = 0; i < toSize; i++) {
                     if (i < size) {

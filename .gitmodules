@@ -4,3 +4,6 @@
 [submodule "thirdparty/stb"]
 	path = thirdparty/stb
 	url = git@github.com:nothings/stb.git
+[submodule "thirdparty/box2d"]
+	path = thirdparty/box2d
+	url = git@github.com:erincatto/box2d.git

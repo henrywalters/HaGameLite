@@ -20,6 +20,10 @@ namespace hg {
     using Vec3i = math::Vector<3, int>;
     using Vec2i = math::Vector<2, int>;
 
+    using Vec4b = math::Vector<4, bool>;
+    using Vec3b = math::Vector<3, bool>;
+    using Vec2b = math::Vector<2, bool>;
+
     using Mat2 = math::Matrix<2, 2, float>;
     using Mat3 = math::Matrix<3, 3, float>;
     using Mat4 = math::Matrix<4, 4, float>;
@@ -39,6 +43,9 @@ namespace hg {
         return a.x() * b.y() - a.y() * b.x();
     }
 
+    template <typename T> int sign(T val) {
+        return (T(0) < val) - (val < T(0));
+    }
 }
 
 #endif //HAGAME2_ALIASES_H

@@ -33,12 +33,26 @@ void hg::Game::tick() {
 
     onBeforeUpdate();
 
+    if (!running()) {
+        return;
+    }
+
     onUpdate(dt);
+
+    if (!running()) {
+        return;
+    }
 
     if (scenes()->hasActive()) {
         scenes()->active()->update(dt);
+        if (!running()) {
+            return;
+        }
     }
 
+    if (!running()) {
+        return;
+    }
     onAfterUpdate();
 }
 

@@ -6,6 +6,7 @@
 #define HAGAME2_LOOPINGTHREAD_H
 
 #include <thread>
+#include <iostream>
 
 namespace hg::utils {
 class LoopingThread {

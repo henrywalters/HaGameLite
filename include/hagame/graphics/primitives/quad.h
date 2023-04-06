@@ -2,8 +2,8 @@
 // Created by henry on 12/18/22.
 //
 
-#ifndef HAGAME2_QUAD_H
-#define HAGAME2_QUAD_H
+#ifndef HAGAME2_PRIMITIVES_QUAD_H
+#define HAGAME2_PRIMITIVES_QUAD_H
 
 #include "../mesh.h"
 #include "../triangle.h"

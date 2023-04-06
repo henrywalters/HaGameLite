@@ -44,3 +44,11 @@ void hg::graphics::Windows::Destroy(hg::graphics::Window *window) {
     s_windows.erase(window->window());
     window->close();
 }
+
+std::vector<hg::graphics::Window *> hg::graphics::Windows::All() {
+    std::vector<Window*> windows;
+    for (const auto& [id, window] : s_windows) {
+        windows.push_back(window.get());
+    }
+    return windows;
+}
