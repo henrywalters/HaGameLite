@@ -24,7 +24,6 @@ namespace hg::graphics {
         void clear(KeyType key, Color color);
         void render(KeyType key, int attachments = 1);
         void activateTextures();
-
         void removeAll();
     private:
         std::unordered_map<KeyType, std::unique_ptr<RenderPass>> m_passes;

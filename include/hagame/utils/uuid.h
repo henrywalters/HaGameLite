@@ -22,6 +22,10 @@ namespace hg {
             UUID(uuid_t _uuid) : uuid(_uuid) {}
             UUID(const UUID& _uuid) = default;
 
+            static uuid_t Generate() {
+                return uniDist(engine);
+            }
+
             operator uuid_t() const {
                 return uuid;
             }

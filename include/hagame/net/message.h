@@ -31,13 +31,11 @@ namespace hg::net {
 
         template <class DataType>
         friend Message<T>& operator << (Message<T>&msg, const DataType& data) {
-            std::cout << "LOADING DATA TO MESSAGE\n";
             static_assert(std::is_standard_layout<DataType>::value, "Data must be standard layout");
             size_t msgSize = msg.body.size();
             msg.body.resize(msg.body.size() + sizeof(DataType));
             std::memcpy(msg.body.data() + msgSize, &data, sizeof(DataType));
             msg.header.size = msg.size();
-            std::cout << msg.size() << "\n";
             return msg;
         }
 
@@ -49,6 +47,14 @@ namespace hg::net {
             msg.body.resize(msgSize);
             msg.header.size = msg.size();
             return msg;
+        }
+
+        template <class DataType>
+        void extract(DataType& data, size_t size, size_t pos = 0) {
+            if (size + pos > body.size()) {
+                throw std::runtime_error("Requested data larger than body");
+            }
+            std::memcpy(&data, body.data() + pos, size);
         }
     };
 
