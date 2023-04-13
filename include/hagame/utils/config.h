@@ -151,33 +151,33 @@ namespace hg::utils {
         }
          */
 
-        template<typename T>
-        T strToT(std::string str) {
-            throw std::runtime_error("Unimplented parse type");
-        }
-
-        template<>
-        double strToT<double>(std::string str) {
-            return std::atof(str.c_str());
-        }
-
-        template<>
-        float strToT<float>(std::string str) {
-            return std::atof(str.c_str());
-        }
-
-        template<>
-        int strToT<int>(std::string str) {
-            return std::atoi(str.c_str());
-        }
-
-        template<>
-        bool strToT<bool>(std::string str) {
-            return (bool) std::atoi(str.c_str());
-        }
-
         ConfigData m_data;
     };
+
+    template<typename T>
+    inline T strToT(std::string str) {
+        throw std::runtime_error("Unimplented parse type");
+    }
+
+    template<>
+    inline double strToT<double>(std::string str) {
+        return std::atof(str.c_str());
+    }
+
+    template<>
+    inline float strToT<float>(std::string str) {
+        return std::atof(str.c_str());
+    }
+
+    template<>
+    inline int strToT<int>(std::string str) {
+        return std::atoi(str.c_str());
+    }
+
+    template<>
+    inline bool strToT<bool>(std::string str) {
+        return (bool) std::atoi(str.c_str());
+    }
 
 
 
