@@ -15,17 +15,17 @@ namespace hg::graphics {
     class Quad : public Component {
     public:
         Quad(Vec2 size, Vec2 offset):
-        quad(size, offset),
-        m_mesh(std::make_unique<MeshInstance>(&quad))
+            quad(std::make_unique<primitives::Quad>(size, offset)),
+            m_mesh(std::make_unique<MeshInstance>(quad.get()))
         {
-            quad.onUpdate.subscribe([&]() {
-                m_mesh->update(&quad);
+            quad->onUpdate.subscribe([&]() {
+                m_mesh->update(quad.get());
             });
         }
 
         Color color = Color::white();
 
-        primitives::Quad quad;
+        std::unique_ptr<primitives::Quad> quad;
 
         MeshInstance* mesh() const { return m_mesh.get(); }
     private:

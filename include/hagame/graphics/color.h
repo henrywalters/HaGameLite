@@ -95,7 +95,7 @@ namespace hg::graphics {
 
         static HSV RGB2HSV(RGB rgb) {
             HSV out;
-            /*float min = rgb.xyz().min();
+            float min = rgb.xyz().min();
             float max = rgb.xyz().max();
             float delta = max - min;
             out[2] = max;
@@ -120,12 +120,11 @@ namespace hg::graphics {
                 out[0] = 4.0 + (rgb[0] - rgb[1]) / delta;
             }
 
-            out[0] *= PI / 3;
+            out[0] *= M_PI / 3;
 
             if (out[0] < 0.0) {
-                out[0] += PI * 2;
+                out[0] += M_PI * 2;
             }
-*/
             return out;
         }
 

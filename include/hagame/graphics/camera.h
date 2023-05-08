@@ -44,8 +44,8 @@ namespace hg::graphics {
                         transform.position[0] + size[0] * 0.5f * zoom,
                         transform.position[1] - size[1] * 0.5f * zoom,
                         transform.position[1] + size[1] * 0.5f * zoom,
-                        zNear,
-                        zFar
+                        zFar,
+                        zNear
                 );
             }
             else {
@@ -54,8 +54,8 @@ namespace hg::graphics {
                         transform.position[0] + size[0] * zoom,
                         0,
                         transform.position[1] + size[1] * zoom,
-                        zNear,
-                        zFar
+                        zFar,
+                        zNear
                 );
             }
         }

@@ -25,6 +25,7 @@ std::vector<std::string> Config::sections() {
 }
 
 void Config::addSection(std::string section) {
+    if (m_data.find(section) == m_data.end()) return;
     m_data.insert(std::make_pair(section, std::unordered_map<std::string, std::string>()));
 }
 

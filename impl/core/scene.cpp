@@ -65,12 +65,15 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
 }
 
 void hg::Scene::init() {
+
     /*
     b2AABB worldAABB;
     worldAABB.lowerBound.Set(-200, -100);
     worldAABB.upperBound.Set(200, 500);
     m_physics2d = new b2World(b2Vec2(0, -9.8));
     m_physics2d->ClearForces();
-     */
+    */
+
+
     onInit();
 }

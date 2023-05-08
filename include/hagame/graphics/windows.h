@@ -40,6 +40,8 @@ namespace hg::graphics {
 
         static void MouseCursorPosCallback(GLFWwindow* window, double xPos, double yPos);
 
+        static void MouseScrollCallback(GLFWwindow* window, double xOffset, double yOffset);
+
     };
 }
 

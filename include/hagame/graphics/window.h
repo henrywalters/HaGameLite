@@ -58,6 +58,10 @@ namespace hg::graphics {
 
         GLFWwindow* window() const { return m_window; }
 
+        void setVSync(bool vsyncOn) {
+            glfwSwapInterval((int) vsyncOn);
+        }
+
     private:
 
         friend class Windows;

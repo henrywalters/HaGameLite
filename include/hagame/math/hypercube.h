@@ -27,12 +27,12 @@ namespace hg::math {
 
         bool contains(Vector<dimensions, T> point) {
             for (int i = 0; i < dimensions; i++) {
-                if (point[i] < pos[i] || point[i] >= pos[i] + size[i]) return false;
+                if (point[i] < pos[i] || point[i] > pos[i] + size[i]) return false;
             }
             return true;
         }
 
-        std::string toString() {
+        std::string toString() const {
             return "Position: " + pos.toString() + " Size: " + size.toString();
         }
 
@@ -51,6 +51,18 @@ namespace hg::math {
         Vector<dimensions, T> max() {
             return pos + size;
         }
+
+        friend std::ostream& operator <<(std::ostream& out, const Hypercube& cube) {
+            out << cube.toString();
+            return out;
+        }
+
+        operator std::string() const {
+            std::ostringstream out;
+            out << *this;
+            return out.str();
+        }
+
 
     };
 }

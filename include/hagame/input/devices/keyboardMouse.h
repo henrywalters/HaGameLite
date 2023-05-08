@@ -59,6 +59,11 @@ namespace hg::input::devices {
             mouse.leftPressed = false;
             mouse.rightPressed = false;
             mouse.middlePressed = false;
+            mouse.wheel = 0;
+        }
+
+        void scrollCallback(double xOffset, double yOffset) {
+            mouse.wheel = yOffset;
         }
 
         void cursorPosCallback(double xPos, double yPos) {

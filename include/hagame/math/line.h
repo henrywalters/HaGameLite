@@ -2,8 +2,8 @@
 // Created by henry on 2/1/23.
 //
 
-#ifndef HAGAME2_LINE_H
-#define HAGAME2_LINE_H
+#ifndef HAGAME2_MATH_LINE_H
+#define HAGAME2_MATH_LINE_H
 
 #include "aliases.h"
 

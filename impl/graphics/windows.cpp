@@ -19,6 +19,10 @@ void hg::graphics::Windows::MouseButtonCallback(GLFWwindow *window, int button, 
     s_windows[window]->input.keyboardMouse.mouseButtonCallback(button, action);
 }
 
+void hg::graphics::Windows::MouseScrollCallback(GLFWwindow *window, double xOffset, double yOffset) {
+    s_windows[window]->input.keyboardMouse.scrollCallback(xOffset, yOffset);
+}
+
 void hg::graphics::Windows::CloseCallback(GLFWwindow *window) {
     Windows::Events.emit(WindowEvents::Close, s_windows[window].get());
 }
@@ -35,6 +39,7 @@ hg::graphics::Window *hg::graphics::Windows::Create(std::string title, Resolutio
     glfwSetKeyCallback(window->window(), KeyCallback);
     glfwSetCursorPosCallback(window->window(), MouseCursorPosCallback);
     glfwSetMouseButtonCallback(window->window(), MouseButtonCallback);
+    glfwSetScrollCallback(window->window(), MouseScrollCallback);
     glfwSetWindowCloseCallback(window->window(), CloseCallback);
     glfwSetWindowSizeCallback(window->window(), ResizeCallback);
     return window.get();
@@ -52,3 +57,4 @@ std::vector<hg::graphics::Window *> hg::graphics::Windows::All() {
     }
     return windows;
 }
+

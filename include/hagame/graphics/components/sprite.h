@@ -16,6 +16,7 @@ namespace hg::graphics {
         {}
 
         std::string texture;
+        bool visible = true;
 
     protected:
         std::string toString() const override {

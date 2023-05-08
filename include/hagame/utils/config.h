@@ -12,6 +12,7 @@
 #include <iostream>
 #include "string.h"
 #include <string_view>
+#include "../math/interval.h"
 
 namespace hg::utils {
     /*
@@ -40,6 +41,33 @@ namespace hg::utils {
     using ConfigSection = std::unordered_map<std::string, std::string>;
     using ConfigData = std::unordered_map<std::string, ConfigSection>;
     using MultiConfigData = std::unordered_map<std::string, ConfigData>;
+
+
+    template<typename T>
+    inline T strToT(std::string str) {
+        throw std::runtime_error("Unimplented parse type");
+    }
+
+    template<>
+    inline double strToT<double>(std::string str) {
+        return std::atof(str.c_str());
+    }
+
+    template<>
+    inline float strToT<float>(std::string str) {
+        return std::atof(str.c_str());
+    }
+
+    template<>
+    inline int strToT<int>(std::string str) {
+        return std::atoi(str.c_str());
+    }
+
+    template<>
+    inline bool strToT<bool>(std::string str) {
+        return (bool) std::atoi(str.c_str());
+    }
+
 
     class Config {
     public:
@@ -78,6 +106,18 @@ namespace hg::utils {
         template <typename T, size_t N>
         void setArray(std::string section, std::string key, T arr[N]) {
             m_data[section].insert(std::make_pair(key, arrToString<T, N>(arr)));
+        }
+
+        template <typename T>
+        void setInterval(std::string section, std::string key, hg::math::Interval<T> interval) {
+            std::array<T, 2> intervalArr = {interval.lower, interval.upper};
+            setArray<T, 2>(section, key, intervalArr.data());
+        }
+
+        template <typename T>
+        hg::math::Interval<T> getInterval(std::string section, std::string key) {
+            auto intervalArr = getArray<T, 2>(section, key);
+            return hg::math::Interval<T>(intervalArr[0], intervalArr[1]);
         }
 
         template <typename T, size_t N>
@@ -153,33 +193,6 @@ namespace hg::utils {
 
         ConfigData m_data;
     };
-
-    template<typename T>
-    inline T strToT(std::string str) {
-        throw std::runtime_error("Unimplented parse type");
-    }
-
-    template<>
-    inline double strToT<double>(std::string str) {
-        return std::atof(str.c_str());
-    }
-
-    template<>
-    inline float strToT<float>(std::string str) {
-        return std::atof(str.c_str());
-    }
-
-    template<>
-    inline int strToT<int>(std::string str) {
-        return std::atoi(str.c_str());
-    }
-
-    template<>
-    inline bool strToT<bool>(std::string str) {
-        return (bool) std::atoi(str.c_str());
-    }
-
-
 
     class MultiConfig {
     public:

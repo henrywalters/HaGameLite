@@ -17,8 +17,8 @@ void hg::graphics::primitives::Quad::computeMesh() {
     Triangle triA = Triangle(a, b, c);
     Triangle triB = Triangle(a, c, d);
 
-    triA.setTextures({ Vec2(0, 1), Vec2(0, 0), Vec2(1, 0) });
-    triB.setTextures({ Vec2(0, 1), Vec2( 1, 0 ), Vec2( 1, 1 ) });
+    triA.setTextures({ Vec2(0, m_flipY ? 0 : 1), Vec2(0, m_flipY ? 1 : 0), Vec2(1, m_flipY ? 1 : 0) });
+    triB.setTextures({ Vec2(0, m_flipY ? 0 : 1), Vec2( 1, m_flipY ? 1 : 0 ), Vec2( 1, m_flipY ? 0 : 1 ) });
 
     triA.insert(vertices, indices);
     triB.insert(vertices, indices);

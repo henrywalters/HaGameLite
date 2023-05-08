@@ -132,6 +132,10 @@ namespace hg {
             m_registry = std::make_unique<entt::basic_registry<uint32_t, std::allocator<uint32_t>>>();
         }
 
+        void clear() {
+            m_registry->clear();
+        }
+
         bool exists(utils::UUID id) {
             return m_idMap.find(id) != m_idMap.end();
         }
@@ -162,7 +166,13 @@ namespace hg {
 
         // Destroy an entity
         void remove(Entity* entity) {
-            std::cout << "REMOVING " << entity << "\n";
+
+            m_registry->destroy(entity->m_enttId);
+            m_idMap[entity->id()].reset();
+            m_enttMap[entity->m_enttId].reset();
+            m_idMap.erase(entity->id());
+            m_enttMap.erase(entity->m_enttId);
+
             for (auto child : entity->children()) {
                 remove((Entity*) child);
             }
@@ -170,11 +180,6 @@ namespace hg {
             if (entity->parent() != nullptr) {
                 entity->parent()->removeChild(entity);
             }
-
-            m_registry->destroy(entity->m_enttId);
-            m_enttMap[entity->m_enttId].reset();
-            m_idMap[entity->id()].reset();
-
         }
 
         void forEach(std::function<void(Entity*)> lambda) {

@@ -73,9 +73,14 @@ hg::utils::FileParts hg::utils::f_getParts(std::string file) {
         parts.extension = "";
         parts.name = parts.fullName;
     } else {
-        auto fileParts = utils::s_split(parts.fullName, '.');
-        parts.extension = fileParts[1];
-        parts.name = fileParts[0];
+        auto lastDot = parts.fullName.find_last_of('.');
+        if (lastDot == std::string::npos) {
+            parts.extension = "";
+            parts.name = parts.fullName;
+        } else {
+            parts.name = parts.fullName.substr(0, lastDot);
+            parts.extension = parts.fullName.substr(lastDot + 1, parts.fullName.size());
+        }
     }
 
     return parts;

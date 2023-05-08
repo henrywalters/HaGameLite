@@ -46,6 +46,10 @@ namespace hg::graphics {
 
         void render();
 
+        VertexArray* getVAO() const { return m_vao.get(); }
+
+        size_t size() const { return m_mesh->vertices.size(); }
+
     private:
         Mesh* m_mesh;
         std::unique_ptr<VertexBuffer<Vertex>> m_vbo;

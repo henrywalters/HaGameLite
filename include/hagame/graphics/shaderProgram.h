@@ -25,8 +25,10 @@ namespace hg::graphics {
 
         unsigned int getUniform(std::string var);
         int getAttrib(std::string var);
+        void setBool(std::string var, bool val);
         void setInt(std::string var, int val);
         void setFloat(std::string var, float val);
+        void setDouble(std::string var, double val);
         void setVec2(std::string var, Vec2 vect);
         void setVec3(std::string var, Vec3 vect);
         void setVec4(std::string var, Vec4 vect);

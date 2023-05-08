@@ -38,6 +38,7 @@ class Game : public utils::LoopingThread {
         void destroy();
 
         HG_GET_SET(bool, running, destroy);
+        HG_GET_SET_SIMPLE(std::string, name);
 
     protected:
 

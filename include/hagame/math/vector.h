@@ -250,6 +250,14 @@ namespace hg::math {
                 return copy;
             }
 
+            Vector abs() const {
+                Vector copy = *this;
+                for (int i = 0; i < size; i++) {
+                    copy[i] = std::abs(copy[i]);
+                }
+                return copy;
+            }
+
             void round() {
                 for (int i = 0; i < size; i++) { vector[i] = std::round(vector[i]); }
             }
@@ -373,11 +381,27 @@ namespace hg::math {
             }
 
             T min() const {
-                return *std::min_element(vector.begin(), vector.end());
+                bool hasBest = false;
+                T best;
+                for (int i = 0; i < size; i++) {
+                    if (!hasBest || vector[i] < best) {
+                        hasBest = true;
+                        best = vector[i];
+                    }
+                }
+                return best;
             }
 
             T max() const {
-                return *std::max_element(vector.begin(), vector.end());
+                bool hasBest = false;
+                T best;
+                for (int i = 0; i < size; i++) {
+                    if (!hasBest || vector[i] > best) {
+                        hasBest = true;
+                        best = vector[i];
+                    }
+                }
+                return best;
             }
 
             Vector bounded(Vector by) const {

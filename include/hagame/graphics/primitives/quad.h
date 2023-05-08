@@ -13,12 +13,15 @@ namespace hg::graphics::primitives {
     class Quad : public Mesh {
     public:
 
-        Quad(Vec2 size, Vec2 offset = Vec2::Zero()):
+        Quad(Vec2 size, Vec2 offset = Vec2::Zero(), bool flipY = false):
             m_size(size),
-            m_offset(offset) {
+            m_offset(offset),
+            m_flipY(flipY)
+        {
             update();
         }
 
+        HG_GET_SET(bool, flipY, update);
         HG_GET_SET(Vec2, offset, update);
         HG_GET_SET(Vec2, size, update);
 
@@ -26,6 +29,7 @@ namespace hg::graphics::primitives {
 
         Vec2 m_size;
         Vec2 m_offset;
+        bool m_flipY;
 
     protected:
         void computeMesh() override;

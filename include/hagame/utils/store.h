@@ -43,6 +43,16 @@ namespace hg::utils {
             return m_store[key];
         }
 
+        void forEach(std::function<void(std::string key, T)> fn) {
+            for (const auto& [key, value] : m_store) {
+                fn(key, value);
+            }
+        }
+
+        void clear() {
+            m_store.clear();
+        }
+
     private:
 
         std::unordered_map<std::string, T> m_store;

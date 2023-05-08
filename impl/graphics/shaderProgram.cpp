@@ -63,6 +63,10 @@ void hg::graphics::ShaderProgram::setFloat(std::string var, float val)
     glUniform1f(getUniform(var), val);
 }
 
+void hg::graphics::ShaderProgram::setDouble(std::string var, double val) {
+    glUniform1d(getUniform(var), val);
+}
+
 void hg::graphics::ShaderProgram::setVec2(std::string var, Vec2 vec) {
     glUniform2fv(getUniform(var), 1, &vec[0]);
 }
@@ -128,5 +132,7 @@ void hg::graphics::ShaderProgram::setVP(Mat4 view, Mat4 projection)
     setMat4("view", view);
     setMat4("projection", projection);
 }
+
+
 
 
