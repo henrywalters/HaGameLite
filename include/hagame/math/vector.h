@@ -209,6 +209,14 @@ namespace hg::math {
                 return out.str();
             }
 
+            const T distance(const Vector& other) {
+                T dist = 0;
+                for (int i = 0; i < size; i++) {
+                    dist += std::abs(other[i] - vector[i]);
+                }
+                return dist;
+            }
+
             const T magnitude() {
                 T sum = 0;
                 for (int i = 0; i < size; i++) { sum += vector[i] * vector[i]; }
@@ -256,6 +264,14 @@ namespace hg::math {
                     copy[i] = std::abs(copy[i]);
                 }
                 return copy;
+            }
+
+            T sum() const {
+                T total = 0;
+                for (int i = 0; i < size; i++) {
+                    total += vector[i];
+                }
+                return total;
             }
 
             void round() {

@@ -223,6 +223,14 @@ namespace hg::utils {
         std::unordered_map<std::string, Config> m_configs;
     };
 
+    class Configurable {
+    public:
+        virtual void save(Config& config) = 0;
+        virtual void load(Config config) = 0;
+    };
+
+    template <typename T>
+    concept IsConfigurable = std::is_base_of<Configurable, T>::value;
 }
 
 #endif //HAGAME2_CONFIG_H

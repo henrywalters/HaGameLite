@@ -19,22 +19,25 @@ namespace hg {
         HG_GET_SET_SIMPLE(hg::Vec3, velocity);
 
         void updateVelocity(double dt, hg::Vec3 direction) {
-            direction.normalize();
+
+            if (direction != hg::Vec3::Zero()) {
+                direction.normalize();
+            }
 
             for (int i = 0; i < 3; i++) {
 
-                if (direction[i] == 0) {
-
-                    if (m_velocity[i] > -epsilon && m_velocity < epsilon) {
+                if (nearEqual<float>(direction[i], 0, 0.001)) {
+                    if (m_velocity[i] > -epsilon && m_velocity[i] < epsilon) {
                         m_velocity[i] = 0;
                     } else {
                         m_velocity[i] += deacceleration * (m_velocity[i] > 0 ? -1 : 1) * dt;
                     }
 
-                    continue;
+                } else {
+                    m_velocity[i] += direction[i] * (sign(m_velocity[i]) == sign(direction[i]) ? acceleration : deacceleration) * dt;
                 }
 
-                m_velocity[i] += direction[i] * (sign(m_velocity[i]) == sign(direction[i]) ? acceleration : deacceleration) * dt;
+
             }
 
 
@@ -47,7 +50,7 @@ namespace hg {
 
     private:
 
-        hg::Vec3 m_velocity;
+        hg::Vec3 m_velocity = hg::Vec3::Zero();
 
     };
 };

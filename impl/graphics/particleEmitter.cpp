@@ -23,7 +23,8 @@ ParticleEmitter::ParticleEmitter(size_t maxParticles, MeshInstance* mesh):
     vao->defineAttribute(m_buffer.get(), DataType::Float, 7, 1, offsetof(Particle, startTime));
     vao->defineAttribute(m_buffer.get(), DataType::Float, 8, 1, offsetof(Particle, aliveFor));
     vao->defineAttribute(m_buffer.get(), DataType::Float, 9, 3, offsetof(Particle, gravity));
-    vao->setInstanced(3, 9);
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 10, 1, offsetof(Particle, scale));
+    vao->setInstanced(3, 10);
 
 }
 
@@ -31,17 +32,39 @@ void ParticleEmitter::resize(size_t maxParticles) {
     m_buffer->resize(maxParticles);
 }
 
+void ParticleEmitter::fire() {
+    m_fire = true;
+}
+
+bool ParticleEmitter::finished() const {
+    return settings.singleShot && (m_elapsedTime - m_lastFire) >= settings.aliveFor.upper;
+}
+
 void ParticleEmitter::update(hg::Vec3 pos, double dt) {
     m_position = pos;
     m_elapsedTime += dt;
-    double timeSinceLastEmission = m_elapsedTime - m_lastEmission;
-    double emissionRate = 1.0 / settings.particlesPerSecond;
-    if (timeSinceLastEmission >= emissionRate) {
-        int particles = timeSinceLastEmission / emissionRate;
-        for (int i = 0; i < particles; i++) {
+
+    if (settings.singleShot) {
+
+        if (!m_fire) {
+            return;
+        }
+        for (int i = 0; i < settings.singleShotParticles; i++) {
             emit();
         }
-        m_lastEmission = m_elapsedTime;
+        m_fire = false;
+        m_fired = true;
+        m_lastFire = m_elapsedTime;
+    } else {
+        double timeSinceLastEmission = m_elapsedTime - m_lastEmission;
+        double emissionRate = 1.0 / settings.particlesPerSecond;
+        if (timeSinceLastEmission >= emissionRate) {
+            int particles = timeSinceLastEmission / emissionRate;
+            for (int i = 0; i < particles; i++) {
+                emit();
+            }
+            m_lastEmission = m_elapsedTime;
+        }
     }
 }
 
@@ -55,7 +78,8 @@ void ParticleEmitter::emit() {
     particle.endColor = settings.endColor;
     particle.startTime = m_elapsedTime;
     particle.startPos = settings.positionRelative ? hg::Vec3::Zero() : m_position;
-    particle.aliveFor = settings.aliveFor.upper; //rand.real<float>(settings.aliveFor.lower, settings.aliveFor.upper);
+    particle.aliveFor = rand.real<float>(settings.aliveFor.lower, settings.aliveFor.upper);
+    particle.scale = rand.real<float>(settings.scale.lower, settings.scale.upper);
     m_buffer->update(m_index++, particle);
 
     if (m_index == m_maxParticles) {
@@ -78,9 +102,12 @@ hg::utils::Config ParticleEmitterSettings::save() {
     config.addSection(section);
     config.set(section, "particlesPerSecond", particlesPerSecond);
     config.set(section, "positionRelative", positionRelative);
+    config.set(section, "singleShot", singleShot);
+    config.set(section, "singleShotParticles", singleShotParticles);
     config.setInterval<float>(section, "angle", angle);
     config.setInterval<float>(section, "speed", speed);
     config.setInterval<float>(section, "aliveFor", aliveFor);
+    config.setInterval<float>(section, "scale", scale);
     config.setArray<float, 4>(section, "startColor", startColor.vector);
     config.setArray<float, 4>(section, "endColor", endColor.vector);
     config.setArray<float, 3>(section, "gravity", gravity.vector);
@@ -91,9 +118,13 @@ void ParticleEmitterSettings::load(utils::Config config) {
     const std::string section = "ParticleEmitter";
     particlesPerSecond = config.get<int>(section, "particlesPerSecond");
     positionRelative = config.get<bool>(section, "positionRelative");
+    singleShot = config.get<bool>(section, "singleShot");
+    singleShotParticles = config.get<int>(section, "singleShotParticles");
     angle = config.getInterval<float>(section, "angle");
     speed = config.getInterval<float>(section, "speed");
     aliveFor = config.getInterval<float>(section, "aliveFor");
+    scale = config.getInterval<float>(section, "scale");
+
     config.getArray<float, 4>(section, "startColor", startColor.vector);
     config.getArray<float, 4>(section, "endColor", endColor.vector);
     config.getArray<float, 3>(section, "gravity", gravity.vector);

@@ -20,8 +20,12 @@ namespace hg {
 
     typedef std::unordered_map<std::string, std::any> ComponentParams;
 
+    class Entity;
+
     class Component : public Object {
     public:
+
+        Entity* entity;
 
         void update(double dt) {
             onUpdate(dt);

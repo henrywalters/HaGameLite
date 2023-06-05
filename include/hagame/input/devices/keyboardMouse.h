@@ -55,7 +55,7 @@ namespace hg::input::devices {
         MouseState mouse;
         KeyboardState keyboard;
 
-        void clear() {
+        void clearDevice() override {
             mouse.leftPressed = false;
             mouse.rightPressed = false;
             mouse.middlePressed = false;
@@ -82,10 +82,12 @@ namespace hg::input::devices {
         void mouseButtonCallback(int button, int action) {
             if (button == M_LEFT) {
                 UpdateState(mouse.left, mouse.leftPressed, action != 0);
+                UpdateState(rTrigger, rTriggerPressed, action != 0);
             }
 
             if (button == M_RIGHT) {
                 UpdateState(mouse.right, mouse.rightPressed, action != 0);
+                UpdateState(lTrigger, lTriggerPressed, action != 0);
             }
 
             if (button == M_MIDDLE) {

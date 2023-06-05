@@ -41,6 +41,7 @@ void hg::graphics::Debug::DrawLine(float x1, float y1, float x2, float y2, hg::g
     s_line->addPoints({Vec3(x1, y1, 0), Vec3(x2, y2, 0)});
     s_line->thickness(thickness);
     s_lineMesh->update(s_line.get());
+    s_shader->use();
     s_shader->setMat4("model", Mat4::Translation(Vec3(0, 0, 0)));
     s_shader->setVec4("color", color);
     s_lineMesh->render();
@@ -58,6 +59,7 @@ hg::graphics::Debug::DrawRect(float x, float y, float width, float height, hg::g
         Vec3(x, y, 0)
     });
     s_lineMesh->update(s_line.get());
+    s_shader->use();
     s_shader->setMat4("model", Mat4::Translation(Vec3(0, 0, 0)));
     s_shader->setVec4("color", color);
     s_lineMesh->render();
@@ -72,6 +74,7 @@ void hg::graphics::Debug::DrawCircle(float x, float y, float radius, hg::graphic
         s_line->addPoint(Vec3(radius * cos(theta), radius * sin(theta), 0));
     }
     s_lineMesh->update(s_line.get());
+    s_shader->use();
     s_shader->setMat4("model", Mat4::Translation(Vec3(x, y, 0)));
     s_shader->setVec4("color", color);
     s_lineMesh->render();
@@ -83,6 +86,17 @@ void hg::graphics::Debug::DrawLine(hg::math::LineSegment line, hg::graphics::Col
 
 void hg::graphics::Debug::DrawRect(hg::Rect rect, hg::graphics::Color color, float thickness) {
     DrawRect(rect.pos[0], rect.pos[1], rect.size[0], rect.size[1], color, thickness);
+}
+
+void hg::graphics::Debug::DrawPath(std::vector<hg::Vec3> points, hg::graphics::Color color, float thickness) {
+    s_line->clearPoints();
+    s_line->addPoints(points);
+    s_line->thickness(thickness);
+    s_lineMesh->update(s_line.get());
+    s_shader->use();
+    s_shader->setMat4("model", Mat4::Translation(Vec3(0, 0, 0)));
+    s_shader->setVec4("color", color);
+    s_lineMesh->render();
 }
 
 

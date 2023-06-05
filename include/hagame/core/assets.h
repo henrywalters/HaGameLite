@@ -24,10 +24,20 @@ namespace hg {
         inline static hg::utils::Store<std::shared_ptr<hg::graphics::Font>> FONTS;
     }
 
+    // Load a shader directly by name with path
     std::shared_ptr<hg::graphics::ShaderProgram> loadShader(std::string name, std::string vertPath, std::string fragPath);
+
+    // Load a shader from there base name. Ex. "shaders/color" => vert = "shaders/color.vert"; frag = "shaders/color.frag" identified by "color";
+    std::shared_ptr<hg::graphics::ShaderProgram> loadShader(std::string path);
+
+    // Load a set of shaders from there base name. Ex. shaders/color => vert = 'shaders/color.vert'; frag = 'shaders/color.frag';
+    std::vector<std::shared_ptr<hg::graphics::ShaderProgram>> loadShaders(std::vector<std::string> paths);
+
     hg::graphics::ShaderProgram* getShader(std::string name);
 
     std::shared_ptr<hg::graphics::Texture> loadTexture(std::string name, std::string path);
+    std::shared_ptr<hg::graphics::Texture> loadTexture(std::string path);
+    std::vector<std::shared_ptr<hg::graphics::Texture>> loadTextures(std::vector<std::string> paths);
     hg::graphics::Texture* getTexture(std::string name);
 
     std::shared_ptr<hg::graphics::Font> loadFont(std::string name, std::string path);

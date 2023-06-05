@@ -41,6 +41,7 @@ namespace hg {
                 std::cout << "WARNING: Failed to find Component: " << id << " Are you sure its registered?\n";
             } else {
                 m_components.push_back(component);
+                component->entity = this;
             }
 
             for (auto&& curr : m_registry->storage()) {
@@ -57,6 +58,7 @@ namespace hg {
         template <IsComponent T>
         T* addComponent() {
             T* component = &m_registry->emplace<T>(m_enttId);
+            component->entity = this;
             m_components.push_back(component);
             return component;
         }
@@ -64,6 +66,7 @@ namespace hg {
         template <IsComponent T, class... Args>
         T* addComponent(Args &&... args) {
             T* component = &m_registry->emplace<T>(m_enttId, std::forward<Args>(args)...);
+            component->entity = this;
             m_components.push_back(component);
             return component;
         }
@@ -184,6 +187,9 @@ namespace hg {
 
         void forEach(std::function<void(Entity*)> lambda) {
             for (const auto &[id, entity] : m_idMap) {
+                if (entity == nullptr) {
+                    continue;
+                }
                 lambda(entity.get());
             }
         }
@@ -193,6 +199,9 @@ namespace hg {
                                         std::vector<std::string> ignoreTags = {}) {
             for (auto enttId : m_registry->view<T>()) {
                 auto entity = m_enttMap[enttId].get();
+                if (entity == nullptr) {
+                    continue;
+                }
                 if (!entity->active) continue;
                 auto isIgnored = std::find(ignoreEntities.begin(), ignoreEntities.end(), entity->id()) != ignoreEntities.end();
                 if (!isIgnored) {

@@ -203,9 +203,8 @@ hg::utils::SpatialMap2D<hg::graphics::Tile, int> *hg::graphics::Tilemap::getLaye
     return &m_layers[layerIdx];
 }
 
-hg::Vec3 hg::graphics::Tilemap::resolveCollisions(int layer, hg::Rect rect, hg::Vec3 vel, float dt) {
+hg::Vec3 hg::graphics::Tilemap::resolveCollisions(int layer, hg::Rect rect, hg::Vec3 vel, double dt) {
 
-    auto tilesToCheck = hg::bresenham(getIndex(rect.pos), getIndex(rect.getCenter() + vel.resize<2>()));
     m_layers[layer].forEach([&](Vec2i idx, Tile tile) {
         float t;
         Rect tileRect(getPos(idx) - rect.size * 0.5, m_tileSize + rect.size);
@@ -222,4 +221,62 @@ hg::Vec3 hg::graphics::Tilemap::resolveCollisions(int layer, hg::Rect rect, hg::
     });
 
     return vel ;
+}
+
+std::optional<hg::math::collisions::Hit>  hg::graphics::Tilemap::isColliding(int layer, hg::Vec2i tileIdx, hg::Rect rect, hg::Vec3 vel, double dt)
+{
+
+    if (!m_layers[layer].has(tileIdx) || m_layers[layer].isEmpty(m_layers[layer].get(tileIdx))) {
+        return std::nullopt;
+    }
+
+    float t;
+    Rect tileRect(getPos(tileIdx) - rect.size * 0.5, m_tileSize + rect.size);
+
+    auto hit = hg::math::collisions::checkRayAgainstRect(
+            hg::math::Ray(rect.getCenter().resize<3>(), vel * dt),
+            tileRect,
+            t
+    );
+
+    if (hit.has_value() && t < 1.0f) {
+        return hit;
+    }
+
+    return std::nullopt;
+}
+
+std::optional<hg::math::collisions::Hit>  hg::graphics::Tilemap::isColliding(int layer, hg::Rect rect, hg::Vec3 vel, double dt) {
+
+    bool colliding = false;
+
+    std::optional<hg::math::collisions::Hit> closestHit;
+
+    auto velSize = Vec2(vel.magnitude());
+
+    Rect velRect(rect.pos + velSize * -0.5, rect.size + velSize);
+
+    hg::Vec2i minIdx = getIndex(velRect.min());
+    hg::Vec2i maxIdx = getIndex(velRect.max());
+
+    for (int i = minIdx[0]; i <= maxIdx[0]; i++) {
+        if (colliding) {
+            continue;
+        }
+        for (int j = minIdx[1]; j <= maxIdx[1]; j++) {
+
+            if (colliding) {
+                continue;
+            }
+
+            auto hit = isColliding(layer, hg::Vec2i(i, j), rect, vel, dt);
+
+            if (hit.has_value()) {
+                colliding = true;
+                closestHit = hit;
+            }
+        }
+    }
+
+    return closestHit;
 }

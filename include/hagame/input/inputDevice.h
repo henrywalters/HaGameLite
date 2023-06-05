@@ -30,10 +30,19 @@ namespace hg::input {
         bool lShoulder, lShoulderPressed;
         bool rShoulder, rShoulderPressed;
 
-        virtual void clear() {
+        void clear() {
             //rAxis.zero();
             //lAxis.zero();
             //dPad.zero();
+            selectPressed = false;
+            homePressed = false;
+            startPressed = false;
+            lTriggerPressed = false;
+            rTriggerPressed = false;
+            lShoulderPressed = false;
+            rShoulderPressed = false;
+
+            clearDevice();
         }
 
     protected:
@@ -47,6 +56,8 @@ namespace hg::input {
                 btn = false;
             }
         }
+
+        virtual void clearDevice() {};
     };
 }
 

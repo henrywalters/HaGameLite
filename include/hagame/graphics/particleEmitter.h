@@ -21,10 +21,13 @@ namespace hg::graphics {
         hg::math::Interval<float> angle = hg::math::Interval<float>(0, 360.0f);
         hg::math::Interval<float> speed = hg::math::Interval<float>(100, 500);
         hg::math::Interval<float> aliveFor = hg::math::Interval<float>(0.1, 0.3);
+        hg::math::Interval<float> scale = hg::math::Interval<float>(1, 2);
         hg::graphics::Color startColor = hg::graphics::Color::red();
         hg::graphics::Color endColor = hg::graphics::Color::red();
         hg::Vec3 gravity = hg::Vec3(0, 0, 0);
         bool positionRelative = false;
+        bool singleShot = false;
+        int singleShotParticles = 100;
 
         int requiredBufferSize() const {
             return aliveFor.upper * particlesPerSecond;
@@ -42,10 +45,24 @@ namespace hg::graphics {
 
         ParticleEmitterSettings settings;
 
+        // Change the number of particles in the buffer
         void resize(size_t maxParticles);
+
+        // Will trigger the necessary emitions
         void update(hg::Vec3 pos, double dt);
+
+        // If single shot is turned on, this will cause particles to emit in the next
+        void fire();
+
+        // Clear all particles
         void clear();
+
+        // Render particles
         void render(hg::graphics::ShaderProgram* shader);
+
+        std::function<void()> onFinished = [](){};
+
+        bool finished() const;
 
     private:
 
@@ -54,6 +71,7 @@ namespace hg::graphics {
             hg::Vec3 velocity;
             hg::graphics::Color startColor;
             hg::graphics::Color endColor;
+            float scale;
             float startTime;
             float aliveFor;
             hg::Vec3 gravity;
@@ -70,8 +88,12 @@ namespace hg::graphics {
         double m_elapsedTime = 0;
         double m_lastEmission = 0;
 
+        bool m_fire = false;
+        bool m_fired = false;
+        double m_lastFire = 0;
+
         hg::Vec3 m_position;
     };
 }
 
-#endif //HAGAME2_PARTICLEEMITTER_H
+#endif //HAGAME2_PARTICLEEMITTERCOMPONENT_H
