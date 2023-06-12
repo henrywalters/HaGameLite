@@ -25,8 +25,6 @@ namespace hg::interfaces {
         virtual INode<IndexType, ValueType> get(IndexType index) = 0;
         virtual void set(IndexType index, ValueType value) = 0;
         virtual std::vector<INode<IndexType, ValueType>> getNeighbors(IndexType index) = 0;
-        virtual bool isEmpty(INode<IndexType, ValueType> node) = 0;
-
     };
 
     template <typename IndexType, typename ValueType, class T>

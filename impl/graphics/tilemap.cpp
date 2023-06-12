@@ -226,7 +226,7 @@ hg::Vec3 hg::graphics::Tilemap::resolveCollisions(int layer, hg::Rect rect, hg::
 std::optional<hg::math::collisions::Hit>  hg::graphics::Tilemap::isColliding(int layer, hg::Vec2i tileIdx, hg::Rect rect, hg::Vec3 vel, double dt)
 {
 
-    if (!m_layers[layer].has(tileIdx) || m_layers[layer].isEmpty(m_layers[layer].get(tileIdx))) {
+    if (!m_layers[layer].has(tileIdx) || m_layers[layer].get(tileIdx).value.size() == 0) {
         return std::nullopt;
     }
 
@@ -244,6 +244,33 @@ std::optional<hg::math::collisions::Hit>  hg::graphics::Tilemap::isColliding(int
     }
 
     return std::nullopt;
+}
+
+std::optional<hg::math::collisions::Hit> hg::graphics::Tilemap::raycast(int layer, math::Ray ray) {
+    auto indices = hg::bresenham(getIndex(ray.origin.resize<2>()), getIndex((ray.origin + ray.direction).resize<2>()));
+
+    std::optional<hg::math::collisions::Hit> closestHit;
+    float minT;
+
+    for (const auto& index : indices) {
+        if (!m_layers[layer].has(index) || m_layers[layer].get(index).value.size() == 0) {
+            continue;
+        }
+
+        Rect tileRect(getPos(index), m_tileSize);
+
+        float t;
+        auto hit = hg::math::collisions::checkRayAgainstRect(ray, tileRect, t);
+
+        if (hit.has_value()) {
+            if (!closestHit.has_value() || t < minT) {
+                minT = t;
+                closestHit = hit;
+            }
+        }
+    }
+
+    return closestHit;
 }
 
 std::optional<hg::math::collisions::Hit>  hg::graphics::Tilemap::isColliding(int layer, hg::Rect rect, hg::Vec3 vel, double dt) {

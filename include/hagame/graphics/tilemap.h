@@ -92,6 +92,7 @@ namespace hg::graphics {
         Vec3 resolveCollisions(int layer, Rect rect, Vec3 vel, double dt);
         std::optional<hg::math::collisions::Hit> isColliding(int layer, hg::Vec2i tileIdx, Rect rect, Vec3 vel, double dt);
         std::optional<hg::math::collisions::Hit> isColliding(int layer, Rect rect, Vec3 vel, double dt);
+        std::optional<hg::math::collisions::Hit> raycast(int layer, math::Ray ray);
 
     private:
 

@@ -67,10 +67,6 @@ namespace hg::utils {
             return nodes;
         }
 
-        bool isEmpty(Node node) override {
-            return node.value.size() == 0;
-        }
-
         bool has(SpatialVector position) override {
             return m_map.find(position[0]) != m_map.end() && m_map[position[0]].find(position[1]) != m_map[position[0]].end();
         }
