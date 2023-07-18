@@ -15,6 +15,7 @@
 #include "primitives/line.h"
 #include "../math/aliases.h"
 #include "../math/lineSegment.h"
+#include "../math/ray.h"
 
 namespace hg::graphics {
 
@@ -22,6 +23,8 @@ namespace hg::graphics {
 
     class Debug {
     public:
+
+        static bool ENABLED;
 
         static void Initialize(ShaderProgram* shader);
 
@@ -34,6 +37,8 @@ namespace hg::graphics {
         static void DrawPath(std::vector<hg::Vec3> points, Color color, float thickness);
         static void DrawRect(float x, float y, float width, float height, Color color, float thickness = 1.0f);
         static void DrawRect(Rect rect, Color color, float thickness = 1.0f);
+        static void DrawTriangle(hg::Vec3 a, hg::Vec3 b, hg::Vec3 c, Color color, float thickness = 1.0f);
+        static void DrawRay(math::Ray ray, Color color, float triangleSize = 5.0f, float thickness = 1.0f);
         static void DrawCircle(float x, float y, float radius, Color color, float thickness = 1.0f);
 
     private:

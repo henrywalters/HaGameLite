@@ -14,6 +14,7 @@ namespace hg {
     class GameObject : public Object {
     public:
 
+        // Transform relative to the parent object
         math::Transform transform;
         std::string name = "";
 
@@ -24,6 +25,18 @@ namespace hg {
 
         void addChild(GameObject* child);
         void removeChild(GameObject* child);
+
+        // Get the global position of the game object
+        hg::Vec3 position();
+
+        // Get the global scale of the game object
+        hg::Vec3 scale();
+
+        // Get the global rotation of the game object
+        hg::Quat rotation();
+
+        // Get the global model of the game object
+        hg::Mat4 model();
 
     protected:
         [[nodiscard]] std::string toString() const override {

@@ -6,9 +6,11 @@
 #define HAGAME2_TRANSFORM_H
 
 #include "aliases.h"
+#include "../utils/watcher.h"
 
 namespace hg::math {
     struct Transform {
+
         Vec3 position = Vec3::Zero();
         Vec3 scale = Vec3::Identity();
         Quat rotation = Quat(0, Vec3::Right());
@@ -18,7 +20,7 @@ namespace hg::math {
         void rotate(Quat rotateBy);
         void lookAt(Vec3 point);
 
-        Mat4 getModel();
+        // Mat4 getModel();
 
         Vec3 face();
         Vec3 back();

@@ -225,6 +225,30 @@ impl/core/component.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/component.cpp.s
 .PHONY : impl/core/component.cpp.s
 
+impl/core/entityMap.o: impl/core/entityMap.cpp.o
+.PHONY : impl/core/entityMap.o
+
+# target to build an object file
+impl/core/entityMap.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/entityMap.cpp.o
+.PHONY : impl/core/entityMap.cpp.o
+
+impl/core/entityMap.i: impl/core/entityMap.cpp.i
+.PHONY : impl/core/entityMap.i
+
+# target to preprocess a source file
+impl/core/entityMap.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/entityMap.cpp.i
+.PHONY : impl/core/entityMap.cpp.i
+
+impl/core/entityMap.s: impl/core/entityMap.cpp.s
+.PHONY : impl/core/entityMap.s
+
+# target to generate assembly for a file
+impl/core/entityMap.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/entityMap.cpp.s
+.PHONY : impl/core/entityMap.cpp.s
+
 impl/core/game.o: impl/core/game.cpp.o
 .PHONY : impl/core/game.o
 
@@ -990,6 +1014,9 @@ help:
 	@echo "... impl/core/component.o"
 	@echo "... impl/core/component.i"
 	@echo "... impl/core/component.s"
+	@echo "... impl/core/entityMap.o"
+	@echo "... impl/core/entityMap.i"
+	@echo "... impl/core/entityMap.s"
 	@echo "... impl/core/game.o"
 	@echo "... impl/core/game.i"
 	@echo "... impl/core/game.s"

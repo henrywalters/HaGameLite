@@ -13,7 +13,7 @@ namespace hg::graphics::primitives {
     class Quad : public Mesh {
     public:
 
-        Quad(Vec2 size, Vec2 offset = Vec2::Zero(), bool flipY = false):
+        Quad(Vec2 size = Vec2::Zero(), Vec2 offset = Vec2::Zero(), bool flipY = false):
             m_size(size),
             m_offset(offset),
             m_flipY(flipY)
@@ -24,12 +24,14 @@ namespace hg::graphics::primitives {
         HG_GET_SET(bool, flipY, update);
         HG_GET_SET(Vec2, offset, update);
         HG_GET_SET(Vec2, size, update);
+        HG_GET_SET(bool, centered, update);
 
     private:
 
         Vec2 m_size;
         Vec2 m_offset;
         bool m_flipY;
+        bool m_centered = true;
 
     protected:
         void computeMesh() override;

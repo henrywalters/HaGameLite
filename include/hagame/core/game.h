@@ -25,6 +25,7 @@ class Game : public utils::LoopingThread {
             m_name(name),
             m_lastTick(utils::Clock::Now()),
             m_elapsedTime(0),
+            m_dt(0),
             m_running(true) {
             m_scenes = std::make_unique<utils::StateMachine<Scene>>();
         }
@@ -64,6 +65,7 @@ class Game : public utils::LoopingThread {
         std::unique_ptr<utils::StateMachine<Scene>> m_scenes;
         long long m_lastTick;
         double m_elapsedTime;
+        double m_dt;
 
     };
 }

@@ -6,30 +6,31 @@
 #include "../../../include/hagame/core/game.h"
 #include "../../include/hagame/graphics/windows.h"
 
+using namespace hg::utils;
+using namespace hg::graphics;
+
 void hg::Game::initialize() {
 
-    m_scenes->events.subscribe(utils::StateMode::Init, [&](auto scene) {
+    m_scenes->events.subscribe(StateMode::Init, [&](auto scene) {
         scene->m_game = this;
         scene->init();
     });
 
-    m_scenes->events.subscribe(utils::StateMode::Active, [&](auto scene) {
+    m_scenes->events.subscribe(StateMode::Active, [&](auto scene) {
         scene->activate();
     });
 
-    m_scenes->events.subscribe(utils::StateMode::Inactive, [&](auto state) {
+    m_scenes->events.subscribe(StateMode::Inactive, [&](auto state) {
         state->deactivate();
     });
+
+    m_lastTick = Clock::Now();
+    m_dt = 0;
 
     onInit();
 }
 
 void hg::Game::tick() {
-    auto now = utils::Clock::Now();
-    auto delta = now - m_lastTick;
-    auto dt = utils::Clock::ToSeconds(delta);
-    m_elapsedTime += dt;
-    m_lastTick = now;
 
     onBeforeUpdate();
 
@@ -37,14 +38,14 @@ void hg::Game::tick() {
         return;
     }
 
-    onUpdate(dt);
+    onUpdate(m_dt);
 
     if (!running()) {
         return;
     }
 
     if (scenes()->hasActive()) {
-        scenes()->active()->update(dt);
+        scenes()->active()->update(m_dt);
         if (!running()) {
             return;
         }
@@ -54,6 +55,12 @@ void hg::Game::tick() {
         return;
     }
     onAfterUpdate();
+
+    auto now = Clock::Now();
+    auto delta = now - m_lastTick;
+    m_dt = Clock::ToSeconds(delta);
+    m_elapsedTime += m_dt;
+    m_lastTick = now;
 }
 
 void hg::Game::destroy() {

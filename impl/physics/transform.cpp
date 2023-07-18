@@ -25,9 +25,9 @@ void hg::math::Transform::lookAt(Vec3 point) {
     rotation = Quat(rot, axis);
 }
 
-hg::Mat4 hg::math::Transform::getModel() {
-    return Mat4::Translation(position) * Mat4::Rotation(rotation) * Mat4::Scale(scale);
-}
+//hg::Mat4 hg::math::Transform::getModel() {
+//    return Mat4::Translation(position) * Mat4::Rotation(rotation) * Mat4::Scale(scale);
+//}
 
 hg::Vec3 hg::math::Transform::top()
 {

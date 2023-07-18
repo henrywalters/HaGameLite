@@ -205,20 +205,41 @@ hg::utils::SpatialMap2D<hg::graphics::Tile, int> *hg::graphics::Tilemap::getLaye
 
 hg::Vec3 hg::graphics::Tilemap::resolveCollisions(int layer, hg::Rect rect, hg::Vec3 vel, double dt) {
 
-    m_layers[layer].forEach([&](Vec2i idx, Tile tile) {
-        float t;
-        Rect tileRect(getPos(idx) - rect.size * 0.5, m_tileSize + rect.size);
+    float speed = vel.magnitude() * dt * 2;
 
-        auto hit = hg::math::collisions::checkRayAgainstRect(
-                hg::math::Ray(rect.getCenter().resize<3>(), vel * dt),
-                tileRect,
-                t
-        );
+    hg::Rect checkRect(rect.pos - Vec2(speed * 0.5), rect.size + Vec2(speed));
 
+    hg::graphics::Debug::DrawRect(checkRect, Color::blue());
+
+    hg::Vec2i min = getIndex(checkRect.min());
+    hg::Vec2i max = getIndex(checkRect.max());
+
+    hg::math::Ray ray(rect.getCenter().resize<3>(), vel * dt);
+
+    float t;
+
+    std::vector<hg::Vec2> positions;
+
+    for (int i = min.x(); i <= max.x(); i++) {
+        for (int j = min.y(); j <= max.y(); j++) {
+            hg::Vec2i idx(i, j);
+            if (getLayer(layer)->get(idx).value.size() > 0) {
+                positions.push_back(getPos(idx));
+            }
+        }
+    }
+
+    std::sort(positions.begin(), positions.end(), [&](hg::Vec2 a, hg::Vec2 b){
+        return (a - ray.origin.resize<2>()).magnitude() > (b - ray.origin.resize<2>()).magnitude();
+    });
+
+    for (const auto& position : positions) {
+        Rect tileRect(position - rect.size * 0.5, m_tileSize + rect.size);
+        auto hit = hg::math::collisions::checkRayAgainstRect(ray, tileRect, t);
         if (hit.has_value() && t < 1.0f) {
             vel += hit.value().normal.prod(vel.abs()) * (1 - t);
         }
-    });
+    }
 
     return vel ;
 }
@@ -246,29 +267,34 @@ std::optional<hg::math::collisions::Hit>  hg::graphics::Tilemap::isColliding(int
     return std::nullopt;
 }
 
-std::optional<hg::math::collisions::Hit> hg::graphics::Tilemap::raycast(int layer, math::Ray ray) {
+std::optional<hg::math::collisions::Hit> hg::graphics::Tilemap::raycast(int layer, math::Ray ray, float& t, hg::Vec2 padTiles) {
     auto indices = hg::bresenham(getIndex(ray.origin.resize<2>()), getIndex((ray.origin + ray.direction).resize<2>()));
 
+    hg::Vec2 origin = ray.origin.resize<2>();
+
+    std::sort(indices.begin(), indices.end(), [&](auto a, auto b) {
+        return (getPos(a) - origin).magnitude() > (getPos(b) - origin).magnitude();
+    });
+
     std::optional<hg::math::collisions::Hit> closestHit;
-    float minT;
+    float tmpT;
 
-    for (const auto& index : indices) {
-        if (!m_layers[layer].has(index) || m_layers[layer].get(index).value.size() == 0) {
-            continue;
-        }
+    t = std::numeric_limits<float>::infinity();
 
-        Rect tileRect(getPos(index), m_tileSize);
 
-        float t;
-        auto hit = hg::math::collisions::checkRayAgainstRect(ray, tileRect, t);
+    m_layers[layer].forEach([&](auto index, auto tile) {
 
-        if (hit.has_value()) {
-            if (!closestHit.has_value() || t < minT) {
-                minT = t;
+        Rect tileRect(getPos(index) - padTiles * 0.5, m_tileSize + padTiles);
+
+        auto hit = hg::math::collisions::checkRayAgainstRect(ray, tileRect, tmpT);
+
+        if (hit.has_value() && tmpT <= 1.0f) {
+            if (!closestHit.has_value() || tmpT < t) {
+                t = tmpT;
                 closestHit = hit;
             }
         }
-    }
+    });
 
     return closestHit;
 }
@@ -307,3 +333,67 @@ std::optional<hg::math::collisions::Hit>  hg::graphics::Tilemap::isColliding(int
 
     return closestHit;
 }
+
+bool hg::graphics::Tilemap::isColliding(int layer, hg::Rect rect) {
+
+    hg::Vec2i minIdx = getIndex(rect.min());
+    hg::Vec2i maxIdx = getIndex(rect.max());
+
+    for (int i = minIdx[0]; i <= maxIdx[0]; i++) {
+        for (int j = minIdx[1]; j <= maxIdx[1]; j++) {
+            hg::Vec2i idx = hg::Vec2i(i, j);
+            if (m_layers[layer].count(idx) == 0) {
+                continue;
+            }
+
+            Rect tileRect(getPos(idx) - m_tileSize * 0.5, m_tileSize);
+            if (hg::math::collisions::checkRectAgainstRect(rect, tileRect)) {
+                Debug::DrawRect(tileRect, Color::red());
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+
+std::optional<std::vector<hg::Vec2i>> hg::graphics::Tilemap::search(int layer, hg::Vec2i startIdx, hg::Vec2i goalIdx) {
+    utils::PathFinding pathfinding([&](utils::PathFinding::Node node) {
+        return findNeighbors(layer, node);
+    });
+
+    auto path = pathfinding.search(startIdx, goalIdx);
+
+    return path;
+}
+
+std::vector<hg::utils::PathFinding::Node> hg::graphics::Tilemap::findNeighbors(int layer, hg::utils::PathFinding::Node node) {
+    std::vector<utils::PathFinding::Node> nodes;
+
+    bool hasNeighbor = false;
+
+    for (const auto& rawNeighbor : getLayer(layer)->getNeighbors(node.position)) {
+
+        if (rawNeighbor.value.size() > 0 || hasNeighbor) {
+            hasNeighbor = true;
+            continue;
+        }
+    }
+
+    for (const auto& rawNeighbor : getLayer(layer)->getNeighbors(node.position, !hasNeighbor)) {
+
+        if (rawNeighbor.value.size() > 0) {
+            continue;
+        }
+
+        utils::PathFinding::Node neighbor;
+        neighbor.position = rawNeighbor.index;
+        neighbor.cost = 0;
+
+        nodes.push_back(neighbor);
+    }
+
+    return nodes;
+}
+

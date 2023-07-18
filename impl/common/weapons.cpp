@@ -8,13 +8,15 @@ using namespace hg::utils;
 
 void hg::common::WeaponDef::save(Config& config) {
     config.addSection(name);
-    config.set<bool>(name, "automatic", automatic);
-    config.set<bool>(name, "chambered", chambered);
-    config.set<bool>(name, "infinite", infinite);
-    config.set<bool>(name, "limitAmmo", limitAmmo);
-    config.set<int>(name, "shotsPerSecond", shotsPerSecond);
-    config.set<int>(name, "clipSize", clipSize);
-    config.set<int>(name, "maxAmmo", maxAmmo);
+    config.set(name, "automatic", automatic);
+    config.set(name, "chambered", chambered);
+    config.set(name, "infinite", infinite);
+    config.set(name, "limitAmmo", limitAmmo);
+    config.set(name, "shotsPerSecond", shotsPerSecond);
+    config.set(name, "clipSize", clipSize);
+    config.set(name, "maxAmmo", maxAmmo);
+    config.set(name, "minDamage", minDamage);
+    config.set(name, "maxDamage", maxDamage);
 }
 
 void hg::common::WeaponDef::load(hg::utils::Config config) {
@@ -25,6 +27,8 @@ void hg::common::WeaponDef::load(hg::utils::Config config) {
     shotsPerSecond = config.get<int>(name, "shotsPerSecond");
     clipSize = config.get<int>(name, "clipSize");
     maxAmmo = config.get<int>(name, "maxAmmo");
+    minDamage = config.get<float>(name, "minDamage");
+    maxDamage = config.get<float>(name, "maxDamage");
 }
 
 void common::Weapon::update(hg::Vec3 pos, hg::Vec3 dir, double dt, bool triggerDown) {

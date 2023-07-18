@@ -20,6 +20,8 @@ namespace hg::common {
         int shotsPerSecond = 1;
         int clipSize = 10;
         int maxAmmo = 100;
+        float minDamage = 10.0f;
+        float maxDamage = 10.0f;
 
         void save(utils::Config& config) override;
         void load(utils::Config config) override;

@@ -20,6 +20,7 @@
 #include "../utils/spatialMap.h"
 #include "../utils/store.h"
 #include "../utils/config.h"
+#include "../utils/pathfinding.h"
 
 namespace hg::graphics {
 
@@ -92,7 +93,10 @@ namespace hg::graphics {
         Vec3 resolveCollisions(int layer, Rect rect, Vec3 vel, double dt);
         std::optional<hg::math::collisions::Hit> isColliding(int layer, hg::Vec2i tileIdx, Rect rect, Vec3 vel, double dt);
         std::optional<hg::math::collisions::Hit> isColliding(int layer, Rect rect, Vec3 vel, double dt);
-        std::optional<hg::math::collisions::Hit> raycast(int layer, math::Ray ray);
+        bool isColliding(int layer, Rect rect);
+        std::optional<hg::math::collisions::Hit> raycast(int layer, math::Ray ray, float& t, hg::Vec2 padTiles = hg::Vec2::Zero());
+
+        std::optional<std::vector<hg::Vec2i>> search(int layer, hg::Vec2i startIdx, hg::Vec2i goalIdx);
 
     private:
 
@@ -108,6 +112,8 @@ namespace hg::graphics {
         std::unique_ptr<MeshInstance> m_mesh;
 
         int m_zIndex = 0;
+
+        std::vector<hg::utils::PathFinding::Node> findNeighbors(int layer, hg::utils::PathFinding::Node node);
 
     };
 }
