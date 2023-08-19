@@ -10,6 +10,7 @@
 
 #include "gameObject.h"
 #include "component.h"
+#include "groupManager.h"
 #include <entt/entity/registry.hpp>
 
 namespace hg {
@@ -130,6 +131,8 @@ namespace hg {
     class EntityManager {
     public:
 
+        GroupManager groups;
+
         EntityManager() {
             m_registry = std::make_unique<entt::basic_registry<uint32_t, std::allocator<uint32_t>>>();
         }
@@ -172,6 +175,8 @@ namespace hg {
             for (auto child : entity->children()) {
                 remove((Entity*) child);
             }
+
+            groups.removeEntity(entity);
 
             m_registry->destroy(entity->m_enttId);
             m_idMap[entity->id()].reset();

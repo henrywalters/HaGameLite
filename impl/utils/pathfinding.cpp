@@ -2,6 +2,7 @@
 // Created by henry on 5/27/23.
 //
 #include "../../include/hagame/utils/pathfinding.h"
+#include "../../include/hagame/utils/profiler.h"
 
 
 float hg::utils::PathFinding::distance(hg::Vec2i a, hg::Vec2i b) {
@@ -82,6 +83,8 @@ void hg::utils::PathFinding::tick() {
 
 std::optional<std::vector<hg::Vec2i>> hg::utils::PathFinding::search(hg::Vec2i startPos, hg::Vec2i goalPos, float maxDistance) {
 
+    hg::utils::Profiler::Start();
+
     start(startPos, goalPos, maxDistance);
 
     while (!finished()) {
@@ -91,6 +94,8 @@ std::optional<std::vector<hg::Vec2i>> hg::utils::PathFinding::search(hg::Vec2i s
     if (!m_foundPath) {
         return std::nullopt;
     }
+
+    hg::utils::Profiler::End();
 
     return constructPath(m_current.get());
 }

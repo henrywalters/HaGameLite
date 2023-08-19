@@ -26,7 +26,7 @@ namespace hg::graphics {
 
         static bool ENABLED;
 
-        static void Initialize(ShaderProgram* shader);
+        static void Initialize(ShaderProgram* shader, ShaderProgram* textShader, Font* font);
 
         static void FillRect(Rect rect, Color color);
         static void FillRect(float x, float y, float width, float height, Color color);
@@ -40,10 +40,12 @@ namespace hg::graphics {
         static void DrawTriangle(hg::Vec3 a, hg::Vec3 b, hg::Vec3 c, Color color, float thickness = 1.0f);
         static void DrawRay(math::Ray ray, Color color, float triangleSize = 5.0f, float thickness = 1.0f);
         static void DrawCircle(float x, float y, float radius, Color color, float thickness = 1.0f);
+        static void DrawText(hg::Vec3 pos, std::string text, Color color);
 
     private:
 
         static inline ShaderProgram* s_shader;
+        static inline ShaderProgram* s_textShader;
 
         static inline std::unique_ptr<primitives::Quad> s_quad;
         static inline std::unique_ptr<MeshInstance> s_quadMesh;
@@ -53,6 +55,9 @@ namespace hg::graphics {
 
         static inline std::unique_ptr<primitives::Line> s_line;
         static inline std::unique_ptr<MeshInstance> s_lineMesh;
+
+        static inline std::unique_ptr<Text> s_text;
+        static inline Font* s_font;
 
     };
 }

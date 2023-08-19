@@ -38,6 +38,9 @@ namespace hg::utils {
 
 		*/
 
+#define GET_CONFIG(name, type) name = config.get<type>(section, #name);
+#define SET_CONFIG(name, type) config.set<type>(section, #name, name);
+
     using ConfigSection = std::unordered_map<std::string, std::string>;
     using ConfigData = std::unordered_map<std::string, ConfigSection>;
     using MultiConfigData = std::unordered_map<std::string, ConfigData>;

@@ -6,14 +6,17 @@
 
 bool hg::graphics::Debug::ENABLED = true;
 
-void hg::graphics::Debug::Initialize(hg::graphics::ShaderProgram* shader) {
+void hg::graphics::Debug::Initialize(hg::graphics::ShaderProgram* shader, ShaderProgram* textShader, Font* font) {
     s_shader = shader;
+    s_textShader = textShader;
     s_quad = std::make_unique<primitives::Quad>(Vec2::Zero(), Vec2::Zero());
     s_quadMesh = std::make_unique<MeshInstance>(s_quad.get());
     s_disc = std::make_unique<primitives::Disc>(0, hg::graphics::DEBUG_CIRCLE_DIVISIONS);
     s_discMesh = std::make_unique<MeshInstance>(s_disc.get());
     s_line = std::make_unique<primitives::Line>();
     s_lineMesh = std::make_unique<MeshInstance>(s_line.get());
+    s_text = std::make_unique<Text>();
+    s_font = font;
 }
 
 void hg::graphics::Debug::FillRect(float x, float y, float width, float height, hg::graphics::Color color) {
@@ -122,6 +125,14 @@ void hg::graphics::Debug::DrawRay(hg::math::Ray ray, hg::graphics::Color color, 
 void hg::graphics::Debug::DrawTriangle(hg::Vec3 a, hg::Vec3 b, hg::Vec3 c, hg::graphics::Color color, float thickness) {
     if (!Debug::ENABLED) return;
     DrawPath({a, b, c, a}, color, thickness);
+}
+
+void hg::graphics::Debug::DrawText(hg::Vec3 pos, std::string text, Color color) {
+    if (!Debug::ENABLED) return;
+    s_textShader->use();
+    s_textShader->setMat4("model", Mat4::Identity());
+    s_textShader->setVec4("textColor", color);
+    s_text->draw(s_font, text, pos);
 }
 
 

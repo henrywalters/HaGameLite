@@ -28,6 +28,7 @@ namespace hg::graphics {
         bool positionRelative = false;
         bool singleShot = false;
         int singleShotParticles = 100;
+        float singleShotDuration = 1.0f;
 
         int requiredBufferSize() const {
             return aliveFor.upper * particlesPerSecond;
@@ -75,9 +76,12 @@ namespace hg::graphics {
             float startTime;
             float aliveFor;
             hg::Vec3 gravity;
+            int initialized = 0;
         };
 
         void emit();
+
+        void singleshot();
 
         size_t m_maxParticles;
         hg::graphics::MeshInstance* m_mesh;
@@ -88,6 +92,7 @@ namespace hg::graphics {
         double m_elapsedTime = 0;
         double m_lastEmission = 0;
 
+        int m_particlesEmitted = 0;
         bool m_fire = false;
         bool m_fired = false;
         double m_lastFire = 0;
