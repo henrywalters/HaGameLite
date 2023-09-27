@@ -26,7 +26,7 @@ void hg::graphics::Tilemap::addTile(int layer, hg::Vec2i idx, hg::graphics::Tile
         return;
     }
 
-    m_layers[layer].insert(idx, tile);
+    m_layers[layer].set(idx, tile);
 
     if (!m_hasBounds) {
         m_hasBounds = true;
@@ -46,7 +46,7 @@ void hg::graphics::Tilemap::addTile(int layer, hg::Vec2i idx, hg::graphics::Tile
 }
 
 void hg::graphics::Tilemap::removeTile(int layer, hg::Vec2i idx) {
-    m_layers[layer].clear(idx);
+    m_layers[layer].remove(idx);
 }
 
 hg::utils::MultiConfig hg::graphics::Tilemap::save() {
@@ -209,8 +209,6 @@ hg::Vec3 hg::graphics::Tilemap::resolveCollisions(int layer, hg::Rect rect, hg::
 
     hg::Rect checkRect(rect.pos - Vec2(speed * 0.5), rect.size + Vec2(speed));
 
-    hg::graphics::Debug::DrawRect(checkRect, Color::blue());
-
     hg::Vec2i min = getIndex(checkRect.min());
     hg::Vec2i max = getIndex(checkRect.max());
 
@@ -223,14 +221,14 @@ hg::Vec3 hg::graphics::Tilemap::resolveCollisions(int layer, hg::Rect rect, hg::
     for (int i = min.x(); i <= max.x(); i++) {
         for (int j = min.y(); j <= max.y(); j++) {
             hg::Vec2i idx(i, j);
-            if (getLayer(layer)->get(idx).value.size() > 0) {
+            if (getLayer(layer)->has(idx)) {
                 positions.push_back(getPos(idx));
             }
         }
     }
 
     std::sort(positions.begin(), positions.end(), [&](hg::Vec2 a, hg::Vec2 b){
-        return (a - ray.origin.resize<2>()).magnitude() > (b - ray.origin.resize<2>()).magnitude();
+        return (a - ray.origin.resize<2>()).magnitude() < (b - ray.origin.resize<2>()).magnitude();
     });
 
     for (const auto& position : positions) {
@@ -247,7 +245,7 @@ hg::Vec3 hg::graphics::Tilemap::resolveCollisions(int layer, hg::Rect rect, hg::
 std::optional<hg::math::collisions::Hit>  hg::graphics::Tilemap::isColliding(int layer, hg::Vec2i tileIdx, hg::Rect rect, hg::Vec3 vel, double dt)
 {
 
-    if (!m_layers[layer].has(tileIdx) || m_layers[layer].get(tileIdx).value.size() == 0) {
+    if (!m_layers[layer].has(tileIdx)) {
         return std::nullopt;
     }
 
@@ -281,7 +279,6 @@ std::optional<hg::math::collisions::Hit> hg::graphics::Tilemap::raycast(int laye
 
     t = std::numeric_limits<float>::infinity();
 
-
     m_layers[layer].forEach([&](auto index, auto tile) {
 
         Rect tileRect(getPos(index) - padTiles * 0.5, m_tileSize + padTiles);
@@ -314,12 +311,12 @@ std::optional<hg::math::collisions::Hit>  hg::graphics::Tilemap::isColliding(int
 
     for (int i = minIdx[0]; i <= maxIdx[0]; i++) {
         if (colliding) {
-            continue;
+            break;
         }
         for (int j = minIdx[1]; j <= maxIdx[1]; j++) {
 
             if (colliding) {
-                continue;
+                break;
             }
 
             auto hit = isColliding(layer, hg::Vec2i(i, j), rect, vel, dt);
@@ -342,7 +339,7 @@ bool hg::graphics::Tilemap::isColliding(int layer, hg::Rect rect) {
     for (int i = minIdx[0]; i <= maxIdx[0]; i++) {
         for (int j = minIdx[1]; j <= maxIdx[1]; j++) {
             hg::Vec2i idx = hg::Vec2i(i, j);
-            if (m_layers[layer].count(idx) == 0) {
+            if (!m_layers[layer].has(idx)) {
                 continue;
             }
 
@@ -373,22 +370,22 @@ std::vector<hg::utils::PathFinding::Node> hg::graphics::Tilemap::findNeighbors(i
 
     bool hasNeighbor = false;
 
-    for (const auto& rawNeighbor : getLayer(layer)->getNeighbors(node.position)) {
+    for (const auto& position : getLayer(layer)->getNeighbors(node.position)) {
 
-        if (rawNeighbor.value.size() > 0 || hasNeighbor) {
+        if (!getLayer(layer)->has(position)) {
             hasNeighbor = true;
-            continue;
+            break;
         }
     }
 
-    for (const auto& rawNeighbor : getLayer(layer)->getNeighbors(node.position, !hasNeighbor)) {
+    for (const auto& position : getLayer(layer)->getNeighbors(node.position, !hasNeighbor)) {
 
-        if (rawNeighbor.value.size() > 0) {
+        if (getLayer(layer)->has(position)) {
             continue;
         }
 
         utils::PathFinding::Node neighbor;
-        neighbor.position = rawNeighbor.index;
+        neighbor.position = position;
         neighbor.cost = 0;
 
         nodes.push_back(neighbor);

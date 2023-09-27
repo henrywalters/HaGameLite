@@ -9,6 +9,16 @@
 hg::graphics::Text::Text() {
     m_quad = std::make_unique<primitives::Quad>(Vec2::Zero());
     m_mesh = std::make_unique<MeshInstance>(m_quad.get());
+/*
+    auto vao = m_mesh->getVAO();
+    m_buffer = VertexBuffer<Vertex>::Dynamic(0);
+    m_buffer->bind();
+    vao->bind();
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 0, 3, offsetof(Vertex, position));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 1, 3, offsetof(Vertex, normal));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 2, 2, offsetof(Vertex, texCoords));
+    vao->setInstanced(0, 2);
+    */
 }
 
 void hg::graphics::Text::draw(hg::graphics::Font *font, std::string message, hg::Vec3 pos,
@@ -51,7 +61,7 @@ void hg::graphics::Text::draw(hg::graphics::Font *font, std::string message, hg:
         lines.insert(lines.end(), subLines.begin(), subLines.end());
     }
 
-    draw(font, lines, pos, alignmentH, alignmentV);
+    draw(font, originalLines, pos, alignmentH, alignmentV);
 }
 
 void hg::graphics::Text::draw(hg::graphics::Font *font, std::vector<std::string> lines,
@@ -60,12 +70,18 @@ void hg::graphics::Text::draw(hg::graphics::Font *font, std::vector<std::string>
 
     float lineWidth = 0;
 
+    int charLength = 0;
+
     for (const auto& line: lines) {
         auto lineSize = font->calcMessageSize(line);
         if (lineSize.x() > lineWidth) {
             lineWidth = lineSize.x();
         }
+        charLength += line.length();
     }
+
+   // m_buffer->resize(charLength);
+  //  m_buffer->clear();
 
     float x = pos[0];
     float y = pos[1] - (font->descent() * font->scale());
@@ -73,6 +89,8 @@ void hg::graphics::Text::draw(hg::graphics::Font *font, std::vector<std::string>
     if (lines.size() > 1) {
         y += font->calcLineSpacing();
     }
+
+    int index = 0;
 
     for (const auto& line : lines) {
         auto lineSize = font->calcMessageSize(line);
@@ -102,10 +120,13 @@ void hg::graphics::Text::draw(hg::graphics::Font *font, std::vector<std::string>
             }
 
             m_quad->size(charSize);
+
+            m_quad->texOffset(character->texCoords.pos);
+            m_quad->texSize(character->texCoords.size);
             m_quad->offset(pos.resize<2>() + charPos + charSize * 0.5);
             m_mesh->update(m_quad.get());
 
-            glBindTexture(GL_TEXTURE_2D, character->id);
+            font->m_atlas->bind();
             m_mesh->render();
 
             x += character->advance * font->scale();

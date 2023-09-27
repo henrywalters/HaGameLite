@@ -14,53 +14,27 @@
 
 namespace hg::utils {
     template <typename DataType, typename SpatialType>
-    class SpatialMap2D : public hg::interfaces::INodeMap<hg::math::Vector<2, SpatialType>, std::vector<DataType>> {
+    class SpatialMap2D : public hg::interfaces::INodeMap<hg::math::Vector<2, SpatialType>, DataType> {
     public:
 
         using SpatialVector = hg::math::Vector<2, SpatialType>;
 
-        using Node = hg::interfaces::INode<hg::math::Vector<2, SpatialType>, std::vector<DataType>>;
+        using Node = hg::interfaces::INode<hg::math::Vector<2, SpatialType>, DataType>;
 
         void clear() override {
             m_map.clear();
         }
 
-        void clear(SpatialVector position) {
-            if (m_map.find(position[0]) != m_map.end() && m_map[position[0]].find(position[1]) != m_map[position[0]].end()) {
-                m_size -= get(position).value.size();
-                m_map[position[0]].erase(position[1]);
-            }
-        }
-
-        void set(SpatialVector position, std::vector<DataType> value) override {
+        void set(SpatialVector position, DataType value) override {
             initialize(position);
             m_map[position[0]][position[1]] = value;
-            m_size += value.size();
+            m_size += 1;
         }
 
-        void insert(SpatialVector position, DataType value) {
+        void remove(SpatialVector position) {
             initialize(position);
-            m_map[position[0]][position[1]].push_back(value);
-            m_size++;
-        }
-
-        void remove(SpatialVector position, DataType value) {
-            initialize(position);
-            m_map[position[0]][position[1]].erase(
-                    std::remove(
-                            m_map[position[0]][position[1]].begin(),
-                            m_map[position[0]][position[1]].end(),
-                            value
-                    ),
-                    m_map[position[0]][position[1]].end()
-            );
-        }
-
-        void update(SpatialVector initialPos, SpatialVector newPos, DataType value) {
-            if (contains(initialPos, value)) {
-                remove(initialPos, value);
-            }
-            insert(newPos, value);
+            m_map[position[0]].erase(position[1]);
+            m_size -= 1;
         }
 
         Node get(SpatialVector position) override {
@@ -71,8 +45,12 @@ namespace hg::utils {
             return node;
         }
 
-        std::vector<Node> getNeighbors(SpatialVector position, bool allowDiagnols = true)  {
-            std::vector<Node> nodes;
+        DataType* getRef(SpatialVector position) {
+            return &m_map[position[0]][position[1]];
+        }
+
+        std::vector<hg::Vec2i> getNeighbors(SpatialVector position, bool allowDiagnols = true)  {
+            std::vector<hg::Vec2i> nodes;
 
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
@@ -84,7 +62,9 @@ namespace hg::utils {
                         continue;
                     }
 
-                    nodes.push_back(get(position + SpatialVector(i, j)));
+                    hg::Vec2i index = position + SpatialVector(i, j);
+                    nodes.push_back(index);
+
                 }
             }
 
@@ -95,40 +75,24 @@ namespace hg::utils {
             return m_map.find(position[0]) != m_map.end() && m_map[position[0]].find(position[1]) != m_map[position[0]].end();
         }
 
-        bool contains(SpatialVector position, DataType value) {
-            return has(position) && std::find(
-                    m_map[position[0]][position[1]].begin(),
-                    m_map[position[0]][position[1]].end(),
-                    value) != m_map[position[0]][position[1]].end();
-        }
-
         size_t size() const { return m_size; }
-
-        size_t count(SpatialVector position) {
-            return has(position) && m_map[position[0]][position[1]].size() > 0;
-        }
 
         void forEach(std::function<void(hg::Vec2i, DataType)> fn) {
             for (const auto&[col, map] : m_map) {
-                for (const auto&[row, tiles] : m_map[col]) {
-                    for (const auto& val : m_map[col][row]) {
-                        fn(hg::Vec2i(col, row), val);
-                    }
+                for (const auto&[row, val] : m_map[col]) {
+                    fn(hg::Vec2i(col, row), val);
                 }
             }
         }
     private:
 
-        std::unordered_map<SpatialType, std::unordered_map<SpatialType, std::vector<DataType>>> m_map;
+        std::unordered_map<SpatialType, std::unordered_map<SpatialType, DataType>> m_map;
 
         size_t m_size;
 
         void initialize(SpatialVector position) {
             if (m_map.find(position[0]) == m_map.end()) {
-                m_map.insert(std::make_pair(position[0], std::unordered_map<SpatialType, std::vector<DataType>>()));
-            }
-            if (m_map[position[0]].find(position[1]) == m_map[position[0]].end()) {
-                m_map[position[0]].insert(std::make_pair(position[1], std::vector<DataType>()));
+                m_map.insert(std::make_pair(position[0], std::unordered_map<SpatialType, DataType>()));
             }
         }
     };

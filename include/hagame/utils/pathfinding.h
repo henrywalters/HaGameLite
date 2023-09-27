@@ -7,10 +7,13 @@
 
 #include <optional>
 #include <vector>
+#include <set>
 #include <memory>
 
 #include "../math/aliases.h"
 #include "../interfaces/iNodeMap.h"
+#include "../structures/binaryHeap.h"
+#include "../utils/spatialMap.h"
 
 namespace hg::utils {
 
@@ -35,15 +38,21 @@ namespace hg::utils {
         struct PathFindingNode {
             hg::Vec2i position;
             Node node;
-            float h, g, f;
-            PathFindingNode *parent;
+            std::shared_ptr<PathFindingNode> parent;
+            float f, g, h;
         };
 
         using neighbor_f = std::function<std::vector<Node>(Node)>;
 
         PathFinding(neighbor_f neighborFn):
-            m_neighborFn(neighborFn)
+                m_neighborFn(neighborFn),
+                m_openList(structures::BinaryHeap<std::shared_ptr<PathFindingNode>>(
+                        [&](auto a, auto b) { return a->f < b->f; },
+                        [](auto a, auto b) { return a->position == b->position; }
+                ))
         {}
+
+        using NodePtr = std::shared_ptr<PathFindingNode>;
 
         std::optional<std::vector<hg::Vec2i>> search(hg::Vec2i startPos, hg::Vec2i goalPos, float maxDistance = 0.0f);
 
@@ -62,22 +71,15 @@ namespace hg::utils {
 
         neighbor_f m_neighborFn;
 
-        std::vector<std::shared_ptr<PathFindingNode>> m_openList;
-        std::vector<std::shared_ptr<PathFindingNode>> m_closedList;
-
-        PathFindingNode *getOpenNeighbor(PathFindingNode *node);
-
-        void removeFromOpenList(PathFindingNode *node);
-
-        bool inOpenList(PathFindingNode *node);
-
-        bool inClosedList(PathFindingNode *node);
+        structures::BinaryHeap<NodePtr> m_openList;
+        SpatialMap2D<int, int> m_openListSet;
+        std::set<hg::Vec2i> m_closedList;
 
         float distance(hg::Vec2i a, hg::Vec2i b);
 
-        std::vector<hg::Vec2i> constructPath(PathFindingNode *node);
+        std::vector<hg::Vec2i> constructPath(NodePtr node);
 
-        std::vector<std::shared_ptr<PathFindingNode>> findNeighbors(PathFindingNode *node);
+        std::vector<NodePtr> findNeighbors(NodePtr node);
 
     };
 

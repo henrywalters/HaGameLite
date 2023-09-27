@@ -124,7 +124,7 @@ namespace hg {
             subscriber.reset();
         }
 
-        void emit(EventId eventId, EventType e) {
+        void emit(EventId eventId, EventType e) const {
             for (auto& [id, subscriber] : subscribers) {
                 if (subscriber->eventId == eventId) {
                     subscriber->onEvent(e);

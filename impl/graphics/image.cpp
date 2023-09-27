@@ -29,6 +29,8 @@ int hg::graphics::Image::getStbiEnum(hg::graphics::ImageType type) {
             return STBI_grey;
         case ImageType::GA:
             return STBI_grey_alpha;
+        default:
+            throw std::runtime_error("Unknown image type");
     }
 }
 

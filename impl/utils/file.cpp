@@ -9,6 +9,9 @@
 #include "../../include/hagame/utils/file.h"
 #include "../../include/hagame/utils/string.h"
 
+bool hg::utils::f_exists(std::string file) {
+    return std::filesystem::exists(file);
+}
 
 std::string hg::utils::f_read(std::string file) {
     std::ifstream stream(file);

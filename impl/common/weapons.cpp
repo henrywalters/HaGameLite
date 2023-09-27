@@ -114,12 +114,15 @@ void common::Weapons::selectWeapon(int index) {
     m_selectedWeapon = index;
 }
 
-common::Weapon *common::Weapons::getWeapon(int index) {
+common::Weapon *common::Weapons::getWeapon(int index) const {
     return m_weapons[index].get();
 }
 
-common::Weapon* common::Weapons::getWeapon() {
+common::Weapon* common::Weapons::getWeapon() const {
     return m_weapons.size() > 0 ? m_weapons[m_selectedWeapon].get() : nullptr;
 }
 
+size_t common::Weapons::getCount() const {
+    return m_weapons.size();
+}
 

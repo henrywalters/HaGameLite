@@ -20,6 +20,10 @@ namespace hg {
     using Vec3i = math::Vector<3, int>;
     using Vec2i = math::Vector<2, int>;
 
+    using Vec4d = math::Vector<4, double>;
+    using Vec3d = math::Vector<3, double>;
+    using Vec2d = math::Vector<2, double>;
+
     using Vec4b = math::Vector<4, bool>;
     using Vec3b = math::Vector<3, bool>;
     using Vec2b = math::Vector<2, bool>;

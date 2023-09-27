@@ -33,6 +33,7 @@ namespace hg::graphics {
     private:
         std::unique_ptr<primitives::Quad> m_quad;
         std::unique_ptr<MeshInstance> m_mesh;
+        std::unique_ptr<VertexBuffer<Vertex>> m_buffer;
     };
 }
 

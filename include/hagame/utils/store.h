@@ -15,13 +15,21 @@ namespace hg::utils {
         Get,
     };
 
-    template <class T>
+    template <typename Key, typename Value>
     class Store {
     public:
 
-        Publisher<StoreEvent, std::tuple<std::string, T>> events;
+        Publisher<StoreEvent, std::tuple<Key, Value>> events;
 
-        void set(std::string key, T value) {
+        Store() {}
+
+        Store(std::vector<std::tuple<Key, Value>> values) {
+            for (const auto& [key, value] : values) {
+                set(key, value);
+            }
+        }
+
+        void set(Key key, Value value) {
             if (!has(key)) {
                 m_store.insert(std::make_pair(key, value));
                 events.emit(StoreEvent::Init, std::make_tuple(key, value));
@@ -31,19 +39,19 @@ namespace hg::utils {
             events.emit(StoreEvent::Set, std::make_tuple(key, value));
         }
 
-        bool has(std::string key) {
+        bool has(Key key) const {
             return m_store.find(key) != m_store.end();
         }
 
-        T get(std::string key) {
+        Value get(Key key) const {
             if (!has(key)) {
                 throw new std::runtime_error("Key does not exist in store");
             }
-            events.emit(StoreEvent::Get, std::make_tuple(key, m_store[key]));
-            return m_store[key];
+            // events.emit(StoreEvent::Get, std::make_tuple(key, get(key)));
+            return m_store.at(key);
         }
 
-        void forEach(std::function<void(std::string key, T)> fn) {
+        void forEach(std::function<void(Key, Value)> fn) const {
             for (const auto& [key, value] : m_store) {
                 fn(key, value);
             }
@@ -55,7 +63,7 @@ namespace hg::utils {
 
     private:
 
-        std::unordered_map<std::string, T> m_store;
+        std::unordered_map<Key, Value> m_store;
 
     };
 }

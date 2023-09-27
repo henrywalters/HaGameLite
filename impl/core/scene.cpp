@@ -74,6 +74,9 @@ void hg::Scene::init() {
     m_physics2d->ClearForces();
     */
 
-
     onInit();
+
+    for (const auto& [key, system] : m_systems) {
+        system->onInit();
+    }
 }

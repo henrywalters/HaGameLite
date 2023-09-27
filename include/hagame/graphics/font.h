@@ -10,8 +10,11 @@
 #include "../core/object.h"
 #include "../utils/macros.h"
 #include "../math/aliases.h"
+#include "../utils/file.h"
+#include "rawTexture.h"
 
 struct stbtt_fontinfo;
+struct stbtt_pack_context;
 
 namespace hg::graphics {
 
@@ -23,12 +26,15 @@ namespace hg::graphics {
         Vec2i bearing;
         Vec2i ascent;
         int advance;
+        Rect texCoords;
 
         ~FontCharacter();
     };
 
 
     using FontMap = std::unordered_map<char, std::unique_ptr<FontCharacter>>;
+
+    using FontTexture = graphics::RawTexture<GL_R8, GL_UNSIGNED_BYTE, GL_RED>;
 
     class Font : public Object {
     public:
@@ -48,6 +54,8 @@ namespace hg::graphics {
         HG_GET_SET(int, descent, updateFont);
         HG_GET_SET(int, lineGap, updateFont);
 
+        std::unique_ptr<FontTexture> m_atlas;
+
     protected:
 
         std::string toString() const override;
@@ -60,6 +68,11 @@ namespace hg::graphics {
         int m_ascent, m_descent, m_lineGap;
         FontMap m_fontMap;
         stbtt_fontinfo* m_font;
+        stbtt_pack_context* m_packContext;
+        void* m_bakedChar;
+        void* m_packedChar;
+        hg::utils::FileBuffer m_fileBuffer;
+
 
         void updateFont();
 

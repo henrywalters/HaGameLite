@@ -126,6 +126,7 @@ void hg::graphics::Window::render() {
 void hg::graphics::Window::clear() {
     glfwPollEvents();
     // Clear the window with the background color
+    glClearColor(m_color[0], m_color[1], m_color[2], m_color[3]);
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_BLEND);
     // glEnable(GL_DEPTH_TEST);

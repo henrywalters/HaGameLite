@@ -9,6 +9,12 @@
 
 namespace hg::graphics {
 
+    struct ShaderSource {
+        std::string name;
+        std::string vertexSource;
+        std::string fragmentSource;
+    };
+
     class Shader {
     public:
         unsigned int id;

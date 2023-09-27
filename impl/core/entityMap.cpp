@@ -29,8 +29,9 @@ void EntityMap2D::insert(hg::Vec2 pos, hg::Vec2 size, hg::Entity *entity) {
    for (int i = startIdx[0]; i <= endIdx[0]; i++) {
        for (int j = startIdx[1]; j <= endIdx[1]; j++) {
            hg::Vec2i index(i, j);
-           if (!m_map.contains(index, entity)) {
-               m_map.insert(index, entity);
+           auto list = m_map.getRef(index);
+           if (std::find(list->begin(), list->end(), entity) == list->end()) {
+               list->push_back(entity);
            }
        }
    }

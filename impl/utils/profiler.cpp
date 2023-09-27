@@ -23,7 +23,7 @@ void hg::utils::Profiler::Start(std::string name, source_location source) {
     }
 
     if (s_started[name]) {
-        throw std::runtime_error(name + " has already been started by profiler");
+        return;
     }
 
     s_started[name] = true;

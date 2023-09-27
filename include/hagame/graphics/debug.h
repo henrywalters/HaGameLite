@@ -21,6 +21,12 @@ namespace hg::graphics {
 
     const int DEBUG_CIRCLE_DIVISIONS = 10;
 
+    /*
+     * The Debug class provides a simple way for rendering graphical primitives. Usage is simple.
+     *
+     * 1) At program startup, call the Initialize function to set the proper shaders and Font
+     * 2) After every frame, call the Render method to flush all of the draw calls made
+     */
     class Debug {
     public:
 
@@ -40,7 +46,9 @@ namespace hg::graphics {
         static void DrawTriangle(hg::Vec3 a, hg::Vec3 b, hg::Vec3 c, Color color, float thickness = 1.0f);
         static void DrawRay(math::Ray ray, Color color, float triangleSize = 5.0f, float thickness = 1.0f);
         static void DrawCircle(float x, float y, float radius, Color color, float thickness = 1.0f);
-        static void DrawText(hg::Vec3 pos, std::string text, Color color);
+        static void DrawText(hg::Vec3 pos, std::string text, Color color, TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
+
+        static void Render();
 
     private:
 
@@ -58,6 +66,8 @@ namespace hg::graphics {
 
         static inline std::unique_ptr<Text> s_text;
         static inline Font* s_font;
+
+        static inline std::vector<std::function<void()>> s_calls;
 
     };
 }

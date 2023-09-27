@@ -17,6 +17,7 @@ float hg::utils::PathFinding::distance(hg::Vec2i a, hg::Vec2i b) {
 void hg::utils::PathFinding::start(hg::Vec2i startPos, hg::Vec2i goalPos, float maxDistance) {
     m_openList.clear();
     m_closedList.clear();
+    m_openListSet.clear();
     m_current = nullptr;
     m_foundPath = false;
 
@@ -27,11 +28,10 @@ void hg::utils::PathFinding::start(hg::Vec2i startPos, hg::Vec2i goalPos, float 
     start->position = startPos;
     start->node.position = startPos;
     start->node.cost = 0;
-    start->h = distance(startPos,goalPos);
-    start->g = 0;
-    start->f = start->g + start->h;
+    float h = distance(startPos,goalPos);
 
-    m_openList.push_back(start);
+    m_openList.insert(start);
+    m_openListSet.set(start->position, 1);
 }
 
 
@@ -40,7 +40,10 @@ bool hg::utils::PathFinding::finished() {
 }
 
 void hg::utils::PathFinding::tick() {
-    m_current = m_openList[0];
+
+    m_current = m_openList.getTop();
+    m_openList.deleteTop();
+
 
     if (m_current->position == m_goal) {
         //return constructPath(current.get());
@@ -48,37 +51,31 @@ void hg::utils::PathFinding::tick() {
         return;
     }
 
-    removeFromOpenList(m_current.get());
+    m_closedList.insert(m_current->position);
 
-    m_closedList.push_back(m_current);
-
-    auto neighbors = findNeighbors(m_current.get());
+    auto neighbors = findNeighbors(m_current);
 
     for (const auto& neighbor : neighbors) {
-        if (inClosedList(neighbor.get())) {
+        if (m_closedList.contains(neighbor->position)) {
             continue;
         }
 
+        bool inOpen = m_openListSet.has(neighbor->position);
+
         float cost = m_current->g + distance(neighbor->position, m_current->position);
 
-        bool inOpen = inOpenList(neighbor.get());
-
         if (inOpen && cost < neighbor->g) {
-            removeFromOpenList(neighbor.get());
+            m_openListSet.remove(neighbor->position);
         }
 
         if (!inOpen) {
             neighbor->g = cost;
             neighbor->h = distance(neighbor->position, m_goal);
             neighbor->f = neighbor->g + neighbor->h;
-            m_openList.push_back(neighbor);
+            m_openList.insert(neighbor);
+            m_openListSet.set(neighbor->position, 1);
         }
-
     }
-
-    std::sort(m_openList.begin(), m_openList.end(), [](const auto& a, const auto& b) {
-        return a->f < b->f;
-    });
 }
 
 std::optional<std::vector<hg::Vec2i>> hg::utils::PathFinding::search(hg::Vec2i startPos, hg::Vec2i goalPos, float maxDistance) {
@@ -97,58 +94,10 @@ std::optional<std::vector<hg::Vec2i>> hg::utils::PathFinding::search(hg::Vec2i s
 
     hg::utils::Profiler::End();
 
-    return constructPath(m_current.get());
+    return constructPath(m_current);
 }
 
-typename hg::utils::PathFinding::PathFindingNode *hg::utils::PathFinding::getOpenNeighbor(PathFindingNode *node) {
-    int index = -1;
-    for (int i = 0; i < m_openList.size(); i++) {
-        if (m_openList[i]->position == node->position) {
-            index = i;
-            break;
-        }
-    }
-
-    if (index != -1) {
-        return m_openList[index].get();
-    }
-
-    return nullptr;
-}
-
-void hg::utils::PathFinding::removeFromOpenList(PathFindingNode *node) {
-    int index = -1;
-    for (int i = 0; i < m_openList.size(); i++) {
-        if (m_openList[i]->position == node->position) {
-            index = i;
-            break;
-        }
-    }
-
-    if (index != -1) {
-        m_openList.erase(m_openList.begin() + index);
-    }
-}
-
-bool hg::utils::PathFinding::inOpenList(PathFindingNode *node) {
-    for (const auto& other : m_openList) {
-        if (node->position == other->position) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool hg::utils::PathFinding::inClosedList(PathFindingNode *node) {
-    for (const auto& other : m_closedList) {
-        if (node->position == other->position) {
-            return true;
-        }
-    }
-    return false;
-}
-
-std::vector<hg::Vec2i> hg::utils::PathFinding::constructPath(PathFindingNode *node) {
+std::vector<hg::Vec2i> hg::utils::PathFinding::constructPath(NodePtr node) {
     std::vector<hg::Vec2i> path;
     path.push_back(node->position);
     while (node->parent != nullptr) {
@@ -159,7 +108,7 @@ std::vector<hg::Vec2i> hg::utils::PathFinding::constructPath(PathFindingNode *no
     return path;
 }
 
-std::vector<std::shared_ptr<typename hg::utils::PathFinding::PathFindingNode>> hg::utils::PathFinding::findNeighbors(PathFindingNode *node) {
+std::vector<std::shared_ptr<typename hg::utils::PathFinding::PathFindingNode>> hg::utils::PathFinding::findNeighbors(NodePtr node) {
     std::vector<std::shared_ptr<PathFindingNode>> neighbors;
 
     for (auto& rawNeighbor : m_neighborFn(node->node)) {

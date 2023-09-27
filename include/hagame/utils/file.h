@@ -23,6 +23,7 @@ namespace hg::utils {
         bool isDir;
     };
 
+    bool f_exists(std::string file);
     std::string f_read(std::string file);
     std::vector<std::string> f_readLines(std::string file);
     FileBuffer f_readToBuffer(std::string file);

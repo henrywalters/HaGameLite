@@ -19,9 +19,9 @@ namespace hg {
 #endif
 
     namespace assets {
-        inline static hg::utils::Store<std::shared_ptr<hg::graphics::ShaderProgram>> SHADERS;
-        inline static hg::utils::Store<std::shared_ptr<hg::graphics::Texture>> TEXTURES;
-        inline static hg::utils::Store<std::shared_ptr<hg::graphics::Font>> FONTS;
+        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::ShaderProgram>> SHADERS;
+        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Texture>> TEXTURES;
+        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Font>> FONTS;
     }
 
     // Load a shader directly by name with path

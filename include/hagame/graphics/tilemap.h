@@ -55,6 +55,8 @@ namespace hg::graphics {
         HG_GET(Vec2i, max);
         HG_GET_SET_SIMPLE(int, zIndex);
 
+        hg::graphics::Color background = hg::graphics::Color::black();
+
         size_t layers() const { return m_layers.size(); }
         utils::SpatialMap2D<Tile, int>* getLayer(int layerIdx);
 
@@ -62,7 +64,7 @@ namespace hg::graphics {
             return m_layers[layer].size();
         }
 
-        utils::Store<std::shared_ptr<Texture>>* textures() {
+        utils::Store<std::string, std::shared_ptr<Texture>>* textures() {
             return &m_textures;
         }
 
@@ -98,9 +100,11 @@ namespace hg::graphics {
 
         std::optional<std::vector<hg::Vec2i>> search(int layer, hg::Vec2i startIdx, hg::Vec2i goalIdx);
 
+        std::vector<hg::utils::PathFinding::Node> findNeighbors(int layer, hg::utils::PathFinding::Node node);
+
     private:
 
-        utils::Store<std::shared_ptr<Texture>> m_textures;
+        utils::Store<std::string, std::shared_ptr<Texture>> m_textures;
         std::vector<utils::SpatialMap2D<Tile, int>> m_layers;
         std::vector<bool> m_layerVisible;
         Vec2 m_tileSize;
@@ -112,9 +116,6 @@ namespace hg::graphics {
         std::unique_ptr<MeshInstance> m_mesh;
 
         int m_zIndex = 0;
-
-        std::vector<hg::utils::PathFinding::Node> findNeighbors(int layer, hg::utils::PathFinding::Node node);
-
     };
 }
 

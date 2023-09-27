@@ -19,6 +19,8 @@ namespace hg {
 class Game : public utils::LoopingThread {
     public:
 
+        int fixedTicksPerSecond = 60;
+
         friend class HG;
 
         Game(std::string name):
@@ -38,6 +40,8 @@ class Game : public utils::LoopingThread {
         void initialize();
         void destroy();
 
+        HG_GET(double, dt);
+        HG_GET(double, fixedDt);
         HG_GET_SET(bool, running, destroy);
         HG_GET_SET_SIMPLE(std::string, name);
 
@@ -64,8 +68,11 @@ class Game : public utils::LoopingThread {
         std::string m_name;
         std::unique_ptr<utils::StateMachine<Scene>> m_scenes;
         long long m_lastTick;
+        long long m_lastFixedTick;
         double m_elapsedTime;
         double m_dt;
+        double m_fixedDt;
+
 
     };
 }

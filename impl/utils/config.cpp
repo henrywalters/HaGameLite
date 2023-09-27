@@ -93,6 +93,11 @@ std::string MultiConfig::toString() const {
 }
 
 MultiConfig MultiConfig::Parse(std::string file) {
+
+    if (!f_exists(file)) {
+        throw std::runtime_error("File: " + file + " does not exist");
+    }
+
     hg::utils::MultiConfig multiConfig;
     std::unordered_map<std::string, std::vector<std::string>> pages;
 

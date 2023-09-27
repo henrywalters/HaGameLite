@@ -5,9 +5,11 @@
 #ifndef HAGAME2_SCENE_H
 #define HAGAME2_SCENE_H
 
+#include <typeinfo>
 #include "object.h"
 #include "entity.h"
 #include "script.h"
+#include "system.h"
 #include "../utils/random.h"
 #include "../utils/config.h"
 
@@ -32,6 +34,7 @@ namespace hg {
         friend class Game;
 
         std::vector<std::shared_ptr<Script>> scripts;
+
         EntityManager entities;
 
         Game* game() { return m_game; }
@@ -49,10 +52,30 @@ namespace hg {
         }
 
         void update(double dt) {
+
+            for (const auto& [key, system] : m_systems) {
+                system->onBeforeUpdate();
+            }
+
             for (const auto& script : scripts) {
                 script->update(dt);
             }
             onUpdate(dt);
+
+            for (const auto& [key, system] : m_systems) {
+                system->onUpdate(dt);
+            }
+
+            for (const auto& [key, system] : m_systems) {
+                system->onAfterUpdate();
+            }
+        }
+
+        void fixedUpdate(double dt) {
+            onFixedUpdate(dt);
+            for (const auto& [key, system] : m_systems) {
+                system->onFixedUpdate(dt);
+            }
         }
 
         void deactivate() {
@@ -65,6 +88,26 @@ namespace hg {
         hg::utils::MultiConfig save();
         void load(hg::utils::MultiConfig scene);
 
+        template <IsSystem System, class... Args>
+        System* addSystem(Args &&... args) {
+            auto system = std::make_shared<System>(std::forward<Args>(args)...);
+            system->scene = this;
+            m_systems.insert(std::make_pair(typeid(System).hash_code(), system));
+            return system.get();
+        }
+
+        template <IsSystem System>
+        System* getSystem() {
+            if (m_systems.find(typeid(System).hash_code()) == m_systems.end()) {
+                throw std::runtime_error("System: " + std::string(typeid(System).name()) + " does not exist");
+            }
+            return (System*) m_systems[typeid(System).hash_code()].get();
+        }
+
+        void addToGroup(std::string group, hg::Entity* entity) {
+            entities.groups.addToGroup(group, entity);
+        }
+
     protected:
         std::string toString() const {
             return "Scene<" + std::to_string(id()) + ">";
@@ -74,6 +117,7 @@ namespace hg {
         virtual void onActivate() {}
         virtual void onDeactivate() {}
         virtual void onUpdate(double dt) {}
+        virtual void onFixedUpdate(double dt) {}
 
     private:
 
@@ -81,6 +125,8 @@ namespace hg {
         b2World* m_physics2d;
 
         Game* m_game;
+
+        std::unordered_map<size_t, std::shared_ptr<System>> m_systems;
     };
 
 }

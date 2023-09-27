@@ -34,9 +34,9 @@ namespace hg::utils {
         }
 
         // Instantiate a new object in the state machine
-        template <class SceneType>
-        T* add(std::string name) {
-            m_states.insert(std::make_pair(name, std::make_unique<SceneType>()));
+        template <class SceneType, class... Args>
+        T* add(std::string name, Args &&... args) {
+            m_states.insert(std::make_pair(name, std::make_unique<SceneType>(std::forward<Args>(args)...)));
             events.emit(StateMode::Init, m_states[name].get());
             return m_states[name].get();
         }

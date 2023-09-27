@@ -25,6 +25,8 @@ namespace hg::graphics::primitives {
         HG_GET_SET(Vec2, offset, update);
         HG_GET_SET(Vec2, size, update);
         HG_GET_SET(bool, centered, update);
+        HG_GET_SET(Vec2, texOffset, update);
+        HG_GET_SET(Vec2, texSize, update);
 
     private:
 
@@ -32,6 +34,8 @@ namespace hg::graphics::primitives {
         Vec2 m_offset;
         bool m_flipY;
         bool m_centered = true;
+        hg::Vec2 m_texOffset = hg::Vec2::Zero();
+        hg::Vec2 m_texSize = hg::Vec2::Identity();
 
     protected:
         void computeMesh() override;

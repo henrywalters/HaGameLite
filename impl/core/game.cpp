@@ -25,12 +25,29 @@ void hg::Game::initialize() {
     });
 
     m_lastTick = Clock::Now();
+    m_lastFixedTick = Clock::Now();
     m_dt = 0;
 
     onInit();
 }
 
 void hg::Game::tick() {
+
+    auto now = Clock::Now();
+    auto delta = now - m_lastTick;
+    auto fixedDelta = now - m_lastFixedTick;
+    double tmpFixedDt = Clock::ToSeconds(fixedDelta);
+
+    bool doFixedUpdate = tmpFixedDt >= 1.0 / (double) fixedTicksPerSecond;
+
+    m_dt = Clock::ToSeconds(delta);
+    m_elapsedTime += m_dt;
+    m_lastTick = now;
+
+    if (doFixedUpdate) {
+        m_lastFixedTick = now;
+        m_fixedDt = tmpFixedDt;
+    }
 
     onBeforeUpdate();
 
@@ -44,8 +61,22 @@ void hg::Game::tick() {
         return;
     }
 
+    if (doFixedUpdate) {
+        onUpdate(m_fixedDt);
+
+        if (!running()) {
+            return;
+        }
+    }
+
     if (scenes()->hasActive()) {
         scenes()->active()->update(m_dt);
+        if (!running()) {
+            return;
+        }
+        if (doFixedUpdate) {
+            scenes()->active()->fixedUpdate(m_fixedDt);
+        }
         if (!running()) {
             return;
         }
@@ -55,12 +86,6 @@ void hg::Game::tick() {
         return;
     }
     onAfterUpdate();
-
-    auto now = Clock::Now();
-    auto delta = now - m_lastTick;
-    m_dt = Clock::ToSeconds(delta);
-    m_elapsedTime += m_dt;
-    m_lastTick = now;
 }
 
 void hg::Game::destroy() {

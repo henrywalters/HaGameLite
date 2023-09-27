@@ -25,7 +25,7 @@ namespace hg {
 
         hg::Vec2 m_gridSize;
 
-        hg::utils::SpatialMap2D<hg::Entity*, int> m_map;
+        hg::utils::SpatialMap2D<std::vector<hg::Entity*>, int> m_map;
 
     };
 }

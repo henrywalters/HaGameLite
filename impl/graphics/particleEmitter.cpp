@@ -79,6 +79,8 @@ bool ParticleEmitter::finished() const {
 }
 
 void ParticleEmitter::update(hg::Vec3 pos, double dt) {
+    utils::Profiler::Start("ParticleEmitter::update");
+
     m_position = pos;
 
     double now = m_elapsedTime + dt;
@@ -128,7 +130,7 @@ void ParticleEmitter::update(hg::Vec3 pos, double dt) {
         }
     }
 
-
+    utils::Profiler::End("ParticleEmitter::update");
 }
 
 void ParticleEmitter::singleshot() {
@@ -168,12 +170,14 @@ void ParticleEmitter::emit() {
 }
 
 void ParticleEmitter::render(hg::graphics::ShaderProgram* shader) {
+    Profiler::Start("ParticleEmitter::render");
     shader->use();
     m_mesh->getVAO()->bind();
     shader->setVec3("position", m_position);
     shader->setInt("positionRelative", settings.positionRelative);
     shader->setFloat("currentTime", m_elapsedTime);
     glDrawArraysInstanced(GL_TRIANGLES, 0, m_mesh->size(), m_maxParticles);
+    Profiler::End("ParticleEmitter::render");
 }
 
 hg::utils::Config ParticleEmitterSettings::save() {

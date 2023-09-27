@@ -31,17 +31,20 @@ namespace hg {
             for (int i = 0; i < 3; i++) {
 
                 if (nearEqual<float>(direction[i], 0, 0.001)) {
-                    if (m_velocity[i] > -epsilon && m_velocity[i] < epsilon) {
+                    if (nearEqual<float>(m_velocity[i], 0, epsilon)) {
                         m_velocity[i] = 0;
                     } else {
-                        m_velocity[i] += deacceleration * (m_velocity[i] > 0 ? -1 : 1) * dt;
+                        // Need a check to make sure we don't over shoot!
+                        float newVel = m_velocity[i] + deacceleration * (m_velocity[i] > 0 ? -1 : 1) * dt;
+                        bool overshot = (newVel > 0 && m_velocity[i] < 0) || (newVel < 0 && m_velocity[i] > 0);
+
+                        // Branchless method
+                        m_velocity[i] = !overshot * newVel;
                     }
 
                 } else {
                     m_velocity[i] += direction[i] * (sign(m_velocity[i]) == sign(direction[i]) ? acceleration : deacceleration) * dt;
                 }
-
-
             }
 
 

@@ -72,16 +72,19 @@ namespace hg::common {
     class Weapons {
     public:
 
-        template <IsWeapon T>
-        T* add(WeaponDef def) {
-            auto weapon = std::make_shared<T>(def);
+        HG_GET(int, selectedWeapon);
+
+        template <IsWeapon T, class... Args>
+        T* add(WeaponDef def, Args &&... args) {
+            auto weapon = std::make_shared<T>(def, std::forward<Args>(args)...);
             m_weapons.push_back(weapon);
             return weapon.get();
         }
 
         void selectWeapon(int index);
-        Weapon* getWeapon(int index);
-        Weapon* getWeapon();
+        Weapon* getWeapon(int index) const;
+        Weapon* getWeapon() const;
+        size_t getCount() const;
 
     private:
 
