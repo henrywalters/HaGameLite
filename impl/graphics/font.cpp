@@ -94,11 +94,6 @@ void hg::graphics::Font::loadChar(char character, FontCharacter* fontChar) {
 
     fontChar->texCoords = Rect(Vec2(q.s0, q.t0), Vec2(q.s1 - q.s0, q.t1 - q.t0));
 
-    std::cout << character << " = " << fontChar->texCoords << "\n";
-
-    std::cout << q.s0 << ", " << q.t0 << ", " << q.s1 << ", " << q.t1 << "\n";
-    std::cout << q.x0 << ", " << q.y0 << ", " << q.x1 << ", " << q.y1 << "\n";
-
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glGenTextures(1, &fontChar->id);
     glBindTexture(GL_TEXTURE_2D, fontChar->id);

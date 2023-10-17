@@ -36,6 +36,9 @@ namespace hg::common {
 
         WeaponDef settings;
 
+        HG_GET(int, ammo);
+        HG_GET(int, ammoInClip);
+
         // Run this function every frame. onFire will be called everytime the weapon is actually fired
         void update(hg::Vec3 pos, hg::Vec3 dir, double dt, bool triggerDown);
 

@@ -8,6 +8,9 @@
 
 void hg::graphics::primitives::Disc::computeMesh() {
 
+    vertices.clear();
+    indices.clear();
+
     unsigned int idx = 0;
 
     float theta = (2 * math::PI) / (float) m_divisions;
@@ -21,10 +24,10 @@ void hg::graphics::primitives::Disc::computeMesh() {
         auto y1 = std::sin(i * theta);
         auto y2 = std::sin((i + 1) * theta);
 
-        Vec3 a = Vec3(x1 * m_radius, y1 * m_radius, 0.0f);
-        Vec3 b = Vec3(x2 * m_radius , y2 * m_radius, 0.0f);
+        Vec3 a = m_offset + Vec3(x1 * m_radius, y1 * m_radius, 0.0f);
+        Vec3 b = m_offset + Vec3(x2 * m_radius , y2 * m_radius, 0.0f);
 
-        Triangle tri = Triangle(a, Vec3::Zero(), b);
+        Triangle tri = Triangle(a, m_offset, b);
 
         tri.setTextures({Vec2(x1, y1), Vec2(0.5, 0.5), Vec2(x2, y2) });
 

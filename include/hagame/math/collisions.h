@@ -11,6 +11,10 @@
 #include "ray.h"
 #include "triangle.h"
 
+#include "../core/entity.h"
+#include "components/rectCollider.h"
+#include "components/circleCollider.h"
+
 namespace hg::math::collisions {
     struct Hit {
         Vec3 position;
@@ -25,6 +29,8 @@ namespace hg::math::collisions {
 
     std::optional<Hit> checkRayAgainstSphere(Ray ray, Sphere sphere, float &t);
     std::optional<Hit> checkRayAgainstRect(Ray ray, Rect rect, float& t);
+    std::optional<Hit> checkRayAgainstCircle(Ray ray, Circle cirle, float& t);
+    std::optional<Hit> checkRayAgainstEntity(Ray ray, Entity* entity, float& t);
     //std::optional<Hit> checkRayAgainstCube(Ray ray, Cube cube, float& t);
     //std::optional<Hit> checkRayAgainstCapsule(Ray ray, Capsule capsule, float& t);
    // std::optional<Hit> checkRayAgainstTriangle(Ray ray, Triangle tri, float& t);

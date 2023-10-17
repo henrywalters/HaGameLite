@@ -13,8 +13,21 @@
         return m_##name;            \
     }
 
+#define HG_GET_PTR(type, name) \
+    type* name()               \
+    {                               \
+        return m_##name;            \
+    }
+
 #define HG_SET(type, name, method) \
     void name(const type& value)         \
+    {                               \
+        m_##name = value;           \
+        method();                   \
+    }
+
+#define HG_SET_PTR(type, name, method) \
+    void name(type* value)         \
     {                               \
         m_##name = value;           \
         method();                   \
@@ -30,6 +43,10 @@
 #define HG_GET_SET(type, name, method) \
     HG_GET(type, name)                 \
     HG_SET(type, name, method)
+
+#define HG_GET_SET_PTR(type, name, method) \
+    HG_GET_PTR(type, name)                 \
+    HG_SET_PTR(type, name, method)
 
 #define HG_GET_SET_SIMPLE(type, name) \
     HG_GET(type, name)                 \

@@ -371,7 +371,6 @@ std::vector<hg::utils::PathFinding::Node> hg::graphics::Tilemap::findNeighbors(i
     bool hasNeighbor = false;
 
     for (const auto& position : getLayer(layer)->getNeighbors(node.position)) {
-
         if (!getLayer(layer)->has(position)) {
             hasNeighbor = true;
             break;

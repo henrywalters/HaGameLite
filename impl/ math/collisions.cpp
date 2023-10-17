@@ -1,6 +1,10 @@
 #include "../../include/hagame/math/collisions.h"
 
-std::optional<hg::math::collisions::Hit> hg::math::collisions::checkRayAgainstSphere(Ray ray, Sphere sphere, float& t)
+using namespace hg;
+using namespace hg::math;
+using namespace hg::math::collisions;
+
+std::optional<Hit> hg::math::collisions::checkRayAgainstSphere(Ray ray, Sphere sphere, float& t)
 {
     std::optional<hg::math::collisions::Hit> hit;
 
@@ -38,7 +42,7 @@ std::optional<hg::math::collisions::Hit> hg::math::collisions::checkRayAgainstSp
     }
 }
 
-std::optional<hg::math::collisions::Hit> hg::math::collisions::checkRayAgainstRect(Ray ray, Rect rect, float& t)
+std::optional<Hit> hg::math::collisions::checkRayAgainstRect(Ray ray, Rect rect, float& t)
 {
     auto tNear = (rect.pos - ray.origin.resize<2>()).div(ray.direction.resize<2>());
     auto tFar = (rect.pos + rect.size - ray.origin.resize<2>()).div(ray.direction.resize<2>());
@@ -81,7 +85,55 @@ std::optional<hg::math::collisions::Hit> hg::math::collisions::checkRayAgainstRe
     return hit;
 }
 
+std::optional<Hit> hg::math::collisions::checkRayAgainstCircle(Ray ray, Circle circle, float& t) {
+    Vec2 offset = ray.origin.resize<2>() - circle.center;
+
+    float a = ray.direction.x() * ray.direction.x() + ray.direction.y() * ray.direction.y();
+    float b = 2 * (offset.x() * ray.direction.x() + offset.y() * ray.direction.y());
+    float c = offset.x() * offset.x() + offset.y() * offset.y() - circle.radius * circle.radius;
+
+    float disc = b * b - 4 * a * c;
+
+    if (disc < 0) {
+        return std::nullopt;
+    }
+
+    float t1 = (-b + std::sqrt(disc)) / (2 * a);
+    float t2 = (-b - std::sqrt(disc)) / (2 * a);
+
+    Hit hit;
+    hit.normal = ray.direction.normalized() * -1;
+    hit.depth = 0;
+
+    if (t1 > t2) {
+        t = t2;
+        hit.position = ray.getPointOnLine(t2);
+    } else {
+        t = t1;
+        hit.position = ray.getPointOnLine(t1);
+    }
+
+    return hit;
+}
+
+
 bool hg::math::collisions::checkRectAgainstRect(Rect a, Rect b) {
     return a.pos.x() <= b.pos.x() + b.size.x() && a.pos.x() + a.size.x() >= b.pos.x() &&
         a.pos.y() <= b.pos.y() + b.size.y() && a.pos.y() + a.size.y() >= b.pos.y();
+}
+
+std::optional<Hit> hg::math::collisions::checkRayAgainstEntity(Ray ray, Entity *entity, float &t) {
+    if (entity->hasComponent<components::RectCollider>()) {
+        auto rect = entity->getComponent<components::RectCollider>()->rect;
+        rect.pos = entity->position().resize<2>();
+        return hg::math::collisions::checkRayAgainstRect(ray, rect, t);
+    }
+
+    if (entity->hasComponent<components::CircleCollider>()) {
+        auto circle = entity->getComponent<components::CircleCollider>()->circle;
+        circle.center = entity->position().resize<2>();
+        return hg::math::collisions::checkRayAgainstCircle(ray, circle, t);
+    }
+
+    return std::nullopt;
 }

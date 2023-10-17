@@ -44,8 +44,13 @@ namespace hg::math {
             }
         }
 
-        std::string toString() {
+        std::string toString() const {
             return "Origin = " + origin.toString() + " Direction = " + direction.toString();
+        }
+
+        friend std::ostream& operator <<(std::ostream& out, const Ray& ray) {
+            out << ray.toString();
+            return out;
         }
 
         Line toLine() {

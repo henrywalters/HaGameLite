@@ -156,7 +156,7 @@ void ParticleEmitter::emit() {
     particle.startColor = settings.startColor;
     particle.endColor = settings.endColor;
     particle.startTime = m_elapsedTime;
-    particle.startPos = settings.positionRelative ? hg::Vec3::Zero() : m_position;
+    particle.startPos = settings.shape.generate() + (settings.positionRelative ? hg::Vec3::Zero() : m_position);
     particle.aliveFor = rand.real<float>(settings.aliveFor.lower, settings.aliveFor.upper);
     particle.scale = rand.real<float>(settings.scale.lower, settings.scale.upper);
     particle.initialized = true;
@@ -196,6 +196,9 @@ hg::utils::Config ParticleEmitterSettings::save() {
     config.setArray<float, 4>(section, "startColor", startColor.vector);
     config.setArray<float, 4>(section, "endColor", endColor.vector);
     config.setArray<float, 3>(section, "gravity", gravity.vector);
+
+    shape.save(config);
+
     return config;
 }
 
@@ -216,4 +219,51 @@ void ParticleEmitterSettings::load(utils::Config config) {
     config.getArray<float, 4>(section, "endColor", endColor.vector);
     config.getArray<float, 3>(section, "gravity", gravity.vector);
 
+    shape.load(config);
+}
+
+void EmitterShapeSettings::load(Config &config) {
+    const std::string section = "Shape";
+
+    type = (EmitterShape) config.get<int>(section, "type");
+
+    if (type == EmitterShape::Disc) {
+        radius = config.get<float>(section, "radius");
+    } else if (type == EmitterShape::Donut) {
+        innerRadius = config.get<float>(section, "innerRadius");
+        outerRadius = config.get<float>(section, "outerRadius");
+    }
+}
+
+void EmitterShapeSettings::save(Config &config) {
+
+    const std::string section = "Shape";
+
+    config.addSection(section);
+
+    config.set(section, "type", (int)type);
+
+    if (type == EmitterShape::Disc) {
+        config.set(section, "radius", radius.value());
+    } else if (type == EmitterShape::Donut) {
+        config.set(section, "innerRadius", innerRadius.value());
+        config.set(section, "outerRadius", outerRadius.value());
+    }
+}
+
+Vec3 EmitterShapeSettings::generate() {
+    Random rand;
+    if (type == EmitterShape::Point) {
+        return Vec3::Zero();
+    } else if (type == EmitterShape::Disc) {
+        float angle = rand.real<float>(0, M_PI * 2);
+        float randRadius = rand.real<float>(0, radius.value());
+        return randRadius * Vec3(cos(angle), sin(angle), 0);
+    } else if (type == EmitterShape::Donut) {
+        float angle = rand.real<float>(0, M_PI * 2);
+        float randRadius = rand.real<float>(innerRadius.value(), outerRadius.value());
+        return randRadius * Vec3(cos(angle), sin(angle), 0);
+    }
+
+    throw std::runtime_error("UNSUPPORTED EMITTER SHAPE");
 }

@@ -12,6 +12,8 @@
 
 namespace hg {
 
+#define OBJECT_NAME(name) std::string toString() const override { return #name + std::string("<" + std::to_string(id()) + ">"); }
+
     class Object : public utils::UUID {
     public:
 

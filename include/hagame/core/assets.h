@@ -30,6 +30,9 @@ namespace hg {
     // Load a shader from there base name. Ex. "shaders/color" => vert = "shaders/color.vert"; frag = "shaders/color.frag" identified by "color";
     std::shared_ptr<hg::graphics::ShaderProgram> loadShader(std::string path);
 
+    // Load a standard HaGame shader
+    std::shared_ptr<hg::graphics::ShaderProgram> loadShader(graphics::ShaderSource shader);
+
     // Load a set of shaders from there base name. Ex. shaders/color => vert = 'shaders/color.vert'; frag = 'shaders/color.frag';
     std::vector<std::shared_ptr<hg::graphics::ShaderProgram>> loadShaders(std::vector<std::string> paths);
 

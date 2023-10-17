@@ -88,6 +88,8 @@ namespace hg::utils {
         std::vector<std::string> keys(std::string section);
         void addSection(std::string section);
 
+        void concat(Config config);
+
         template <typename T>
         void set(std::string section, std::string key, T value) {
             m_data[section].insert(std::make_pair(key, std::to_string(value)));

@@ -50,6 +50,7 @@ class Game : public utils::LoopingThread {
         virtual void onInit() {}
         virtual void onBeforeUpdate() {}
         virtual void onUpdate(double dt) {}
+        virtual void onFixedUpdate(double dt) {}
         virtual void onAfterUpdate() {}
         virtual void onDestroy() {}
 

@@ -32,10 +32,10 @@ namespace hg::input::devices {
     };
 
     struct KeyboardState {
-        bool numbers[10] = {};
-        bool numbersPressed[10] = {};
-        bool letters[26] = {};
-        bool lettersPressed[26] = {};
+        std::array<bool, 10> numbers = {};
+        std::array<bool, 10> numbersPressed = {};
+        std::array<bool, 26> letters = {};
+        std::array<bool, 26> lettersPressed = {};
 
         bool lCtrl, lCtrlPressed = false;
         bool rCtrl, rCtrlPressed = false;
@@ -60,6 +60,14 @@ namespace hg::input::devices {
             mouse.rightPressed = false;
             mouse.middlePressed = false;
             mouse.wheel = 0;
+
+            for (int i = 0; i < 10; i++) {
+                keyboard.numbersPressed[i] = false;
+            }
+
+            for (int i = 0; i < 26; i++) {
+                keyboard.lettersPressed[i] = false;
+            }
         }
 
         void scrollCallback(double xOffset, double yOffset) {
@@ -96,6 +104,7 @@ namespace hg::input::devices {
         }
 
         void keyCallback(int key, int action) {
+
             if (key >= ZERO_START && key < ZERO_START + 10) {
                 UpdateState(keyboard.numbers[key - ZERO_START], keyboard.numbersPressed[key - ZERO_START], action != 0);
             }
@@ -132,6 +141,9 @@ namespace hg::input::devices {
             lAxis[1] = ((int) keyboard.letters[LetterIndex('W')]) - ((int) keyboard.letters[LetterIndex(('S'))]);
         }
 
+        static constexpr int LetterIndex(char letter) {
+            return letter - 65;
+        }
     private:
 
         static const int A_START = 65;
@@ -147,9 +159,7 @@ namespace hg::input::devices {
         static const int M_MIDDLE = 2;
         static const int M_RIGHT = 1;
 
-        static constexpr int LetterIndex(char letter) {
-            return letter - 65;
-        }
+
 
     };
 }

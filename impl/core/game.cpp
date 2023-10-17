@@ -62,7 +62,7 @@ void hg::Game::tick() {
     }
 
     if (doFixedUpdate) {
-        onUpdate(m_fixedDt);
+        onFixedUpdate(m_fixedDt);
 
         if (!running()) {
             return;

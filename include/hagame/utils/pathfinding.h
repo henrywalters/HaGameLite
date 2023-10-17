@@ -44,6 +44,15 @@ namespace hg::utils {
 
         using neighbor_f = std::function<std::vector<Node>(Node)>;
 
+        PathFinding():
+            m_neighborFn([](Node node) { return std::vector<Node>(); }),
+            m_openList(structures::BinaryHeap<std::shared_ptr<PathFindingNode>>(
+                    [&](auto a, auto b) { return a->f < b->f; },
+                    [](auto a, auto b) { return a->position == b->position; }
+            ))
+        {
+
+        }
         PathFinding(neighbor_f neighborFn):
                 m_neighborFn(neighborFn),
                 m_openList(structures::BinaryHeap<std::shared_ptr<PathFindingNode>>(

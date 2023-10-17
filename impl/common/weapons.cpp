@@ -78,8 +78,10 @@ void common::Weapon::update(hg::Vec3 pos, hg::Vec3 dir, double dt, bool triggerD
     }
 }
 
- void common::Weapon::reload() {
-    reload(std::min(m_ammo, settings.clipSize - m_ammoInClip));
+void common::Weapon::reload() {
+    int ammoUsed = std::min(m_ammo, settings.clipSize - m_ammoInClip);
+    int unusedAmmo = reload(ammoUsed);
+    m_ammo -= ammoUsed + unusedAmmo;
 }
 
 int common::Weapon::reload(int bulletCount) {

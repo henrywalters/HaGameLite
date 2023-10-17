@@ -8,9 +8,7 @@
 #include "aliases.h"
 
 namespace hg {
-    bool rectContainsPoint(Vec2 pos, Vec2 size, Vec2 point) {
-        return point.x() >= pos.x() && point.x() < pos.x() + size.x() && point.y() >= pos.y() && point.y() < pos.y() + size.y();
-    }
+    bool rectContainsPoint(Vec2 pos, Vec2 size, Vec2 point);
 
     template <class T>
     std::vector<Vec2i> bresenham(const math::Vector<2, T>& start, const math::Vector<2, T>& end) {

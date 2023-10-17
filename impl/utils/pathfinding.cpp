@@ -41,9 +41,12 @@ bool hg::utils::PathFinding::finished() {
 
 void hg::utils::PathFinding::tick() {
 
+    if (m_openList.size() == 0) {
+        return;
+    }
+
     m_current = m_openList.getTop();
     m_openList.deleteTop();
-
 
     if (m_current->position == m_goal) {
         //return constructPath(current.get());
@@ -52,9 +55,7 @@ void hg::utils::PathFinding::tick() {
     }
 
     m_closedList.insert(m_current->position);
-
     auto neighbors = findNeighbors(m_current);
-
     for (const auto& neighbor : neighbors) {
         if (m_closedList.contains(neighbor->position)) {
             continue;

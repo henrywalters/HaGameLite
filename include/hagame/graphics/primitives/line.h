@@ -13,7 +13,9 @@ namespace hg::graphics::primitives {
     class Line : public Mesh {
     public:
 
-        Line(std::vector<Vec3> points = {}): m_points(points) {
+        Line(std::vector<Vec3> points = {}):
+            m_points(points)
+        {
             computeMesh();
         }
 

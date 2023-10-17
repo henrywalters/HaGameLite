@@ -13,20 +13,23 @@ namespace hg::graphics::primitives {
     class Disc : public Mesh {
     public:
 
-        Disc(float radius, int divisions):
+        Disc(float radius, int divisions, Vec3 offset = Vec3::Zero()):
             m_radius(radius),
-            m_divisions(divisions)
+            m_divisions(divisions),
+            m_offset(offset)
         {
             computeMesh();
         }
 
         HG_GET_SET(float, radius, computeMesh);
         HG_GET_SET(int, divisions, computeMesh);
+        HG_GET_SET(Vec3, offset, computeMesh);
 
     private:
 
         float m_radius;
         int m_divisions;
+        Vec3 m_offset;
 
         void computeMesh();
     };

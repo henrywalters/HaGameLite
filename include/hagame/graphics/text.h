@@ -21,8 +21,19 @@ namespace hg::graphics {
         Bottom
     };
 
+    class TextBuffer;
+
+    // Text is a good way to render short text bits, especially ones that will change frequently.
+    // For larger texts, or static ones, use TextBuffer
     class Text {
     public:
+
+        struct Character {
+            char ch;
+            Vec2 size;
+            Rect texCoords;
+            Vec2 position;
+        };
 
         Text();
 
@@ -31,9 +42,17 @@ namespace hg::graphics {
         void draw(Font* font, std::vector<std::string> lines, Vec3 pos = Vec3::Zero(), TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
 
     private:
+
+        friend class TextBuffer;
+
         std::unique_ptr<primitives::Quad> m_quad;
         std::unique_ptr<MeshInstance> m_mesh;
-        std::unique_ptr<VertexBuffer<Vertex>> m_buffer;
+
+        void render(Font* font, std::vector<Character>& characters);
+
+        static std::vector<Character> Construct(Font* font, std::string message, Vec3 pos = Vec3::Zero(), TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
+        static std::vector<Character> Construct(Font* font, std::string message, Vec3 size, Vec3 pos, TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
+        static std::vector<Character> Construct(Font* font, std::vector<std::string> lines, Vec3 pos = Vec3::Zero(), TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
     };
 }
 

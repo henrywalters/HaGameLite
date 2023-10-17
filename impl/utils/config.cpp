@@ -25,7 +25,7 @@ std::vector<std::string> Config::sections() {
 }
 
 void Config::addSection(std::string section) {
-    if (m_data.find(section) == m_data.end()) return;
+    if (hasSection(section)) return;
     m_data.insert(std::make_pair(section, std::unordered_map<std::string, std::string>()));
 }
 
@@ -79,6 +79,16 @@ std::string Config::toString() const {
     }
 
     return s_join(out, "\n");
+}
+
+void Config::concat(Config config) {
+    for (const auto& section : config.sections()) {
+        addSection(section);
+
+        for (const auto& [key, data] : config.m_data[section]) {
+            config.setRaw(section, key, data);
+        }
+    }
 }
 
 std::string MultiConfig::toString() const {

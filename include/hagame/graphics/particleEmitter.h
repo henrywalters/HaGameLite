@@ -5,6 +5,7 @@
 #ifndef HAGAME2_PARTICLEEMITTER_H
 #define HAGAME2_PARTICLEEMITTER_H
 
+#include <optional>
 #include "buffer.h"
 #include "mesh.h"
 #include "shaderProgram.h"
@@ -16,7 +17,35 @@
 
 namespace hg::graphics {
 
+    enum class EmitterShape {
+        Point,
+        Disc,
+        Donut,
+    };
+
+    const std::vector<std::string> EMITTER_SHAPE_NAMES = {
+            "Point",
+            "Disc",
+            "Donut",
+    };
+
+    struct EmitterShapeSettings {
+
+        EmitterShape type = EmitterShape::Point;
+
+        std::optional<float> radius;
+        std::optional<float> innerRadius;
+        std::optional<float> outerRadius;
+
+        void load(utils::Config& config);
+        void save(utils::Config& config);
+
+        Vec3 generate();
+    };
+
     struct ParticleEmitterSettings {
+
+        EmitterShapeSettings shape;
         int particlesPerSecond = 1;
         hg::math::Interval<float> angle = hg::math::Interval<float>(0, 360.0f);
         hg::math::Interval<float> speed = hg::math::Interval<float>(100, 500);
@@ -37,6 +66,7 @@ namespace hg::graphics {
         hg::utils::Config save();
 
         void load(hg::utils::Config config);
+
     };
 
     class ParticleEmitter {

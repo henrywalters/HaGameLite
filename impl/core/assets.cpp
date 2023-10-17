@@ -22,6 +22,18 @@ std::shared_ptr<hg::graphics::ShaderProgram> hg::loadShader(std::string path) {
     return loadShader(f_parts.name, path + ".vert", path + ".frag");
 }
 
+std::shared_ptr<hg::graphics::ShaderProgram> hg::loadShader(hg::graphics::ShaderSource source) {
+    auto shader = std::make_shared<hg::graphics::ShaderProgram>(
+            source.name,
+            hg::graphics::Shader::LoadVertex(source.vertexSource),
+            hg::graphics::Shader::LoadFragment(source.fragmentSource)
+    );
+
+    assets::SHADERS.set(source.name, shader);
+
+    return shader;
+}
+
 std::vector<std::shared_ptr<hg::graphics::ShaderProgram>> hg::loadShaders(std::vector<std::string> paths) {
     std::vector<std::shared_ptr<hg::graphics::ShaderProgram>> shaders;
 

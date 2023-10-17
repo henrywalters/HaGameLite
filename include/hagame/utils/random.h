@@ -65,6 +65,12 @@ namespace hg::utils {
             }
             return vec;
         }
+
+        template <class T = float>
+        hg::math::Vector<2, T> unitVector() {
+            T theta = real<T>(0, M_PI * 2);
+            return hg::math::Vector<2, T>(cos(theta), sin(theta));
+        }
     };
 }
 

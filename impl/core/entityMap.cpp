@@ -3,6 +3,7 @@
 //
 
 #include "../../include/hagame/core/entityMap.h"
+#include "../../include/hagame/math/functions.h"
 
 using namespace hg;
 
@@ -20,13 +21,15 @@ hg::Vec2 EntityMap2D::getPos(hg::Vec2i idx) {
 
 void EntityMap2D::clear() {
     m_map.clear();
+    m_size = 0;
 }
 
 void EntityMap2D::insert(hg::Vec2 pos, hg::Vec2 size, hg::Entity *entity) {
-   hg::Vec2i startIdx = getIndex(pos + size * -0.5);
-   hg::Vec2i endIdx = getIndex(pos + size * 0.5);
+    m_size++;
+    hg::Vec2i startIdx = getIndex(pos + size * -0.5);
+    hg::Vec2i endIdx = getIndex(pos + size * 0.5);
 
-   for (int i = startIdx[0]; i <= endIdx[0]; i++) {
+    for (int i = startIdx[0]; i <= endIdx[0]; i++) {
        for (int j = startIdx[1]; j <= endIdx[1]; j++) {
            hg::Vec2i index(i, j);
            auto list = m_map.getRef(index);
@@ -34,7 +37,7 @@ void EntityMap2D::insert(hg::Vec2 pos, hg::Vec2 size, hg::Entity *entity) {
                list->push_back(entity);
            }
        }
-   }
+    }
 }
 
 std::vector<hg::Entity *> EntityMap2D::getNeighbors(hg::Vec2 pos, hg::Vec2 size) {
@@ -54,6 +57,35 @@ std::vector<hg::Entity *> EntityMap2D::getNeighbors(hg::Vec2 pos, hg::Vec2 size)
     }
 
     return neighbors;
+}
+
+std::optional<hg::math::collisions::Hit> EntityMap2D::raycast(hg::math::Ray ray, float& t) {
+    Vec2i startIdx = getIndex(ray.origin.resize<2>());
+    Vec2i endIdx = getIndex((ray.origin + ray.direction).resize<2>());
+
+    float minT;
+    float tmpT;
+    bool hasMinT = false;
+    std::optional<math::collisions::Hit> hit;
+
+
+    for (const auto& index : bresenham(startIdx, endIdx)) {
+        for (const auto& entity : m_map.get(index).value) {
+            auto tmpHit = math::collisions::checkRayAgainstEntity(ray, entity, tmpT);
+            if (tmpHit.has_value() && (!hasMinT || tmpT < minT)) {
+                hasMinT = true;
+                minT = tmpT;
+                hit = tmpHit;
+            }
+        }
+    }
+
+    if (hasMinT) {
+        t = minT;
+        return hit;
+    }
+
+    return std::nullopt;
 }
 
 

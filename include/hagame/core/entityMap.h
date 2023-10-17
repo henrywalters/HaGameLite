@@ -6,6 +6,7 @@
 #define HAGAME2_ENTITYMAP_H
 
 #include "entity.h"
+#include "../math/collisions.h"
 #include "../utils/spatialMap.h"
 
 namespace hg {
@@ -14,16 +15,20 @@ namespace hg {
 
         EntityMap2D(hg::Vec2 gridSize);
 
+        HG_GET(size_t, size);
+
         hg::Vec2i getIndex(hg::Vec2 pos);
         hg::Vec2 getPos(hg::Vec2i idx);
 
         void clear();
         void insert(hg::Vec2 pos, hg::Vec2 size, hg::Entity* entity);
         std::vector<hg::Entity*> getNeighbors(hg::Vec2 pos, hg::Vec2 size);
+        std::optional<hg::math::collisions::Hit> raycast(hg::math::Ray ray, float& t);
 
     private:
 
         hg::Vec2 m_gridSize;
+        size_t m_size;
 
         hg::utils::SpatialMap2D<std::vector<hg::Entity*>, int> m_map;
 

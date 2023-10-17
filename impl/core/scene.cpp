@@ -26,7 +26,6 @@ hg::utils::MultiConfig hg::Scene::save() {
             return;
         }
 
-        std::cout << "ENTITY = " << entity << "\n";
         scene.getPage("Entities")->addSection(std::to_string(entity->id()));
         scene.getPage("Entities")->setRaw(std::to_string(entity->id()), "name", entity->name);
         scene.getPage("Entities")->setArray<float, 3>(std::to_string(entity->id()), "position", entity->transform.position.vector);
@@ -55,11 +54,8 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
         entityMap.insert(std::make_pair(section, entity));
     }
 
-    std::cout << "LOADING COMPONENTS\n";
-
     for (const auto& section : scene.getPage("Components")->sections()) {
         auto parts = utils::s_split(section, '_');
-        std::cout << parts[0] << "\n";
         entityMap[parts[1]]->addComponent(parts[0]);
     }
 }
