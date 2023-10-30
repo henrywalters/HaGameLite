@@ -13,7 +13,7 @@ namespace hg::graphics {
     public:
 
         TextBuffer();
-        TextBuffer(Font* font, std::string text, Vec3 pos, TextHAlignment hAlignment = TextHAlignment::Center, TextVAlignment vAlignment = TextVAlignment::Center);
+        TextBuffer(Font* font, std::string text = "", Vec3 pos = Vec3::Zero(), TextHAlignment hAlignment = TextHAlignment::Center, TextVAlignment vAlignment = TextVAlignment::Center);
         TextBuffer(Font* font, std::string text, Vec3 pos, Vec3 size, TextHAlignment hAlignment = TextHAlignment::Center, TextVAlignment vAlignment = TextVAlignment::Center);
 
         HG_GET_SET_PTR(Font, font, updateBuffers);
@@ -21,6 +21,7 @@ namespace hg::graphics {
         HG_GET_SET(TextHAlignment, hAlignment, updateBuffers);
         HG_GET_SET(TextVAlignment, vAlignment, updateBuffers);
         HG_GET(Vec3, size);
+        HG_GET_SET(Vec3, pos, updateBuffers);
 
         void limitSize(const Vec3& size) {
             m_size = size;

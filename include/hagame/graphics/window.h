@@ -62,6 +62,10 @@ namespace hg::graphics {
             glfwSwapInterval((int) vsyncOn);
         }
 
+        void setMouseVisible(bool visible) {
+            glfwSetInputMode(m_window, GLFW_CURSOR, visible ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
+        }
+
     private:
 
         friend class Windows;

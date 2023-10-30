@@ -20,6 +20,7 @@ namespace hg {
         void removeFromGroup(std::string group, hg::Entity* entity);
         void removeEntity(hg::Entity* entity);
         bool inGroup(hg::Entity* entity, std::string group);
+        bool inOneOfGroups(hg::Entity* entity, std::vector<std::string> groups);
         std::vector<std::string> getGroups(hg::Entity* entity);
         std::vector<hg::Entity*> getEntities(std::string group);
 

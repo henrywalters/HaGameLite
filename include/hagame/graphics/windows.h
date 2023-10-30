@@ -36,6 +36,8 @@ namespace hg::graphics {
 
         static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
+        static void CharCallback(GLFWwindow* window, unsigned int codepoint);
+
         static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
         static void MouseCursorPosCallback(GLFWwindow* window, double xPos, double yPos);

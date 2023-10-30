@@ -70,13 +70,13 @@ void hg::Game::tick() {
     }
 
     if (scenes()->hasActive()) {
-        scenes()->active()->update(m_dt);
-        if (!running()) {
-            return;
-        }
         if (doFixedUpdate) {
             scenes()->active()->fixedUpdate(m_fixedDt);
         }
+        if (!running()) {
+            return;
+        }
+        scenes()->active()->update(m_dt);
         if (!running()) {
             return;
         }

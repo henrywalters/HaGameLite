@@ -5,13 +5,12 @@
 #ifndef HAGAME2_BEHAVIORTREE_H
 #define HAGAME2_BEHAVIORTREE_H
 
-#include <variant>
-#include <vector>
 #include <memory>
 #include "../math/aliases.h"
 #include "../core/object.h"
 #include "../core/entity.h"
 #include "../utils/steadyRate.h"
+#include "../utils/variant.h"
 
 namespace hg::utils {
 
@@ -20,42 +19,22 @@ namespace hg::utils {
 
     namespace bt {
 
-        using data_context_t = std::unordered_map<
-                std::string,
-                std::variant<
-                        bool,
-                        float,
-                        int,
-                        double,
-                        std::string,
-                        Vec3,
-                        Vec2,
-                        Vec3i,
-                        Vec2i,
-                        Entity*,
-                        std::vector<float>,
-                        std::vector<bool>,
-                        std::vector<int>,
-                        std::vector<double>,
-                        std::vector<std::string>,
-                        std::vector<Vec3>,
-                        std::vector<Vec2>,
-                        std::vector<Vec3i>,
-                        std::vector<Vec2i>,
-                        std::vector<Entity*>
-                >
-            >;
+        using data_context_t = std::unordered_map<uuid_t, variant>;
+
+        inline bool HasData(data_context_t* ctx, uuid_t member) {
+            return ctx->find(member) != ctx->end();
+        }
 
         template <typename T>
-        T GetData(data_context_t* ctx, std::string member) {
-            if (ctx->find(member) == ctx->end()) {
-                throw std::runtime_error("Data member does not exist: " + member);
+        T GetData(data_context_t* ctx, uuid_t member) {
+            if (!HasData(ctx, member)) {
+                throw std::runtime_error("Data member does not exist: " + std::to_string(member));
             }
             return std::get<T>(ctx->at(member));
         }
 
         template <typename T>
-        void SetData(data_context_t* ctx, const std::string& member, T value) {
+        void SetData(data_context_t* ctx, const uuid_t& member, T value) {
             if (ctx->find(member) == ctx->end()) {
                 ctx->insert(std::make_pair(member, value));
             } else {
@@ -108,7 +87,23 @@ namespace hg::utils {
         };
 
         template <typename GameState>
-        class Service : public SteadyRate, public Node<GameState> {};
+        class Service : public SteadyRate, public Node<GameState> {
+        public:
+
+            friend class BehaviorTree<GameState>;
+
+        protected:
+
+            void onTick(double dt) override {
+                this->process(dt, m_state, m_ctx);
+            }
+
+        private:
+
+            GameState* m_state;
+            hg::utils::bt::data_context_t * m_ctx;
+
+        };
 
         template <typename T, typename GameState>
         concept IsService = std::is_base_of<Service<GameState>, T>::value;
@@ -127,7 +122,7 @@ namespace hg::utils {
 
         template <bt::IsService<GameState> NodeType, class... Args>
         bt::Service<GameState>* addService(Args... args) {
-            std::unique_ptr<NodeType> service = std::make_unique<NodeType>(std::forward<Args>(args)...);
+            auto service = std::make_shared<NodeType>(std::forward<Args>(args)...);
             service->m_tree = this;
             m_services.push_back(service);
             return service.get();
@@ -156,9 +151,10 @@ namespace hg::utils {
             }
 
             for (const auto& service : m_services) {
-                service->tick(dt, state, &m_context, true);
+                service->m_state = state;
+                service->m_ctx = &m_context;
+                service->update(dt);
             }
-
             if (m_current) {
                 bt::Status status = m_current->tick(dt, state, &m_context, false);
 
@@ -182,6 +178,10 @@ namespace hg::utils {
             return m_root.get();
         }
 
+        bt::data_context_t* context() {
+            return &m_context;
+        }
+
         void setCurrent(bt::Node<GameState>* node) {
             m_current = node;
         }
@@ -194,7 +194,7 @@ namespace hg::utils {
 
         bt::Node<GameState>* m_current = nullptr;
         std::unique_ptr<bt::Node<GameState>> m_root;
-        std::vector<std::unique_ptr<bt::Service<GameState>>> m_services;
+        std::vector<std::shared_ptr<bt::Service<GameState>>> m_services;
         bt::data_context_t m_context;
     };
 
@@ -212,21 +212,22 @@ namespace hg::utils {
             Status process(double dt, GameState* state, data_context_t* ctx) override {
 
                 if (m_index >= this->m_children.size()) {
-                    return Status::Success;
+                    this->m_tree->setCurrent(this);
+                    return Status::Failure;
                 }
 
-                Status status = this->m_children[m_index]->tick(dt, state, ctx, true);
+                auto child = this->m_children[m_index++];
+
+                Status status = child->tick(dt, state, ctx, true);
 
                 if (status == Status::Running) {
-                    this->m_tree->setCurrent(this->m_children[m_index].get());
+                    this->m_tree->setCurrent(child.get());
                     return status;
                 }
 
-                m_index++;
-
                 this->m_tree->setCurrent(this);
 
-                if (status == Status::Running || status == Status::Failure) {
+                if (status == Status::Success) {
                     return status;
                 } else {
                     return Status::Running;
@@ -269,8 +270,10 @@ namespace hg::utils {
                 this->m_tree->setCurrent(this);
 
                 if (status == Status::Failure) {
+                    //this->m_tree->setCurrent(this->m_parent);
                     return status;
                 } else {
+                    //this->m_tree->setCurrent(this->m_parent);
                     return Status::Running;
                 }
             }

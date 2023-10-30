@@ -59,30 +59,34 @@ std::vector<hg::Entity *> EntityMap2D::getNeighbors(hg::Vec2 pos, hg::Vec2 size)
     return neighbors;
 }
 
-std::optional<hg::math::collisions::Hit> EntityMap2D::raycast(hg::math::Ray ray, float& t) {
+std::optional<hg::Entity*> EntityMap2D::raycast(hg::math::Ray ray, float& t, std::vector<Entity*> ignore) {
     Vec2i startIdx = getIndex(ray.origin.resize<2>());
     Vec2i endIdx = getIndex((ray.origin + ray.direction).resize<2>());
 
     float minT;
     float tmpT;
     bool hasMinT = false;
-    std::optional<math::collisions::Hit> hit;
-
-
-    for (const auto& index : bresenham(startIdx, endIdx)) {
+    Entity* hitEntity;
+    auto cells = bresenham(startIdx, endIdx);
+    for (const auto& index : cells) {
         for (const auto& entity : m_map.get(index).value) {
+
+            if (std::find(ignore.begin(), ignore.end(), entity) != ignore.end()) {
+                continue;
+            }
+
             auto tmpHit = math::collisions::checkRayAgainstEntity(ray, entity, tmpT);
             if (tmpHit.has_value() && (!hasMinT || tmpT < minT)) {
                 hasMinT = true;
                 minT = tmpT;
-                hit = tmpHit;
+                hitEntity = entity;
             }
         }
     }
 
     if (hasMinT) {
         t = minT;
-        return hit;
+        return hitEntity;
     }
 
     return std::nullopt;

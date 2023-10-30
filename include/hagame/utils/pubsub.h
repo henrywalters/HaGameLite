@@ -22,7 +22,7 @@ namespace hg {
      */
 
     struct NotificationListener {
-        utils::UUID id;
+        utils::uuid_t id;
         std::function<void()> onNotify;
     };
 
@@ -58,7 +58,7 @@ namespace hg {
 
     template <class EventType>
     struct EventListener {
-        utils::UUID id;
+        utils::uuid_t id;
         std::function<void(EventType)> onEvent;
     };
 
@@ -95,7 +95,7 @@ namespace hg {
 
     template <class EventId, class EventType>
     struct Subscriber {
-        utils::UUID id;
+        utils::uuid_t id;
         EventId eventId;
         std::function<void(EventType)> onEvent;
     };

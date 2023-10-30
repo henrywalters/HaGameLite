@@ -42,6 +42,7 @@ hg::graphics::Window *hg::graphics::Windows::Create(std::string title, Resolutio
     glfwSetScrollCallback(window->window(), MouseScrollCallback);
     glfwSetWindowCloseCallback(window->window(), CloseCallback);
     glfwSetWindowSizeCallback(window->window(), ResizeCallback);
+    glfwSetCharCallback(window->window(), CharCallback);
     return window.get();
 }
 
@@ -56,5 +57,9 @@ std::vector<hg::graphics::Window *> hg::graphics::Windows::All() {
         windows.push_back(window.get());
     }
     return windows;
+}
+
+void hg::graphics::Windows::CharCallback(GLFWwindow *window, unsigned int codepoint) {
+    s_windows[window]->input.keyboardMouse.charCallback(codepoint);
 }
 

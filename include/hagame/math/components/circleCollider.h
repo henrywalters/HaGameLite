@@ -6,13 +6,17 @@
 #define HAGAME2_CIRCLECOLLIDER_H
 
 #include "../aliases.h"
-#include "../../core/component.h"
+#include "collider.h"
 
 namespace hg::math::components {
-    class CircleCollider : public hg::Component {
+    class CircleCollider : public Collider {
     public:
 
         hg::Circle circle;
+
+        Cube getBoundingCube() const override {
+            return Cube(Vec3(circle.radius * -1, circle.radius * -1, 0), Vec3(circle.radius * 2, circle.radius * 2, 0));
+        }
 
     };
 }

@@ -93,7 +93,7 @@ namespace hg {
 
         template <class T>
         T* getComponent() {
-            return hasComponent<T>() ? &m_registry->get<T>(m_enttId) : NULL;
+            return hasComponent<T>() ? &m_registry->get<T>(m_enttId) : nullptr;
         }
 
         template <class T>

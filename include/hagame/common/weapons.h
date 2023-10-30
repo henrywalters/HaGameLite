@@ -51,6 +51,8 @@ namespace hg::common {
         // Manually add ammo to your stash. Unused ammo will be returned, if limitAmmo is true
         int addAmmo(int bulletCount);
 
+        virtual Vec2 computeSpread() { return Vec2::Zero(); }
+
     protected:
 
         virtual void onFire(hg::Vec3 pos, hg::Vec3 dir) {}

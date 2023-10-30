@@ -28,6 +28,12 @@ namespace hg::graphics::primitives {
         HG_GET_SET(Vec2, texOffset, update);
         HG_GET_SET(Vec2, texSize, update);
 
+        void setSizeAndOffset(const Vec2& size, const Vec2& offset) {
+            m_size = size;
+            m_offset = offset;
+            update();
+        }
+
     private:
 
         Vec2 m_size;

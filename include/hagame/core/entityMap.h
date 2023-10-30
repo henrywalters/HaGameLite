@@ -23,7 +23,7 @@ namespace hg {
         void clear();
         void insert(hg::Vec2 pos, hg::Vec2 size, hg::Entity* entity);
         std::vector<hg::Entity*> getNeighbors(hg::Vec2 pos, hg::Vec2 size);
-        std::optional<hg::math::collisions::Hit> raycast(hg::math::Ray ray, float& t);
+        std::optional<hg::Entity*> raycast(hg::math::Ray ray, float& t, std::vector<Entity*> ignore = {});
 
     private:
 

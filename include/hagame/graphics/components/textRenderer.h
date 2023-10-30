@@ -9,18 +9,22 @@
 #include "../../math/aliases.h"
 #include "../text.h"
 #include "../color.h"
+#include "../textBuffer.h"
 
 namespace hg::graphics {
     class TextRenderer : public Component {
     public:
-        bool fixedWidth = false;
-        hg::Vec3 pos;
-        hg::Vec3 size;
+
+        TextRenderer(Font* font):
+            m_buffer(std::make_unique<TextBuffer>(font))
+        {}
+
         Color color = Color::black();
-        std::string message;
-        std::string font;
-        TextHAlignment hAlignment = TextHAlignment::Left;
-        TextVAlignment vAlignment = TextVAlignment::Top;
+
+        TextBuffer* buffer() { return m_buffer.get(); }
+
+    private:
+        std::unique_ptr<TextBuffer> m_buffer;
     };
 }
 

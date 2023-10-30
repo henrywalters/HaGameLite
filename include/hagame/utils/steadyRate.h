@@ -14,14 +14,14 @@ public:
         m_elapsedTime += dt;
         double timeSinceLastTick = m_elapsedTime - m_lastTick;
         if (timeSinceLastTick >= 1.0 / ticksPerSecond) {
-            onTick();
+            onTick(timeSinceLastTick);
             m_lastTick = m_elapsedTime;
         }
     }
 
 protected:
 
-    virtual void onTick() = 0;
+    virtual void onTick(double dt) = 0;
 
     double m_lastTick = 0;
     double m_elapsedTime = 0;

@@ -50,3 +50,12 @@ std::vector<std::string> hg::GroupManager::getGroups(hg::Entity *entity) {
 std::vector<hg::Entity *> hg::GroupManager::getEntities(std::string group) {
     return m_groupToEntities.find(group) == m_groupToEntities.end() ? std::vector<hg::Entity*>() : m_groupToEntities[group];
 }
+
+bool hg::GroupManager::inOneOfGroups(hg::Entity *entity, std::vector<std::string> groups) {
+    for (const auto& group : groups) {
+        if (inGroup(entity, group)) {
+            return true;
+        }
+    }
+    return false;
+}

@@ -10,6 +10,7 @@
 #include "../../math/aliases.h"
 #include "../inputDevice.h"
 #include "../../utils/clock.h"
+#include "../../utils/pubsub.h"
 
 namespace hg::input::devices {
 
@@ -42,12 +43,27 @@ namespace hg::input::devices {
         bool lShift, lShiftPressed = false;
         bool rShift, rShiftPressed = false;
         bool enter, enterPressed = false;
+        bool backspace, backspacePressed = false;
 
         bool esc, escPressed = false;
     };
 
+    struct KeyPress {
+        unsigned int key;
+        bool shiftPressed;
+        bool ctrlPressed;
+    };
+
+    enum class KeyboardEvent {
+        TextInput,
+        KeyPressed,
+        KeyReleased,
+    };
+
     class KeyboardMouse : public InputDevice {
     public:
+
+        Publisher<KeyboardEvent, KeyPress> events;
 
         long lastMouseMovement = utils::Clock::Now();
         Vec2 lastMousePos = Vec2::Zero();
@@ -68,6 +84,14 @@ namespace hg::input::devices {
             for (int i = 0; i < 26; i++) {
                 keyboard.lettersPressed[i] = false;
             }
+
+            keyboard.escPressed = false;
+            keyboard.lShiftPressed = false;
+            keyboard.rShiftPressed = false;
+            keyboard.lCtrlPressed = false;
+            keyboard.rCtrlPressed = false;
+            keyboard.enterPressed = false;
+            keyboard.backspacePressed = false;
         }
 
         void scrollCallback(double xOffset, double yOffset) {
@@ -137,14 +161,33 @@ namespace hg::input::devices {
                 UpdateState(keyboard.enter, keyboard.enterPressed, action != 0);
             }
 
+            if (key == 259) {
+                UpdateState(keyboard.backspace, keyboard.backspacePressed, action != 0);
+            }
+
             lAxis[0] = ((int) keyboard.letters[LetterIndex('D')]) - ((int) keyboard.letters[LetterIndex(('A'))]);
             lAxis[1] = ((int) keyboard.letters[LetterIndex('W')]) - ((int) keyboard.letters[LetterIndex(('S'))]);
+
+            KeyPress press;
+            press.key = key;
+            press.shiftPressed = keyboard.lShiftPressed || keyboard.rShiftPressed;
+            press.ctrlPressed = keyboard.lCtrlPressed || keyboard.rCtrlPressed;
+
+            events.emit(action != 0 ? KeyboardEvent::KeyPressed : KeyboardEvent::KeyReleased, press);
+
+        }
+
+        void charCallback(unsigned int codepoint) {
+            KeyPress press;
+            press.key = codepoint;
+            press.shiftPressed = keyboard.lShiftPressed || keyboard.rShiftPressed;
+            press.ctrlPressed = keyboard.lCtrlPressed || keyboard.rCtrlPressed;
+            events.emit(KeyboardEvent::TextInput, press);
         }
 
         static constexpr int LetterIndex(char letter) {
             return letter - 65;
         }
-    private:
 
         static const int A_START = 65;
         static const int ZERO_START = 48;
@@ -154,11 +197,15 @@ namespace hg::input::devices {
         static const int R_SHIFT = 344;
         static const int ESC = 256;
         static const int ENTER = 257;
+        static const int BACKSPACE = 259;
+        static const int RIGHT = 262;
+        static const int LEFT = 263;
+        static const int DOWN = 264;
+        static const int UP = 265;
 
         static const int M_LEFT = 0;
         static const int M_MIDDLE = 2;
         static const int M_RIGHT = 1;
-
 
 
     };

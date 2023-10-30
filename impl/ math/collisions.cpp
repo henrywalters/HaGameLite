@@ -123,16 +123,22 @@ bool hg::math::collisions::checkRectAgainstRect(Rect a, Rect b) {
 }
 
 std::optional<Hit> hg::math::collisions::checkRayAgainstEntity(Ray ray, Entity *entity, float &t) {
-    if (entity->hasComponent<components::RectCollider>()) {
-        auto rect = entity->getComponent<components::RectCollider>()->rect;
-        rect.pos = entity->position().resize<2>();
-        return hg::math::collisions::checkRayAgainstRect(ray, rect, t);
+
+    if (!entity) {
+        return std::nullopt;
     }
 
-    if (entity->hasComponent<components::CircleCollider>()) {
-        auto circle = entity->getComponent<components::CircleCollider>()->circle;
-        circle.center = entity->position().resize<2>();
-        return hg::math::collisions::checkRayAgainstCircle(ray, circle, t);
+    auto rect = entity->getComponent<components::RectCollider>();
+
+    if (rect) {
+        rect->rect.pos = entity->position().resize<2>();
+        return hg::math::collisions::checkRayAgainstRect(ray, rect->rect, t);
+    }
+
+    auto circle = entity->getComponent<components::CircleCollider>();
+    if (circle) {
+        circle->circle.center = entity->position().resize<2>();
+        return hg::math::collisions::checkRayAgainstCircle(ray, circle->circle, t);
     }
 
     return std::nullopt;
