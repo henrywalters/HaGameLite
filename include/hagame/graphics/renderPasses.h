@@ -9,7 +9,7 @@
 
 namespace hg::graphics {
     struct RenderPass {
-        std::unique_ptr<RawTexture<GL_RGBA>> texture;
+        std::unique_ptr<RawTexture<GL_RGBA32F>> texture;
         std::unique_ptr<FrameBuffer> buffer;
     };
 
@@ -20,7 +20,7 @@ namespace hg::graphics {
         hg::graphics::RenderPass *create(KeyType key, Vec2i size) {
             m_passes.insert(std::make_pair(key, std::make_unique<RenderPass>()));
             auto pass = get(key);
-            pass->texture = std::make_unique<RawTexture<GL_RGBA>>(size);
+            pass->texture = std::make_unique<RawTexture<GL_RGBA32F>>(size);
             pass->buffer = std::make_unique<FrameBuffer>();
             pass->buffer->initialize();
             pass->buffer->bind();

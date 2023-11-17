@@ -40,6 +40,22 @@ void EntityMap2D::insert(hg::Vec2 pos, hg::Vec2 size, hg::Entity *entity) {
     }
 }
 
+void EntityMap2D::remove(hg::Vec2 pos, hg::Vec2 size, hg::Entity *entity) {
+    m_size++;
+    hg::Vec2i startIdx = getIndex(pos + size * -0.5);
+    hg::Vec2i endIdx = getIndex(pos + size * 0.5);
+
+    for (int i = startIdx[0]; i <= endIdx[0]; i++) {
+        for (int j = startIdx[1]; j <= endIdx[1]; j++) {
+            hg::Vec2i index(i, j);
+            auto list = m_map.getRef(index);
+            if (std::find(list->begin(), list->end(), entity) != list->end()) {
+                list->erase(std::find(list->begin(), list->end(), entity));
+            }
+        }
+    }
+}
+
 std::vector<hg::Entity *> EntityMap2D::getNeighbors(hg::Vec2 pos, hg::Vec2 size) {
     std::vector<hg::Entity*> neighbors;
     hg::Vec2i startIdx = getIndex(pos + size * -0.5);

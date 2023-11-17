@@ -81,8 +81,8 @@ namespace hg::utils {
 
         static Config Parse(std::vector<std::string> lines);
 
-        bool hasSection(std::string section);
-        bool has(std::string section, std::string key);
+        bool hasSection(std::string section) const;
+        bool has(std::string section, std::string key) const;
 
         std::vector<std::string> sections();
         std::vector<std::string> keys(std::string section);
@@ -92,25 +92,46 @@ namespace hg::utils {
 
         template <typename T>
         void set(std::string section, std::string key, T value) {
-            m_data[section].insert(std::make_pair(key, std::to_string(value)));
+            if (has(section, key)) {
+                m_data[section][key] = std::to_string(value);
+            } else {
+                m_data[section].insert(std::make_pair(key, std::to_string(value)));
+            }
         }
 
-        std::string getRaw(std::string section, std::string key) {
-            return m_data[section][key];
+        std::string getRaw(std::string section, std::string key) const {
+            if (!has(section, key)) {
+                return "";
+            }
+            return m_data.at(section).at(key);
         }
 
         void setRaw(std::string section, std::string key, std::string value) {
-            m_data[section].insert(std::make_pair(key, value));
+            if (has(section, key)) {
+                m_data[section][key] = value;
+            } else {
+                m_data[section].insert(std::make_pair(key, value));
+            }
+
         }
 
         template <typename T>
-        T get(std::string section, std::string key) {
-            return strToT<T>(m_data[section][key]);
+        T get(std::string section, std::string key) const {
+            return strToT<T>(getRaw(section, key));
+        }
+
+        template <typename T>
+        T get(std::string section, std::string key, T defaultValue) const {
+            return has(section, key) ? strToT<T>(getRaw(section, key)) : defaultValue;
         }
 
         template <typename T, size_t N>
         void setArray(std::string section, std::string key, T arr[N]) {
-            m_data[section].insert(std::make_pair(key, arrToString<T, N>(arr)));
+            if (has(section, key)) {
+                m_data[section][key] = arrToString<T, N>(arr);
+            } else {
+                m_data[section].insert(std::make_pair(key, arrToString<T, N>(arr)));
+            }
         }
 
         template <typename T>
@@ -120,15 +141,15 @@ namespace hg::utils {
         }
 
         template <typename T>
-        hg::math::Interval<T> getInterval(std::string section, std::string key) {
+        hg::math::Interval<T> getInterval(std::string section, std::string key) const {
             auto intervalArr = getArray<T, 2>(section, key);
             return hg::math::Interval<T>(intervalArr[0], intervalArr[1]);
         }
 
         template <typename T, size_t N>
-        std::array<T, N> getArray(std::string section, std::string key) {
+        std::array<T, N> getArray(std::string section, std::string key) const {
             std::array<T, N> arr;
-            auto parts = s_split(m_data[section][key], ',');
+            auto parts = s_split(getRaw(section, key), ',');
             for (int i = 0; i < parts.size(); i++) {
                 arr[i] = strToT<T>(parts[i]);
             }
@@ -136,8 +157,8 @@ namespace hg::utils {
         }
 
         template <typename T, size_t N>
-        void getArray(std::string section, std::string key, T arr[N]) {
-            auto parts = s_split(m_data[section][key], ',');
+        void getArray(std::string section, std::string key, T arr[N]) const {
+            auto parts = s_split(getRaw(section, key), ',');
             for (int i = 0; i < parts.size(); i++) {
                 arr[i] = strToT<T>(parts[i]);
             }
@@ -146,16 +167,20 @@ namespace hg::utils {
         template <typename T, size_t N>
         void setListOfArrays(std::string section, std::string key, std::vector<std::array<T, N>> list) {
             std::string raw = "";
-            for (const auto arr : list) {
+            for (const auto& arr : list) {
                 raw += "{" + arrToString(arr) + "}";
             }
-            m_data[section].insert(std::make_pair(key, raw));
+            if (has(section, key)) {
+                m_data[section][key] = raw;
+            } else {
+                m_data[section].insert(std::make_pair(key, raw));
+            }
         }
 
         template <typename T, size_t N>
-        std::vector<std::array<T, N>> getListOfArrays(std::string section, std::string key) {
+        std::vector<std::array<T, N>> getListOfArrays(std::string section, std::string key) const {
             std::vector<std::array<T, N>> out;
-            auto chunks = s_partition(m_data[section][key], '{', '}');
+            auto chunks = s_partition(getRaw(section, key), '{', '}');
 
             for (const auto& chunk : chunks) {
                 auto parts = s_split(chunk, ',');
@@ -175,6 +200,18 @@ namespace hg::utils {
 
         template <typename T, size_t N>
         std::string arrToString(T arr[N]) {
+            std::string raw = "";
+            for (int i = 0; i < N; i++) {
+                raw += std::to_string(arr[i]);
+                if (i < N - 1) {
+                    raw += ",";
+                }
+            }
+            return raw;
+        }
+
+        template <typename T, size_t N>
+        std::string arrToString(std::array<T, N> arr) {
             std::string raw = "";
             for (int i = 0; i < N; i++) {
                 raw += std::to_string(arr[i]);
@@ -218,7 +255,7 @@ namespace hg::utils {
             m_configs.insert(std::make_pair(name, config));
         }
 
-        Config* getPage(std::string name) {
+        Config* getPage(std::string name)  {
             return &m_configs[name];
         }
 
@@ -231,7 +268,7 @@ namespace hg::utils {
     class Configurable {
     public:
         virtual void save(Config& config) = 0;
-        virtual void load(Config config) = 0;
+        virtual void load(const Config& config) = 0;
     };
 
     template <typename T>

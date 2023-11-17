@@ -8,12 +8,12 @@
 
 using namespace hg::utils;
 
-bool Config::hasSection(std::string section) {
+bool Config::hasSection(std::string section) const {
     return m_data.find(section) != m_data.end();
 }
 
-bool Config::has(std::string section, std::string key) {
-    return hasSection(section) && m_data[section].find(key) != m_data[section].end();
+bool Config::has(std::string section, std::string key) const {
+    return hasSection(section) && m_data.at(section).find(key) != m_data.at(section).end();
 }
 
 std::vector<std::string> Config::sections() {

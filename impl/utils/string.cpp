@@ -65,7 +65,7 @@ std::string hg::utils::s_trim(std::string str) {
     return out;
 }
 
-std::vector<std::string> s_partition(std::string str, char start, char end) {
+std::vector<std::string> hg::utils::s_partition(std::string str, char start, char end) {
     std::vector<std::string> partitions;
     std::string part = "";
     bool inPart = false;
@@ -86,4 +86,31 @@ std::vector<std::string> s_partition(std::string str, char start, char end) {
     }
 
     return partitions;
+}
+
+std::string hg::utils::s_replace(std::string str, std::string replace, std::string with) {
+    std::string out;
+
+    size_t i = 0;
+    while (i < str.size()) {
+        // Find the next occurrence of the pattern
+        size_t found = str.find(replace, i);
+
+        if (found != std::string::npos) {
+            // Append the characters between the current position and the match
+            out += str.substr(i, found - i);
+
+            // Append the replacement
+            out += with;
+
+            // Move the current position past the matched pattern
+            i = found + replace.size();
+        } else {
+            // No more occurrences, append the remaining characters
+            out += str.substr(i);
+            break;
+        }
+    }
+
+    return out;
 }

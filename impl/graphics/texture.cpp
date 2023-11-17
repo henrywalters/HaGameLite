@@ -16,7 +16,7 @@ hg::graphics::Texture::Texture(std::string _path, hg::graphics::ImageType _type)
 
 hg::graphics::Texture::Texture(hg::Vec2i size):
     image(std::make_unique<Image>()),
-    RawTexture<GL_RGBA8, GL_UNSIGNED_BYTE>(size)
-{
+    RawTexture<GL_RGBA8, GL_UNSIGNED_BYTE>(size) {
 
 }
+

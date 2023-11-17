@@ -12,7 +12,8 @@
 namespace hg::common {
 
     struct WeaponDef : public utils::Configurable {
-        std::string name = "Weapon";
+
+        std::string name;
         bool chambered = false;
         bool automatic = false;
         bool infinite = false;
@@ -24,7 +25,7 @@ namespace hg::common {
         float maxDamage = 10.0f;
 
         void save(utils::Config& config) override;
-        void load(utils::Config config) override;
+        void load(const utils::Config& config) override;
     };
 
     class Weapon {
@@ -43,7 +44,7 @@ namespace hg::common {
         void update(hg::Vec3 pos, hg::Vec3 dir, double dt, bool triggerDown);
 
         // Automatically reload the weapon given the current ammo count
-        void reload();
+        bool reload();
 
         // Manually add a specific ammo count to the weapon. The unused ammo will be returned
         int reload(int bulletCount);

@@ -10,6 +10,7 @@
 #include "../graphics/shaderProgram.h"
 #include "../graphics/texture.h"
 #include "../graphics/font.h"
+#include "../graphics/spriteSheet.h"
 
 namespace hg {
 #ifdef __EMSCRIPTEN__
@@ -22,6 +23,7 @@ namespace hg {
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::ShaderProgram>> SHADERS;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Texture>> TEXTURES;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Font>> FONTS;
+        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::SpriteSheet>> SPRITE_SHEETS;
     }
 
     // Load a shader directly by name with path
@@ -42,6 +44,9 @@ namespace hg {
     std::shared_ptr<hg::graphics::Texture> loadTexture(std::string path);
     std::vector<std::shared_ptr<hg::graphics::Texture>> loadTextures(std::vector<std::string> paths);
     hg::graphics::Texture* getTexture(std::string name);
+
+    std::shared_ptr<hg::graphics::SpriteSheet> loadSpriteSheet(std::string name, std::string path);
+    hg::graphics::SpriteSheet* getSpriteSheet(std::string name);
 
     std::shared_ptr<hg::graphics::Font> loadFont(std::string name, std::string path);
     hg::graphics::Font* getFont(std::string name);

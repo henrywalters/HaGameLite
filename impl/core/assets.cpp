@@ -80,3 +80,14 @@ std::shared_ptr<hg::graphics::Font> hg::loadFont(std::string name, std::string p
 hg::graphics::Font* hg::getFont(std::string name) {
     return assets::FONTS.get(name).get();
 }
+
+std::shared_ptr<hg::graphics::SpriteSheet> hg::loadSpriteSheet(std::string name, std::string path) {
+    auto config = hg::utils::MultiConfig::Parse(path);
+    auto spriteSheet = std::make_shared<hg::graphics::SpriteSheet>(config);
+    assets::SPRITE_SHEETS.set(name, spriteSheet);
+    return spriteSheet;
+}
+
+hg::graphics::SpriteSheet* hg::getSpriteSheet(std::string name) {
+    return assets::SPRITE_SHEETS.get(name).get();
+}

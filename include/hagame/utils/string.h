@@ -13,6 +13,7 @@ namespace hg::utils {
     std::vector<std::string> s_partition(std::string str, char start, char end);
     std::string s_join(std::vector<std::string> strs, std::string delim);
     std::string s_trim(std::string str);
+    std::string s_replace(std::string str, std::string replace, std::string with);
 }
 
 #endif //HAGAME2_STRING_H

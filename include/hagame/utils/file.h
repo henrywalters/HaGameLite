@@ -33,7 +33,7 @@ namespace hg::utils {
     void f_appendLines(std::string file, std::vector<std::string> lines);
     FileParts f_getParts(std::string file);
 
-    std::vector<std::string> d_listFiles(std::string path);
+    std::vector<std::string> d_listFiles(std::string path, bool recursive = false);
     std::vector<std::string> d_listDirs(std::string path);
 
 

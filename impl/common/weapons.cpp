@@ -19,16 +19,16 @@ void hg::common::WeaponDef::save(Config& config) {
     config.set(name, "maxDamage", maxDamage);
 }
 
-void hg::common::WeaponDef::load(hg::utils::Config config) {
-    automatic = config.get<bool>(name, "automatic");
-    chambered = config.get<bool>(name, "chambered");
-    infinite = config.get<bool>(name, "infinite");
-    limitAmmo = config.get<bool>(name, "limitAmmo");
-    shotsPerSecond = config.get<int>(name, "shotsPerSecond");
-    clipSize = config.get<int>(name, "clipSize");
-    maxAmmo = config.get<int>(name, "maxAmmo");
-    minDamage = config.get<float>(name, "minDamage");
-    maxDamage = config.get<float>(name, "maxDamage");
+void hg::common::WeaponDef::load(const hg::utils::Config& config) {
+    automatic = config.get<bool>(name, "automatic", false);
+    chambered = config.get<bool>(name, "chambered", false);
+    infinite = config.get<bool>(name, "infinite", false);
+    limitAmmo = config.get<bool>(name, "limitAmmo", false);
+    shotsPerSecond = config.get<int>(name, "shotsPerSecond", 1);
+    clipSize = config.get<int>(name, "clipSize", 10);
+    maxAmmo = config.get<int>(name, "maxAmmo", 100);
+    minDamage = config.get<float>(name, "minDamage", 10);
+    maxDamage = config.get<float>(name, "maxDamage", 10);
 }
 
 void common::Weapon::update(hg::Vec3 pos, hg::Vec3 dir, double dt, bool triggerDown) {
@@ -78,10 +78,11 @@ void common::Weapon::update(hg::Vec3 pos, hg::Vec3 dir, double dt, bool triggerD
     }
 }
 
-void common::Weapon::reload() {
+bool common::Weapon::reload() {
     int ammoUsed = std::min(m_ammo, settings.clipSize - m_ammoInClip);
     int unusedAmmo = reload(ammoUsed);
     m_ammo -= ammoUsed + unusedAmmo;
+    return unusedAmmo != ammoUsed;
 }
 
 int common::Weapon::reload(int bulletCount) {
@@ -113,6 +114,9 @@ int common::Weapon::addAmmo(int bulletCount) {
 }
 
 void common::Weapons::selectWeapon(int index) {
+    if (index >= m_weapons.size()) {
+        throw std::runtime_error("Weapon index does not exist");
+    }
     m_selectedWeapon = index;
 }
 
