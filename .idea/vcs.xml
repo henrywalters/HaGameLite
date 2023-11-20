@@ -5,6 +5,7 @@
     <mapping directory="$PROJECT_DIR$/thirdparty/asio" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/thirdparty/box2d" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/thirdparty/entt" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/thirdparty/openal-soft" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/thirdparty/stb" vcs="Git" />
   </component>
 </project>
