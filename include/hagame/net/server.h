@@ -6,7 +6,7 @@
 #define HAGAME2_SERVER_H
 
 #include "net.h"
-#include "tsqueue.h"
+#include "../structures/tsqueue.h"
 #include "connection.h"
 #include "../utils/uuid.h"
 

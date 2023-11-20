@@ -8,7 +8,7 @@
 #include "net.h"
 
 #include "message.h"
-#include "tsqueue.h"
+#include "../structures/tsqueue.h"
 #include "../utils/uuid.h"
 
 namespace hg::net {
