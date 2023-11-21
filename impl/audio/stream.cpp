@@ -6,53 +6,56 @@
 
 using namespace hg::audio;
 
-hg::audio::Stream::Stream(std::string filepath):
-    m_file(std::make_unique<AudioFile<double>>())
+Stream Stream::FromFile(std::string filepath)
 {
-    m_file->load(filepath);
-    m_file->printSummary();
+    Stream stream;
 
-    alGenBuffers(1, &m_buffer);
+    AudioFile<double> file;
 
-    std::vector<uint16_t> data;
+    file.load(filepath);
+    file.printSummary();
 
-    if (m_file->isMono()) {
-        data.resize(m_file->getNumSamplesPerChannel());
-        for (int i = 0; i < m_file->getNumSamplesPerChannel(); i++) {
-            data[i] = static_cast<int16_t>(m_file->samples[0][i] * INT16_MAX);
+    stream.m_bitDepth = file.getBitDepth();
+    stream.m_channels = file.getNumChannels();
+    stream.m_sampleRate = file.getSampleRate();
+    stream.m_samples = file.getNumSamplesPerChannel();
+
+    if (file.isMono()) {
+        stream.m_stream.resize(stream.m_channels);
+        for (int i = 0; i < file.getNumSamplesPerChannel(); i++) {
+            stream.m_stream[i] = static_cast<int16_t>(file.samples[0][i] * INT16_MAX);
         }
     } else {
-        data.resize(m_file->getNumSamplesPerChannel() * m_file->getNumChannels());
-        for (int i = 0; i < m_file->getNumSamplesPerChannel(); i++) {
-            for (int ch = 0; ch < m_file->getNumChannels(); ch++) {
-                data[2 * i + ch] = static_cast<int16_t>(m_file->samples[ch][i] * INT16_MAX);
+        stream.m_stream.resize(stream.m_samples * stream.m_channels);
+        for (int i = 0; i < file.getNumSamplesPerChannel(); i++) {
+            for (int ch = 0; ch < file.getNumChannels(); ch++) {
+                stream.m_stream[2 * i + ch] = static_cast<int16_t>(file.samples[ch][i] * INT16_MAX);
             }
         }
     }
 
-    ALenum format = m_file->isMono() ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
-    ALuint size = m_file->getNumChannels() * m_file->getNumSamplesPerChannel() * (m_file->getBitDepth() / 8);
-    alBufferData(
-            m_buffer,
-            format,
-            data.data(),
-            size,
-            m_file->getSampleRate()
-    );
+    return stream;
+}
 
-    ALCenum error = alGetError();
-    if (error != AL_NO_ERROR) {
-        std::cout << "OpenAL ERROR: " << error << "\n";
-    }
+SampleType *Stream::stream() {
+    return m_stream.data();
+}
+
+SampleType &Stream::at(int channel, int idx) {
+    return m_stream[2 * idx + channel];
 }
 
 ALCenum Stream::getFormat() const {
-    int bits = m_file->getBitDepth() / m_file->getNumChannels();
-    if (m_file->isMono() && bits == 8) {
+    int bits = m_bitDepth / m_channels;
+    bool isMono = m_channels == 1;
+
+    return isMono ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
+
+    if (isMono && bits == 8) {
         return AL_FORMAT_MONO8;
-    } else if (m_file->isMono() && bits == 16) {
+    } else if (isMono && bits == 16) {
         return AL_FORMAT_MONO16;
-    } else if (m_file->isStereo() && bits == 8) {
+    } else if (!isMono && bits == 8) {
         return AL_FORMAT_STEREO8;
     } else {
         return AL_FORMAT_STEREO16;

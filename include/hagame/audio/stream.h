@@ -18,18 +18,27 @@ namespace hg::audio {
     class Stream {
     public:
 
-        friend class Source;
+        friend class StreamBuffer;
 
-        Stream(std::string filepath);
+        static Stream FromFile(std::string filepath);
 
-        std::vector<SampleType> data() const;
+        SampleType* stream();
+        SampleType& at(int channel, int idx);
+
+        int channels() const { return m_channels; }
+        int sampleRate() const { return m_sampleRate; }
+        int bitDepth() const { return m_bitDepth; }
+        int samples() const { return m_samples; }
+        ALCenum getFormat() const;
+        size_t bytes() const { return m_channels * m_samples * (m_bitDepth / 8); }
 
     private:
 
-        ALCenum getFormat() const;
-
-        ALuint m_buffer;
-        std::unique_ptr<AudioFile<double>> m_file;
+        int m_channels;
+        int m_sampleRate;
+        int m_bitDepth;
+        int m_samples;
+        std::vector<SampleType> m_stream;
 
     };
 }

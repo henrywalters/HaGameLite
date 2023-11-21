@@ -6,11 +6,19 @@
 #define HAGAME2_SOURCE_H
 
 #include "../../../include/hagame/math/aliases.h"
-#include "stream.h"
 #include "AL/al.h"
 #include "AL/alc.h"
 
 namespace hg::audio {
+
+    struct SourceSettings {
+        float pitch = 1.0f;
+        float gain = 1.0f;
+        Vec3 position;
+        Vec3 velocity;
+        bool looping = false;
+    };
+
     class Source {
     public:
 
@@ -18,43 +26,61 @@ namespace hg::audio {
             alGenSources((ALuint)1, &m_source);
         }
 
-        float pitch() const { return m_pitch; }
+        Source(const SourceSettings& _settings):
+        Source() {
+            settings(_settings);
+        }
+
+        void bind(uint16_t buffer) {
+            alSourcei(m_source, AL_BUFFER, buffer);
+        }
+
+        SourceSettings settings() const { return m_settings; }
+
+        void settings(const SourceSettings& settings) {
+            pitch(settings.pitch);
+            gain(settings.gain);
+            position(settings.position);
+            velocity(settings.velocity);
+            looping(settings.looping);
+        }
+
+        float pitch() const { return m_settings.pitch; }
 
         void pitch(float value) {
-            m_pitch = value;
-            alSourcef(m_source, AL_PITCH, m_pitch);
+            m_settings.pitch = value;
+            alSourcef(m_source, AL_PITCH, m_settings.pitch);
         }
 
-        float gain() const { return m_gain; }
+        float gain() const { return m_settings.gain; }
 
         void gain(float value) {
-            m_gain = value;
-            alSourcef(m_source, AL_GAIN, m_gain);
+            m_settings.gain = value;
+            alSourcef(m_source, AL_GAIN, m_settings.gain);
         }
 
-        bool looping() const { return m_looping; }
+        bool looping() const { return m_settings.looping; }
 
         void looping(bool value) {
-            m_looping = value;
-            alSourcei(m_source, AL_LOOPING, m_looping);
+            m_settings.looping = value;
+            alSourcei(m_source, AL_LOOPING, m_settings.looping);
         }
 
-        Vec3 position() const { return m_position; }
+        Vec3 position() const { return m_settings.position; }
 
         void position(Vec3 pos) {
-            m_position = pos;
-            alSource3f(m_source, AL_POSITION, m_position[0], m_position[1], m_position[2]);
+            m_settings.position = pos;
+            alSource3f(m_source, AL_POSITION, m_settings.position[0], m_settings.position[1], m_settings.position[2]);
         }
 
-        Vec3 velocity() const { return m_velocity; }
+        Vec3 velocity() const { return m_settings.velocity; }
 
         void velocity(Vec3 vel) {
-            m_velocity = vel;
-            alSource3f(m_source, AL_VELOCITY, m_velocity[0], m_velocity[1], m_velocity[2]);
+            m_settings.velocity = vel;
+            alSource3f(m_source, AL_VELOCITY, m_settings.velocity[0], m_settings.velocity[1], m_settings.velocity[2]);
         }
 
-        void play(const Stream& stream) {
-            alSourcei(m_source, AL_BUFFER, stream.m_buffer);
+        void play() {
             alSourcePlay(m_source);
             ALint state;
             alGetSourcei(m_source, AL_SOURCE_STATE, &state);
@@ -67,12 +93,7 @@ namespace hg::audio {
 
         ALCuint m_source;
 
-        float m_pitch = 1.0f;
-        float m_gain = 1.0f;
-        Vec3 m_position;
-        Vec3 m_velocity;
-        bool m_looping = false;
-
+        SourceSettings m_settings;
     };
 }
 
