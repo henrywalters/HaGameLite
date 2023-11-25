@@ -26,7 +26,7 @@ namespace hg::audio {
         void updateSource(source_t source, Vec3 position, Vec3 velocity = Vec3::Zero());
         void updateSource(source_t source, float pitch, float gain);
         void updateSource(source_t source, const SourceSettings& settings);
-        Source getSource(source_t source);
+        Source* getSource(source_t source);
 
         buffer_t addBuffer(Stream* stream);
         void bindBuffer(buffer_t buffer, source_t source);

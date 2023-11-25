@@ -12,6 +12,8 @@ namespace hg::audio {
     class SourceComponent : public hg::Component {
     public:
 
+        int channel;
+        buffer_t buffer;
         source_t source;
 
     protected:

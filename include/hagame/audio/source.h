@@ -24,6 +24,7 @@ namespace hg::audio {
 
         Source() {
             alGenSources((ALuint)1, &m_source);
+            alSourcei(m_source, AL_SOURCE_RELATIVE, 1);
         }
 
         Source(const SourceSettings& _settings):
@@ -82,11 +83,24 @@ namespace hg::audio {
 
         void play() {
             alSourcePlay(m_source);
+        }
+
+        void stop() {
+            alSourceStop(m_source);
+        }
+
+        void pause() {
+            alSourcePause(m_source);
+        }
+
+        void rewind() {
+            alSourceRewind(m_source);
+        }
+
+        bool playing() const {
             ALint state;
             alGetSourcei(m_source, AL_SOURCE_STATE, &state);
-            //while (state == AL_PLAYING) {
-            //    alGetSourcei(m_source, AL_SOURCE_STATE, &state);
-            //}
+            return state == AL_PLAYING;
         }
 
     private:

@@ -91,3 +91,13 @@ std::shared_ptr<hg::graphics::SpriteSheet> hg::loadSpriteSheet(std::string name,
 hg::graphics::SpriteSheet* hg::getSpriteSheet(std::string name) {
     return assets::SPRITE_SHEETS.get(name).get();
 }
+
+std::shared_ptr<hg::audio::Stream> hg::loadAudioStream(std::string name, std::string path) {
+    auto stream = std::make_shared<hg::audio::Stream>(path);
+    assets::AUDIO_STREAMS.set(name, stream);
+    return stream;
+}
+
+hg::audio::Stream* hg::getAudioStream(std::string name) {
+    return assets::AUDIO_STREAMS.get(name).get();
+}

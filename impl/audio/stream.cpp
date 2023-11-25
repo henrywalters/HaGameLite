@@ -6,35 +6,32 @@
 
 using namespace hg::audio;
 
-Stream Stream::FromFile(std::string filepath)
+Stream::Stream(std::string filepath)
 {
-    Stream stream;
 
     AudioFile<double> file;
 
     file.load(filepath);
     file.printSummary();
 
-    stream.m_bitDepth = file.getBitDepth();
-    stream.m_channels = file.getNumChannels();
-    stream.m_sampleRate = file.getSampleRate();
-    stream.m_samples = file.getNumSamplesPerChannel();
+    m_bitDepth = file.getBitDepth();
+    m_channels = file.getNumChannels();
+    m_sampleRate = file.getSampleRate();
+    m_samples = file.getNumSamplesPerChannel();
 
     if (file.isMono()) {
-        stream.m_stream.resize(stream.m_channels);
+        m_stream.resize(m_channels * m_samples);
         for (int i = 0; i < file.getNumSamplesPerChannel(); i++) {
-            stream.m_stream[i] = static_cast<int16_t>(file.samples[0][i] * INT16_MAX);
+            m_stream[i] = static_cast<int16_t>(file.samples[0][i] * INT16_MAX);
         }
     } else {
-        stream.m_stream.resize(stream.m_samples * stream.m_channels);
+        m_stream.resize(m_samples * m_channels);
         for (int i = 0; i < file.getNumSamplesPerChannel(); i++) {
             for (int ch = 0; ch < file.getNumChannels(); ch++) {
-                stream.m_stream[2 * i + ch] = static_cast<int16_t>(file.samples[ch][i] * INT16_MAX);
+                m_stream[2 * i + ch] = static_cast<int16_t>(file.samples[ch][i] * INT16_MAX);
             }
         }
     }
-
-    return stream;
 }
 
 SampleType *Stream::stream() {

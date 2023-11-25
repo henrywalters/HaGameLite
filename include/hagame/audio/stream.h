@@ -20,7 +20,8 @@ namespace hg::audio {
 
         friend class StreamBuffer;
 
-        static Stream FromFile(std::string filepath);
+        Stream() {}
+        Stream(std::string filepath);
 
         SampleType* stream();
         SampleType& at(int channel, int idx);

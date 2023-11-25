@@ -47,12 +47,13 @@ void Player::onTick() {
         } else {
             throw std::runtime_error("Unhandled Audio Event in Player.cpp");
         }
-        std::cout << "Processing: " << (int) type << "\n";
     }
 }
 
 void Player::onAbort() {
-    LoopingThread::onAbort();
+    for (const auto& [name, source] : m_sources) {
+        source->stop();
+    }
 }
 
 source_t Player::addSource(hg::Vec3 position) {
@@ -67,6 +68,7 @@ source_t Player::addSource(hg::Vec3 position) {
 void Player::updateSource(source_t source, hg::Vec3 position, hg::Vec3 velocity) {
     SourceEvent e;
     e.type = EventType::UpdateSource;
+    e.source = source;
     e.settings = m_sources[source]->settings();
     e.settings.position = position;
     e.settings.velocity = velocity;
@@ -76,6 +78,7 @@ void Player::updateSource(source_t source, hg::Vec3 position, hg::Vec3 velocity)
 void Player::updateSource(source_t source, float pitch, float gain) {
     SourceEvent e;
     e.type = EventType::UpdateSource;
+    e.source = source;
     e.settings = m_sources[source]->settings();
     e.settings.pitch = pitch;
     e.settings.gain = gain;
@@ -85,6 +88,7 @@ void Player::updateSource(source_t source, float pitch, float gain) {
 void Player::updateSource(source_t source, const SourceSettings &settings) {
     SourceEvent e;
     e.type = EventType::UpdateSource;
+    e.source = source;
     e.settings = settings;
     m_events.push_back(e);
 }
@@ -113,7 +117,7 @@ void Player::playSource(source_t source) {
     m_events.push_back(e);
 }
 
-Source Player::getSource(source_t source) {
-    return *m_sources[source].get();
+Source* Player::getSource(source_t source) {
+    return m_sources.find(source) == m_sources.end() ? nullptr : m_sources[source].get();
 }
 
