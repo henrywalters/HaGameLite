@@ -11,6 +11,7 @@
 #include "../graphics/texture.h"
 #include "../graphics/font.h"
 #include "../graphics/spriteSheet.h"
+#include "../audio/stream.h"
 
 namespace hg {
 #ifdef __EMSCRIPTEN__
@@ -24,6 +25,7 @@ namespace hg {
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Texture>> TEXTURES;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Font>> FONTS;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::SpriteSheet>> SPRITE_SHEETS;
+        inline static hg::utils::Store<std::string, std::shared_ptr<hg::audio::Stream>> AUDIO_STREAMS;
     }
 
     // Load a shader directly by name with path
@@ -50,6 +52,9 @@ namespace hg {
 
     std::shared_ptr<hg::graphics::Font> loadFont(std::string name, std::string path);
     hg::graphics::Font* getFont(std::string name);
+
+    std::shared_ptr<hg::audio::Stream> loadAudioStream(std::string name, std::string path);
+    hg::audio::Stream* getAudioStream(std::string name);
 }
 
 

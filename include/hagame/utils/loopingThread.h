@@ -47,7 +47,7 @@ class LoopingThread {
 
             onStart();
 
-            while(true)
+            while(!m_aborting)
             {
                 try
                 {

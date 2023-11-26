@@ -10,3 +10,9 @@
 [submodule "thirdparty/asio"]
 	path = thirdparty/asio
 	url = git@github.com:chriskohlhoff/asio.git
+[submodule "thirdparty/openal-soft"]
+	path = thirdparty/openal-soft
+	url = git@github.com:kcat/openal-soft.git
+[submodule "thirdparty/AudioFile"]
+	path = thirdparty/AudioFile
+	url = git@github.com:adamstark/AudioFile.git

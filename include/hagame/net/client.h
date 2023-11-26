@@ -6,7 +6,7 @@
 #define HAGAME2_CLIENT_H
 
 #include "net.h"
-#include "tsqueue.h"
+#include "../structures/tsqueue.h"
 #include "message.h"
 
 namespace hg::net {

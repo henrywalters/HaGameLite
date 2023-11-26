@@ -5,7 +5,7 @@
 #ifndef HAGAME2_TSQUEUE_H
 #define HAGAME2_TSQUEUE_H
 
-#include "net.h"
+#include "../net/net.h"
 
 namespace hg::net {
     template <typename T>
