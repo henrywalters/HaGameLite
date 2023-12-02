@@ -5,9 +5,12 @@
 #ifndef HAGAME2_TSQUEUE_H
 #define HAGAME2_TSQUEUE_H
 
-#include "../net/net.h"
+#include <mutex>
+#include <deque>
+#include <condition_variable>
 
-namespace hg::net {
+namespace hg::structures {
+    // TSQueue provides a thread-safe queue for passing buffers to a separate thread
     template <typename T>
     class TSQueue {
     public:

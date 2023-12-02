@@ -66,6 +66,11 @@ void hg::graphics::Debug::DrawLine(float x1, float y1, float x2, float y2, hg::g
 }
 
 void
+hg::graphics::Debug::DrawLine(hg::Vec2 p1, hg::Vec2 p2, hg::graphics::Color color, float thickness, double duration) {
+    DrawLine(p1.x(), p1.y(), p2.x(), p2.y(), color, thickness, duration);
+}
+
+void
 hg::graphics::Debug::DrawRect(float x, float y, float width, float height, hg::graphics::Color color, float thickness, double duration) {
     if (!Debug::ENABLED) return;
     s_calls.emplace_back(Call{[x, y, width, height, color, thickness](){
@@ -133,7 +138,6 @@ void hg::graphics::Debug::DrawRay(hg::math::Ray ray, hg::graphics::Color color, 
     s_calls.emplace_back(Call{[ray, color, triangleSize, thickness](){
         auto end =  ray.origin + ray.direction;
         DrawLine(math::LineSegment(ray.origin, end), color, thickness);
-        DrawCircle(end.x(), end.y(), triangleSize, color, thickness);
     }, duration, utils::Clock::Now()});
 }
 

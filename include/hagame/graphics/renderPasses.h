@@ -48,6 +48,11 @@ namespace hg::graphics {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
         }
 
+        void resize(KeyType key, hg::Vec2i size) {
+            m_passes.erase(key);
+            create(key, size);
+        }
+
         void render(KeyType key, int attachments) {
             bind(key);
             unsigned int attach[attachments];

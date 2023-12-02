@@ -5,13 +5,47 @@
 #ifndef HAGAME2_PROFILER_H
 #define HAGAME2_PROFILER_H
 
+#ifndef __EMSCRIPTEN__
+    #define USE_EXPERIMENTAL 1;
+#endif
+
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <experimental/source_location>
 #include <stdexcept>
 
+#ifdef USE_EXPERIMENTAL
+#include <experimental/source_location>
+#include "file.h"
+
+#endif
+
 namespace hg::utils {
+
+#ifdef USE_EXPERIMENTAL
+    using source_t = std::experimental::source_location;
+
+    inline std::string name_source(source_t source) {
+        utils::FileParts parts = utils::f_getParts(source.file_name());
+        return parts.name + ": " + std::string(source.function_name());
+    }
+
+    inline constexpr source_t default_source() {
+        return std::experimental::source_location::current();
+    }
+#else
+
+    using source_t = std::string;
+
+    inline std::string name_source(source_t source) {
+        return source;
+    }
+
+    inline source_t default_source() {
+        return "SOURCE NOT SUPPORTED";
+    }
+
+#endif
 
     struct ProfileFrame {
         long long start;
@@ -20,7 +54,7 @@ namespace hg::utils {
 
     struct Profile {
         std::string name;
-        std::experimental::source_location source;
+        source_t source;
         std::vector<ProfileFrame> frames;
         long long start, end;
     };
@@ -28,12 +62,10 @@ namespace hg::utils {
     class Profiler {
     public:
 
-        static std::string Name(std::experimental::source_location source);
-
         static bool ENABLED;
 
-        static void Start(std::string name = Name(std::experimental::source_location::current()), std::experimental::source_location source = std::experimental::source_location::current());
-        static void End(std::string name = Name(std::experimental::source_location::current()), std::experimental::source_location source = std::experimental::source_location::current());
+        static void Start(std::string name = name_source(default_source()), source_t source = default_source());
+        static void End(std::string name = name_source(default_source()), source_t source = default_source());
 
         static void Render();
 

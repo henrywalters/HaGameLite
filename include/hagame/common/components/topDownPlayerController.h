@@ -12,10 +12,10 @@ namespace hg {
     class TopDownPlayerController : public hg::Component {
     public:
 
-        float epsilon = 1.0f;
-        float acceleration = 1000.0f;
-        float deacceleration = 2000.0f;
-        float maxSpeed = 1000.0f;
+        float epsilon = 0.00001f;
+        float acceleration = 1.0f;
+        float deacceleration = 2.0f;
+        float maxSpeed = 1.0f;
         HG_GET_SET_SIMPLE(hg::Vec3, velocity);
 
         void addVelocity(hg::Vec3 vel) {
@@ -30,7 +30,7 @@ namespace hg {
 
             for (int i = 0; i < 3; i++) {
 
-                if (nearEqual<float>(direction[i], 0, 0.001)) {
+                if (nearEqual<float>(direction[i], 0, 0.1)) {
                     if (nearEqual<float>(m_velocity[i], 0, epsilon)) {
                         m_velocity[i] = 0;
                     } else {
@@ -53,6 +53,7 @@ namespace hg {
             if (speed >= maxSpeed) {
                 m_velocity = m_velocity.normalized() * maxSpeed;
             }
+
         }
 
     private:

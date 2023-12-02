@@ -89,8 +89,7 @@ namespace hg::graphics {
 
         hg::Vec2i getSpawnPoint();
 
-        std::vector<math::polygon_t> decompose(int layer);
-
+        std::vector<math::Polygon> decompose(int layer);
 
         Vec3 resolveCollisions(int layer, Rect rect, Vec3 vel, double dt);
         std::optional<hg::math::collisions::Hit> isColliding(int layer, hg::Vec2i tileIdx, Rect rect, Vec3 vel, double dt);

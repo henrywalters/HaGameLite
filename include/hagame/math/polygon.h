@@ -6,10 +6,14 @@
 #define HAGAME2_POLYGON_H
 
 #include <vector>
-#include "lineSegment.h"
+#include "vector.h"
 
 namespace hg::math {
-    using polygon_t = std::vector<LineSegment>;
+    struct Edge {
+        Vec2 a;
+        Vec2 b;
+    };
+    using Polygon = std::vector<Edge>;
 }
 
 #endif //HAGAME2_POLYGON_H

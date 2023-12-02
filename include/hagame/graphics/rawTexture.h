@@ -16,16 +16,23 @@ namespace hg::graphics {
     public:
 
         GLuint id;
+        hg::Vec2i size;
 
-        RawTexture(hg::Vec2i size) {
+        RawTexture(hg::Vec2i _size):
+            size(_size)
+        {
             initialize(size);
         }
 
-        RawTexture(hg::Vec2i size, float* data) {
+        RawTexture(hg::Vec2i _size, float* data):
+                size(_size)
+        {
             initialize(size, data);
         }
 
-        RawTexture(hg::Vec2i size, unsigned char* data) {
+        RawTexture(hg::Vec2i _size, unsigned char* data):
+                size(_size)
+        {
             initialize(size, data);
         }
 

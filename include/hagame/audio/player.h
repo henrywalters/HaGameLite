@@ -80,7 +80,7 @@ namespace hg::audio {
 
         std::unordered_map<source_t, std::unique_ptr<Source>> m_sources;
         std::unordered_map<buffer_t, std::unique_ptr<audio::StreamBuffer>> m_buffers;
-        net::TSQueue<Event> m_events;
+        structures::TSQueue<Event> m_events;
 
         void checkError();
     };

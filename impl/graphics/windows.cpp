@@ -29,6 +29,7 @@ void hg::graphics::Windows::CloseCallback(GLFWwindow *window) {
 
 void hg::graphics::Windows::ResizeCallback(GLFWwindow *window, int width, int height) {
     s_windows[window]->m_size = Resolution(width, height);
+    glViewport(0, 0, width, height);
     Windows::Events.emit(WindowEvents::Resize, s_windows[window].get());
 }
 

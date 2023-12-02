@@ -40,6 +40,7 @@ namespace hg::graphics {
 
         static void DrawLine(float x1, float y1, float x2, float y2, Color color, float thickness = 1.0f, double duration = 0.0);
         static void DrawLine(math::LineSegment line, Color color, float thickness = 1.0f, double duration = 0.0);
+        static void DrawLine(Vec2 p1, Vec2 p2, Color color, float thickness = 1.0f, double duration = 0.0);
         static void DrawPath(std::vector<hg::Vec3> points, Color color, float thickness, double duration = 0.0);
         static void DrawRect(float x, float y, float width, float height, Color color, float thickness = 1.0f, double duration = 0.0);
         static void DrawRect(Rect rect, Color color, float thickness = 1.0f, double duration = 0.0);

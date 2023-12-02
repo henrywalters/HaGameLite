@@ -10,9 +10,6 @@
 using namespace std;
 using namespace std::experimental;
 
-//unordered_map<string, bool> hg::utils::Profiler::s_started = unordered_map<string, bool>();
-//unordered_map<string, hg::utils::Profile> hg::utils::Profiler::s_profiles = unordered_map<string, hg::utils::Profile>();
-
 void hg::utils::Profiler::Start(std::string name, source_location source) {
     if (s_profiles.find(name) == s_profiles.end()) {
         Profile profile;
@@ -52,9 +49,4 @@ void hg::utils::Profiler::Render() {
         hg::graphics::Debug::DrawText(pos, name + ": " + std::to_string(dur) + "ms", hg::graphics::Color::blue());
         pos[1] += 16;
     }
-}
-
-std::string hg::utils::Profiler::Name(std::experimental::source_location source) {
-    utils::FileParts parts = utils::f_getParts(source.file_name());
-    return parts.name + ": " + std::string(source.function_name());
 }

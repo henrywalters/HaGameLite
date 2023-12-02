@@ -10,6 +10,10 @@
 namespace hg {
     bool rectContainsPoint(Vec2 pos, Vec2 size, Vec2 point);
 
+    inline Vec2 rotate(const Vec2& vec, float theta) {
+        return Vec2(std::cos(theta) * vec[0] - std::sin(theta) * vec[1], std::sin(theta) * vec[0] + std::cos(theta) * vec[1]);
+    }
+
     template <class T>
     std::vector<Vec2i> bresenham(const math::Vector<2, T>& start, const math::Vector<2, T>& end) {
         std::vector<Vec2i> points;

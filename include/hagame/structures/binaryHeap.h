@@ -11,7 +11,6 @@
 #include <functional>
 #include <iostream>
 #include "comparable.h"
-#include "../utils/profiler.h"
 
 namespace hg::structures {
     template <typename T>

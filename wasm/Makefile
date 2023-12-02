@@ -31,6 +31,9 @@ default_target: all
 
 .SUFFIXES: .hpux_make_needs_suffix_list
 
+# Produce verbose output by default.
+VERBOSE = 1
+
 # Command-line flag to silence nested $(MAKE).
 $(VERBOSE)MAKESILENT = -s
 
@@ -200,6 +203,102 @@ impl/_math/functions.s: impl/_math/functions.cpp.s
 impl/_math/functions.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/_math/functions.cpp.s
 .PHONY : impl/_math/functions.cpp.s
+
+impl/audio/device.o: impl/audio/device.cpp.o
+.PHONY : impl/audio/device.o
+
+# target to build an object file
+impl/audio/device.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/device.cpp.o
+.PHONY : impl/audio/device.cpp.o
+
+impl/audio/device.i: impl/audio/device.cpp.i
+.PHONY : impl/audio/device.i
+
+# target to preprocess a source file
+impl/audio/device.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/device.cpp.i
+.PHONY : impl/audio/device.cpp.i
+
+impl/audio/device.s: impl/audio/device.cpp.s
+.PHONY : impl/audio/device.s
+
+# target to generate assembly for a file
+impl/audio/device.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/device.cpp.s
+.PHONY : impl/audio/device.cpp.s
+
+impl/audio/player.o: impl/audio/player.cpp.o
+.PHONY : impl/audio/player.o
+
+# target to build an object file
+impl/audio/player.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/player.cpp.o
+.PHONY : impl/audio/player.cpp.o
+
+impl/audio/player.i: impl/audio/player.cpp.i
+.PHONY : impl/audio/player.i
+
+# target to preprocess a source file
+impl/audio/player.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/player.cpp.i
+.PHONY : impl/audio/player.cpp.i
+
+impl/audio/player.s: impl/audio/player.cpp.s
+.PHONY : impl/audio/player.s
+
+# target to generate assembly for a file
+impl/audio/player.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/player.cpp.s
+.PHONY : impl/audio/player.cpp.s
+
+impl/audio/stream.o: impl/audio/stream.cpp.o
+.PHONY : impl/audio/stream.o
+
+# target to build an object file
+impl/audio/stream.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/stream.cpp.o
+.PHONY : impl/audio/stream.cpp.o
+
+impl/audio/stream.i: impl/audio/stream.cpp.i
+.PHONY : impl/audio/stream.i
+
+# target to preprocess a source file
+impl/audio/stream.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/stream.cpp.i
+.PHONY : impl/audio/stream.cpp.i
+
+impl/audio/stream.s: impl/audio/stream.cpp.s
+.PHONY : impl/audio/stream.s
+
+# target to generate assembly for a file
+impl/audio/stream.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/stream.cpp.s
+.PHONY : impl/audio/stream.cpp.s
+
+impl/audio/streamBuffer.o: impl/audio/streamBuffer.cpp.o
+.PHONY : impl/audio/streamBuffer.o
+
+# target to build an object file
+impl/audio/streamBuffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/streamBuffer.cpp.o
+.PHONY : impl/audio/streamBuffer.cpp.o
+
+impl/audio/streamBuffer.i: impl/audio/streamBuffer.cpp.i
+.PHONY : impl/audio/streamBuffer.i
+
+# target to preprocess a source file
+impl/audio/streamBuffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/streamBuffer.cpp.i
+.PHONY : impl/audio/streamBuffer.cpp.i
+
+impl/audio/streamBuffer.s: impl/audio/streamBuffer.cpp.s
+.PHONY : impl/audio/streamBuffer.s
+
+# target to generate assembly for a file
+impl/audio/streamBuffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/streamBuffer.cpp.s
+.PHONY : impl/audio/streamBuffer.cpp.s
 
 impl/common/weapons.o: impl/common/weapons.cpp.o
 .PHONY : impl/common/weapons.o
@@ -609,6 +708,30 @@ impl/graphics/primitives/disc.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/primitives/disc.cpp.s
 .PHONY : impl/graphics/primitives/disc.cpp.s
 
+impl/graphics/primitives/grid.o: impl/graphics/primitives/grid.cpp.o
+.PHONY : impl/graphics/primitives/grid.o
+
+# target to build an object file
+impl/graphics/primitives/grid.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/primitives/grid.cpp.o
+.PHONY : impl/graphics/primitives/grid.cpp.o
+
+impl/graphics/primitives/grid.i: impl/graphics/primitives/grid.cpp.i
+.PHONY : impl/graphics/primitives/grid.i
+
+# target to preprocess a source file
+impl/graphics/primitives/grid.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/primitives/grid.cpp.i
+.PHONY : impl/graphics/primitives/grid.cpp.i
+
+impl/graphics/primitives/grid.s: impl/graphics/primitives/grid.cpp.s
+.PHONY : impl/graphics/primitives/grid.s
+
+# target to generate assembly for a file
+impl/graphics/primitives/grid.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/primitives/grid.cpp.s
+.PHONY : impl/graphics/primitives/grid.cpp.s
+
 impl/graphics/primitives/line.o: impl/graphics/primitives/line.cpp.o
 .PHONY : impl/graphics/primitives/line.o
 
@@ -704,6 +827,30 @@ impl/graphics/shaderProgram.s: impl/graphics/shaderProgram.cpp.s
 impl/graphics/shaderProgram.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/shaderProgram.cpp.s
 .PHONY : impl/graphics/shaderProgram.cpp.s
+
+impl/graphics/spriteSheet.o: impl/graphics/spriteSheet.cpp.o
+.PHONY : impl/graphics/spriteSheet.o
+
+# target to build an object file
+impl/graphics/spriteSheet.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/spriteSheet.cpp.o
+.PHONY : impl/graphics/spriteSheet.cpp.o
+
+impl/graphics/spriteSheet.i: impl/graphics/spriteSheet.cpp.i
+.PHONY : impl/graphics/spriteSheet.i
+
+# target to preprocess a source file
+impl/graphics/spriteSheet.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/spriteSheet.cpp.i
+.PHONY : impl/graphics/spriteSheet.cpp.i
+
+impl/graphics/spriteSheet.s: impl/graphics/spriteSheet.cpp.s
+.PHONY : impl/graphics/spriteSheet.s
+
+# target to generate assembly for a file
+impl/graphics/spriteSheet.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/spriteSheet.cpp.s
+.PHONY : impl/graphics/spriteSheet.cpp.s
 
 impl/graphics/text.o: impl/graphics/text.cpp.o
 .PHONY : impl/graphics/text.o
@@ -1179,6 +1326,18 @@ help:
 	@echo "... impl/_math/functions.o"
 	@echo "... impl/_math/functions.i"
 	@echo "... impl/_math/functions.s"
+	@echo "... impl/audio/device.o"
+	@echo "... impl/audio/device.i"
+	@echo "... impl/audio/device.s"
+	@echo "... impl/audio/player.o"
+	@echo "... impl/audio/player.i"
+	@echo "... impl/audio/player.s"
+	@echo "... impl/audio/stream.o"
+	@echo "... impl/audio/stream.i"
+	@echo "... impl/audio/stream.s"
+	@echo "... impl/audio/streamBuffer.o"
+	@echo "... impl/audio/streamBuffer.i"
+	@echo "... impl/audio/streamBuffer.s"
 	@echo "... impl/common/weapons.o"
 	@echo "... impl/common/weapons.i"
 	@echo "... impl/common/weapons.s"
@@ -1230,6 +1389,9 @@ help:
 	@echo "... impl/graphics/primitives/disc.o"
 	@echo "... impl/graphics/primitives/disc.i"
 	@echo "... impl/graphics/primitives/disc.s"
+	@echo "... impl/graphics/primitives/grid.o"
+	@echo "... impl/graphics/primitives/grid.i"
+	@echo "... impl/graphics/primitives/grid.s"
 	@echo "... impl/graphics/primitives/line.o"
 	@echo "... impl/graphics/primitives/line.i"
 	@echo "... impl/graphics/primitives/line.s"
@@ -1242,6 +1404,9 @@ help:
 	@echo "... impl/graphics/shaderProgram.o"
 	@echo "... impl/graphics/shaderProgram.i"
 	@echo "... impl/graphics/shaderProgram.s"
+	@echo "... impl/graphics/spriteSheet.o"
+	@echo "... impl/graphics/spriteSheet.i"
+	@echo "... impl/graphics/spriteSheet.s"
 	@echo "... impl/graphics/text.o"
 	@echo "... impl/graphics/text.i"
 	@echo "... impl/graphics/text.s"
