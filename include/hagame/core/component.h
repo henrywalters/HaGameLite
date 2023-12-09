@@ -42,6 +42,8 @@ namespace hg {
         virtual void load(utils::Config* config, std::string section) {}
         virtual void save(utils::Config* config, std::string section) {}
 
+        virtual void onParamChange() {};
+
     protected:
 
         OBJECT_NAME(Component)
@@ -78,7 +80,7 @@ namespace hg {
     public:
 
         using attach_fn = std::function<Component*(Entity*)>;
-        using setter_fn = std::function<void(Component*, std::any&)>;
+        using setter_fn = std::function<void(Component*, std::any)>;
         using getter_fn = std::function<std::any(Component*)>;
 
         struct RegisteredComponent {

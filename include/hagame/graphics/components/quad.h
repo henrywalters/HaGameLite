@@ -35,7 +35,13 @@ namespace hg::graphics {
         std::unique_ptr<primitives::Quad> quad;
 
         MeshInstance* mesh() const { return m_mesh.get(); }
+
+        void onParamChange() override {
+            m_mesh->update(quad.get());
+        }
+
     private:
+
         std::unique_ptr<MeshInstance> m_mesh;
     };
 
