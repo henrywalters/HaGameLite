@@ -75,6 +75,59 @@ namespace hg {
     }
 
     entt::meta_type GetComponent(std::string id);
+
+    class ComponentFactory {
+    public:
+
+        using attach_fn = std::function<Component*(Entity*)>;
+
+        struct RegisteredComponent {
+            std::string category;
+            std::string name;
+            attach_fn attach;
+        };
+
+        // Register a component in the factory
+        template <IsComponent Comp>
+        static attach_fn Register(std::string category, std::string className);
+
+        // List all the registered components
+        static std::vector<RegisteredComponent> GetAll();
+
+        // Get a specific component by name
+        static RegisteredComponent Get(std::string name);
+
+        // Get all the registered categories
+        static std::vector<std::string> GetCategories();
+
+        // Get all the components in a category
+        static std::vector<RegisteredComponent> GetCategory(std::string category);
+
+        // Attach a component by name to an entity
+        static void Attach(Entity* entity, std::string componentName);
+
+    private:
+
+        static std::unordered_map<std::string, RegisteredComponent>& ComponentMap();
+
+        static std::unique_ptr<std::unordered_map<std::string, RegisteredComponent>> s_components;
+
+    };
+
+    template<IsComponent Comp>
+    ComponentFactory::attach_fn ComponentFactory::Register(std::string category, std::string className) {
+        auto attachFunc = [&](auto* entity) {
+            return (Component*) entity->template addComponent<Comp>();
+        };
+
+        RegisteredComponent component;
+        component.name = className;
+        component.category = category;
+        component.attach = attachFunc;
+
+        ComponentMap().insert(std::make_pair(className, component));
+        return attachFunc;
+    }
 }
 
 #endif //HAGAME2_COMPONENT_H

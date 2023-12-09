@@ -131,10 +131,14 @@ namespace hg {
     class EntityManager {
     public:
 
+        std::shared_ptr<Entity> root;
+
         GroupManager groups;
 
         EntityManager() {
             m_registry = std::make_unique<entt::basic_registry<uint32_t, std::allocator<uint32_t>>>();
+            root = createEntity();
+            root->name = "root";
         }
 
         void clear() {
@@ -155,18 +159,16 @@ namespace hg {
 
         // Instantiate a new entity belonging to the registry
         Entity* add() {
-            auto enttId = registry()->create();
-            auto entity = std::make_shared<hg::Entity>(enttId, registry());
-            m_enttMap.insert(std::make_pair(enttId, entity));
-            m_idMap.insert(std::make_pair(entity->id(), entity));
+            auto entity = createEntity();
+            root->addChild(entity.get());
             return entity.get();
         }
 
         // Instantiate a new child entity belonging to the registry
         Entity* add(Entity*parent) {
-            auto entity = add();
-            parent->addChild(entity);
-            return entity;
+            auto entity = createEntity();
+            parent->addChild(entity.get());
+            return entity.get();
         }
 
         // Destroy an entity
@@ -221,6 +223,14 @@ namespace hg {
         std::unique_ptr<entt::basic_registry<uint32_t, std::allocator<uint32_t>>> m_registry;
         std::unordered_map<uint32_t, std::shared_ptr<Entity>> m_enttMap;
         std::unordered_map<uint32_t, std::shared_ptr<Entity>> m_idMap;
+
+        std::shared_ptr<Entity> createEntity() {
+            auto enttId = registry()->create();
+            auto entity = std::make_shared<hg::Entity>(enttId, registry());
+            m_enttMap.insert(std::make_pair(enttId, entity));
+            m_idMap.insert(std::make_pair(entity->id(), entity));
+            return entity;
+        }
 
     };
 }

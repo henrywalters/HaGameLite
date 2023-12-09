@@ -451,6 +451,15 @@ namespace hg::math {
                 }
             }
 
+            bool approxEqual(Vector other, T epsilon) {
+                for (int i = 0; i < size; i++) {
+                    if (other[i] < vector[i] - epsilon || other[i] > vector[i] + epsilon) {
+                        return false;
+                    }
+                }
+                return false;
+            }
+
             // Operator Overloads
 
             T operator[](const int i) const {

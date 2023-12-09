@@ -76,7 +76,9 @@ namespace hg::math {
         }
 
     private:
-        bool m_intersected, m_parallel, m_collinear = false;
+        bool m_intersected = false;
+        bool m_parallel = false;
+        bool m_collinear = false;
         float m_t;
         hg::math::Interval<float> m_tInterval;
         Vec2 m_pos;

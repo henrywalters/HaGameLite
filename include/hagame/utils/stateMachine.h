@@ -93,6 +93,10 @@ namespace hg::utils {
             return m_states[m_active.value()].get();
         }
 
+        std::optional<std::string> activeName() {
+            return m_active;
+        }
+
         std::vector<std::string> states() const {
             std::vector<std::string> states;
             for (const auto& [name, state] : m_states) {

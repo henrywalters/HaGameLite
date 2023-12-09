@@ -6,6 +6,7 @@
 #define HAGAME2_QUAD_H
 
 #include "../../core/component.h"
+#include "../../core/entity.h"
 #include "../primitives/quad.h"
 #include "../color.h"
 #include "../mesh.h"
@@ -14,6 +15,12 @@
 namespace hg::graphics {
     class Quad : public Component {
     public:
+
+        Quad():
+            quad(std::make_unique<primitives::Quad>()),
+            m_mesh(std::make_unique<MeshInstance>(quad.get()))
+        {}
+
         Quad(Vec2 size, Vec2 offset):
             quad(std::make_unique<primitives::Quad>(size, offset)),
             m_mesh(std::make_unique<MeshInstance>(quad.get()))
@@ -31,6 +38,9 @@ namespace hg::graphics {
     private:
         std::unique_ptr<MeshInstance> m_mesh;
     };
+
+    HG_COMPONENT(Graphics, Quad)
+
 }
 
 #endif //HAGAME2_QUAD_H

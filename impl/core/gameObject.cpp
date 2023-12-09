@@ -74,3 +74,13 @@ hg::Quat GameObject::rotation() {
 Mat4 GameObject::model() {
     return Mat4::Translation(position()) * Mat4::Rotation(rotation()) * Mat4::Scale(scale());
 }
+
+GameObject *GameObject::getChildByName(std::string name) {
+    for (const auto& child : m_children) {
+        if (child->name == name) {
+            return child;
+        }
+    }
+
+    return nullptr;
+}

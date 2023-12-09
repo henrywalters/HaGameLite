@@ -25,6 +25,7 @@ namespace hg {
 
         void addChild(GameObject* child);
         void removeChild(GameObject* child);
+        GameObject* getChildByName(std::string name);
 
         // Get the global position of the game object
         hg::Vec3 position();

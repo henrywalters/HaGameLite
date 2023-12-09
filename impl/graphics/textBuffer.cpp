@@ -8,7 +8,7 @@ hg::graphics::TextBuffer::TextBuffer()
 
 }
 
-hg::graphics::TextBuffer::TextBuffer(hg::graphics::Font *font, std::string text, hg::Vec3 pos, TextHAlignment hAlignment, TextVAlignment vAlignment):
+hg::graphics::TextBuffer::TextBuffer(hg::graphics::Font *font, std::string text, math::Vector<3, float> pos, TextHAlignment hAlignment, TextVAlignment vAlignment):
     m_font(font),
     m_text(text),
     m_pos(pos),

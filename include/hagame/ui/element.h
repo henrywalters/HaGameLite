@@ -6,6 +6,7 @@
 #define HAGAME2_ELEMENT_H
 
 #include "../math/aliases.h"
+#include "../graphics/window.h"
 
 namespace hg::ui {
 
@@ -13,10 +14,24 @@ namespace hg::ui {
     class Element {
     public:
 
-        virtual Vec2 getSize() { return Vec2::Zero(); }
+        virtual Rect getRect() { return Rect::Zero(); }
+        virtual void update(hg::graphics::Window* window, double dt) {};
         virtual void render(double dt) {};
 
+    protected:
+
+        hg::Vec2 mousePos(hg::graphics::Window* window) {
+            hg::Vec2 pos = window->input.keyboardMouse.mouse.position;
+            pos[1] = window->size()[1] - pos[1];
+            return pos;
+        }
+
+        bool mouseClicked(hg::graphics::Window* window) {
+            return window->input.keyboardMouse.mouse.leftPressed;
+        }
+
     };
+
 }
 
 #endif //HAGAME2_ELEMENT_H

@@ -74,9 +74,6 @@
         hg::utils::StaticPool<name>::Get(id)->close();                    \
     }
 
-#define HG_COMPONENT(type) \
-    extern "C" void Register_##type() { \
-        hg::RegisterComponent<type>(#type); \
-    }                            \
+#define HG_COMPONENT(Category, Name) static hg::ComponentFactory::attach_fn Attach_##Name = hg::ComponentFactory::Register<Name>(#Category, #Name);
 
 #endif //HAGAME2_MACROS_H

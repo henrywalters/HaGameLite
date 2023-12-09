@@ -13,7 +13,7 @@ namespace hg::graphics {
     public:
 
         TextBuffer();
-        TextBuffer(Font* font, std::string text = "", Vec3 pos = Vec3::Zero(), TextHAlignment hAlignment = TextHAlignment::Center, TextVAlignment vAlignment = TextVAlignment::Center);
+        TextBuffer(Font* font, std::string text = "", math::Vector<3, float> pos = Vec3::Zero(), TextHAlignment hAlignment = TextHAlignment::Center, TextVAlignment vAlignment = TextVAlignment::Center);
         TextBuffer(Font* font, std::string text, Vec3 pos, Vec3 size, TextHAlignment hAlignment = TextHAlignment::Center, TextVAlignment vAlignment = TextVAlignment::Center);
 
         HG_GET_SET_PTR(Font, font, updateBuffers);

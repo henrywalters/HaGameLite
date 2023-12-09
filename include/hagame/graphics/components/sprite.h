@@ -6,12 +6,13 @@
 #define HAGAME2_SPRITE_H
 
 #include "quad.h"
+#include "../../core/entity.h"
 
 namespace hg::graphics {
     class Sprite : public Quad {
     public:
 
-        Sprite(Vec2 size, Vec2 offset = Vec2::Zero()):
+        Sprite(Vec2 size = Vec2::Zero(), Vec2 offset = Vec2::Zero()):
             Quad(size, offset)
         {}
 
@@ -24,6 +25,8 @@ namespace hg::graphics {
         }
 
     };
+
+    HG_COMPONENT(Graphics, Sprite)
 }
 
 #endif //HAGAME2_SPRITE_H
