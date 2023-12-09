@@ -40,9 +40,8 @@ namespace hg {
         hg::Mat4 model();
 
     protected:
-        [[nodiscard]] std::string toString() const override {
-            return "GameObject<" + std::to_string(id()) + ">";
-        }
+
+        OBJECT_NAME(GameObject)
 
     private:
 

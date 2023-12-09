@@ -44,9 +44,7 @@ namespace hg {
 
     protected:
 
-        std::string toString() const override {
-            return "Component<" + std::to_string(id()) + ">";
-        }
+        OBJECT_NAME(Component)
 
         template <typename T>
         void setParam(ComponentParams params, std::string key, T& member) {
@@ -80,6 +78,8 @@ namespace hg {
     public:
 
         using attach_fn = std::function<Component*(Entity*)>;
+        using setter_fn = std::function<void(Component*, std::any&)>;
+        using getter_fn = std::function<std::any(Component*)>;
 
         struct RegisteredComponent {
             std::string category;
@@ -87,9 +87,18 @@ namespace hg {
             attach_fn attach;
         };
 
+        struct ComponentField {
+            std::string type;
+            std::string field;
+            setter_fn setter;
+            getter_fn getter;
+        };
+
         // Register a component in the factory
         template <IsComponent Comp>
         static attach_fn Register(std::string category, std::string className);
+
+        static ComponentField RegisterField(std::string type, std::string component, std::string fieldName, setter_fn setter, getter_fn getter);
 
         // List all the registered components
         static std::vector<RegisteredComponent> GetAll();
@@ -103,13 +112,17 @@ namespace hg {
         // Get all the components in a category
         static std::vector<RegisteredComponent> GetCategory(std::string category);
 
+        static std::vector<ComponentField> GetFields(std::string component);
+
         // Attach a component by name to an entity
         static void Attach(Entity* entity, std::string componentName);
 
     private:
 
         static std::unordered_map<std::string, RegisteredComponent>& ComponentMap();
+        static std::unordered_map<std::string, ComponentField>& Fields(std::string component);
 
+        static std::unique_ptr<std::unordered_map<std::string, std::unordered_map<std::string, ComponentField>>> s_fields;
         static std::unique_ptr<std::unordered_map<std::string, RegisteredComponent>> s_components;
 
     };

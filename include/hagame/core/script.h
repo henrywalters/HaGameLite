@@ -42,12 +42,11 @@ namespace hg {
 
     protected:
 
+        OBJECT_NAME(Script)
+
         virtual void onInit() {}
         virtual void onUpdate(double dt) {}
         virtual void onClose() {}
-        virtual std::string toString() {
-            return "Script<" + std::to_string(id()) + ">";
-        }
 
         hg::Scene* m_scene;
 

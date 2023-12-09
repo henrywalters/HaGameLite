@@ -153,12 +153,3 @@ hg::Vec2i hg::graphics::Font::calcMessageSize(std::string message) {
 
     return size;
 }
-
-std::string hg::graphics::Font::toString() const {
-    return "Font<" + std::to_string(id()) + "> = \n" +
-        "\tSize = " + std::to_string(m_fontSize) + "\n" +
-        "\tScale = " + std::to_string(m_scale) + "\n" +
-        "\tAscent = " + std::to_string(m_ascent) + "\n" +
-        "\tDescent = " + std::to_string(m_descent) + "\n" +
-        "\tLine gap = " + std::to_string(m_lineGap) + "\n";
-}

@@ -76,4 +76,13 @@
 
 #define HG_COMPONENT(Category, Name) static hg::ComponentFactory::attach_fn Attach_##Name = hg::ComponentFactory::Register<Name>(#Category, #Name);
 
+#define HG_FIELD(CompName, Type, Name) static hg::ComponentFactory::ComponentField Field_##CompName##Name = hg::ComponentFactory::RegisterField( \
+    #Type,                                                                                                                                    \
+    #CompName,                                                                                                                               \
+    #Name,                                                                                                                                    \
+    [](auto component, auto value) { ((CompName*) component)->Name = std::any_cast<Type>(value); },                                        \
+    [](auto component) { return ((CompName*) component)->Name; }                                                                           \
+);                                                                                                                                            \
+
+
 #endif //HAGAME2_MACROS_H

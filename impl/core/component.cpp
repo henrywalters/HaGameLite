@@ -7,6 +7,7 @@
 using namespace hg;
 
 std::unique_ptr<std::unordered_map<std::string, ComponentFactory::RegisteredComponent>> ComponentFactory::s_components;
+std::unique_ptr<std::unordered_map<std::string, std::unordered_map<std::string, ComponentFactory::ComponentField>>> ComponentFactory::s_fields;
 
 entt::meta_type hg::GetComponent(std::string id) {
     return entt::resolve(entt::hashed_string{id.c_str()}.value());
@@ -29,6 +30,17 @@ std::unordered_map<std::string, ComponentFactory::RegisteredComponent> &Componen
         s_components = std::make_unique<std::unordered_map<std::string, RegisteredComponent>>();
     }
     return *s_components;
+}
+
+std::unordered_map<std::string, ComponentFactory::ComponentField> &ComponentFactory::Fields(std::string component) {
+    if (!s_fields) {
+        s_fields = std::make_unique<std::unordered_map<std::string, std::unordered_map<std::string, ComponentField>>>();
+    }
+    if (s_fields->find(component) == s_fields->end()) {
+        s_fields->insert(std::make_pair(component, std::unordered_map<std::string, ComponentField>()));
+    }
+
+    return s_fields->at(component);
 }
 
 ComponentFactory::RegisteredComponent ComponentFactory::Get(std::string name) {
@@ -60,4 +72,25 @@ std::vector<ComponentFactory::RegisteredComponent> ComponentFactory::GetCategory
     }
 
     return components;
+}
+
+ComponentFactory::ComponentField
+ComponentFactory::RegisterField(std::string type, std::string component, std::string fieldName, setter_fn setter, getter_fn getter) {
+    ComponentField field;
+    field.type = type;
+    field.field = fieldName;
+    field.setter = setter;
+    field.getter = getter;
+    Fields(component).insert(std::make_pair(fieldName, field));
+    return field;
+}
+
+std::vector<ComponentFactory::ComponentField> ComponentFactory::GetFields(std::string component) {
+    std::vector<ComponentFactory::ComponentField> fields;
+
+    for (const auto&[name, field] : Fields(component)) {
+        fields.push_back(field);
+    }
+
+    return fields;
 }

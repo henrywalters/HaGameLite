@@ -58,7 +58,7 @@ namespace hg::graphics {
 
     protected:
 
-        std::string toString() const override;
+        OBJECT_NAME(Font)
 
     private:
 

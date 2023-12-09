@@ -74,9 +74,7 @@ namespace hg::utils {
 
             protected:
 
-                std::string toString() const {
-                    return "Node<" + std::to_string(id()) + ">";
-                }
+                OBJECT_NAME(Node)
 
                 virtual void init(GameState* state, data_context_t* ctx) {};
                 virtual Status process(double dt, GameState* state, data_context_t* ctx) = 0;

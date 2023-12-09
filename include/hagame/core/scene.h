@@ -109,9 +109,8 @@ namespace hg {
         }
 
     protected:
-        std::string toString() const {
-            return "Scene<" + std::to_string(id()) + ">";
-        }
+
+        OBJECT_NAME(Scene)
 
         virtual void onInit() {}
         virtual void onActivate() {}

@@ -12,7 +12,8 @@
 
 namespace hg {
 
-#define OBJECT_NAME(name) std::string toString() const override { return #name + std::string("<" + std::to_string(id()) + ">"); }
+#define OBJECT_NAME(name) std::string toString() const override { return #name + std::string("<" + std::to_string(id()) + ">"); } \
+    std::string toClassName() const override { return #name; }
 
     class Object : public utils::UUID {
     public:
@@ -30,8 +31,13 @@ namespace hg {
             return out;
         }
 
+        std::string className() const {
+            return toClassName();
+        }
+
     protected:
         virtual std::string toString() const = 0;
+        virtual std::string toClassName() const = 0;
 
     };
 }
