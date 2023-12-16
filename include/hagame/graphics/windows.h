@@ -26,6 +26,8 @@ namespace hg::graphics {
 
         static std::vector<Window*> All();
 
+        static Window* Get();
+
     private:
 
         static std::unordered_map<GLFWwindow*, std::shared_ptr<Window>> s_windows;

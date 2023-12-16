@@ -64,3 +64,7 @@ void hg::graphics::Windows::CharCallback(GLFWwindow *window, unsigned int codepo
     s_windows[window]->input.keyboardMouse.charCallback(codepoint);
 }
 
+hg::graphics::Window *hg::graphics::Windows::Get() {
+    return s_windows[0].get();
+}
+

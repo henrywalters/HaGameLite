@@ -33,6 +33,7 @@ Config Config::Parse(std::vector<std::string> lines) {
     hg::utils::ConfigData parsed;
     std::string sectionName;
     for (auto line : lines) {
+        std::cout << line << "\n";
         if (line[0] == '[' && line[line.size() - 1] == ']') {
             sectionName = line.substr(1, line.size() - 2);
             if (parsed.find(sectionName) == parsed.end()) {
@@ -42,18 +43,24 @@ Config Config::Parse(std::vector<std::string> lines) {
         else if (line != "") {
 
             auto parts = s_split(line, '=');
-            if (parts.size() != 2) {
+
+            std::string rawValue;
+
+            if (parts.size() == 1) {
+                rawValue = "";
+            } else if (parts.size() == 2) {
+                rawValue = parts[1];
+            } else {
                 std::cout << "Invalid config line: " << line << "\n";
                 throw std::runtime_error("Invalid configuration file");
             }
-            else {
-                if (parsed[sectionName].find(parts[0]) != parsed[sectionName].end()) {
-                    std::cout << "Duplicate key found in section: " << sectionName << ", " << parts[0] << "\n";
-                    throw std::runtime_error("INvalid configuration file");
-                }
 
-                parsed[sectionName].insert(std::make_pair(parts[0], parts[1]));
+            if (parsed[sectionName].find(parts[0]) != parsed[sectionName].end()) {
+                std::cout << "Duplicate key found in section: " << sectionName << ", " << parts[0] << "\n";
+                throw std::runtime_error("INvalid configuration file");
             }
+
+            parsed[sectionName].insert(std::make_pair(parts[0], rawValue));
         }
     }
     return Config(parsed);
@@ -116,6 +123,7 @@ MultiConfig MultiConfig::Parse(std::string file) {
 
     for (auto line : f_readLines(file)) {
         line = s_trim(line);
+        std::cout << line << "\n";
         if (line[0] == '~' && line[line.size() - 1] == '~') {
             if (pageName != "") {
                 pages.insert(std::make_pair(pageName, page));

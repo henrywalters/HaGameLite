@@ -71,6 +71,38 @@ namespace hg::utils {
         return (bool) std::atoi(str.c_str());
     }
 
+    template <typename T, size_t N>
+    std::string arrToString(T arr[N]) {
+        std::string raw = "";
+        for (int i = 0; i < N; i++) {
+            raw += std::to_string(arr[i]);
+            if (i < N - 1) {
+                raw += ",";
+            }
+        }
+        return raw;
+    }
+
+    template <typename T, size_t N>
+    std::string arrToString(std::array<T, N> arr) {
+        std::string raw = "";
+        for (int i = 0; i < N; i++) {
+            raw += std::to_string(arr[i]);
+            if (i < N - 1) {
+                raw += ",";
+            }
+        }
+        return raw;
+    }
+
+    template <typename T, size_t N>
+    std::string listOfArrToString(std::vector<std::array<T, N>> arrs) {
+        std::string raw = "";
+        for (const auto& arr : arrs) {
+            raw += "{" + arrToString(arr) + "}";
+        }
+        return raw;
+    }
 
     class Config {
     public:
@@ -198,29 +230,7 @@ namespace hg::utils {
 
     private:
 
-        template <typename T, size_t N>
-        std::string arrToString(T arr[N]) {
-            std::string raw = "";
-            for (int i = 0; i < N; i++) {
-                raw += std::to_string(arr[i]);
-                if (i < N - 1) {
-                    raw += ",";
-                }
-            }
-            return raw;
-        }
 
-        template <typename T, size_t N>
-        std::string arrToString(std::array<T, N> arr) {
-            std::string raw = "";
-            for (int i = 0; i < N; i++) {
-                raw += std::to_string(arr[i]);
-                if (i < N - 1) {
-                    raw += ",";
-                }
-            }
-            return raw;
-        }
 
         /*template <typename T>
         T strToT(std::string_view const str) {

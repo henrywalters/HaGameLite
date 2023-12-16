@@ -5,6 +5,9 @@ std::shared_ptr<hg::graphics::ShaderProgram> hg::loadShader(std::string name, st
     auto vertSrc = hg::utils::f_read(ASSET_DIR + vertPath);
     auto fragSrc = hg::utils::f_read(ASSET_DIR + fragPath);
 
+    std::cout << vertSrc << "\n";
+    std::cout << fragSrc << "\n";
+
     auto shader = std::make_shared<hg::graphics::ShaderProgram>(
             name,
             hg::graphics::Shader::LoadVertex(vertSrc),
@@ -67,7 +70,15 @@ std::vector<std::shared_ptr<hg::graphics::Texture>> hg::loadTextures(std::vector
     return textures;
 }
 
+void hg::setMissingTexture(std::string path) {
+    auto parts = hg::utils::s_split(path, '/');
+    hg::assets::MISSING_TEXTURE = loadTexture(hg::utils::f_getParts(parts[parts.size() - 1]).name, path);
+}
+
 hg::graphics::Texture* hg::getTexture(std::string name) {
+    if (!assets::TEXTURES.has(name)) {
+        return assets::MISSING_TEXTURE.get();
+    }
     return assets::TEXTURES.get(name).get();
 }
 

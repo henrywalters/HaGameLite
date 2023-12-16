@@ -33,8 +33,6 @@ namespace hg {
 
         friend class Game;
 
-        std::vector<std::shared_ptr<Script>> scripts;
-
         EntityManager entities;
 
         Game* game() { return m_game; }
@@ -45,7 +43,7 @@ namespace hg {
         void init();
 
         void activate() {
-            for (const auto& script : scripts) {
+            for (const auto& script : m_scripts) {
                 script->init();
             }
             onActivate();
@@ -57,7 +55,7 @@ namespace hg {
                 system->onBeforeUpdate();
             }
 
-            for (const auto& script : scripts) {
+            for (const auto& script : m_scripts) {
                 script->update(dt);
             }
             onUpdate(dt);
@@ -79,7 +77,7 @@ namespace hg {
         }
 
         void deactivate() {
-            for (const auto& script : scripts) {
+            for (const auto& script : m_scripts) {
                 script->close();
             }
             onDeactivate();
@@ -88,20 +86,39 @@ namespace hg {
         hg::utils::MultiConfig save();
         void load(hg::utils::MultiConfig scene);
 
-        template <IsSystem System, class... Args>
-        System* addSystem(Args &&... args) {
-            auto system = std::make_shared<System>(std::forward<Args>(args)...);
+        template <IsScript _Script, class... Args>
+        _Script* addScript(Args &&... args) {
+            auto script = std::make_shared<_Script>(std::forward<Args>(args)...);
+            script->m_scene = this;
+            m_scripts.push_back(script);
+            return script.get();
+        }
+
+        template <IsSystem _System, class... Args>
+        _System* addSystem(Args &&... args) {
+            auto system = std::make_shared<_System>(std::forward<Args>(args)...);
             system->scene = this;
-            m_systems.insert(std::make_pair(typeid(System).hash_code(), system));
+            m_systems.insert(std::make_pair(typeid(_System).hash_code(), system));
             return system.get();
         }
 
-        template <IsSystem System>
-        System* getSystem() {
-            if (m_systems.find(typeid(System).hash_code()) == m_systems.end()) {
-                throw std::runtime_error("System: " + std::string(typeid(System).name()) + " does not exist");
+        template <IsSystem _System>
+        _System* getSystem() {
+            size_t id = typeid(_System).hash_code();
+            if (m_systems.find(id) == m_systems.end()) {
+                throw std::runtime_error("System does not exist");
             }
-            return (System*) m_systems[typeid(System).hash_code()].get();
+            return (_System*) m_systems[id].get();
+        }
+
+        // Use this when you don't have access to the Typeinfo (i.e. in a script)
+        template <IsSystem _System>
+        _System* getSystem(std::string name) {
+            size_t id = hg::SystemFactory::Get(name).hashCode;
+            if (m_systems.find(id) == m_systems.end()) {
+                throw std::runtime_error("System does not exist");
+            }
+            return (_System*) m_systems[id].get();
         }
 
         void addToGroup(std::string group, hg::Entity* entity) {
@@ -126,6 +143,8 @@ namespace hg {
         Game* m_game;
 
         std::unordered_map<size_t, std::shared_ptr<System>> m_systems;
+        std::vector<std::shared_ptr<Script>> m_scripts;
+
     };
 
 }

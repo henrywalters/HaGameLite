@@ -21,6 +21,7 @@ namespace hg {
 #endif
 
     namespace assets {
+        inline static std::shared_ptr<hg::graphics::Texture> MISSING_TEXTURE;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::ShaderProgram>> SHADERS;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Texture>> TEXTURES;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Font>> FONTS;
@@ -42,6 +43,7 @@ namespace hg {
 
     hg::graphics::ShaderProgram* getShader(std::string name);
 
+    void setMissingTexture(std::string path);
     std::shared_ptr<hg::graphics::Texture> loadTexture(std::string name, std::string path);
     std::shared_ptr<hg::graphics::Texture> loadTexture(std::string path);
     std::vector<std::shared_ptr<hg::graphics::Texture>> loadTextures(std::vector<std::string> paths);

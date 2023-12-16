@@ -12,19 +12,21 @@ namespace hg::graphics {
     class Sprite : public Quad {
     public:
 
-        Sprite(Vec2 size, Vec2 offset = Vec2::Zero()):
-            Quad(size, offset)
-        {}
-
         std::string texture;
         bool visible = true;
 
     protected:
-        std::string toString() const override {
-            return "Sprite<" + std::to_string(id()) + ">";
-        }
+
+        OBJECT_NAME(Sprite)
 
     };
+
+    HG_COMPONENT(Graphics, Sprite)
+    HG_FIELD(Sprite, std::string, texture)
+    HG_FIELD(Sprite, bool, visible)
+    HG_FIELD(Sprite, hg::Vec2, size)
+    HG_FIELD(Sprite, hg::Vec2, offset)
+    HG_FIELD(Sprite, hg::graphics::Color, color)
 }
 
 #endif //HAGAME2_SPRITE_H

@@ -53,8 +53,13 @@
     HG_SET_SIMPLE(type, name)
 
 #define HG_SCRIPT(name) \
+                        \
     template<>                    \
     std::unordered_map<hg::utils::uuid_t, std::unique_ptr<name>> hg::utils::StaticPool<name>::s_pool = std::unordered_map<hg::utils::uuid_t, std::unique_ptr<name>>(); \
+                        \
+    extern "C" hg::Script* new_##name(hg::Scene* scene) {                                                                                                                               \
+        return new name(scene);                  \
+    }                               \
                         \
     extern "C" hg::utils::uuid_t construct_##name(hg::Scene* scene) { \
         return hg::utils::StaticPool<name>::Add(scene);                    \
@@ -80,9 +85,10 @@
     #Type,                                                                                                                                    \
     #CompName,                                                                                                                               \
     #Name,                                                                                                                                    \
-    [](auto component, auto value) { ((CompName*) component)->Name = std::any_cast<Type>(value); },                                        \
+    [](auto component, auto value) { ((CompName*) component)->Name = std::get<Type>(value); },                                        \
     [](auto component) { return ((CompName*) component)->Name; }                                                                           \
 );                                                                                                                                            \
 
+#define HG_SYSTEM(Category, Name) static hg::SystemFactory::RegisteredSystem System_##Name = hg::SystemFactory::Register<Name>(#Category, #Name);
 
 #endif //HAGAME2_MACROS_H

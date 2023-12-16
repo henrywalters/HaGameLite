@@ -12,8 +12,7 @@ namespace hg::graphics::components {
     class SpriteSheetAnimator : public Quad {
     public:
 
-        SpriteSheetAnimator(Vec2 size, Vec2 offset):
-            Quad(size, offset),
+        SpriteSheetAnimator():
             player(std::make_shared<AnimationPlayer<std::string>>())
         {}
 

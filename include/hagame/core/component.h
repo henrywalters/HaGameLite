@@ -12,9 +12,8 @@
 #include <entt/core/utility.hpp>
 #include <entt/entity/registry.hpp>
 #include <entt/meta/factory.hpp>
-#include <entt/meta/meta.hpp>
-#include <entt/meta/resolve.hpp>
 #include "../utils/config.h"
+#include "../utils/variant.h"
 
 namespace hg {
 
@@ -54,7 +53,7 @@ namespace hg {
                 return;
             }
 
-            member = std::any_cast<T>(params[key]);
+            member = std::get<T>(params[key]);
         }
 
         virtual void onUpdate(double dt) {}
@@ -67,21 +66,12 @@ namespace hg {
     template <typename T>
     concept IsComponent = std::is_base_of<Component, T>::value;
 
-    template <IsComponent T>
-    entt::meta_factory<T> RegisterComponent(std::string id) {
-        auto factory = entt::meta<T>().type(entt::hashed_string {id.c_str()}.value())
-                .template func<&entt::registry::emplace<T>>(entt::hashed_string{(id + "_emplace").c_str()}.value());
-        return factory;
-    }
-
-    entt::meta_type GetComponent(std::string id);
-
     class ComponentFactory {
     public:
 
         using attach_fn = std::function<Component*(Entity*)>;
-        using setter_fn = std::function<void(Component*, std::any)>;
-        using getter_fn = std::function<std::any(Component*)>;
+        using setter_fn = std::function<void(Component*, utils::variant)>;
+        using getter_fn = std::function<utils::variant(Component*)>;
 
         struct RegisteredComponent {
             std::string category;

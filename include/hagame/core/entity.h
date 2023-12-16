@@ -31,6 +31,7 @@ namespace hg {
             name = toString();
         };
 
+        /*
         entt::meta_any addComponent(std::string id) {
             //&m_registry->emplace<GetComponent(id)::Type>m_enttId);
             auto emplace_fn = GetComponent(id).func(entt::hashed_string{(id + "_emplace").c_str()}.value());
@@ -55,6 +56,7 @@ namespace hg {
             //return component;
         }
 
+         */
         // Constructs a new instance of the component in memory. Be careful with the returned pointer! Another addComponent call or loss of scope may invalidate the pointer
         template <IsComponent T>
         T* addComponent() {
@@ -143,6 +145,10 @@ namespace hg {
 
         void clear() {
             m_registry->clear();
+            m_enttMap.clear();
+            m_idMap.clear();
+            root = createEntity();
+            root->name = "root";
         }
 
         bool exists(utils::UUID id) {

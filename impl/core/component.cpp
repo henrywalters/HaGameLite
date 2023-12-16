@@ -9,10 +9,6 @@ using namespace hg;
 std::unique_ptr<std::unordered_map<std::string, ComponentFactory::RegisteredComponent>> ComponentFactory::s_components;
 std::unique_ptr<std::unordered_map<std::string, std::unordered_map<std::string, ComponentFactory::ComponentField>>> ComponentFactory::s_fields;
 
-entt::meta_type hg::GetComponent(std::string id) {
-    return entt::resolve(entt::hashed_string{id.c_str()}.value());
-}
-
 std::vector<ComponentFactory::RegisteredComponent> ComponentFactory::GetAll() {
     std::vector<RegisteredComponent> list;
     for (const auto& [name, component] : ComponentMap()) {

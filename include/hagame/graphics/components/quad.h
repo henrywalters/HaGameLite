@@ -16,36 +16,20 @@ namespace hg::graphics {
     class Quad : public Component {
     public:
 
-        Quad():
-            quad(std::make_unique<primitives::Quad>()),
-            m_mesh(std::make_unique<MeshInstance>(quad.get()))
-        {}
-
-        Quad(Vec2 size, Vec2 offset):
-            quad(std::make_unique<primitives::Quad>(size, offset)),
-            m_mesh(std::make_unique<MeshInstance>(quad.get()))
-        {
-            quad->onUpdate.subscribe([&]() {
-                m_mesh->update(quad.get());
-            });
-        }
-
+        Vec2 size;
+        Vec2 offset;
         Color color = Color::white();
 
-        std::unique_ptr<primitives::Quad> quad;
+    protected:
 
-        MeshInstance* mesh() const { return m_mesh.get(); }
+        OBJECT_NAME(Quad)
 
-        void onParamChange() override {
-            m_mesh->update(quad.get());
-        }
-
-    private:
-
-        std::unique_ptr<MeshInstance> m_mesh;
     };
 
     HG_COMPONENT(Graphics, Quad)
+    HG_FIELD(Quad, hg::Vec2, size)
+    HG_FIELD(Quad, hg::Vec2, offset)
+    HG_FIELD(Quad, hg::graphics::Color, color)
 
 }
 

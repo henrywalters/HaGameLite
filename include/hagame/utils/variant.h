@@ -9,44 +9,48 @@
 #include <string>
 #include <vector>
 #include "../math/aliases.h"
-#include "../core/entity.h"
 #include "string.h"
+#include "../graphics/color.h"
+#include "config.h"
 
 namespace hg::utils {
 
     // The hg::utils::variant provides a variant type with additional helper utilities for types specific to HaGame
     using variant = std::variant<
-            bool,
-            float,
-            int,
-            double,
-            std::string,
-            Vec3,
-            Vec2,
-            Vec3i,
-            Vec2i,
-            GameObject*,
-            Entity*,
-            std::vector<float>,
-            std::vector<bool>,
-            std::vector<int>,
-            std::vector<double>,
-            std::vector<std::string>,
-            std::vector<Vec3>,
-            std::vector<Vec2>,
-            std::vector<Vec3i>,
-            std::vector<Vec2i>,
-            std::vector<Entity*>,
-            std::vector<GameObject*>
+        void*,
+        bool,
+        float,
+        int,
+        double,
+        std::string,
+        hg::graphics::Color,
+        Vec4,
+        Vec3,
+        Vec2,
+        Vec4i,
+        Vec3i,
+        Vec2i,
+        std::vector<float>,
+        std::vector<bool>,
+        std::vector<int>,
+        std::vector<double>,
+        std::vector<std::string>,
+        std::vector<Vec4i>,
+        std::vector<Vec3>,
+        std::vector<Vec2>,
+        std::vector<Vec3i>,
+        std::vector<Vec2i>,
+        std::vector<void*>
     >;
 
     template <size_t size, class T>
-    inline std::string hg_vector_to_string(const std::vector<math::Vector<size, T>>& values) {
-        std::vector<std::string> strValues;
-        for (const auto& value : values) {
-            strValues.push_back(value.toString());
+    inline std::string hg_vector_to_string(std::vector<math::Vector<size, T>> values) {
+        std::string out;
+        for (auto& value : values) {
+            std::string serialized = arrToString<T, size>(value.vector);
+            out += "{" + serialized + "}";
         }
-        return "{" + s_join(strValues, ", ") + "}";
+        return out;
     }
 
     template <typename T>
@@ -55,27 +59,19 @@ namespace hg::utils {
         for (const auto& value : values) {
             strValues.push_back(std::to_string(value));
         }
-        return "{" + s_join(strValues, ", ") + "}";
+        return s_join(strValues, ",");
     }
 
     inline std::string vector_to_string(const std::vector<std::string>& values) {
-        return "{" + s_join(values, ", ") + "}";
+        return s_join(values, ",");
     }
 
-    inline std::string vector_to_string(const std::vector<Entity*>& values) {
+    inline std::string vector_to_string(const std::vector<void*>& values) {
         std::vector<std::string> strValues;
         for (const auto& value : values) {
-            strValues.push_back(value->name);
+            strValues.push_back("");
         }
-        return "{" + s_join(strValues, ", ") + "}";
-    }
-
-    inline std::string vector_to_string(const std::vector<GameObject*>& values) {
-        std::vector<std::string> strValues;
-        for (const auto& value : values) {
-            strValues.push_back(std::to_string(value->id()));
-        }
-        return "{" + s_join(strValues, ", ") + "}";
+        return s_join(strValues, ",");
     }
 
 #define SIMPLE_VALUE(type) std::string operator()(type value) { return std::to_string(value); }
@@ -83,35 +79,102 @@ namespace hg::utils {
 #define VECTOR_VALUE(type) std::string operator()(std::vector<type> values) { return vector_to_string(values); }
 #define HG_VECTOR_VALUE(type) std::string operator()(std::vector<type> values) { return hg_vector_to_string(values); }
 
+#define S_SIMPLE(Type) std::string operator()(Type value) { return std::to_string(value); }
+#define S_HG_VECTOR(Type, DataType, Size) std::string operator()(Type value) { return hg::utils::arrToString<DataType, Size>(value.vector); }
+#define S_SIMPLE_VECTOR(Type) std::string operator()(std::vector<Type> values) { return vector_to_string(values); }
+#define S_LIST_OF_HG_VECTORS(Type, DataType, Size) std::string operator()(std::vector<Type>(values)) { return hg_vector_to_string(values); }
+
+#define D_SIMPLE(Type) if (type == #Type) { \
+    return strToT<Type>(raw);                     \
+}                                                 \
+
+#define D_HG_VECTOR(Type, DataType, Size) if (type == #Type) { \
+        auto parts = hg::utils::s_split(raw, ',');             \
+        Type out;                                              \
+        for (int i = 0; i < Size; i++) {                             \
+            std::cout << parts[i] << "\n";                                                         \
+            out.vector[i] = strToT<DataType>(parts[i]);                  \
+        }                                                                \
+        return out;                                                      \
+    } \
+
+
     struct DataContextPrint {
         std::string operator()(bool value) { return value ? "true" : "false"; }
         SIMPLE_VALUE(float)
         SIMPLE_VALUE(int)
         SIMPLE_VALUE(double)
+        std::string operator()(void* value) { return "pointer"; }
         std::string operator()(std::string value) { return value; }
+        OBJ_VALUE(hg::graphics::Color)
+        OBJ_VALUE(Vec4)
         OBJ_VALUE(Vec3)
         OBJ_VALUE(Vec2)
+        OBJ_VALUE(Vec4i)
         OBJ_VALUE(Vec3i)
         OBJ_VALUE(Vec2i)
-        std::string operator()(Entity* entity) { return entity->name; }
-        std::string operator()(GameObject* obj) { return std::to_string(obj->id()); }
         VECTOR_VALUE(float)
         VECTOR_VALUE(bool)
         VECTOR_VALUE(int)
         VECTOR_VALUE(double)
         VECTOR_VALUE(std::string)
+        HG_VECTOR_VALUE(Vec4)
         HG_VECTOR_VALUE(Vec3)
         HG_VECTOR_VALUE(Vec2)
+        HG_VECTOR_VALUE(Vec4i)
         HG_VECTOR_VALUE(Vec3i)
         HG_VECTOR_VALUE(Vec2i)
-        VECTOR_VALUE(Entity*)
-        VECTOR_VALUE(GameObject*)
+        VECTOR_VALUE(void*)
     };
 
-    inline std::string toString(const variant& var) {
-        return std::visit(DataContextPrint{}, var);
+    struct PrintVariant {
+        S_SIMPLE(bool)
+        S_SIMPLE(int)
+        S_SIMPLE(float)
+        S_SIMPLE(double)
+        std::string operator()(std::string value) { return value; }
+        S_HG_VECTOR(hg::graphics::Color, float, 4)
+        S_HG_VECTOR(hg::Vec4, float, 4)
+        S_HG_VECTOR(hg::Vec3, float, 3)
+        S_HG_VECTOR(hg::Vec2, float, 2)
+        S_HG_VECTOR(hg::Vec4i, int, 4)
+        S_HG_VECTOR(hg::Vec3i, int, 3)
+        S_HG_VECTOR(hg::Vec2i, int, 2)
+        S_SIMPLE_VECTOR(bool)
+        S_SIMPLE_VECTOR(int)
+        S_SIMPLE_VECTOR(float)
+        S_SIMPLE_VECTOR(double)
+        S_SIMPLE_VECTOR(void*)
+        S_SIMPLE_VECTOR(std::string)
+        S_LIST_OF_HG_VECTORS(hg::Vec4, float, 4)
+        S_LIST_OF_HG_VECTORS(hg::Vec3, float, 3)
+        S_LIST_OF_HG_VECTORS(hg::Vec2, float, 2)
+        S_LIST_OF_HG_VECTORS(hg::Vec4i, int, 4)
+        S_LIST_OF_HG_VECTORS(hg::Vec3i, int, 3)
+        S_LIST_OF_HG_VECTORS(hg::Vec2i, int, 2)
+    };
+
+    inline std::string serialize(const variant& var) {
+        return std::visit( PrintVariant{}, var);
     }
 
+    inline variant deserialize(std::string type, std::string raw) {
+        D_SIMPLE(bool)
+        D_SIMPLE(float)
+        D_SIMPLE(int)
+        D_SIMPLE(double)
+        D_SIMPLE(void*)
+        if (type == "std::string") { return raw; }
+        D_HG_VECTOR(hg::graphics::Color, float, 4)
+        D_HG_VECTOR(hg::Vec4, float, 4)
+        D_HG_VECTOR(hg::Vec3, float, 3)
+        D_HG_VECTOR(hg::Vec2, float, 2)
+        D_HG_VECTOR(hg::Vec4i, int, 4)
+        D_HG_VECTOR(hg::Vec3i, int, 3)
+        D_HG_VECTOR(hg::Vec2i, int, 2)
+
+        throw std::runtime_error("Unsupported variant type parser: " + type);
+    }
 }
 
 #endif //HAGAME2_VARIANT_H
