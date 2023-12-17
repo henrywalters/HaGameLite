@@ -40,7 +40,13 @@ namespace hg::graphics {
             glfwSetWindowSize(m_window, m_size[0], m_size[1]);
             glViewport(0, 0, m_size[0], m_size[1]);
         }
-        Resolution size() { return m_size; }
+        Resolution size() const { return m_size; }
+
+        void pos(Vec2i _pos) {
+            m_pos = _pos;
+            glfwSetWindowPos(m_window, m_pos[0], m_pos[1]);
+        }
+        Vec2i pos() const { return m_pos; }
 
         void color(Color _color) {
             m_color = _color;
@@ -74,6 +80,7 @@ namespace hg::graphics {
 
         std::string m_title;
         Resolution m_size;
+        hg::Vec2i m_pos;
         Color m_color = Color::black();
         bool m_running = true;
 

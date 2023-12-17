@@ -12,8 +12,6 @@ std::vector<Monitor> Monitors::All() {
     int count;
     GLFWmonitor** monitors = glfwGetMonitors(&count);
 
-    std::cout << "MONITOR COUNT = " << count << "\n";
-
     for (int i = 0; i < count; i++) {
         Monitor monitor;
         monitor.monitor = monitors[i];

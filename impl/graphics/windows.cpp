@@ -33,6 +33,11 @@ void hg::graphics::Windows::ResizeCallback(GLFWwindow *window, int width, int he
     Windows::Events.emit(WindowEvents::Resize, s_windows[window].get());
 }
 
+void hg::graphics::Windows::MoveCallback(GLFWwindow *window, int x, int y) {
+    s_windows[window]->m_pos = hg::Vec2i(x, y);
+    Windows::Events.emit(WindowEvents::Move, s_windows[window].get());
+}
+
 hg::graphics::Window *hg::graphics::Windows::Create(std::string title, Resolution size) {
     auto window = std::make_shared<Window>(title, size);
     window->initialize();
@@ -44,6 +49,7 @@ hg::graphics::Window *hg::graphics::Windows::Create(std::string title, Resolutio
     glfwSetWindowCloseCallback(window->window(), CloseCallback);
     glfwSetWindowSizeCallback(window->window(), ResizeCallback);
     glfwSetCharCallback(window->window(), CharCallback);
+    glfwSetWindowPosCallback(window->window(), MoveCallback);
     return window.get();
 }
 

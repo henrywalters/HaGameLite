@@ -10,6 +10,7 @@
 namespace hg::graphics {
     enum class WindowEvents {
         Resize,
+        Move,
         Close,
     };
 
@@ -35,6 +36,8 @@ namespace hg::graphics {
         static void CloseCallback(GLFWwindow* window);
 
         static void ResizeCallback(GLFWwindow* window, int width, int height);
+
+        static void MoveCallback(GLFWwindow* window, int x, int y);
 
         static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
