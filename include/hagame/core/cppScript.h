@@ -11,9 +11,9 @@ namespace hg {
     class CppScript;
 
     /*
-     * The ScriptManager is a wrapper of a shared library that contains one or more Script Files which contain an init and update function
+     * The ScriptWrapper is a wrapper of a shared library that contains one or more Script Files which contain an init and update function
     */
-    class CppScriptManager {
+    class CppLibraryWrapper {
     public:
 
         struct Script {
@@ -28,7 +28,9 @@ namespace hg {
             script_close close;
         };
 
-        CppScriptManager(std::string libPath);
+        CppLibraryWrapper(std::string libPath);
+
+        HG_GET(std::string, libPath)
 
         void reload();
 
@@ -42,6 +44,7 @@ namespace hg {
     private:
 
         void* m_lib = nullptr;
+        std::string m_libPath;
         std::string m_path;
 
         std::vector<ScriptDef> m_scriptDefs;
@@ -51,10 +54,34 @@ namespace hg {
         T loadFunction(std::string name);
     };
 
+    // The CppLibraryManager statically manages a set of CppLibraryWrappers so it may be be used in the Script Factory
+    class CppLibraryManager {
+    public:
+
+        using lib_map_t = std::unordered_map<std::string, std::unique_ptr<CppLibraryWrapper>>;
+
+        static CppLibraryWrapper* Register(std::string libraryPath);
+
+        static bool Has(std::string libraryPath);
+
+        static CppLibraryWrapper* Get(std::string libraryPath);
+
+        static std::vector<CppLibraryWrapper*> All();
+
+    private:
+
+        static lib_map_t& LibMap();
+
+        static std::unique_ptr<lib_map_t> s_libraries;
+
+    };
+
     class CppScript : public Script {
     public:
 
-        CppScript(CppScriptManager::Script* script);
+        CppScript(CppLibraryWrapper::Script* script);
+
+        ScriptDef getDef() const override;
 
     protected:
 
@@ -64,7 +91,7 @@ namespace hg {
 
     private:
 
-        CppScriptManager::Script* m_script;
+        CppLibraryWrapper::Script* m_script;
 
     };
 }

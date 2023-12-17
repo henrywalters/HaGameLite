@@ -53,6 +53,12 @@ namespace hg::graphics {
             create(key, size);
         }
 
+        void resizeAll(hg::Vec2i size) {
+            for (const auto &[key, pass] : m_passes) {
+                resize(key, size);
+            }
+        }
+
         void render(KeyType key, int attachments) {
             bind(key);
             unsigned int attach[attachments];

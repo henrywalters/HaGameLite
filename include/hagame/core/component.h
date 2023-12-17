@@ -70,6 +70,7 @@ namespace hg {
     public:
 
         using attach_fn = std::function<Component*(Entity*)>;
+        using remove_fn = std::function<void(Entity*)>;
         using setter_fn = std::function<void(Component*, utils::variant)>;
         using getter_fn = std::function<utils::variant(Component*)>;
 
@@ -77,6 +78,7 @@ namespace hg {
             std::string category;
             std::string name;
             attach_fn attach;
+            remove_fn remove;
         };
 
         struct ComponentField {
@@ -125,10 +127,16 @@ namespace hg {
             return (Component*) entity->template addComponent<Comp>();
         };
 
+        auto removeFunc = [&](auto* entity) {
+            std::cout << "REMOVING COMPONENT\n";
+            return entity->template removeComponent<Comp>();
+        };
+
         RegisteredComponent component;
         component.name = className;
         component.category = category;
         component.attach = attachFunc;
+        component.remove = removeFunc;
 
         ComponentMap().insert(std::make_pair(className, component));
         return attachFunc;

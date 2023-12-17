@@ -257,8 +257,9 @@ namespace hg::utils {
 
         static MultiConfig Parse(std::string file);
 
-        void addPage(std::string name) {
+        Config* addPage(std::string name) {
             m_configs.insert(std::make_pair(name, Config()));
+            return getPage(name);
         }
 
         void addPage(std::string name, Config config) {

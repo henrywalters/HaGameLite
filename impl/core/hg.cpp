@@ -7,6 +7,8 @@ hg::Game* hg::HG::s_emscriptenGame = nullptr;
 
 void hg::HG::Run(hg::Game *game) {
 
+    glfwInit();
+
     game->initialize();
 
 #ifdef __EMSCRIPTEN__

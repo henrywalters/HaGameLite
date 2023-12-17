@@ -131,14 +131,14 @@ std::optional<Hit> hg::math::collisions::checkRayAgainstEntity(Ray ray, Entity *
     auto rect = entity->getComponent<components::RectCollider>();
 
     if (rect) {
-        rect->rect.pos = entity->position().resize<2>();
-        return hg::math::collisions::checkRayAgainstRect(ray, rect->rect, t);
+        rect->getRect().pos = entity->position().resize<2>();
+        return hg::math::collisions::checkRayAgainstRect(ray, rect->getRect(), t);
     }
 
     auto circle = entity->getComponent<components::CircleCollider>();
     if (circle) {
-        circle->circle.center = entity->position().resize<2>();
-        return hg::math::collisions::checkRayAgainstCircle(ray, circle->circle, t);
+        circle->getCircle().center = entity->position().resize<2>();
+        return hg::math::collisions::checkRayAgainstCircle(ray, circle->getCircle(), t);
     }
 
     return std::nullopt;

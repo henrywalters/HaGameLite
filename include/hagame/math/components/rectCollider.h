@@ -12,13 +12,26 @@ namespace hg::math::components {
 class RectCollider : public Collider {
 public:
 
-    hg::Rect rect;
+    hg::Vec2 pos;
+    hg::Vec2 size;
 
     Cube getBoundingCube() const override {
-        return Cube(Vec3(rect.pos[0], rect.pos[1], 0), Vec3(rect.size[0], rect.size[1], 0));
+        return Cube(entity->position() + Vec3(pos[0], pos[1], 0), Vec3(size[0], size[1], 0));
     }
 
+    Rect getRect() const {
+        return Rect(pos, size);
+    }
+
+protected:
+
+    OBJECT_NAME(RectCollider);
+
 };
+
+HG_COMPONENT(Math, RectCollider)
+HG_FIELD(RectCollider, hg::Vec2, pos)
+HG_FIELD(RectCollider, hg::Vec2, size)
 
 }
 

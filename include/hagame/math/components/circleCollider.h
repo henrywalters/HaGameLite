@@ -12,13 +12,26 @@ namespace hg::math::components {
     class CircleCollider : public Collider {
     public:
 
-        hg::Circle circle;
+        hg::Vec2 pos;
+        float radius;
 
         Cube getBoundingCube() const override {
-            return Cube(Vec3(circle.radius * -1, circle.radius * -1, 0), Vec3(circle.radius * 2, circle.radius * 2, 0));
+            return Cube(Vec3(radius * -1, radius * -1, 0), Vec3(radius * 2, radius * 2, 0));
         }
 
+        Circle getCircle() const {
+            return Circle(pos, radius);
+        }
+
+    protected:
+
+        OBJECT_NAME(CircleCollider)
+
     };
+
+    HG_COMPONENT(Math, CircleCollider)
+    HG_FIELD(CircleCollider, hg::Vec2, pos)
+    HG_FIELD(CircleCollider, float, radius)
 }
 
 #endif //HAGAME2_CIRCLECOLLIDER_H

@@ -13,14 +13,11 @@ namespace hg {
 
     class Scene;
 
-    enum class ScriptType {
-        Cpp,
-    };
-
     struct ScriptDef {
-        ScriptType type;
+        std::string extension;
         std::string name;
         std::string path;
+        std::string libPath;
     };
 
     class Script : public Object {
@@ -44,6 +41,8 @@ namespace hg {
             onClose();
         }
 
+        virtual ScriptDef getDef() const = 0;
+
     protected:
 
         OBJECT_NAME(Script)
@@ -58,6 +57,13 @@ namespace hg {
 
     template <typename T>
     concept IsScript = std::is_base_of<Script, T>::value;
+
+    class ScriptFactory {
+    public:
+
+        static std::shared_ptr<Script> Create(ScriptDef def);
+
+    };
 
 }
 

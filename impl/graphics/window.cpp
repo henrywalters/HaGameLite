@@ -3,7 +3,6 @@
 //
 
 #include "../../include/hagame/graphics/window.h"
-#include "../../include/hagame/input/input.h"
 #include <iostream>
 
 namespace hg::graphics {
@@ -129,6 +128,7 @@ void hg::graphics::Window::clear() {
     glClearColor(m_color[0], m_color[1], m_color[2], m_color[3]);
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_BLEND);
+    glDisable(GL_SCISSOR_TEST);
     // glEnable(GL_DEPTH_TEST);
     //glEnable(GL_MULTISAMPLE);
     //glEnable(GL_CULL_FACE);

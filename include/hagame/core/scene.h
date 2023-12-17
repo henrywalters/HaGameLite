@@ -40,6 +40,8 @@ namespace hg {
 
         utils::Random* random() { return m_random.get(); }
 
+        HG_GET(std::vector<std::shared_ptr<Script>>, scripts)
+
         void init();
 
         void activate() {
@@ -50,6 +52,8 @@ namespace hg {
         }
 
         void update(double dt) {
+
+            //onBeforeUpdate();
 
             for (const auto& [key, system] : m_systems) {
                 system->onBeforeUpdate();
@@ -67,6 +71,8 @@ namespace hg {
             for (const auto& [key, system] : m_systems) {
                 system->onAfterUpdate();
             }
+
+            onAfterUpdate();
         }
 
         void fixedUpdate(double dt) {
@@ -92,6 +98,16 @@ namespace hg {
             script->m_scene = this;
             m_scripts.push_back(script);
             return script.get();
+        }
+
+        Script* addScript(std::shared_ptr<Script> script) {
+            script->m_scene = this;
+            m_scripts.push_back(script);
+            return script.get();
+        }
+
+        void removeScript(Script* script) {
+            m_scripts.erase(std::remove_if(m_scripts.begin(), m_scripts.end(), [script](auto other) {return script->getDef().name == other->getDef().name; }), m_scripts.end());
         }
 
         template <IsSystem _System, class... Args>
@@ -132,7 +148,9 @@ namespace hg {
         virtual void onInit() {}
         virtual void onActivate() {}
         virtual void onDeactivate() {}
+        // virtual void onBeforeUpdate() {}
         virtual void onUpdate(double dt) {}
+        virtual void onAfterUpdate() {}
         virtual void onFixedUpdate(double dt) {}
 
     private:

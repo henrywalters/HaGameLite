@@ -30,3 +30,7 @@ hg::Rect TextButton::getRect() {
     Vec2 size = m_text.font()->calcMessageSize(m_text.text()).cast<float>();
     return Rect(m_text.pos().resize<2>() - size * 0.5, size);
 }
+
+void TextButton::setPos(hg::Vec2 pos) {
+    m_text.pos(pos.resize<3>());
+}

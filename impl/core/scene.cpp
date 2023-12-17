@@ -11,9 +11,17 @@ hg::utils::uuid_t hg::System::id = 0;
 
 hg::utils::MultiConfig hg::Scene::save() {
     hg::utils::MultiConfig scene;
-    scene.addPage("Scripts");
+    auto scripts = scene.addPage("Scripts");
     scene.addPage("Entities");
     scene.addPage("Components");
+
+    for (const auto& script : m_scripts) {
+        ScriptDef def = script->getDef();
+        scripts->addSection(def.name);
+        scripts->setRaw(def.name, "path", def.path);
+        scripts->setRaw(def.name, "extension", def.extension);
+        scripts->setRaw(def.name, "libPath", def.libPath);
+    }
 
     entities.forEach([&](auto entity) {
 
@@ -49,6 +57,17 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
 
     std::unordered_map<utils::uuid_t, utils::uuid_t> idMap;
 
+    auto scripts = scene.getPage("Scripts");
+
+    for (const auto& section : scripts->sections()) {
+        ScriptDef def;
+        def.name = section;
+        def.path = scripts->getRaw(section, "path");
+        def.extension = scripts->getRaw(section, "extension");
+        def.libPath = scripts->getRaw(section, "libPath");
+        addScript(ScriptFactory::Create(def));
+    }
+
     for (const auto& section : scene.getPage("Entities")->sections()) {
         auto entity = entities.add();
         idMap.insert(std::make_pair(std::stol(section), entity->id()));
@@ -69,7 +88,6 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
 
     for (const auto& section : scene.getPage("Components")->sections()) {
         auto parts = utils::s_split(section, '_');
-        std::cout << section << "\n";
         auto name = parts[0];
         auto entityId = std::stol(parts[1]);
 
@@ -78,7 +96,6 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
 
         for (const auto& field : ComponentFactory::GetFields(name)) {
             auto value = scene.getPage("Components")->getRaw(section, field.field);
-            std::cout << field.field << "(" << field.type << ") = " << value << "\n";
             field.setter(component, utils::deserialize(field.type, value));
         }
     }

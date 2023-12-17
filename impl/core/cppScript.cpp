@@ -6,11 +6,15 @@
 
 using namespace hg;
 
-void CppScriptManager::registerScript(std::string path) {
+std::unique_ptr<CppLibraryManager::lib_map_t> CppLibraryManager::s_libraries;
+
+void CppLibraryWrapper::registerScript(std::string path) {
     hg::utils::FileParts parts = utils::f_getParts(path);
     ScriptDef def;
     def.name = parts.name;
     def.path = path;
+    def.libPath = m_libPath;
+    def.extension = ".cpp";
     m_scriptDefs.push_back(def);
 
     auto script = std::make_shared<Script>();
@@ -22,13 +26,14 @@ void CppScriptManager::registerScript(std::string path) {
     m_scripts.insert(std::make_pair(def.name, script));
 }
 
-CppScriptManager::CppScriptManager(std::string libPath):
-        m_path(libPath)
+CppLibraryWrapper::CppLibraryWrapper(std::string libPath):
+        m_path(libPath),
+        m_libPath(libPath)
 {
     reload();
 }
 
-void CppScriptManager::reload() {
+void CppLibraryWrapper::reload() {
 
     if (m_lib) {
         dlclose(m_lib);
@@ -46,17 +51,17 @@ void CppScriptManager::reload() {
     }
 }
 
-CppScriptManager::Script *CppScriptManager::get(std::string name) {
+CppLibraryWrapper::Script *CppLibraryWrapper::get(std::string name) {
     return m_scripts[name].get();
 }
 
 template<typename T>
-T CppScriptManager::loadFunction(std::string name) {
+T CppLibraryWrapper::loadFunction(std::string name) {
     std::cout << "LOADING FUNCTION: " << name << "\n";
     return reinterpret_cast<T>(dlsym(m_lib, name.c_str()));
 }
 
-CppScript::CppScript(CppScriptManager::Script* script):
+CppScript::CppScript(CppLibraryWrapper::Script* script):
         m_script(script)
 {}
 
@@ -70,4 +75,38 @@ void CppScript::onUpdate(double dt) {
 
 void CppScript::onClose() {
     m_script->close(m_scene);
+}
+
+ScriptDef CppScript::getDef() const {
+    return m_script->def;
+}
+
+CppLibraryManager::lib_map_t &CppLibraryManager::LibMap() {
+    if (!s_libraries) {
+        s_libraries = std::make_unique<lib_map_t>();
+    }
+    return *s_libraries;
+}
+
+CppLibraryWrapper *CppLibraryManager::Register(std::string libraryPath) {
+    LibMap().insert(std::make_pair(libraryPath, std::make_unique<CppLibraryWrapper>(libraryPath)));
+    return Get(libraryPath);
+}
+
+CppLibraryWrapper *CppLibraryManager::Get(std::string libraryPath) {
+    return LibMap().at(libraryPath).get();
+}
+
+bool CppLibraryManager::Has(std::string libraryPath) {
+    return LibMap().find(libraryPath) != LibMap().end();
+}
+
+std::vector<CppLibraryWrapper *> CppLibraryManager::All() {
+    std::vector<CppLibraryWrapper *> out;
+
+    for (const auto& [name, lib] : LibMap()) {
+        out.push_back(lib.get());
+    }
+
+    return out;
 }
