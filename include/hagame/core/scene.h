@@ -23,6 +23,11 @@ namespace hg {
         std::vector<std::string> scripts;
     };
 
+    class Scene;
+
+    template <typename T>
+    concept IsScene = std::is_base_of<Scene, T>::value;
+
     class Scene : public Object {
     public:
 
@@ -42,55 +47,46 @@ namespace hg {
 
         HG_GET(std::vector<std::shared_ptr<Script>>, scripts)
 
+        HG_GET_SET_SIMPLE(bool, active)
+
         void init();
 
-        void activate() {
-            for (const auto& script : m_scripts) {
-                script->init();
-            }
-            onActivate();
-        }
+        void activate();
 
-        void update(double dt) {
+        void update(double dt);
 
-            //onBeforeUpdate();
+        void fixedUpdate(double dt);
 
-            for (const auto& [key, system] : m_systems) {
-                system->onBeforeUpdate();
-            }
+        void deactivate();
 
-            for (const auto& script : m_scripts) {
-                script->update(dt);
-            }
-            onUpdate(dt);
-
-            for (const auto& [key, system] : m_systems) {
-                system->onUpdate(dt);
-            }
-
-            for (const auto& [key, system] : m_systems) {
-                system->onAfterUpdate();
-            }
-
-            onAfterUpdate();
-        }
-
-        void fixedUpdate(double dt) {
-            onFixedUpdate(dt);
-            for (const auto& [key, system] : m_systems) {
-                system->onFixedUpdate(dt);
-            }
-        }
-
-        void deactivate() {
-            for (const auto& script : m_scripts) {
-                script->close();
-            }
-            onDeactivate();
-        }
+        void clear();
 
         hg::utils::MultiConfig save();
         void load(hg::utils::MultiConfig scene);
+
+        template <IsScene _Scene, class... Args>
+        _Scene* addChild(Args &&... args) {
+            m_children.push_back(std::make_unique<_Scene>(std::forward<Args>(args)...));
+            return (_Scene*) m_children[m_children.size() - 1].get();
+        }
+
+        void removeChild(Scene* scene) {
+            m_children.erase(std::remove_if(
+                m_children.begin(),
+                m_children.end(),
+                [scene](const auto& a) {
+                    return scene == a.get();
+                }
+            ), m_children.end());
+        }
+
+        std::vector<Scene*> children() {
+            std::vector<Scene*> out;
+            for (const auto& child : m_children) {
+                out.push_back(child.get());
+            }
+            return out;
+        }
 
         template <IsScript _Script, class... Args>
         _Script* addScript(Args &&... args) {
@@ -116,6 +112,16 @@ namespace hg {
             system->scene = this;
             m_systems.insert(std::make_pair(typeid(_System).hash_code(), system));
             return system.get();
+        }
+
+        template <IsSystem _System>
+        bool hasSystem() {
+            return m_systems.find(typeid(_System).hash_code()) != m_systems.end();
+        }
+
+        bool hasSystem(std::string name) {
+            size_t id = hg::SystemFactory::Get(name).hashCode;
+            return m_systems.find(id) != m_systems.end();
         }
 
         template <IsSystem _System>
@@ -152,8 +158,11 @@ namespace hg {
         virtual void onUpdate(double dt) {}
         virtual void onAfterUpdate() {}
         virtual void onFixedUpdate(double dt) {}
+        virtual void onRender(double dt) {}
 
     private:
+
+        bool m_active = true;
 
         std::unique_ptr<utils::Random> m_random;
         b2World* m_physics2d;
@@ -163,6 +172,7 @@ namespace hg {
         std::unordered_map<size_t, std::shared_ptr<System>> m_systems;
         std::vector<std::shared_ptr<Script>> m_scripts;
 
+        std::vector<std::unique_ptr<Scene>> m_children;
     };
 
 }

@@ -34,6 +34,8 @@ namespace hg {
 
         virtual void onAfterUpdate() {}
 
+        virtual void onRender(double dt) {}
+
     };
 
     template<typename T>

@@ -12,6 +12,7 @@ hg::utils::uuid_t hg::System::id = 0;
 hg::utils::MultiConfig hg::Scene::save() {
     hg::utils::MultiConfig scene;
     auto scripts = scene.addPage("Scripts");
+    auto meta = scene.addPage("Scenes");
     scene.addPage("Entities");
     scene.addPage("Components");
 
@@ -103,17 +104,92 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
 
 void hg::Scene::init() {
 
-    /*
-    b2AABB worldAABB;
-    worldAABB.lowerBound.Set(-200, -100);
-    worldAABB.upperBound.Set(200, 500);
-    m_physics2d = new b2World(b2Vec2(0, -9.8));
-    m_physics2d->ClearForces();
-    */
-
     onInit();
+
+    for (const auto& child : m_children) {
+        child->init();
+    }
 
     for (const auto& [key, system] : m_systems) {
         system->onInit();
     }
+}
+
+void hg::Scene::activate() {
+
+    for (const auto& script : m_scripts) {
+        script->init();
+    }
+    onActivate();
+
+    for (const auto& child : m_children) {
+        child->activate();
+    }
+}
+
+void hg::Scene::update(double dt) {
+
+    if (m_active) {
+        for (const auto& [key, system] : m_systems) {
+            system->onBeforeUpdate();
+        }
+
+        for (const auto& script : m_scripts) {
+            script->update(dt);
+        }
+        onUpdate(dt);
+        for (const auto& child : m_children) {
+            child->update(dt);
+        }
+
+        for (const auto& [key, system] : m_systems) {
+            system->onUpdate(dt);
+        }
+    }
+
+    for (const auto& [key, system] : m_systems) {
+        system->onRender(dt);
+    }
+
+    onRender(dt);
+
+    if (m_active) {
+        for (const auto& [key, system] : m_systems) {
+            system->onAfterUpdate();
+        }
+
+        onAfterUpdate();
+    }
+}
+
+void hg::Scene::fixedUpdate(double dt) {
+
+    if (!m_active) {
+        return;
+    }
+
+    onFixedUpdate(dt);
+    for (const auto& child : m_children) {
+        child->fixedUpdate(dt);
+    }
+    for (const auto& [key, system] : m_systems) {
+        system->onFixedUpdate(dt);
+    }
+}
+
+void hg::Scene::deactivate() {
+
+    for (const auto& script : m_scripts) {
+        script->close();
+    }
+    onDeactivate();
+
+    for (const auto& child : m_children) {
+        child->deactivate();
+    }
+}
+
+void hg::Scene::clear() {
+    entities.clear();
+    m_scripts.clear();
 }
