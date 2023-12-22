@@ -109,7 +109,7 @@ namespace hg {
         static std::vector<ComponentField> GetFields(std::string component);
 
         // Attach a component by name to an entity
-        static void Attach(Entity* entity, std::string componentName);
+        static Component* Attach(Entity* entity, std::string componentName);
 
     private:
 

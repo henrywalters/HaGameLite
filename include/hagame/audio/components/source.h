@@ -6,6 +6,7 @@
 #define HAGAME2_SOURCE_COMPONENT_H
 
 #include "../player.h"
+#include "../../core/entity.h"
 #include "../../core/component.h"
 
 namespace hg::audio {
@@ -13,16 +14,25 @@ namespace hg::audio {
     public:
 
         int channel;
-        buffer_t buffer;
-        source_t source;
+        std::string streamName;
+        float pitch = 1.0f;
+        float gain = 1.0f;
+        Vec3 velocity;
+        bool looping = false;
+        bool playOnStart = false;
 
     protected:
-
-        std::string toString() const override {
-            return "hg::audio::SourceComponent<" + std::to_string(id()) + ">";
-        }
-
+        OBJECT_NAME(SourceComponent)
     };
+
+    HG_COMPONENT(Audio, SourceComponent)
+    HG_FIELD(SourceComponent, int, channel)
+    HG_FIELD(SourceComponent, std::string, streamName)
+    HG_FIELD(SourceComponent, float, pitch)
+    HG_FIELD(SourceComponent, float, gain)
+    HG_FIELD(SourceComponent, hg::Vec3, velocity)
+    HG_FIELD(SourceComponent, bool, looping)
+    HG_FIELD(SourceComponent, bool, playOnStart)
 }
 
 #endif //HAGAME2_SOURCE_H

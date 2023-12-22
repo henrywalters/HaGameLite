@@ -5,8 +5,10 @@
 #ifndef HAGAME2_TOPDOWNPLAYERCONTROLLER_H
 #define HAGAME2_TOPDOWNPLAYERCONTROLLER_H
 
+#include "../../core/entity.h"
 #include "../../core/component.h"
 #include "../../math/aliases.h"
+#include "../../utils/macros.h"
 
 namespace hg {
     class TopDownPlayerController : public hg::Component {
@@ -61,6 +63,11 @@ namespace hg {
         hg::Vec3 m_velocity = hg::Vec3::Zero();
 
     };
+
+    HG_COMPONENT(Core, TopDownPlayerController)
+    HG_FIELD(TopDownPlayerController, float, acceleration)
+    HG_FIELD(TopDownPlayerController, float, deacceleration)
+    HG_FIELD(TopDownPlayerController, float, maxSpeed)
 };
 
 #endif //HAGAME2_TOPDOWNPLAYERCONTROLLER_H

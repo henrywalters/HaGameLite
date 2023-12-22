@@ -112,3 +112,7 @@ std::shared_ptr<hg::audio::Stream> hg::loadAudioStream(std::string name, std::st
 hg::audio::Stream* hg::getAudioStream(std::string name) {
     return assets::AUDIO_STREAMS.get(name).get();
 }
+
+bool hg::hasAudioSource(std::string name) {
+    return assets::AUDIO_STREAMS.has(name);
+}

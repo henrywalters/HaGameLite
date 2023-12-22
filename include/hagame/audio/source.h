@@ -12,6 +12,7 @@
 namespace hg::audio {
 
     struct SourceSettings {
+        uint16_t buffer;
         float pitch = 1.0f;
         float gain = 1.0f;
         Vec3 position;
@@ -33,7 +34,8 @@ namespace hg::audio {
         }
 
         void bind(uint16_t buffer) {
-            alSourcei(m_source, AL_BUFFER, buffer);
+            m_settings.buffer = buffer;
+            alSourcei(m_source, AL_BUFFER, m_settings.buffer);
         }
 
         SourceSettings settings() const { return m_settings; }
@@ -44,6 +46,7 @@ namespace hg::audio {
             position(settings.position);
             velocity(settings.velocity);
             looping(settings.looping);
+            bind(settings.buffer);
         }
 
         float pitch() const { return m_settings.pitch; }

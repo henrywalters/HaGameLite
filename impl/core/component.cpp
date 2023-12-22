@@ -17,8 +17,8 @@ std::vector<ComponentFactory::RegisteredComponent> ComponentFactory::GetAll() {
     return list;
 }
 
-void ComponentFactory::Attach(Entity *entity, std::string componentName) {
-    Get(componentName).attach(entity);
+Component* ComponentFactory::Attach(Entity *entity, std::string componentName) {
+    return Get(componentName).attach(entity);
 }
 
 std::unordered_map<std::string, ComponentFactory::RegisteredComponent> &ComponentFactory::ComponentMap() {

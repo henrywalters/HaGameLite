@@ -56,6 +56,7 @@ namespace hg {
     hg::graphics::Font* getFont(std::string name);
 
     std::shared_ptr<hg::audio::Stream> loadAudioStream(std::string name, std::string path);
+    bool hasAudioSource(std::string name);
     hg::audio::Stream* getAudioStream(std::string name);
 }
 
