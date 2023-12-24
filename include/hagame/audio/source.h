@@ -11,6 +11,12 @@
 
 namespace hg::audio {
 
+    enum class SourceState {
+        Playing,
+        Paused,
+        Stopped,
+    };
+
     struct SourceSettings {
         uint16_t buffer;
         float pitch = 1.0f;
@@ -96,14 +102,37 @@ namespace hg::audio {
             alSourcePause(m_source);
         }
 
+        void setState(SourceState state) {
+            if (state == SourceState::Playing) {
+                play();
+            } else if (state == SourceState::Paused) {
+                pause();
+            } else {
+                stop();
+            }
+        }
+
         void rewind() {
             alSourceRewind(m_source);
         }
 
-        bool playing() const {
+        SourceState state() const {
             ALint state;
             alGetSourcei(m_source, AL_SOURCE_STATE, &state);
-            return state == AL_PLAYING;
+            switch (state) {
+                case AL_PLAYING:
+                    return SourceState::Playing;
+                case AL_PAUSED:
+                    return SourceState::Paused;
+                case AL_STOPPED:
+                    return SourceState::Stopped;
+                default:
+                    return SourceState::Stopped;
+            }
+        }
+
+        bool playing() const {
+            return state() == SourceState::Playing;
         }
 
     private:

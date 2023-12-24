@@ -27,7 +27,6 @@ void Player::onTick() {
     while (!m_events.empty()) {
         auto e = m_events.pop_front();
         EventType type = std::visit([&](auto&& e) -> EventType {return e.type; }, e);
-
         if (type == EventType::AddSource) {
             auto event = std::get<SourceEvent>(e);
             m_sources.insert(std::make_pair(event.source, std::make_unique<Source>(event.settings)));
@@ -41,9 +40,9 @@ void Player::onTick() {
         } else if (type == EventType::BindBuffer) {
             auto event = std::get<BindBufferEvent>(e);
             m_sources[event.source]->bind(m_buffers[event.buffer]->id());
-        } else if (type == EventType::PlaySource) {
-            auto event = std::get<PlaySourceEvent>(e);
-            m_sources[event.source]->play();
+        } else if (type == EventType::ChangeState) {
+            auto event = std::get<ChangeStateEvent>(e);
+            m_sources[event.source]->setState(event.state);
         } else {
             throw std::runtime_error("Unhandled Audio Event in Player.cpp");
         }
@@ -72,6 +71,15 @@ void Player::updateSource(source_t source, hg::Vec3 position, hg::Vec3 velocity)
     e.settings = m_sources[source]->settings();
     e.settings.position = position;
     e.settings.velocity = velocity;
+    m_events.push_back(e);
+}
+
+void Player::updateSource(source_t source, bool looping) {
+    SourceEvent e;
+    e.type = EventType::UpdateSource;
+    e.source = source;
+    e.settings = m_sources[source]->settings();
+    e.settings.looping = looping;
     m_events.push_back(e);
 }
 
@@ -111,13 +119,26 @@ void Player::bindBuffer(buffer_t buffer, source_t source) {
 }
 
 void Player::playSource(source_t source) {
-    PlaySourceEvent e;
-    e.type = EventType::PlaySource;
-    e.source = source;
-    m_events.push_back(e);
+    changeState(source, SourceState::Playing);
+}
+
+void Player::pauseSource(source_t source) {
+    changeState(source, SourceState::Paused);
+}
+
+void Player::stopSource(source_t source) {
+    changeState(source, SourceState::Stopped);
 }
 
 Source* Player::getSource(source_t source) {
     return m_sources.find(source) == m_sources.end() ? nullptr : m_sources[source].get();
+}
+
+void Player::changeState(source_t source, SourceState state) {
+    ChangeStateEvent e;
+    e.type = EventType::ChangeState;
+    e.state = state;
+    e.source = source;
+    m_events.push_back(e);
 }
 

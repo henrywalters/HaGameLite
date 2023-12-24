@@ -26,11 +26,16 @@ namespace hg::audio {
         void updateSource(source_t source, Vec3 position, Vec3 velocity = Vec3::Zero());
         void updateSource(source_t source, float pitch, float gain);
         void updateSource(source_t source, const SourceSettings& settings);
+        void updateSource(source_t source, bool looping);
         Source* getSource(source_t source);
+
+        void playSource(source_t source);
+        void pauseSource(source_t source);
+        void stopSource(source_t source);
 
         buffer_t addBuffer(Stream* stream);
         void bindBuffer(buffer_t buffer, source_t source);
-        void playSource(source_t source);
+
 
     protected:
 
@@ -45,7 +50,7 @@ namespace hg::audio {
             UpdateSource,
             AddBuffer,
             BindBuffer,
-            PlaySource,
+            ChangeState,
         };
 
         struct SourceEvent {
@@ -66,12 +71,13 @@ namespace hg::audio {
             buffer_t buffer;
         };
 
-        struct PlaySourceEvent {
-            EventType type = EventType::PlaySource;
+        struct ChangeStateEvent {
+            EventType type = EventType::ChangeState;
+            SourceState state;
             source_t source;
         };
 
-        using Event = std::variant<SourceEvent, AddBufferEvent, BindBufferEvent, PlaySourceEvent>;
+        using Event = std::variant<SourceEvent, AddBufferEvent, BindBufferEvent, ChangeStateEvent>;
 
         bool m_valid = false;
 
@@ -83,6 +89,8 @@ namespace hg::audio {
         structures::TSQueue<Event> m_events;
 
         void checkError();
+
+        void changeState(source_t source, SourceState state);
     };
 }
 

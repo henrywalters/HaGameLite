@@ -12,6 +12,7 @@
 #include "system.h"
 #include "../utils/random.h"
 #include "../utils/config.h"
+#include "../utils/pubsub.h"
 
 class b2World;
 
@@ -28,8 +29,16 @@ namespace hg {
     template <typename T>
     concept IsScene = std::is_base_of<Scene, T>::value;
 
+    enum class SceneEvent {
+        Initialized,
+        Activated,
+        Deactivated,
+    };
+
     class Scene : public Object {
     public:
+
+        EventEmitter<SceneEvent> events;
 
         Scene():
             m_random(std::make_unique<utils::Random>()),

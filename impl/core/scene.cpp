@@ -105,6 +105,7 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
 void hg::Scene::init() {
 
     onInit();
+    events.emit(SceneEvent::Initialized);
 
     for (const auto& child : m_children) {
         child->init();
@@ -121,6 +122,7 @@ void hg::Scene::activate() {
         script->init();
     }
     onActivate();
+    events.emit(SceneEvent::Activated);
 
     for (const auto& child : m_children) {
         child->activate();
@@ -183,6 +185,7 @@ void hg::Scene::deactivate() {
         script->close();
     }
     onDeactivate();
+    events.emit(SceneEvent::Deactivated);
 
     for (const auto& child : m_children) {
         child->deactivate();
