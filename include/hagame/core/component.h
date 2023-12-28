@@ -30,8 +30,8 @@ namespace hg {
             onUpdate(dt);
         }
 
-        void uiUpdate(double dt) {
-            onUiUpdate(dt);
+        void uiUpdate() {
+            onUiUpdate();
         }
 
         void updateParams(ComponentParams params) {
@@ -57,7 +57,7 @@ namespace hg {
         }
 
         virtual void onUpdate(double dt) {}
-        virtual void onUiUpdate(double dt) {}
+        virtual void onUiUpdate() {}
         virtual void onUpdateParams(ComponentParams params) {}
 
     private:

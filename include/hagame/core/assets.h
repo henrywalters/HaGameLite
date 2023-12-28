@@ -21,7 +21,14 @@ namespace hg {
 #endif
 
     namespace assets {
+
+        struct ShaderPaths {
+            std::string vertPath;
+            std::string fragPath;
+        };
+
         inline static std::shared_ptr<hg::graphics::Texture> MISSING_TEXTURE;
+        inline static hg::utils::Store<std::string, ShaderPaths> SHADER_PATHS;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::ShaderProgram>> SHADERS;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Texture>> TEXTURES;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Font>> FONTS;
@@ -34,6 +41,12 @@ namespace hg {
 
     // Load a shader from there base name. Ex. "shaders/color" => vert = "shaders/color.vert"; frag = "shaders/color.frag" identified by "color";
     std::shared_ptr<hg::graphics::ShaderProgram> loadShader(std::string path);
+
+    // Recompile all loaded shaders
+    void recompileShaders();
+
+    // Recompile a shader by name
+    void recompileShader(std::string name);
 
     // Load a standard HaGame shader
     std::shared_ptr<hg::graphics::ShaderProgram> loadShader(graphics::ShaderSource shader);

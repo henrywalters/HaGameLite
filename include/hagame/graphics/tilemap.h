@@ -50,10 +50,12 @@ namespace hg::graphics {
 
         Tilemap(Vec2 tileSize);
 
-        HG_GET(Vec2, tileSize);
         HG_GET(Vec2i, min);
         HG_GET(Vec2i, max);
         HG_GET_SET_SIMPLE(int, zIndex);
+
+        Vec2 tileSize() const { return m_tileSize; }
+        void tileSize(Vec2 size);
 
         hg::graphics::Color background = hg::graphics::Color::black();
 

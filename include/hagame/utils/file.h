@@ -21,6 +21,14 @@ namespace hg::utils {
         std::string name;
         std::string extension;
         bool isDir;
+
+        std::string absolutePath() const {
+            return path + fullName;
+        }
+
+        bool operator==(const FileParts& other) const {
+            return absolutePath() == other.absolutePath();
+        }
     };
 
     bool f_exists(std::string file);

@@ -5,15 +5,13 @@ std::shared_ptr<hg::graphics::ShaderProgram> hg::loadShader(std::string name, st
     auto vertSrc = hg::utils::f_read(ASSET_DIR + vertPath);
     auto fragSrc = hg::utils::f_read(ASSET_DIR + fragPath);
 
-    std::cout << vertSrc << "\n";
-    std::cout << fragSrc << "\n";
-
     auto shader = std::make_shared<hg::graphics::ShaderProgram>(
             name,
             hg::graphics::Shader::LoadVertex(vertSrc),
             hg::graphics::Shader::LoadFragment(fragSrc)
     );
 
+    assets::SHADER_PATHS.set(name, assets::ShaderPaths{ASSET_DIR + vertPath, ASSET_DIR + fragPath});
     assets::SHADERS.set(name, shader);
 
     return shader;
@@ -23,6 +21,17 @@ std::shared_ptr<hg::graphics::ShaderProgram> hg::loadShader(std::string path) {
     auto parts = hg::utils::s_split(path, '/');
     auto f_parts = hg::utils::f_getParts(parts[parts.size() - 1]);
     return loadShader(f_parts.name, path + ".vert", path + ".frag");
+}
+
+void hg::recompileShaders() {
+    assets::SHADERS.forEach([&](std::string key, auto shader) {
+        recompileShader(key);
+    });
+}
+
+void hg::recompileShader(std::string name) {
+    auto paths = assets::SHADER_PATHS.get(name);
+    loadShader(name, paths.vertPath, paths.fragPath);
 }
 
 std::shared_ptr<hg::graphics::ShaderProgram> hg::loadShader(hg::graphics::ShaderSource source) {

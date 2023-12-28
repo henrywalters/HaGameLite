@@ -10,7 +10,7 @@
 #include "../../core/component.h"
 
 namespace hg::audio {
-    class SourceComponent : public hg::Component {
+    class AudioSource : public hg::Component {
     public:
 
         int channel;
@@ -22,17 +22,17 @@ namespace hg::audio {
         bool playOnStart = false;
 
     protected:
-        OBJECT_NAME(SourceComponent)
+        OBJECT_NAME(AudioSource)
     };
 
-    HG_COMPONENT(Audio, SourceComponent)
-    HG_FIELD(SourceComponent, int, channel)
-    HG_FIELD(SourceComponent, std::string, streamName)
-    HG_FIELD(SourceComponent, float, pitch)
-    HG_FIELD(SourceComponent, float, gain)
-    HG_FIELD(SourceComponent, hg::Vec3, velocity)
-    HG_FIELD(SourceComponent, bool, looping)
-    HG_FIELD(SourceComponent, bool, playOnStart)
+    HG_COMPONENT(Audio, AudioSource)
+    HG_FIELD(AudioSource, int, channel)
+    HG_FIELD(AudioSource, std::string, streamName)
+    HG_FIELD(AudioSource, float, pitch)
+    HG_FIELD(AudioSource, float, gain)
+    HG_FIELD(AudioSource, hg::Vec3, velocity)
+    HG_FIELD(AudioSource, bool, looping)
+    HG_FIELD(AudioSource, bool, playOnStart)
 }
 
 #endif //HAGAME2_SOURCE_H

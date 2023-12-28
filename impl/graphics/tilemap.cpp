@@ -497,3 +497,10 @@ std::vector<hg::utils::PathFinding::Node> Tilemap::findNeighbors(int layer, hg::
     return nodes;
 }
 
+void Tilemap::tileSize(hg::Vec2 size) {
+    m_tileSize = size;
+    m_quad->size(size);
+    m_quad->offset(size * -0.5);
+    m_mesh->update(m_quad.get());
+}
+
