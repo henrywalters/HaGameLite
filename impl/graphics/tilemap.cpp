@@ -4,6 +4,8 @@
 #include "../../include/hagame/graphics/tilemap.h"
 #include "../../include/hagame/math/functions.h"
 #include "../../include/hagame/graphics/debug.h"
+#include "../../include/hagame/graphics/components/tilemap.h"
+
 
 using namespace hg::math;
 using namespace hg::graphics;
@@ -503,4 +505,3 @@ void Tilemap::tileSize(hg::Vec2 size) {
     m_quad->offset(size * -0.5);
     m_mesh->update(m_quad.get());
 }
-

@@ -7,6 +7,7 @@
 
 #include <functional>
 #include <memory>
+#include <iostream>
 
 #include "uuid.h"
 
