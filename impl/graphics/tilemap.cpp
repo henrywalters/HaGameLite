@@ -402,7 +402,7 @@ std::optional<collisions::Hit> Tilemap::raycast(int layer, math::Ray ray, float&
     return closestHit;
 }
 
-std::optional<collisions::Hit>  Tilemap::isColliding(int layer, hg::Rect rect, hg::Vec3 vel, double dt) {
+std::optional<collisions::Hit> Tilemap::isColliding(int layer, hg::Rect rect, hg::Vec3 vel, double dt) {
 
     bool colliding = false;
 
@@ -451,7 +451,7 @@ bool Tilemap::isColliding(int layer, hg::Rect rect) {
 
             Rect tileRect(getPos(idx) - m_tileSize * 0.5, m_tileSize);
             if (collisions::checkRectAgainstRect(rect, tileRect)) {
-                Debug::DrawRect(tileRect, Color::red());
+                // Debug::DrawRect(tileRect, Color::red());
                 return true;
             }
         }

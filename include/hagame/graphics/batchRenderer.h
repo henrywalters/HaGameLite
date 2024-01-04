@@ -19,6 +19,7 @@ namespace hg::graphics {
         Mat4 model;
 
         BatchQuad(Quad* quad, Entity* entity);
+        BatchQuad(Vec2 _size, Vec2 _offset, Color _color, Mat4 _model);
     };
 
     class BatchQuads {
@@ -29,6 +30,7 @@ namespace hg::graphics {
         void clear();
 
         void batch(Entity* entity, Quad* quad);
+        void batch(Vec2 size, Vec2 offset, Color color, Mat4 model);
 
         void render();
 
@@ -45,6 +47,7 @@ namespace hg::graphics {
         void clear();
 
         void batch(Entity* entity, Sprite* sprite);
+        void batch(std::string texture, Vec2 size, Vec2 offset, Color color, Mat4 model);
 
         void render();
 

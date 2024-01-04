@@ -1,4 +1,5 @@
 #include "../../include/hagame/math/collisions.h"
+#include "../../include/hagame/math/lineIntersection.h"
 
 using namespace hg;
 using namespace hg::math;
@@ -143,3 +144,55 @@ std::optional<Hit> hg::math::collisions::checkRayAgainstEntity(Ray ray, Entity *
 
     return std::nullopt;
 }
+
+bool hg::math::collisions::checkRectAgainstPolygon(Rect rect, Polygon polygon) {
+    std::array<Vec2, 4> points = {
+        rect.pos,
+        rect.pos + Vec2(rect.size.x(), 0),
+        rect.pos + rect.size,
+        rect.pos + Vec2(0, rect.size.y()),
+    };
+
+    LineIntersection intersection;
+
+    for (const auto& edge : polygon) {
+        for (int i = 0; i < 4; i++) {
+            if (linesIntersect(points[i], points[(i + 1) % 4], edge.a, edge.b, intersection)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+std::optional<Hit> collisions::checkRayAgainstPolygon(Ray ray, Polygon polygon, float &t) {
+    bool hasHit = false;
+    float minT;
+
+    Vec2 a = ray.origin.resize<2>();
+    Vec2 b = (ray.origin + ray.direction).resize<2>();
+
+    LineIntersection intersection;
+
+    for (const auto& edge : polygon) {
+        if (linesIntersect(a, b, edge.a, edge.b, intersection)) {
+            if (!hasHit || intersection.t() < minT) {
+                hasHit = true;
+                minT = intersection.t();
+            }
+        }
+    }
+
+    if (!hasHit) {
+        return std::nullopt;
+    }
+
+    Hit hit;
+    hit.position = ray.getPointOnLine(minT);
+    hit.normal = ray.direction.normalized() * -1;
+    hit.depth = (ray.getPointOnLine(1.0) - hit.position).magnitude();
+
+    return hit;
+}
+

@@ -42,6 +42,8 @@ void Player::onTick() {
             m_sources[event.source]->bind(m_buffers[event.buffer]->id());
         } else if (type == EventType::ChangeState) {
             auto event = std::get<ChangeStateEvent>(e);
+            std::cout << "SETTING STATE TO: " << (int) event.state << "\n";
+            std::cout << "SOURCE = (" << m_sources[event.source] << ")\n";
             m_sources[event.source]->setState(event.state);
         } else {
             throw std::runtime_error("Unhandled Audio Event in Player.cpp");

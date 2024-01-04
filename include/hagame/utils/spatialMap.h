@@ -29,6 +29,15 @@ namespace hg::utils {
             initialize(position);
             m_map[position[0]][position[1]] = value;
             m_size += 1;
+
+            for (int i = 0; i < 2; i++) {
+                if (position[i] < m_min[i]) {
+                    m_min[i] = position[i];
+                }
+                if (position[i] > m_max[i]) {
+                    m_max[i] = position[i];
+                }
+            }
         }
 
         void remove(SpatialVector position) {
@@ -84,9 +93,16 @@ namespace hg::utils {
                 }
             }
         }
+
+        SpatialVector min() const { return m_min; }
+        SpatialVector max() const { return m_max; }
+
     private:
 
         std::unordered_map<SpatialType, std::unordered_map<SpatialType, DataType>> m_map;
+
+        SpatialVector m_min;
+        SpatialVector m_max;
 
         size_t m_size;
 

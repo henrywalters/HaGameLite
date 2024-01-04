@@ -123,12 +123,16 @@ namespace hg {
 
     template<IsComponent Comp>
     ComponentFactory::attach_fn ComponentFactory::Register(std::string category, std::string className) {
+
+        if (className == "Component") {
+            throw std::runtime_error("Invalid Component name. Make sure the toClassName method is overwritten. Or use OBJECT_NAME");
+        }
+
         auto attachFunc = [&](auto* entity) {
             return (Component*) entity->template addComponent<Comp>();
         };
 
         auto removeFunc = [&](auto* entity) {
-            std::cout << "REMOVING COMPONENT\n";
             return entity->template removeComponent<Comp>();
         };
 

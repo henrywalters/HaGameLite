@@ -55,8 +55,11 @@ namespace hg {
             if (speed >= maxSpeed) {
                 m_velocity = m_velocity.normalized() * maxSpeed;
             }
-
         }
+
+    protected:
+
+        OBJECT_NAME(TopDownPlayerController)
 
     private:
 

@@ -24,7 +24,12 @@ namespace hg::graphics::components {
 
         void render();
 
+    protected:
+
+        OBJECT_NAME(SpriteSheetAnimator)
     };
+
+    HG_COMPONENT(Graphics, SpriteSheetAnimator)
 }
 
 #endif //HAGAME2_SPRITESHEETANIMATOR_H

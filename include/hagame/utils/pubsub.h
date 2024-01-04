@@ -22,9 +22,14 @@ namespace hg {
      *
      */
 
+    class Notifier;
+
     struct NotificationListener {
+        Notifier* notifier;
         utils::uuid_t id;
         std::function<void()> onNotify;
+
+        ~NotificationListener();
     };
 
     class Notifier {

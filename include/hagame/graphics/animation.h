@@ -35,10 +35,15 @@ namespace hg::graphics {
     class AnimationPlayer {
     public:
 
-        Animation* addAnimation(KeyType key, Animation* animation) {
-            animation->onFinish.subscribe([&](auto anim){
-                anim->reset();
+        ~AnimationPlayer() {
+            for (const auto& [key, animation] : m_animationMap) {
+                animation->onFinish.unsubscribe(m_onFinish[key]);
+            }
+        }
 
+        Animation* addAnimation(KeyType key, Animation* animation) {
+            m_onFinish.insert(std::make_pair(key, animation->onFinish.subscribe([&](auto anim){
+                anim->reset();
                 if (!m_animationQueue.empty()) {
                     auto nextInQueue = m_animationQueue[0];
                     m_animationQueue.pop_front();
@@ -49,7 +54,7 @@ namespace hg::graphics {
                         m_animations.setCurrent(node->children[0]->value);
                     }
                 }
-            });
+            })));
             m_animations.insert(animation);
             m_animationMap.insert(std::make_pair(key, animation));
             return animation;
@@ -119,6 +124,7 @@ namespace hg::graphics {
         std::unordered_map<KeyType, Animation*> m_animationMap;
         structures::Graph<Animation*> m_animations;
 
+        std::unordered_map<KeyType, std::shared_ptr<hg::EventListener<Animation*>>> m_onFinish;
     };
 }
 

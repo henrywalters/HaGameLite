@@ -14,6 +14,7 @@
 #include "../core/entity.h"
 #include "components/rectCollider.h"
 #include "components/circleCollider.h"
+#include "polygon.h"
 
 namespace hg::math::collisions {
     struct Hit {
@@ -31,6 +32,7 @@ namespace hg::math::collisions {
     std::optional<Hit> checkRayAgainstRect(Ray ray, Rect rect, float& t);
     std::optional<Hit> checkRayAgainstCircle(Ray ray, Circle cirle, float& t);
     std::optional<Hit> checkRayAgainstEntity(Ray ray, Entity* entity, float& t);
+    std::optional<Hit> checkRayAgainstPolygon(Ray ray, Polygon polygon, float& t);
     //std::optional<Hit> checkRayAgainstCube(Ray ray, Cube cube, float& t);
     //std::optional<Hit> checkRayAgainstCapsule(Ray ray, Capsule capsule, float& t);
    // std::optional<Hit> checkRayAgainstTriangle(Ray ray, Triangle tri, float& t);
@@ -39,6 +41,7 @@ namespace hg::math::collisions {
     //std::optional<Hit> checkRayAgainstHollowDisc(Ray ray, Vec3 center, Vec3 normal, float innerRadius, float outerRadius, float& t);
 
     bool checkRectAgainstRect(Rect a, Rect b);
+    bool checkRectAgainstPolygon(Rect rect, Polygon polygon);
 }
 
 #endif //HAGAME2_COLLISIONS_H

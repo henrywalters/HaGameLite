@@ -13,6 +13,14 @@ BatchQuad::BatchQuad(Quad *quad, hg::Entity *entity):
     model(entity->model())
 {}
 
+BatchQuad::BatchQuad(hg::Vec2 _size, hg::Vec2 _offset, Color _color, hg::Mat4 _model):
+    size(_size),
+    offset(_offset),
+    color(_color),
+    model(_model)
+{
+}
+
 
 BatchQuads::BatchQuads():
     m_mesh(&m_primitive),
@@ -39,6 +47,10 @@ void BatchQuads::batch(hg::Entity *entity, Quad *quad) {
     m_data.emplace_back(quad, entity);
 }
 
+void BatchQuads::batch(hg::Vec2 size, hg::Vec2 offset, Color color, hg::Mat4 model) {
+    m_data.emplace_back(size, offset, color, model);
+}
+
 void BatchQuads::clear() {
     m_data.clear();
 }
@@ -52,6 +64,7 @@ void BatchQuads::render() {
     glDrawArraysInstanced(GL_TRIANGLES, 0, m_mesh.size(), m_data.size());
     m_buffer->unbind();
 }
+
 
 BatchSprites::SpriteBuffer *BatchSprites::getBuffer(std::string texture) {
     if (m_buffers.find(texture) == m_buffers.end()) {
@@ -87,6 +100,11 @@ void BatchSprites::batch(hg::Entity *entity, Sprite *sprite) {
     getBuffer(sprite->texture)->data.emplace_back(sprite, entity);
 }
 
+void BatchSprites::batch(std::string texture, hg::Vec2 size, hg::Vec2 offset, Color color, hg::Mat4 model) {
+    getBuffer(texture)->data.emplace_back(size, offset, color, model);
+}
+
+
 void BatchSprites::render() {
     for (const auto&[texture, buffer] : m_buffers) {
         buffer->buffer->bind();
@@ -99,3 +117,4 @@ void BatchSprites::render() {
         buffer->buffer->unbind();
     }
 }
+

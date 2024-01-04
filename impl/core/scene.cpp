@@ -47,6 +47,7 @@ hg::utils::MultiConfig hg::Scene::save() {
                 auto value = field.getter(component);
                 scene.getPage("Components")->setRaw(id, field.field, hg::utils::serialize(value));
             }
+            component->save(scene.getPage("Components"), id);
         }
     });
 
@@ -99,6 +100,8 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
             auto value = scene.getPage("Components")->getRaw(section, field.field);
             field.setter(component, utils::deserialize(field.type, value));
         }
+
+        component->load(scene.getPage("Components"), section);
     }
 }
 
