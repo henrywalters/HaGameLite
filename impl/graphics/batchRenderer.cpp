@@ -56,6 +56,10 @@ void BatchQuads::clear() {
 }
 
 void BatchQuads::render() {
+    std::sort(m_data.begin(), m_data.end(), [](auto& a, auto& b) {
+        return a.model.get(2, 3) < b.model.get(2, 3); // Compare the Z values of each quad
+    });
+
     m_buffer->bind();
     m_buffer->clear();
     m_buffer->resize(m_data.size());
@@ -107,6 +111,11 @@ void BatchSprites::batch(std::string texture, hg::Vec2 size, hg::Vec2 offset, Co
 
 void BatchSprites::render() {
     for (const auto&[texture, buffer] : m_buffers) {
+
+        std::sort(buffer->data.begin(), buffer->data.end(), [](auto& a, auto& b) {
+            return a.model.get(2, 3) < b.model.get(2, 3); // Compare the Z values of each quad
+        });
+
         buffer->buffer->bind();
         buffer->buffer->clear();
         buffer->buffer->resize(buffer->data.size());

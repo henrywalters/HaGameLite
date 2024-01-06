@@ -77,6 +77,19 @@ ComponentFactory::RegisterField(std::string type, std::string component, std::st
     field.field = fieldName;
     field.setter = setter;
     field.getter = getter;
+    field.number = std::nullopt;
+    Fields(component).insert(std::make_pair(fieldName, field));
+    return field;
+}
+
+ComponentFactory::ComponentField
+ComponentFactory::RegisterField(std::string type, std::string component, std::string fieldName, setter_fn setter, getter_fn getter, double min, double max, double step) {
+    ComponentField field;
+    field.type = type;
+    field.field = fieldName;
+    field.setter = setter;
+    field.getter = getter;
+    field.number = NumberSettings{min, max, step};
     Fields(component).insert(std::make_pair(fieldName, field));
     return field;
 }

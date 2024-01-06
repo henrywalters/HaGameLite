@@ -15,9 +15,9 @@ namespace hg {
     public:
 
         float epsilon = 0.00001f;
-        float acceleration = 1.0f;
-        float deacceleration = 2.0f;
-        float maxSpeed = 1.0f;
+        float acceleration = 10.0f;
+        float deacceleration = 20.0f;
+        float maxSpeed = 3.0f;
         HG_GET_SET_SIMPLE(hg::Vec3, velocity);
 
         void addVelocity(hg::Vec3 vel) {
@@ -68,7 +68,7 @@ namespace hg {
     };
 
     HG_COMPONENT(Core, TopDownPlayerController)
-    HG_FIELD(TopDownPlayerController, float, acceleration)
+    HG_NUMBER_FIELD(TopDownPlayerController, float, acceleration, 0, 10, 0.1)
     HG_FIELD(TopDownPlayerController, float, deacceleration)
     HG_FIELD(TopDownPlayerController, float, maxSpeed)
 };

@@ -12,6 +12,7 @@
 #include <entt/core/utility.hpp>
 #include <entt/entity/registry.hpp>
 #include <entt/meta/factory.hpp>
+#include <optional>
 #include "../utils/config.h"
 #include "../utils/variant.h"
 
@@ -81,11 +82,18 @@ namespace hg {
             remove_fn remove;
         };
 
+        struct NumberSettings {
+            double min;
+            double max;
+            double step;
+        };
+
         struct ComponentField {
             std::string type;
             std::string field;
             setter_fn setter;
             getter_fn getter;
+            std::optional<NumberSettings> number;
         };
 
         // Register a component in the factory
@@ -93,6 +101,8 @@ namespace hg {
         static attach_fn Register(std::string category, std::string className);
 
         static ComponentField RegisterField(std::string type, std::string component, std::string fieldName, setter_fn setter, getter_fn getter);
+
+        static ComponentField RegisterField(std::string type, std::string component, std::string fieldName, setter_fn setter, getter_fn getter, double min, double max, double step);
 
         // List all the registered components
         static std::vector<RegisteredComponent> GetAll();

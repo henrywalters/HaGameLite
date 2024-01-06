@@ -27,8 +27,8 @@ namespace hg::graphics {
     class OrthographicCamera : public Camera {
     public:
 
-        float zNear = 0;
-        float zFar = -1000.0;
+        float zNear = -100;
+        float zFar = 100.0;
 
         float zoom = 1.0;
         Vec2 size;
@@ -45,8 +45,8 @@ namespace hg::graphics {
                         transform.position[0] + size[0] * 0.5f * zoom,
                         transform.position[1] - size[1] * 0.5f * zoom,
                         transform.position[1] + size[1] * 0.5f * zoom,
-                        zFar,
-                        zNear
+                        zNear,
+                        zFar
                 );
             }
             else {
@@ -55,8 +55,8 @@ namespace hg::graphics {
                         transform.position[0] + size[0] * zoom,
                         0,
                         transform.position[1] + size[1] * zoom,
-                        zFar,
-                        zNear
+                        zNear,
+                        zFar
                 );
             }
         }

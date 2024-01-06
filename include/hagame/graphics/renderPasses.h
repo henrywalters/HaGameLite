@@ -44,8 +44,13 @@ namespace hg::graphics {
 
         void clear(KeyType key, Color color) {
             m_passes[key]->buffer->bind();
-            glClearColor(color[0], color[1], color[2], color[3]);
+            glClearColor(color[0], color[1], color[2], 0.0);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+            glEnable(GL_DEPTH_TEST);
+            glDepthFunc(GL_LEQUAL);
+            glEnable(GL_BLEND);
+            //glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         }
 
         void resize(KeyType key, hg::Vec2i size) {
