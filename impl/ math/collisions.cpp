@@ -168,7 +168,6 @@ bool hg::math::collisions::checkRectAgainstPolygon(Rect rect, Polygon polygon) {
 
 std::optional<Hit> collisions::checkRayAgainstPolygon(Ray ray, Polygon polygon, float &t) {
     bool hasHit = false;
-    float minT;
 
     Vec2 a = ray.origin.resize<2>();
     Vec2 b = (ray.origin + ray.direction).resize<2>();
@@ -177,9 +176,9 @@ std::optional<Hit> collisions::checkRayAgainstPolygon(Ray ray, Polygon polygon, 
 
     for (const auto& edge : polygon) {
         if (linesIntersect(a, b, edge.a, edge.b, intersection)) {
-            if (!hasHit || intersection.t() < minT) {
+            if (!hasHit || intersection.t() < t) {
                 hasHit = true;
-                minT = intersection.t();
+                t = intersection.t();
             }
         }
     }
@@ -189,7 +188,7 @@ std::optional<Hit> collisions::checkRayAgainstPolygon(Ray ray, Polygon polygon, 
     }
 
     Hit hit;
-    hit.position = ray.getPointOnLine(minT);
+    hit.position = ray.getPointOnLine(t);
     hit.normal = ray.direction.normalized() * -1;
     hit.depth = (ray.getPointOnLine(1.0) - hit.position).magnitude();
 

@@ -18,9 +18,12 @@ namespace hg {
     class Object : public utils::UUID {
     public:
 
-        virtual ~Object() {}
 
         Object() = default;
+
+        Object(utils::uuid_t id):
+            utils::UUID(id)
+        {}
 
         operator std::string() const {
             return toString();

@@ -13,6 +13,7 @@
 #include "string.h"
 #include <string_view>
 #include "../math/interval.h"
+#include "uuid.h"
 
 namespace hg::utils {
     /*
@@ -64,6 +65,11 @@ namespace hg::utils {
     template<>
     inline int strToT<int>(std::string str) {
         return std::atoi(str.c_str());
+    }
+
+    template<>
+    inline uint32_t strToT<uint32_t>(std::string str) {
+        return std::atol(str.c_str());
     }
 
     template<>

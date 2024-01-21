@@ -16,7 +16,9 @@
 
 #ifdef USE_EXPERIMENTAL
 #include <experimental/source_location>
+#include <deque>
 #include "file.h"
+#include "clock.h"
 
 #endif
 
@@ -52,11 +54,22 @@ namespace hg::utils {
         long long end;
     };
 
+    const int MAX_PROFILER_FRAMES = 100;
+
     struct Profile {
         std::string name;
         source_t source;
-        std::vector<ProfileFrame> frames;
+        std::deque<ProfileFrame> frames;
         long long start, end;
+        double sum;
+
+        double duration() const {
+            return hg::utils::Clock::ToSeconds(end - start);
+        }
+
+        double average() const {
+            return sum / frames.size();
+        }
     };
 
     class Profiler {
@@ -68,6 +81,8 @@ namespace hg::utils {
         static void End(std::string name = name_source(default_source()), source_t source = default_source());
 
         static void Render();
+
+        static std::unordered_map<std::string, Profile>& Profiles();
 
     private:
 

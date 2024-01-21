@@ -15,8 +15,8 @@ namespace hg {
     public:
 
         float epsilon = 0.00001f;
-        float acceleration = 10.0f;
-        float deacceleration = 20.0f;
+        float acceleration = 5.0f;
+        float deacceleration = 10.0f;
         float maxSpeed = 3.0f;
         HG_GET_SET_SIMPLE(hg::Vec3, velocity);
 
