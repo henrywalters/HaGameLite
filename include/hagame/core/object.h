@@ -18,7 +18,6 @@ namespace hg {
     class Object : public utils::UUID {
     public:
 
-
         Object() = default;
 
         Object(utils::uuid_t id):

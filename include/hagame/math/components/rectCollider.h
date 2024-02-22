@@ -20,7 +20,7 @@ public:
     }
 
     Rect getRect() const {
-        return Rect(pos, size);
+        return Rect(entity->position().resize<2>() + pos, size);
     }
 
 protected:

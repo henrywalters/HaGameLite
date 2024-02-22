@@ -45,6 +45,20 @@ void hg::graphics::components::Tilemap::save(hg::utils::Config *config, std::str
 }
 
 void hg::graphics::components::Tilemap::bake() {
+    bakeGeometry();
+    bakeRectangles();
+    m_isBaked = true;
+}
+
+hg::Vec2i components::Tilemap::getIndex(hg::Vec2 pos) {
+    return pos.div(tileSize).floor().cast<int>();
+}
+
+hg::Vec2 components::Tilemap::getPos(hg::Vec2i index) {
+    return index.cast<float>().prod(tileSize);
+}
+
+void components::Tilemap::bakeGeometry() {
     m_geometry.clear();
 
     hg::utils::SpatialMap2D<bool, int> visited;
@@ -143,14 +157,114 @@ void hg::graphics::components::Tilemap::bake() {
             }
         }
     }
-
-    m_isBaked = true;
 }
 
-hg::Vec2i components::Tilemap::getIndex(hg::Vec2 pos) {
-    return pos.div(tileSize).floor().cast<int>();
-}
+void components::Tilemap::bakeRectangles() {
 
-hg::Vec2 components::Tilemap::getPos(hg::Vec2i index) {
-    return index.cast<float>().prod(tileSize);
+    m_rectangles.clear();
+    hg::utils::SpatialMap2D<bool, int> accountedFor;
+
+    std::function<bool(Vec2i)> unaccountedFor = [&](Vec2i index) -> bool {
+        return tiles.has(index) && !accountedFor.has(index);
+    };
+
+    std::function<Vec2i(Vec2i)> getBottomLeftIndex = [&](Vec2i index) -> Vec2i {
+        bool canMoveLeft = unaccountedFor(index - Vec2i(1, 0));
+        bool canMoveDown = unaccountedFor(index - Vec2i(0, 1));
+
+        while (canMoveLeft || canMoveDown) {
+
+            bool below = unaccountedFor(index - Vec2i(0, 1));
+            bool left = unaccountedFor(index - Vec2i(1, 0));
+            bool belowLeft = unaccountedFor(index - Vec2i(1, 1));
+
+            if (canMoveLeft && canMoveDown) {
+
+                if (below && left && belowLeft) {
+                    index -= Vec2i(1, 1);
+                } else if (below && !(left || belowLeft)) {
+                    canMoveLeft = false;
+                    index -= Vec2i(0, 1);
+                } else if (left && (!below || belowLeft)) {
+                    canMoveDown = false;
+                    index -= Vec2i(1, 0);
+                } else {
+                    canMoveLeft = false;
+                    canMoveDown = false;
+                }
+            } else if (canMoveLeft) {
+                if (left) {
+                    index -= Vec2i(1, 0);
+                } else {
+                    canMoveLeft = false;
+                }
+            } else {
+                if (below) {
+                    index -= Vec2i(0, 1);
+                } else {
+                    canMoveDown = false;
+                }
+            }
+        }
+
+        return index;
+    };
+
+    std::function<void(Recti&, Vec2i)> expandRect = [&] (Recti& rect, Vec2i index) -> void {
+        bool canMoveRight = unaccountedFor(index + Vec2i(1, 0));
+        bool canMoveUp = unaccountedFor(index + Vec2i(0, 1));
+
+        while (canMoveRight || canMoveUp) {
+            if (canMoveRight) {
+                bool isRect = true;
+                for (int y = 0; y <= rect.size[1]; y++) {
+                    if (!tiles.has(index + rect.size + Vec2i(1, y))) {
+                        isRect = false;
+                        break;
+                    }
+                }
+                if (isRect) {
+                    for (int y = 0; y <= rect.size[1]; y++) {
+                        accountedFor.set(index + rect.size + Vec2i(1, y), true);
+                    }
+                    rect.size[0] += 1;
+                } else {
+                    canMoveRight = false;
+                }
+            }
+
+            if (canMoveUp) {
+                bool isRect = true;
+                for (int x = 0; x <= rect.size[0]; x++) {
+                    if (!tiles.has(index + rect.size + Vec2i(x, 1))) {
+                        isRect = false;
+                        break;
+                    }
+                }
+                if (isRect) {
+                    for (int x = 0; x <= rect.size[0]; x++) {
+                        accountedFor.set(index + rect.size + Vec2i(x, 1), true);
+                    }
+                    rect.size[1] += 1;
+                } else {
+                    canMoveUp = false;
+                }
+            }
+        }
+    };
+
+    tiles.forEach([&](auto index, auto tile) {
+        if (unaccountedFor(index)) {
+            auto startIdx = getBottomLeftIndex(index);
+            if (unaccountedFor(startIdx)) {
+                accountedFor.set(startIdx, true);
+                Recti rect(startIdx, Vec2i::Zero());
+                expandRect(rect, startIdx);
+                auto bottomLeft = getPos(rect.pos);
+                auto topRight = getPos(rect.pos + rect.size);
+                auto size = topRight - bottomLeft;
+                m_rectangles.emplace_back(bottomLeft, size + tileSize);
+            }
+        }
+    });
 }

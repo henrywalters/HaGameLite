@@ -13,7 +13,7 @@ namespace hg::common {
 
     struct WeaponDef : public utils::Configurable {
 
-        std::string name;
+        hg::utils::uuid_t id;
         bool chambered = false;
         bool automatic = false;
         bool infinite = false;

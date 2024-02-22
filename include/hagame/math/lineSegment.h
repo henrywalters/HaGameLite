@@ -6,6 +6,7 @@
 #define HAGAME2_LINESEGMENT_H
 
 #include "aliases.h"
+#include "functions.h"
 
 namespace hg::math {
     struct LineSegment {
@@ -18,6 +19,10 @@ namespace hg::math {
         // Get a point on the parameterized line
         Vec3 getPointOnLine(float t) {
             return a + (b - a) * (t < 0 ? 0 : (t > 1 ? 1 : t));
+        }
+
+        bool contains(Vec3 point) {
+            return approxEqual<float>((a - point).magnitude() + (b - point).magnitude(), (b - a).magnitude(), 0.0001);
         }
 
         // Calculates the point on the line closest to another point as well as the parameter t

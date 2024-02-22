@@ -1,9 +1,27 @@
 #include "../../include/hagame/math/collisions.h"
 #include "../../include/hagame/math/lineIntersection.h"
+#include "../../include/hagame/math/components/circleCollider.h"
+#include "../../include/hagame/math/components/rectCollider.h"
+
 
 using namespace hg;
 using namespace hg::math;
 using namespace hg::math::collisions;
+
+std::optional<Hit> collisions::checkEntityAgainstEntity(hg::Entity* a, hg::Entity* b) {
+    if (a->hasComponent<components::RectCollider>() && b->hasComponent<components::RectCollider>()) {
+        return checkRectAgainstRect(a->getComponent<components::RectCollider>()->getRect(), b->getComponent<components::RectCollider>()->getRect());
+    } else if (a->hasComponent<components::RectCollider>() && b->hasComponent<components::CircleCollider>()) {
+        return checkCircleAgainstRect(b->getComponent<components::CircleCollider>()->getCircle(), a->getComponent<components::RectCollider>()->getRect());
+    } else if (b->hasComponent<components::RectCollider>() && a->hasComponent<components::CircleCollider>()) {
+        return checkCircleAgainstRect(a->getComponent<components::CircleCollider>()->getCircle(), b->getComponent<components::RectCollider>()->getRect());
+    } else if (a->hasComponent<components::CircleCollider>() && b->hasComponent<components::CircleCollider>()) {
+        return checkCircleAgainstCircle(a->getComponent<components::CircleCollider>()->getCircle(), b->getComponent<components::CircleCollider>()->getCircle());
+    } else {
+        return std::nullopt;
+    }
+}
+
 
 std::optional<Hit> hg::math::collisions::checkRayAgainstSphere(Ray ray, Sphere sphere, float& t)
 {
@@ -118,9 +136,20 @@ std::optional<Hit> hg::math::collisions::checkRayAgainstCircle(Ray ray, Circle c
 }
 
 
-bool hg::math::collisions::checkRectAgainstRect(Rect a, Rect b) {
-    return a.pos.x() <= b.pos.x() + b.size.x() && a.pos.x() + a.size.x() >= b.pos.x() &&
-        a.pos.y() <= b.pos.y() + b.size.y() && a.pos.y() + a.size.y() >= b.pos.y();
+std::optional<Hit> hg::math::collisions::checkRectAgainstRect(Rect a, Rect b) {
+    if (!a.intersects(b)) {
+        return std::nullopt;
+    }
+
+    auto closestPointOnB = b.closestPoint(a.getCenter());
+    auto closestPointOnA = a.closestPoint(b.getCenter());
+    auto delta = closestPointOnA - closestPointOnB;
+
+    return Hit{
+        closestPointOnB.resize<3>(),
+        delta.normalized().resize<3>(),
+        delta.magnitude()
+    };
 }
 
 std::optional<Hit> hg::math::collisions::checkRayAgainstEntity(Ray ray, Entity *entity, float &t) {
@@ -193,5 +222,88 @@ std::optional<Hit> collisions::checkRayAgainstPolygon(Ray ray, Polygon polygon, 
     hit.depth = (ray.getPointOnLine(1.0) - hit.position).magnitude();
 
     return hit;
+}
+
+std::optional<Hit> collisions::checkCircleAgainstLine(Circle circle, LineSegment line) {
+    Vec2 a = line.a.resize<2>();
+    Vec2 b = line.b.resize<2>();
+
+    auto hit = [circle](Vec2 point) {
+        auto delta = (point - circle.center).resize<3>();
+        Hit out;
+        out.normal = delta.normalized();
+        out.position = point.resize<3>();
+        out.depth = circle.radius - delta.magnitude();
+        return out;
+    };
+
+    if (circle.contains(a)) {
+        return hit(a);
+    } else if (circle.contains(b)) {
+        return hit(b);
+    }
+
+    Vec2 delta = b - a;
+
+    float dot = delta.dot(circle.center - a) / delta.magnitudeSq();
+    Vec2 closestPoint = a + delta * dot;
+
+    if (!line.contains(closestPoint.resize<3>())) {
+        return std::nullopt;
+    }
+
+    if ((closestPoint - circle.center).magnitude() <= circle.radius) {
+        return hit(closestPoint);
+    }
+
+    return std::nullopt;
+}
+
+std::optional<Hit> collisions::checkCircleAgainstCircle(Circle a, Circle b) {
+    auto delta = b.center - a.center;
+    float mag = delta.magnitude();
+    if (mag > a.radius + b.radius) {
+        return std::nullopt;
+    }
+
+    float t = a.radius / mag;
+
+    return Hit { (a.center + delta * t).resize<3>(), (delta.normalized()).resize<3>(), mag - a.radius - b.radius };
+}
+
+std::optional<Hit> collisions::checkCircleAgainstRect(Circle circle, Rect rect) {
+    Vec3 pos = rect.pos.resize<3>();
+    Vec3 size = rect.size.resize<3>();
+    Vec3 cPos = circle.center.resize<3>();
+    std::array<LineSegment, 4> lines = {
+        LineSegment(pos + Vec3(0, 0, 0), pos + Vec3(size[0], 0, 0)),
+        LineSegment(pos + Vec3(size[0], 0, 0), pos + Vec3(size[0], size[1], 0)),
+        LineSegment(pos + Vec3(size[0], size[1], 0), pos + Vec3(0, size[1], 0)),
+        LineSegment(pos + Vec3(0, size[1], 0), pos + Vec3(0, 0, 0))
+    };
+
+    Vec3 closestPoint;
+    float minDistance;
+
+    for (int i = 0; i < 4; i++) {
+        float t;
+        auto point = lines[i].closestPoint(cPos, t);
+        float dist = distance(point, cPos);
+        if (i == 0 || dist < minDistance) {
+            minDistance = dist;
+            closestPoint = point;
+        }
+    }
+
+    if (!rect.contains(circle.center) && minDistance > circle.radius) {
+        return std::nullopt;
+    }
+
+    auto delta = (closestPoint - cPos).resize<3>();
+    Hit out;
+    out.normal = delta.normalized();
+    out.position = closestPoint;
+    out.depth = circle.radius - delta.magnitude();
+    return out;
 }
 
