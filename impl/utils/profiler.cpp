@@ -8,9 +8,8 @@
 #include "../../../include/hagame/utils/file.h"
 
 using namespace std;
-using namespace std::experimental;
 
-void hg::utils::Profiler::Start(std::string name, source_location source) {
+void hg::utils::Profiler::Start(std::string name, source_t source) {
     if (s_profiles.find(name) == s_profiles.end()) {
         Profile profile;
         profile.source = source;
@@ -37,7 +36,7 @@ void hg::utils::Profiler::Start(std::string name, source_location source) {
     s_profiles[name].frames.push_back(frame);
 }
 
-void hg::utils::Profiler::End(std::string name, source_location source) {
+void hg::utils::Profiler::End(std::string name, source_t source) {
     if (s_started.find(name) == s_started.end() || !s_started[name]) {
         throw std::runtime_error(name + " has not been started by profiler");
     }

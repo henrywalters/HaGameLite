@@ -15,7 +15,9 @@ set(CMAKE_FIND_DEBUG_MODE FALSE)
 
 find_package(PkgConfig REQUIRED)
 
+if(NOT EMSCRIPTEN)
 find_package(OpenAL CONFIG REQUIRED HINTS ${OPENAL_ROOT_DIR})
+endif()
 
 MESSAGE("OPENAL = ${OPENAL_LIBRARY}")
 
@@ -34,15 +36,19 @@ add_library(HaGame2 SHARED impl/core/component.cpp include/hagame/math/vector.h 
 target_include_directories(HaGame2 PRIVATE ${AUDIOFILE_ROOT_DIR})
 target_include_directories(HaGame2 PRIVATE ${BOX2D_ROOT_DIR}/include)
 target_include_directories(HaGame2 PRIVATE ${GLFW_INCLUDE_DIRS})
-target_include_directories(HaGame2 PRIVATE ${OPENAL_INCLUDE_DIR})
 target_include_directories(HaGame2 PRIVATE "${CMAKE_CURRENT_LIST_DIR}/thirdparty/entt/src/")
 target_include_directories(HaGame2 PRIVATE "${CMAKE_CURRENT_LIST_DIR}/thirdparty/stb/")
 target_include_directories(HaGame2 PRIVATE "${CMAKE_CURRENT_LIST_DIR}/thirdparty/asio/asio/include/")
+
+if(NOT EMSCRIPTEN)
+    target_include_directories(HaGame2 PRIVATE ${OPENAL_INCLUDE_DIR})
+endif()
+
 
 target_link_libraries(HaGame2 PUBLIC ${GLFW_LIBRARIES})
 # target_link_libraries(HaGame2 PUBLIC Box2D)
 target_link_libraries(HaGame2 PUBLIC ${OPENAL_LIBRARY})
 
 if(EMSCRIPTEN)
-    set_target_properties(HaGame2 PROPERTIES LINK_FLAGS "-DCMAKE_EXE_LINKER_FLAGS=-s -sMAX_WEBGL_VERSION=2 -sUSE_GLFW")
+    set_target_properties(HaGame2 PROPERTIES LINK_FLAGS "-DCMAKE_EXE_LINKER_FLAGS=-s -sMAX_WEBGL_VERSION=2 -sUSE_GLFW -lopenal")
 endif()

@@ -13,13 +13,12 @@
 #include <vector>
 #include <unordered_map>
 #include <stdexcept>
-
-#ifdef USE_EXPERIMENTAL
-#include <experimental/source_location>
 #include <deque>
 #include "file.h"
 #include "clock.h"
 
+#ifdef USE_EXPERIMENTAL
+#include <experimental/source_location>
 #endif
 
 namespace hg::utils {
