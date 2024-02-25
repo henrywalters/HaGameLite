@@ -5,8 +5,6 @@
 #ifndef HAGAME2_KEYBOARDMOUSE_H
 #define HAGAME2_KEYBOARDMOUSE_H
 
-#include <iostream>
-
 #include "../../math/aliases.h"
 #include "../inputDevice.h"
 #include "../../utils/clock.h"
@@ -14,38 +12,98 @@
 
 namespace hg::input::devices {
 
-    struct MouseState {
-        int wheel;
-        Vec2 position;
-        Vec2 prevPosition;
-        Vec2 delta;
+    constexpr size_t MOUSE_BUTTON_COUNT = 3;
+    constexpr size_t MOUSE_AXES_COUNT = 8;
 
-        bool left = false;
-        bool leftPressed = false;
-        bool middle = false;
-        bool middlePressed = false;
-        bool right = false;
-        bool rightPressed = false;
+    ENUM(MouseButtons)
+    ENUM_VALUE(MouseButtons, Left)
+    ENUM_VALUE(MouseButtons, Middle)
+    ENUM_VALUE(MouseButtons, Right)
+
+    ENUM(MouseAxes)
+    ENUM_VALUE(MouseAxes, PosX)
+    ENUM_VALUE(MouseAxes, PosY)
+    ENUM_VALUE(MouseAxes, PrevPosX)
+    ENUM_VALUE(MouseAxes, PrevPosY)
+    ENUM_VALUE(MouseAxes, RAxisX)
+    ENUM_VALUE(MouseAxes, RAxisY)
+    ENUM_VALUE(MouseAxes, WheelX)
+    ENUM_VALUE(MouseAxes, WheelY)
+
+    struct MouseState {
+
+        hg::Notifier onInput;
+
+        long lastMouseMovement = utils::Clock::Now();
+
+        std::array<utils::Watcher<bool>, MOUSE_BUTTON_COUNT> buttons;
+        std::array<utils::Watcher<bool>, MOUSE_BUTTON_COUNT> buttonsPressed;
+        std::array<utils::Watcher<float>, MOUSE_AXES_COUNT> axes;
+
+        MouseState();
+
+        void setPosition(float x, float y) {
+            lastMouseMovement = utils::Clock::Now();
+            axes[MouseAxes::PrevPosX] = axes[MouseAxes::PosX];
+            axes[MouseAxes::PrevPosY] = axes[MouseAxes::PosY];
+            axes[MouseAxes::PosX] = x;
+            axes[MouseAxes::PosY] = y;
+            auto d = delta();
+            axes[MouseAxes::RAxisX] = d[0];
+            axes[MouseAxes::RAxisY] = d[1];
+        }
+
+        Vec2 position() {
+            return Vec2(axes[MouseAxes::PosX], axes[MouseAxes::PosY]);
+        }
+
+        Vec2 previousPosition() {
+            return Vec2(axes[MouseAxes::PrevPosX], axes[MouseAxes::PrevPosY]);
+        }
+
+        Vec2 delta() {
+            return position() - previousPosition();
+        }
 
         Vec2 getRelativePosition(Rect viewport) {
-            return position - viewport.pos;
+            return position() - viewport.pos;
         }
     };
 
-    struct KeyboardState {
-        std::array<bool, 10> numbers = {};
-        std::array<bool, 10> numbersPressed = {};
-        std::array<bool, 26> letters = {};
-        std::array<bool, 26> lettersPressed = {};
+    constexpr size_t KEYBOARD_BUTTON_COUNT = 10 + 26 + 11;
+    constexpr size_t KEYBOARD_AXES_COUNT = 2;
 
-        bool lCtrl, lCtrlPressed = false;
-        bool rCtrl, rCtrlPressed = false;
-        bool lShift, lShiftPressed = false;
-        bool rShift, rShiftPressed = false;
-        bool enter, enterPressed = false;
-        bool backspace, backspacePressed = false;
+    ENUM(KeyboardButtons)
+    ENUM_VALUE_OFFSET(KeyboardButtons, RCtrl, MOUSE_BUTTON_COUNT)
+    ENUM_VALUE(KeyboardButtons, Space)
+    ENUM_VALUE(KeyboardButtons, LCtrl)
+    ENUM_VALUE(KeyboardButtons, RShift)
+    ENUM_VALUE(KeyboardButtons, LShift)
+    ENUM_VALUE(KeyboardButtons, RAlt)
+    ENUM_VALUE(KeyboardButtons, LAlt)
+    ENUM_VALUE(KeyboardButtons, Enter)
+    ENUM_VALUE(KeyboardButtons, Backspace)
+    ENUM_VALUE(KeyboardButtons, Tilda)
+    ENUM_VALUE(KeyboardButtons, Escape)
 
-        bool esc, escPressed = false;
+    ENUM(KeyboardAxes)
+    ENUM_VALUE_OFFSET(KeyboardAxes, LAxisX, MOUSE_AXES_COUNT)
+    ENUM_VALUE(KeyboardAxes, LAxisY)
+
+    namespace KeyboardButtons {
+        const hg::utils::enum_t NumberStart = KeyboardButtons::Escape + 1;
+        const hg::utils::enum_t LetterStart = KeyboardButtons::Escape + 2 + 26;
+    }
+
+   struct KeyboardState {
+
+        hg::Notifier onInput;
+
+        std::array<utils::Watcher<bool>, KEYBOARD_BUTTON_COUNT> buttons;
+        std::array<utils::Watcher<bool>, KEYBOARD_BUTTON_COUNT> buttonsPressed;
+        std::array<utils::Watcher<float>, KEYBOARD_AXES_COUNT> axes;
+
+        KeyboardState();
     };
 
     struct KeyPress {
@@ -65,148 +123,37 @@ namespace hg::input::devices {
 
         Publisher<KeyboardEvent, KeyPress> events;
 
-        long lastMouseMovement = utils::Clock::Now();
-        Vec2 lastMousePos = Vec2::Zero();
-
         MouseState mouse;
         KeyboardState keyboard;
 
-        void clearDevice() override {
-            mouse.leftPressed = false;
-            mouse.rightPressed = false;
-            mouse.middlePressed = false;
-            mouse.wheel = 0;
+        KeyboardMouse();
 
-            for (int i = 0; i < 10; i++) {
-                keyboard.numbersPressed[i] = false;
-            }
-
-            for (int i = 0; i < 26; i++) {
-                keyboard.lettersPressed[i] = false;
-            }
-
-            keyboard.escPressed = false;
-            keyboard.lShiftPressed = false;
-            keyboard.rShiftPressed = false;
-            keyboard.lCtrlPressed = false;
-            keyboard.rCtrlPressed = false;
-            keyboard.enterPressed = false;
-            keyboard.backspacePressed = false;
-        }
+        void clearDevice() override;
 
         void scrollCallback(double xOffset, double yOffset) {
-            mouse.wheel = yOffset;
+            mouse.axes[MouseAxes::WheelX] = xOffset;
+            mouse.axes[MouseAxes::WheelY] = yOffset;
         }
 
-        void cursorPosCallback(double xPos, double yPos) {
-            auto newMousePos = Vec2(xPos, yPos);
-            auto mouseDelta = newMousePos - lastMousePos;
-            auto now = utils::Clock::Now();
-            auto dt = utils::Clock::ToSeconds(now - lastMouseMovement);
+        void cursorPosCallback(double xPos, double yPos);
 
-            lastMousePos = mouse.position;
-            lastMouseMovement = now;
-            mouse.position = newMousePos;
+        void mouseButtonCallback(int button, int action);
 
-            rAxis = mouseDelta;
+        void keyCallback(int key, int action);
+
+        void charCallback(unsigned int codepoint);
+
+        static int LetterIndex(char letter) {
+            return letter - KeyboardButtons::LetterStart;
         }
 
-        void mouseButtonCallback(int button, int action) {
-            if (button == M_LEFT) {
-                UpdateState(mouse.left, mouse.leftPressed, action != 0);
-                UpdateState(rTrigger, rTriggerPressed, action != 0);
-            }
-
-            if (button == M_RIGHT) {
-                UpdateState(mouse.right, mouse.rightPressed, action != 0);
-                UpdateState(lTrigger, lTriggerPressed, action != 0);
-            }
-
-            if (button == M_MIDDLE) {
-                UpdateState(mouse.middle, mouse.middlePressed, action != 0);
-            }
+        static int NumberIndex(char number) {
+            return number - KeyboardButtons::NumberStart;
         }
 
-        void keyCallback(int key, int action) {
-
-            if (key >= ZERO_START && key < ZERO_START + 10) {
-                UpdateState(keyboard.numbers[key - ZERO_START], keyboard.numbersPressed[key - ZERO_START], action != 0);
-            }
-
-            if (key >= A_START && key < A_START + 26) {
-                UpdateState(keyboard.letters[key - A_START], keyboard.lettersPressed[key - A_START], action != 0);
-            }
-
-            if (key == L_CTRL) {
-                UpdateState(keyboard.lCtrl, keyboard.lCtrlPressed, action != 0);
-            }
-
-            if (key == R_CTRL) {
-                UpdateState(keyboard.rCtrl, keyboard.rCtrlPressed, action != 0);
-            }
-
-            if (key == L_SHIFT) {
-                UpdateState(keyboard.lShift, keyboard.lShiftPressed, action != 0);
-            }
-
-            if (key == R_SHIFT) {
-                UpdateState(keyboard.rShift, keyboard.rShiftPressed, action != 0);
-            }
-
-            if (key == ESC) {
-                UpdateState(keyboard.esc, keyboard.escPressed, action != 0);
-            }
-
-            if (key == ENTER) {
-                UpdateState(keyboard.enter, keyboard.enterPressed, action != 0);
-            }
-
-            if (key == 259) {
-                UpdateState(keyboard.backspace, keyboard.backspacePressed, action != 0);
-            }
-
-            lAxis[0] = ((int) keyboard.letters[LetterIndex('D')]) - ((int) keyboard.letters[LetterIndex(('A'))]);
-            lAxis[1] = ((int) keyboard.letters[LetterIndex('W')]) - ((int) keyboard.letters[LetterIndex(('S'))]);
-
-            KeyPress press;
-            press.key = key;
-            press.shiftPressed = keyboard.lShiftPressed || keyboard.rShiftPressed;
-            press.ctrlPressed = keyboard.lCtrlPressed || keyboard.rCtrlPressed;
-
-            events.emit(action != 0 ? KeyboardEvent::KeyPressed : KeyboardEvent::KeyReleased, press);
-
-        }
-
-        void charCallback(unsigned int codepoint) {
-            KeyPress press;
-            press.key = codepoint;
-            press.shiftPressed = keyboard.lShiftPressed || keyboard.rShiftPressed;
-            press.ctrlPressed = keyboard.lCtrlPressed || keyboard.rCtrlPressed;
-            events.emit(KeyboardEvent::TextInput, press);
-        }
-
-        static constexpr int LetterIndex(char letter) {
-            return letter - 65;
-        }
-
-        static const int A_START = 65;
-        static const int ZERO_START = 48;
-        static const int L_CTRL = 341;
-        static const int R_CTRL = 345;
-        static const int L_SHIFT = 340;
-        static const int R_SHIFT = 344;
-        static const int ESC = 256;
-        static const int ENTER = 257;
-        static const int BACKSPACE = 259;
-        static const int RIGHT = 262;
-        static const int LEFT = 263;
-        static const int DOWN = 264;
-        static const int UP = 265;
-
-        static const int M_LEFT = 0;
-        static const int M_MIDDLE = 2;
-        static const int M_RIGHT = 1;
-
+        std::unordered_map<hg::utils::enum_t, bool> getButtonState() const override;
+        std::unordered_map<hg::utils::enum_t, bool> getButtonPressedState() const override;
+        std::unordered_map<hg::utils::enum_t, float> getAxesState() const override;
 
     };
 }

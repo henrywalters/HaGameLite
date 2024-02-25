@@ -13,10 +13,19 @@ std::vector<EnumElement> *hg::utils::GetEnum(uuid_t id) {
     return &Enums.at(id);
 }
 
-hg::utils::enum_t hg::utils::RegisterValue(uuid_t enumId, std::string label) {
+hg::utils::enum_t hg::utils::RegisterValue(uuid_t enumId, std::string label, int offset) {
     auto enums = GetEnum(enumId);
     EnumElement element(label);
-    element.key = enums->size();
+    hg::utils::enum_t key;
+    if (enums->size() > 0) {
+        key = (*enums)[enums->size() - 1].key + 1;
+    } else {
+        key = 0;
+    }
+
+    key += offset;
+
+    element.key = key;
     enums->push_back(element);
     return element.key;
 }

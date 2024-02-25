@@ -21,13 +21,13 @@ namespace hg::ui {
     protected:
 
         hg::Vec2 mousePos(hg::graphics::Window* window) {
-            hg::Vec2 pos = window->input.keyboardMouse.mouse.position;
+            hg::Vec2 pos = window->input.devices.keyboardMouse.mouse.position();
             pos[1] = window->size()[1] - pos[1];
             return pos;
         }
 
         bool mouseClicked(hg::graphics::Window* window) {
-            return window->input.keyboardMouse.mouse.leftPressed;
+            return window->input.devices.keyboardMouse.mouse.buttons[input::devices::MouseButtons::Left];
         }
 
     };

@@ -10,7 +10,7 @@
 namespace hg::graphics {
     const ShaderSource TEXTURE_SHADER {
         "texture",
-        "#version 420\n"
+        "#version 300 es\n"
         "\n"
         "precision highp float;\n"
         "\n"
@@ -32,7 +32,7 @@ namespace hg::graphics {
         "    FragPos = vec3(gl_Position);\n"
         "    TexCoord = a_texture;\n"
         "}",
-        "#version 420\n"
+        "#version 300 es\n"
         "\n"
         "precision highp float;\n"
         "\n"

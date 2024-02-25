@@ -119,11 +119,19 @@ void hg::graphics::Window::render() {
     // Flip the double buffer
     glfwSwapBuffers(m_window);
     // Handle any events
-    input.keyboardMouse.clear();
+    input.devices.keyboardMouse.clear();
+    input.devices.clearGamepads();
 }
 
 void hg::graphics::Window::clear() {
     glfwPollEvents();
+
+    for (const auto& index : input.devices.m_gamepadOrder) {
+        GLFWgamepadstate state;
+        glfwGetGamepadState(index, &state);
+        input.devices.m_gamepads[index]->setGamepadState(state);
+    }
+
     // Clear the window with the background color
     glClearColor(m_color[0], m_color[1], m_color[2], m_color[3]);
     glClear(GL_COLOR_BUFFER_BIT);

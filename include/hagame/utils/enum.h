@@ -70,7 +70,8 @@ namespace hg::utils {
         return &EnumFactory.at(id);
     }
 
-    enum_t RegisterValue(hg::utils::uuid_t enumId, std::string label);
+    // Register an enum value. Offsets allow multiple enums to non-exclusively use one enum_t
+    enum_t RegisterValue(hg::utils::uuid_t enumId, std::string label, int offset = 0);
 
     template <typename Base, typename Ext>
     enum_constructor_t<Ext> RegisterFactoryMethod(hg::utils::uuid_t factoryId, enum_t value) {
@@ -79,6 +80,7 @@ namespace hg::utils {
         factory->insert(std::make_pair(value, fn));
         return fn;
     }
+
 }
 
 #define ENUM(Enum) namespace Enum { \
@@ -89,7 +91,11 @@ namespace hg::utils {
 
 #define ENUM_VALUE(Enum, Value) namespace Enum { \
     const hg::utils::enum_t Value = hg::utils::RegisterValue(_ID, #Value);                             \
-}                                                \
+}
+
+#define ENUM_VALUE_OFFSET(Enum, Value, Offset) namespace Enum { \
+    const hg::utils::enum_t Value = hg::utils::RegisterValue(_ID, #Value, Offset);                             \
+}
 
 #define ENUM_FACTORY(Enum) namespace Enum { \
     const hg::utils::uuid_t _FACTORY_ID = hg::utils::UUID::Generate(); \
