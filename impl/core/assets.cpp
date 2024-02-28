@@ -20,6 +20,7 @@ std::shared_ptr<hg::graphics::ShaderProgram> hg::loadShader(std::string name, st
 std::shared_ptr<hg::graphics::ShaderProgram> hg::loadShader(std::string path) {
     auto parts = hg::utils::s_split(path, '/');
     auto f_parts = hg::utils::f_getParts(parts[parts.size() - 1]);
+    std::cout << "Loading Shader: " << path << "\n";
     return loadShader(f_parts.name, path + ".vert", path + ".frag");
 }
 

@@ -3,6 +3,7 @@
 //
 
 #include "../../include/hagame/graphics/window.h"
+#include <GLFW/glfw3.h>
 #include <iostream>
 
 namespace hg::graphics {
@@ -119,18 +120,22 @@ void hg::graphics::Window::render() {
     // Flip the double buffer
     glfwSwapBuffers(m_window);
     // Handle any events
-    input.devices.keyboardMouse.clear();
+    input.devices.keyboardMouse()->clear();
     input.devices.clearGamepads();
 }
 
 void hg::graphics::Window::clear() {
     glfwPollEvents();
 
+#ifndef __EMSCRIPTEN__
+
     for (const auto& index : input.devices.m_gamepadOrder) {
         GLFWgamepadstate state;
         glfwGetGamepadState(index, &state);
         input.devices.m_gamepads[index]->setGamepadState(state);
     }
+
+#endif
 
     // Clear the window with the background color
     glClearColor(m_color[0], m_color[1], m_color[2], m_color[3]);

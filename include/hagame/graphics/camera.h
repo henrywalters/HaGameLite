@@ -88,9 +88,7 @@ namespace hg::graphics {
                 Vec2 pos = Vec2((windowSize[0] - size[0]) * 0.5, 0);
                 return Rect(pos, size);
             } else {
-                std::cout << "RATIO = " << ratio.inverse() * windowSize[0] << "\n";
                 Vec2 size = Vec2(windowSize[0], ratio.inverse() * windowSize[0]);
-                std::cout << "SIZE = " << size << "\n";
                 Vec2 pos = Vec2(0, (windowSize[1] - size[1]) * 0.5);
                 return Rect(pos, size);
             }

@@ -2,109 +2,25 @@
 // Created by henry on 12/17/22.
 //
 
-#ifndef HAGAME2_KEYBOARDMOUSE_H
-#define HAGAME2_KEYBOARDMOUSE_H
+#ifndef HAGAME2_KEYBOARD_MOUSE_H
+#define HAGAME2_KEYBOARD_MOUSE_H
 
 #include "../../math/aliases.h"
 #include "../inputDevice.h"
 #include "../../utils/clock.h"
 #include "../../utils/pubsub.h"
+#include "keyboardMouseEnums.h"
+
+namespace hg::graphics {
+    class Windows;
+}
 
 namespace hg::input::devices {
 
-    constexpr size_t MOUSE_BUTTON_COUNT = 3;
-    constexpr size_t MOUSE_AXES_COUNT = 8;
-
-    ENUM(MouseButtons)
-    ENUM_VALUE(MouseButtons, Left)
-    ENUM_VALUE(MouseButtons, Middle)
-    ENUM_VALUE(MouseButtons, Right)
-
-    ENUM(MouseAxes)
-    ENUM_VALUE(MouseAxes, PosX)
-    ENUM_VALUE(MouseAxes, PosY)
-    ENUM_VALUE(MouseAxes, PrevPosX)
-    ENUM_VALUE(MouseAxes, PrevPosY)
-    ENUM_VALUE(MouseAxes, RAxisX)
-    ENUM_VALUE(MouseAxes, RAxisY)
-    ENUM_VALUE(MouseAxes, WheelX)
-    ENUM_VALUE(MouseAxes, WheelY)
-
-    struct MouseState {
-
-        hg::Notifier onInput;
-
-        long lastMouseMovement = utils::Clock::Now();
-
-        std::array<utils::Watcher<bool>, MOUSE_BUTTON_COUNT> buttons;
-        std::array<utils::Watcher<bool>, MOUSE_BUTTON_COUNT> buttonsPressed;
-        std::array<utils::Watcher<float>, MOUSE_AXES_COUNT> axes;
-
-        MouseState();
-
-        void setPosition(float x, float y) {
-            lastMouseMovement = utils::Clock::Now();
-            axes[MouseAxes::PrevPosX] = axes[MouseAxes::PosX];
-            axes[MouseAxes::PrevPosY] = axes[MouseAxes::PosY];
-            axes[MouseAxes::PosX] = x;
-            axes[MouseAxes::PosY] = y;
-            auto d = delta();
-            axes[MouseAxes::RAxisX] = d[0];
-            axes[MouseAxes::RAxisY] = d[1];
-        }
-
-        Vec2 position() {
-            return Vec2(axes[MouseAxes::PosX], axes[MouseAxes::PosY]);
-        }
-
-        Vec2 previousPosition() {
-            return Vec2(axes[MouseAxes::PrevPosX], axes[MouseAxes::PrevPosY]);
-        }
-
-        Vec2 delta() {
-            return position() - previousPosition();
-        }
-
-        Vec2 getRelativePosition(Rect viewport) {
-            return position() - viewport.pos;
-        }
-    };
-
-    constexpr size_t KEYBOARD_BUTTON_COUNT = 10 + 26 + 11;
-    constexpr size_t KEYBOARD_AXES_COUNT = 2;
-
-    ENUM(KeyboardButtons)
-    ENUM_VALUE_OFFSET(KeyboardButtons, RCtrl, MOUSE_BUTTON_COUNT)
-    ENUM_VALUE(KeyboardButtons, Space)
-    ENUM_VALUE(KeyboardButtons, LCtrl)
-    ENUM_VALUE(KeyboardButtons, RShift)
-    ENUM_VALUE(KeyboardButtons, LShift)
-    ENUM_VALUE(KeyboardButtons, RAlt)
-    ENUM_VALUE(KeyboardButtons, LAlt)
-    ENUM_VALUE(KeyboardButtons, Enter)
-    ENUM_VALUE(KeyboardButtons, Backspace)
-    ENUM_VALUE(KeyboardButtons, Tilda)
-    ENUM_VALUE(KeyboardButtons, Escape)
-
-    ENUM(KeyboardAxes)
-    ENUM_VALUE_OFFSET(KeyboardAxes, LAxisX, MOUSE_AXES_COUNT)
-    ENUM_VALUE(KeyboardAxes, LAxisY)
-
     namespace KeyboardButtons {
-        const hg::utils::enum_t NumberStart = KeyboardButtons::Escape + 1;
-        const hg::utils::enum_t LetterStart = KeyboardButtons::Escape + 2 + 26;
+        const hg::utils::enum_t LetterStart = _MOUSE_BUTTON_COUNT + _KEYBOARD_SPECIAL_COUNT;
+        const hg::utils::enum_t NumberStart = _MOUSE_BUTTON_COUNT + _KEYBOARD_SPECIAL_COUNT + _KEYBOARD_LETTER_COUNT;
     }
-
-   struct KeyboardState {
-
-        hg::Notifier onInput;
-
-        std::array<utils::Watcher<bool>, KEYBOARD_BUTTON_COUNT> buttons;
-        std::array<utils::Watcher<bool>, KEYBOARD_BUTTON_COUNT> buttonsPressed;
-        std::array<utils::Watcher<float>, KEYBOARD_AXES_COUNT> axes;
-
-        KeyboardState();
-    };
 
     struct KeyPress {
         unsigned int key;
@@ -121,19 +37,33 @@ namespace hg::input::devices {
     class KeyboardMouse : public InputDevice {
     public:
 
+        friend class hg::graphics::Windows;
+
+        KeyboardMouse() {
+            for (const auto& e : *ENUMS(KeyboardButtons)) {
+                std::cout << e.label << " = " << (int)e.key << "\n";
+            }
+        }
+
         Publisher<KeyboardEvent, KeyPress> events;
 
-        MouseState mouse;
-        KeyboardState keyboard;
+        std::array<utils::Watcher<bool>, _KEYBOARD_BUTTON_COUNT + _MOUSE_BUTTON_COUNT> buttons;
+        std::array<utils::Watcher<bool>, _KEYBOARD_BUTTON_COUNT + _MOUSE_BUTTON_COUNT> buttonsPressed;
+        std::array<utils::Watcher<float>, _MOUSE_AXES_COUNT + _KEYBOARD_AXES_COUNT> axes;
 
-        KeyboardMouse();
+        Vec2 mousePosition() const;
+        Vec2 mouseDelta() const;
+        Vec2 wasd() const;
+
+        std::unordered_map<hg::utils::enum_t, bool> getButtonState() const override;
+        std::unordered_map<hg::utils::enum_t, bool> getButtonPressedState() const override;
+        std::unordered_map<hg::utils::enum_t, float> getAxesState() const override;
+
+    private:
 
         void clearDevice() override;
 
-        void scrollCallback(double xOffset, double yOffset) {
-            mouse.axes[MouseAxes::WheelX] = xOffset;
-            mouse.axes[MouseAxes::WheelY] = yOffset;
-        }
+        void scrollCallback(double xOffset, double yOffset);
 
         void cursorPosCallback(double xPos, double yPos);
 
@@ -143,19 +73,7 @@ namespace hg::input::devices {
 
         void charCallback(unsigned int codepoint);
 
-        static int LetterIndex(char letter) {
-            return letter - KeyboardButtons::LetterStart;
-        }
-
-        static int NumberIndex(char number) {
-            return number - KeyboardButtons::NumberStart;
-        }
-
-        std::unordered_map<hg::utils::enum_t, bool> getButtonState() const override;
-        std::unordered_map<hg::utils::enum_t, bool> getButtonPressedState() const override;
-        std::unordered_map<hg::utils::enum_t, float> getAxesState() const override;
-
     };
 }
 
-#endif //HAGAME2_KEYBOARDMOUSE_H
+#endif //HAGAME2_KEYBOARD_MOUSE_H

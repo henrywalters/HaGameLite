@@ -20,7 +20,8 @@ DeviceManager::DeviceManager() {
         }
     }
 
-    keyboardMouse.onInput.subscribe([&]() {
+    m_keyboardMouse = std::make_unique<devices::KeyboardMouse>();
+    m_keyboardMouse->onInput.subscribe([&]() {
         m_gamepadActive = false;
         events.emit(Events::KeyboardMouseActive);
     });
@@ -66,7 +67,11 @@ devices::Gamepad *DeviceManager::gamepad(int index) const {
 
 hg::input::InputDevice *DeviceManager::player(int index) const {
     if (index == 0) {
-        return gamepadActive() ? (hg::input::InputDevice*) gamepad(0) : (hg::input::InputDevice*) &keyboardMouse;
+        return gamepadActive() ? (hg::input::InputDevice*) gamepad(0) : (hg::input::InputDevice*) keyboardMouse();
     }
     return gamepad(index);
+}
+
+devices::KeyboardMouse *DeviceManager::keyboardMouse() const {
+    return m_keyboardMouse.get();
 }

@@ -29,8 +29,8 @@ namespace hg::input {
         };
 
         hg::EventEmitter<Events> events;
-        devices::KeyboardMouse keyboardMouse;
 
+        devices::KeyboardMouse* keyboardMouse() const;
         devices::Gamepad* gamepad(int index) const;
         hg::input::InputDevice* player(int index) const;
 
@@ -46,7 +46,8 @@ namespace hg::input {
 
     private:
 
-        bool m_gamepadActive;
+        std::unique_ptr<devices::KeyboardMouse> m_keyboardMouse;
+        bool m_gamepadActive = false;
         std::array<std::unique_ptr<devices::Gamepad>, MAX_GAMEPAD_COUNT> m_gamepads;
         std::deque<int> m_gamepadOrder;
 

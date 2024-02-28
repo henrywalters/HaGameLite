@@ -46,6 +46,7 @@ namespace hg::input {
                 auto map = std::get<0>(mapping);
                 if (!map.has_value()) {
                     out.insert({action, false});
+                    continue;
                 }
                 out.insert({action, state[map.value()]});
             }
@@ -58,6 +59,7 @@ namespace hg::input {
                 auto map = std::get<1>(mapping);
                 if (!map.has_value()) {
                     out.insert({action, false});
+                    continue;
                 }
                 out.insert({action, state[map.value()]});
             }
@@ -66,10 +68,11 @@ namespace hg::input {
 
         std::unordered_map<Action, float> getKeyboardAxes(AxesState& state) const {
             std::unordered_map<Action, float> out;
-            for (const auto& [action, mapping] : m_buttonMap) {
+            for (const auto& [action, mapping] : m_axesMap) {
                 auto map = std::get<0>(mapping);
                 if (!map.has_value()) {
                     out.insert({action, 0});
+                    continue;
                 }
                 out.insert({action, state[map.value()]});
             }
@@ -78,10 +81,11 @@ namespace hg::input {
 
         std::unordered_map<Action, float> getGamepadAxes(AxesState& state) const {
             std::unordered_map<Action, float> out;
-            for (const auto& [action, mapping] : m_buttonMap) {
+            for (const auto& [action, mapping] : m_axesMap) {
                 auto map = std::get<1>(mapping);
                 if (!map.has_value()) {
                     out.insert({action, 0});
+                    continue;
                 }
                 out.insert({action, state[map.value()]});
             }

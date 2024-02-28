@@ -1188,6 +1188,126 @@ impl/graphics/windows.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/windows.cpp.s
 .PHONY : impl/graphics/windows.cpp.s
 
+impl/input/deviceManager.o: impl/input/deviceManager.cpp.o
+.PHONY : impl/input/deviceManager.o
+
+# target to build an object file
+impl/input/deviceManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/deviceManager.cpp.o
+.PHONY : impl/input/deviceManager.cpp.o
+
+impl/input/deviceManager.i: impl/input/deviceManager.cpp.i
+.PHONY : impl/input/deviceManager.i
+
+# target to preprocess a source file
+impl/input/deviceManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/deviceManager.cpp.i
+.PHONY : impl/input/deviceManager.cpp.i
+
+impl/input/deviceManager.s: impl/input/deviceManager.cpp.s
+.PHONY : impl/input/deviceManager.s
+
+# target to generate assembly for a file
+impl/input/deviceManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/deviceManager.cpp.s
+.PHONY : impl/input/deviceManager.cpp.s
+
+impl/input/devices/gamepad.o: impl/input/devices/gamepad.cpp.o
+.PHONY : impl/input/devices/gamepad.o
+
+# target to build an object file
+impl/input/devices/gamepad.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/devices/gamepad.cpp.o
+.PHONY : impl/input/devices/gamepad.cpp.o
+
+impl/input/devices/gamepad.i: impl/input/devices/gamepad.cpp.i
+.PHONY : impl/input/devices/gamepad.i
+
+# target to preprocess a source file
+impl/input/devices/gamepad.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/devices/gamepad.cpp.i
+.PHONY : impl/input/devices/gamepad.cpp.i
+
+impl/input/devices/gamepad.s: impl/input/devices/gamepad.cpp.s
+.PHONY : impl/input/devices/gamepad.s
+
+# target to generate assembly for a file
+impl/input/devices/gamepad.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/devices/gamepad.cpp.s
+.PHONY : impl/input/devices/gamepad.cpp.s
+
+impl/input/devices/inputDevice.o: impl/input/devices/inputDevice.cpp.o
+.PHONY : impl/input/devices/inputDevice.o
+
+# target to build an object file
+impl/input/devices/inputDevice.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/devices/inputDevice.cpp.o
+.PHONY : impl/input/devices/inputDevice.cpp.o
+
+impl/input/devices/inputDevice.i: impl/input/devices/inputDevice.cpp.i
+.PHONY : impl/input/devices/inputDevice.i
+
+# target to preprocess a source file
+impl/input/devices/inputDevice.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/devices/inputDevice.cpp.i
+.PHONY : impl/input/devices/inputDevice.cpp.i
+
+impl/input/devices/inputDevice.s: impl/input/devices/inputDevice.cpp.s
+.PHONY : impl/input/devices/inputDevice.s
+
+# target to generate assembly for a file
+impl/input/devices/inputDevice.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/devices/inputDevice.cpp.s
+.PHONY : impl/input/devices/inputDevice.cpp.s
+
+impl/input/devices/keyboardMouse.o: impl/input/devices/keyboardMouse.cpp.o
+.PHONY : impl/input/devices/keyboardMouse.o
+
+# target to build an object file
+impl/input/devices/keyboardMouse.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/devices/keyboardMouse.cpp.o
+.PHONY : impl/input/devices/keyboardMouse.cpp.o
+
+impl/input/devices/keyboardMouse.i: impl/input/devices/keyboardMouse.cpp.i
+.PHONY : impl/input/devices/keyboardMouse.i
+
+# target to preprocess a source file
+impl/input/devices/keyboardMouse.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/devices/keyboardMouse.cpp.i
+.PHONY : impl/input/devices/keyboardMouse.cpp.i
+
+impl/input/devices/keyboardMouse.s: impl/input/devices/keyboardMouse.cpp.s
+.PHONY : impl/input/devices/keyboardMouse.s
+
+# target to generate assembly for a file
+impl/input/devices/keyboardMouse.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/devices/keyboardMouse.cpp.s
+.PHONY : impl/input/devices/keyboardMouse.cpp.s
+
+impl/input/input.o: impl/input/input.cpp.o
+.PHONY : impl/input/input.o
+
+# target to build an object file
+impl/input/input.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/input.cpp.o
+.PHONY : impl/input/input.cpp.o
+
+impl/input/input.i: impl/input/input.cpp.i
+.PHONY : impl/input/input.i
+
+# target to preprocess a source file
+impl/input/input.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/input.cpp.i
+.PHONY : impl/input/input.cpp.i
+
+impl/input/input.s: impl/input/input.cpp.s
+.PHONY : impl/input/input.s
+
+# target to generate assembly for a file
+impl/input/input.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/input/input.cpp.s
+.PHONY : impl/input/input.cpp.s
+
 impl/net/net.o: impl/net/net.cpp.o
 .PHONY : impl/net/net.o
 
@@ -1713,6 +1833,21 @@ help:
 	@echo "... impl/graphics/windows.o"
 	@echo "... impl/graphics/windows.i"
 	@echo "... impl/graphics/windows.s"
+	@echo "... impl/input/deviceManager.o"
+	@echo "... impl/input/deviceManager.i"
+	@echo "... impl/input/deviceManager.s"
+	@echo "... impl/input/devices/gamepad.o"
+	@echo "... impl/input/devices/gamepad.i"
+	@echo "... impl/input/devices/gamepad.s"
+	@echo "... impl/input/devices/inputDevice.o"
+	@echo "... impl/input/devices/inputDevice.i"
+	@echo "... impl/input/devices/inputDevice.s"
+	@echo "... impl/input/devices/keyboardMouse.o"
+	@echo "... impl/input/devices/keyboardMouse.i"
+	@echo "... impl/input/devices/keyboardMouse.s"
+	@echo "... impl/input/input.o"
+	@echo "... impl/input/input.i"
+	@echo "... impl/input/input.s"
 	@echo "... impl/net/net.o"
 	@echo "... impl/net/net.i"
 	@echo "... impl/net/net.s"

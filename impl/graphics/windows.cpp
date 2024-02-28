@@ -8,19 +8,20 @@ hg::Publisher<hg::graphics::WindowEvents, hg::graphics::WindowEvent> hg::graphic
 std::unordered_map<GLFWwindow*, std::shared_ptr<hg::graphics::Window>> hg::graphics::Windows::s_windows = std::unordered_map<GLFWwindow*, std::shared_ptr<Window>>();
 
 void hg::graphics::Windows::KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    s_windows[window]->input.devices.keyboardMouse.keyCallback(key, action);
+    s_windows[window]->input.devices.keyboardMouse()->keyCallback(key, action);
 }
 
 void hg::graphics::Windows::MouseCursorPosCallback(GLFWwindow *window, double xPos, double yPos) {
-    s_windows[window]->input.devices.keyboardMouse.cursorPosCallback(xPos, yPos);
+    std::cout << xPos << ", " << yPos << "\n";
+    s_windows[window]->input.devices.keyboardMouse()->cursorPosCallback(xPos, yPos);
 }
 
 void hg::graphics::Windows::MouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
-    s_windows[window]->input.devices.keyboardMouse.mouseButtonCallback(button, action);
+    s_windows[window]->input.devices.keyboardMouse()->mouseButtonCallback(button, action);
 }
 
 void hg::graphics::Windows::MouseScrollCallback(GLFWwindow *window, double xOffset, double yOffset) {
-    s_windows[window]->input.devices.keyboardMouse.scrollCallback(xOffset, yOffset);
+    s_windows[window]->input.devices.keyboardMouse()->scrollCallback(xOffset, yOffset);
 }
 
 void hg::graphics::Windows::CloseCallback(GLFWwindow *window) {
@@ -68,7 +69,7 @@ std::vector<hg::graphics::Window *> hg::graphics::Windows::All() {
 }
 
 void hg::graphics::Windows::CharCallback(GLFWwindow *window, unsigned int codepoint) {
-    s_windows[window]->input.devices.keyboardMouse.charCallback(codepoint);
+    s_windows[window]->input.devices.keyboardMouse()->charCallback(codepoint);
 }
 
 hg::graphics::Window *hg::graphics::Windows::Get() {

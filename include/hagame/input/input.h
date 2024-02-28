@@ -34,12 +34,12 @@ namespace hg::input {
                 out.buttonsPressed = mapping.getGamepadButtons(rawButtonsPressed);
                 out.axes = mapping.getGamepadAxes(rawAxes);
             } else {
-                auto rawButtons = devices.keyboardMouse.getButtonState();
-                auto rawButtonsPressed = devices.keyboardMouse.getButtonPressedState();
-                auto rawAxes = devices.keyboardMouse.getAxesState();
-                out.buttons = mapping.getGamepadButtons(rawButtons);
-                out.buttonsPressed = mapping.getGamepadButtons(rawButtonsPressed);
-                out.axes = mapping.getGamepadAxes(rawAxes);
+                auto rawButtons = devices.keyboardMouse()->getButtonState();
+                auto rawButtonsPressed = devices.keyboardMouse()->getButtonPressedState();
+                auto rawAxes = devices.keyboardMouse()->getAxesState();
+                out.buttons = mapping.getKeyboardButtons(rawButtons);
+                out.buttonsPressed = mapping.getKeyboardButtons(rawButtonsPressed);
+                out.axes = mapping.getKeyboardAxes(rawAxes);
             }
             return out;
         }

@@ -7,108 +7,78 @@
 using namespace hg::input;
 using namespace hg::input::devices;
 
-MouseState::MouseState()
-{
-    for (int i = 0; i < MOUSE_BUTTON_COUNT; i++) {
-        buttons[i] = utils::Watcher<bool>(false, [&](){ onInput.emit(); });
-        buttonsPressed[i] = utils::Watcher<bool>(false, [&](){ onInput.emit(); });
-    }
-
-    for (int i = 0; i < MOUSE_AXES_COUNT; i++) {
-        axes[i] = utils::Watcher<float>(false, [&](){ onInput.emit(); });
-    }
-}
-
-KeyboardState::KeyboardState()
-{
-    for (int i = 0; i < KEYBOARD_BUTTON_COUNT; i++) {
-        buttons[i] = utils::Watcher<bool>(false, [&](){ onInput.emit(); });
-        buttonsPressed[i] = utils::Watcher<bool>(false, [&](){ onInput.emit(); });
-    }
-
-    for (int i = 0; i < KEYBOARD_AXES_COUNT; i++) {
-        axes[i] = utils::Watcher<float>(false, [&](){ onInput.emit(); });
-    }
-}
-
-KeyboardMouse::KeyboardMouse() {
-    mouse.onInput.subscribe([&](){
-        onInput.emit();
-    });
-    keyboard.onInput.subscribe([&](){
-        onInput.emit();
-    });
-}
-
 void KeyboardMouse::clearDevice() {
-    for (int i = 0; i < MOUSE_BUTTON_COUNT; i++) {
-        mouse.buttonsPressed[i] = false;
-    }
-    for (int i = 0; i < KEYBOARD_BUTTON_COUNT; i++) {
-        keyboard.buttonsPressed[i] = false;
+    axes[MouseAxes::WheelX] = 0;
+    axes[MouseAxes::WheelY] = 0;
+    for (int i = 0; i < buttonsPressed.size(); i++) {
+        buttonsPressed[i] = false;
     }
 }
 
 void KeyboardMouse::cursorPosCallback(double xPos, double yPos)
 {
-    mouse.setPosition(xPos, yPos);
+    std::cout << axes.size() << "\n";
+    float currentX = axes[MouseAxes::PosX];
+    float currentY = axes[MouseAxes::PosY];
+    axes[MouseAxes::PosX] = xPos;
+    axes[MouseAxes::PosY] = yPos;
+    axes[MouseAxes::PrevPosX] = currentX;
+    axes[MouseAxes::PrevPosY] = currentY;
+    axes[MouseAxes::DeltaX] = xPos - currentX;
+    axes[MouseAxes::DeltaY] = yPos - currentY;
 }
 
-const std::unordered_map<hg::utils::enum_t, int> MOUSE_BUTTON_MAP {
-    { MouseButtons::Left, GLFW_MOUSE_BUTTON_LEFT },
-    { MouseButtons::Middle, GLFW_MOUSE_BUTTON_MIDDLE },
-    { MouseButtons::Right, GLFW_MOUSE_BUTTON_RIGHT  },
+const std::unordered_map<int, hg::utils::enum_t> MOUSE_BUTTON_MAP {
+    { GLFW_MOUSE_BUTTON_LEFT, MouseButtons::Left },
+    { GLFW_MOUSE_BUTTON_MIDDLE, MouseButtons::Middle },
+    { GLFW_MOUSE_BUTTON_RIGHT, MouseButtons::Right },
 };
 
 void hg::input::devices::KeyboardMouse::mouseButtonCallback(int button, int action)
 {
-    for (const auto &[id, glfwId] : MOUSE_BUTTON_MAP) {
-        if (button == glfwId) {
-            UpdateState(mouse.buttons[id], mouse.buttonsPressed[id], action != 0);
-        }
+    if (MOUSE_BUTTON_MAP.find(button) != MOUSE_BUTTON_MAP.end()) {
+        UpdateState(buttons[MOUSE_BUTTON_MAP.at(button)], buttonsPressed[MOUSE_BUTTON_MAP.at(button)], action != 0);
     }
 }
 
-const std::unordered_map<hg::utils::enum_t, int> KEYBOARD_BUTTON_MAP {
-    {KeyboardButtons::Space, GLFW_KEY_SPACE},
-    { KeyboardButtons::LCtrl, GLFW_KEY_LEFT_CONTROL },
-    { KeyboardButtons::RCtrl, GLFW_KEY_RIGHT_CONTROL },
-    { KeyboardButtons::LShift, GLFW_KEY_LEFT_SHIFT },
-    { KeyboardButtons::RShift, GLFW_KEY_RIGHT_SHIFT },
-    { KeyboardButtons::LAlt, GLFW_KEY_LEFT_ALT },
-    { KeyboardButtons::RAlt, GLFW_KEY_RIGHT_ALT },
-    { KeyboardButtons::Escape, GLFW_KEY_ESCAPE },
-    { KeyboardButtons::Backspace, GLFW_KEY_BACKSPACE },
-    { KeyboardButtons::Enter, GLFW_KEY_ENTER },
-    { KeyboardButtons::Tilda, GLFW_KEY_APOSTROPHE },
+const std::unordered_map<int, hg::utils::enum_t> KEYBOARD_BUTTON_MAP {
+    { GLFW_KEY_SPACE, KeyboardButtons::Space },
+    { GLFW_KEY_LEFT_CONTROL, KeyboardButtons::LCtrl },
+    { GLFW_KEY_RIGHT_CONTROL, KeyboardButtons::RCtrl },
+    { GLFW_KEY_LEFT_SHIFT, KeyboardButtons::LShift },
+    { GLFW_KEY_RIGHT_SHIFT, KeyboardButtons::RShift },
+    { GLFW_KEY_LEFT_ALT, KeyboardButtons::LAlt },
+    { GLFW_KEY_RIGHT_ALT, KeyboardButtons::RAlt },
+    { GLFW_KEY_ESCAPE, KeyboardButtons::Escape },
+    { GLFW_KEY_BACKSPACE, KeyboardButtons::Backspace },
+    { GLFW_KEY_ENTER, KeyboardButtons::Enter },
+    { GLFW_KEY_APOSTROPHE, KeyboardButtons::Tilda },
 };
 
 void hg::input::devices::KeyboardMouse::keyCallback(int key, int action)
 {
 
-    for (const auto& [id, glfwId] : KEYBOARD_BUTTON_MAP) {
-        if (key == glfwId) {
-            UpdateState(keyboard.buttons[id], keyboard.buttonsPressed[id], action != 0);
-        }
+    if (KEYBOARD_BUTTON_MAP.find(key) != KEYBOARD_BUTTON_MAP.end()) {
+        UpdateState(buttons[KEYBOARD_BUTTON_MAP.at(key)], buttonsPressed[KEYBOARD_BUTTON_MAP.at(key)], action != 0);
     }
 
     if (key >= GLFW_KEY_0 && key <= GLFW_KEY_9) {
         auto id = key - GLFW_KEY_0 + KeyboardButtons::NumberStart;
-        UpdateState(keyboard.buttons[id], keyboard.buttonsPressed[id], action != 0);
+        UpdateState(buttons[id], buttonsPressed[id], action != 0);
     }
 
-    if (key >= GLFW_KEY_A && key < GLFW_KEY_Z) {
+    if (key >= GLFW_KEY_A && key <= GLFW_KEY_Z) {
         auto id = key - GLFW_KEY_A + KeyboardButtons::LetterStart;
-        UpdateState(keyboard.buttons[id], keyboard.buttons[id], action != 0);
-    }
+        UpdateState(buttons[id], buttons[id], action != 0);
 
-    keyboard.axes[KeyboardAxes::LAxisX] = ((int) keyboard.buttons[LetterIndex('D')]) - ((int) keyboard.buttons[LetterIndex(('A'))]);
-    keyboard.axes[KeyboardAxes::LAxisY] = ((int) keyboard.buttons[LetterIndex('W')]) - ((int) keyboard.buttons[LetterIndex(('S'))]);
+        axes[KeyboardAxes::WASD_X] = buttons[KeyboardButtons::D] - buttons[KeyboardButtons::A];
+        axes[KeyboardAxes::WASD_Y] = buttons[KeyboardButtons::W] - buttons[KeyboardButtons::S];
+    }
 
     KeyPress press;
     press.key = key;
-    press.shiftPressed = keyboard.buttons[KeyboardButtons::LShift] || keyboard.buttons[KeyboardButtons::RShift];
-    press.ctrlPressed = keyboard.buttons[KeyboardButtons::LCtrl] || keyboard.buttons[KeyboardButtons::RCtrl];
+    press.shiftPressed = buttons[KeyboardButtons::LShift] || buttons[KeyboardButtons::RShift];
+    press.ctrlPressed = buttons[KeyboardButtons::LCtrl] || buttons[KeyboardButtons::RCtrl];
 
     events.emit(action != 0 ? KeyboardEvent::KeyPressed : KeyboardEvent::KeyReleased, press);
 
@@ -118,55 +88,58 @@ void hg::input::devices::KeyboardMouse::charCallback(unsigned int codepoint)
 {
     KeyPress press;
     press.key = codepoint;
-    press.shiftPressed = keyboard.buttons[KeyboardButtons::LShift] || keyboard.buttons[KeyboardButtons::RShift];
-    press.ctrlPressed = keyboard.buttons[KeyboardButtons::LCtrl] || keyboard.buttons[KeyboardButtons::RCtrl];
+    press.shiftPressed = buttons[KeyboardButtons::LShift] || buttons[KeyboardButtons::RShift];
+    press.ctrlPressed = buttons[KeyboardButtons::LCtrl] || buttons[KeyboardButtons::RCtrl];
     events.emit(KeyboardEvent::TextInput, press);
 }
 
 std::unordered_map<hg::utils::enum_t, bool> KeyboardMouse::getButtonState() const {
 
     std::unordered_map<hg::utils::enum_t, bool> out;
-    for (int i = 0; i < MOUSE_BUTTON_COUNT; i++) {
-        if (mouse.buttons[i].value()) {
+    for (int i = 0; i < _MOUSE_BUTTON_COUNT + _KEYBOARD_BUTTON_COUNT; i++) {
+        if (buttons[i].value()) {
             out[i] = true;
+        } else {
+            out[i] = false;
         }
     }
-
-    for (int i = MOUSE_BUTTON_COUNT; i < MOUSE_BUTTON_COUNT + KEYBOARD_BUTTON_COUNT; i++) {
-        if (keyboard.buttons[i].value()) {
-            out[i] = true;
-        }
-    }
-
     return out;
 }
 
 std::unordered_map<hg::utils::enum_t, bool> KeyboardMouse::getButtonPressedState() const {
     std::unordered_map<hg::utils::enum_t, bool> out;
-    for (int i = 0; i < MOUSE_BUTTON_COUNT; i++) {
-        if (mouse.buttonsPressed[i].value()) {
+    for (int i = 0; i < _MOUSE_BUTTON_COUNT + _KEYBOARD_BUTTON_COUNT; i++) {
+        if (buttonsPressed[i].value()) {
             out[i] = true;
+        } else {
+            out[i] = false;
         }
     }
-
-    for (int i = MOUSE_BUTTON_COUNT; i < MOUSE_BUTTON_COUNT + KEYBOARD_BUTTON_COUNT; i++) {
-        if (keyboard.buttonsPressed[i].value()) {
-            out[i] = true;
-        }
-    }
-
     return out;
 }
 
 std::unordered_map<hg::utils::enum_t, float> KeyboardMouse::getAxesState() const {
     std::unordered_map<hg::utils::enum_t, float> out;
-    for (int i = 0; i < MOUSE_AXES_COUNT; i++) {
-        out[i] = mouse.axes[i].value();
-    }
-
-    for (int i = MOUSE_AXES_COUNT; i < MOUSE_AXES_COUNT + KEYBOARD_AXES_COUNT; i++) {
-        out[i] = keyboard.axes[i].value();
+    for (int i = 0; i < _MOUSE_AXES_COUNT + _KEYBOARD_AXES_COUNT; i++) {
+        out[i] = axes[i].value();
     }
 
     return out;
+}
+
+void KeyboardMouse::scrollCallback(double xOffset, double yOffset) {
+    axes[MouseAxes::WheelX] = xOffset;
+    axes[MouseAxes::WheelY] = yOffset;
+}
+
+hg::Vec2 KeyboardMouse::mousePosition() const {
+    return Vec2(axes[MouseAxes::PosX].value(), axes[MouseAxes::PosY].value());
+}
+
+hg::Vec2 KeyboardMouse::mouseDelta() const {
+    return Vec2(axes[MouseAxes::DeltaX].value(), axes[MouseAxes::DeltaY].value());
+}
+
+hg::Vec2 KeyboardMouse::wasd() const {
+    return Vec2(axes[KeyboardAxes::WASD_X].value(), axes[KeyboardAxes::WASD_Y].value());
 }
