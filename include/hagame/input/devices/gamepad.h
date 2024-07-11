@@ -13,7 +13,7 @@ struct GLFWgamepadstate;
 
 namespace hg::input::devices {
 
-    constexpr size_t GAMEPAD_BUTTON_COUNT = 11;
+    constexpr size_t GAMEPAD_BUTTON_COUNT = 15;
     constexpr size_t GAMEPAD_AXES_COUNT = 6;
 
     ENUM(GamepadButtons)
@@ -44,7 +44,7 @@ namespace hg::input::devices {
     class Gamepad : public InputDevice {
     public:
 
-        double axisDeadzone = 0.3;
+        double axisDeadzone = 0.0;
 
         Gamepad();
 

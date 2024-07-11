@@ -324,6 +324,30 @@ impl/audio/streamBuffer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/audio/streamBuffer.cpp.s
 .PHONY : impl/audio/streamBuffer.cpp.s
 
+impl/common/console.o: impl/common/console.cpp.o
+.PHONY : impl/common/console.o
+
+# target to build an object file
+impl/common/console.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/common/console.cpp.o
+.PHONY : impl/common/console.cpp.o
+
+impl/common/console.i: impl/common/console.cpp.i
+.PHONY : impl/common/console.i
+
+# target to preprocess a source file
+impl/common/console.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/common/console.cpp.i
+.PHONY : impl/common/console.cpp.i
+
+impl/common/console.s: impl/common/console.cpp.s
+.PHONY : impl/common/console.s
+
+# target to generate assembly for a file
+impl/common/console.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/common/console.cpp.s
+.PHONY : impl/common/console.cpp.s
+
 impl/common/weapons.o: impl/common/weapons.cpp.o
 .PHONY : impl/common/weapons.o
 
@@ -419,6 +443,30 @@ impl/core/cppScript.s: impl/core/cppScript.cpp.s
 impl/core/cppScript.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/cppScript.cpp.s
 .PHONY : impl/core/cppScript.cpp.s
+
+impl/core/entity.o: impl/core/entity.cpp.o
+.PHONY : impl/core/entity.o
+
+# target to build an object file
+impl/core/entity.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/entity.cpp.o
+.PHONY : impl/core/entity.cpp.o
+
+impl/core/entity.i: impl/core/entity.cpp.i
+.PHONY : impl/core/entity.i
+
+# target to preprocess a source file
+impl/core/entity.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/entity.cpp.i
+.PHONY : impl/core/entity.cpp.i
+
+impl/core/entity.s: impl/core/entity.cpp.s
+.PHONY : impl/core/entity.s
+
+# target to generate assembly for a file
+impl/core/entity.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/entity.cpp.s
+.PHONY : impl/core/entity.cpp.s
 
 impl/core/entityMap.o: impl/core/entityMap.cpp.o
 .PHONY : impl/core/entityMap.o
@@ -1404,6 +1452,30 @@ impl/ui/anchor.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/anchor.cpp.s
 .PHONY : impl/ui/anchor.cpp.s
 
+impl/ui/element.o: impl/ui/element.cpp.o
+.PHONY : impl/ui/element.o
+
+# target to build an object file
+impl/ui/element.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/element.cpp.o
+.PHONY : impl/ui/element.cpp.o
+
+impl/ui/element.i: impl/ui/element.cpp.i
+.PHONY : impl/ui/element.i
+
+# target to preprocess a source file
+impl/ui/element.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/element.cpp.i
+.PHONY : impl/ui/element.cpp.i
+
+impl/ui/element.s: impl/ui/element.cpp.s
+.PHONY : impl/ui/element.s
+
+# target to generate assembly for a file
+impl/ui/element.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/element.cpp.s
+.PHONY : impl/ui/element.cpp.s
+
 impl/ui/elements/button.o: impl/ui/elements/button.cpp.o
 .PHONY : impl/ui/elements/button.o
 
@@ -1725,6 +1797,9 @@ help:
 	@echo "... impl/audio/streamBuffer.o"
 	@echo "... impl/audio/streamBuffer.i"
 	@echo "... impl/audio/streamBuffer.s"
+	@echo "... impl/common/console.o"
+	@echo "... impl/common/console.i"
+	@echo "... impl/common/console.s"
 	@echo "... impl/common/weapons.o"
 	@echo "... impl/common/weapons.i"
 	@echo "... impl/common/weapons.s"
@@ -1737,6 +1812,9 @@ help:
 	@echo "... impl/core/cppScript.o"
 	@echo "... impl/core/cppScript.i"
 	@echo "... impl/core/cppScript.s"
+	@echo "... impl/core/entity.o"
+	@echo "... impl/core/entity.i"
+	@echo "... impl/core/entity.s"
 	@echo "... impl/core/entityMap.o"
 	@echo "... impl/core/entityMap.i"
 	@echo "... impl/core/entityMap.s"
@@ -1860,6 +1938,9 @@ help:
 	@echo "... impl/ui/anchor.o"
 	@echo "... impl/ui/anchor.i"
 	@echo "... impl/ui/anchor.s"
+	@echo "... impl/ui/element.o"
+	@echo "... impl/ui/element.i"
+	@echo "... impl/ui/element.s"
 	@echo "... impl/ui/elements/button.o"
 	@echo "... impl/ui/elements/button.i"
 	@echo "... impl/ui/elements/button.s"

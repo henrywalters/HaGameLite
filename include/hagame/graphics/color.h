@@ -52,7 +52,7 @@ namespace hg::graphics {
             this->vector[3] = a;
         }
 
-        Color(RGB rgb) {
+        Color(const RGB& rgb) {
             this->vector[0] = rgb[0];
             this->vector[1] = rgb[1];
             this->vector[2] = rgb[2];
@@ -91,6 +91,10 @@ namespace hg::graphics {
 
         static Color purple() {
             return Color(RGB({ 1.0, 0.0, 1.0, 1.0 }));
+        }
+
+        static Color transparent() {
+            return Color(RGB({0.0, 0.0, 0.0, 0.0}));
         }
 
         static HSV RGB2HSV(RGB rgb) {

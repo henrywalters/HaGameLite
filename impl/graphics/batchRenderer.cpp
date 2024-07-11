@@ -21,6 +21,17 @@ BatchQuad::BatchQuad(hg::Vec2 _size, hg::Vec2 _offset, Color _color, hg::Mat4 _m
 {
 }
 
+BatchQuad::BatchQuad(hg::Vec2 _size, hg::Vec2 _offset, hg::Vec2 _texOffset, hg::Vec2 _texSize, Color _color,
+                     hg::Mat4 _model):
+    size(_size),
+    texOffset(_texOffset),
+    texSize(_texSize),
+    offset(_offset),
+    color(_color),
+    model(_model)
+{
+}
+
 
 BatchQuads::BatchQuads():
     m_mesh(&m_primitive),
@@ -34,13 +45,15 @@ BatchQuads::BatchQuads():
     vao->bind();
     vao->defineAttribute(m_buffer.get(), DataType::Float, 3, 2, offsetof(BatchQuad, size));
     vao->defineAttribute(m_buffer.get(), DataType::Float, 4, 2, offsetof(BatchQuad, offset));
-    vao->defineAttribute(m_buffer.get(), DataType::Float, 5, 4, offsetof(BatchQuad, color));
-    vao->defineAttribute(m_buffer.get(), DataType::Float, 6, 4, offsetof(BatchQuad, model) + (0 * sizeof(float)));
-    vao->defineAttribute(m_buffer.get(), DataType::Float, 7, 4, offsetof(BatchQuad, model) + (4 * sizeof(float)));
-    vao->defineAttribute(m_buffer.get(), DataType::Float, 8, 4, offsetof(BatchQuad, model) + (8 * sizeof(float)));
-    vao->defineAttribute(m_buffer.get(), DataType::Float, 9, 4, offsetof(BatchQuad, model) + (12 * sizeof(float)));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 5, 2, offsetof(BatchQuad, texOffset));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 6, 2, offsetof(BatchQuad, texSize));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 7, 4, offsetof(BatchQuad, color));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 8, 4, offsetof(BatchQuad, model) + (0 * sizeof(float)));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 9, 4, offsetof(BatchQuad, model) + (4 * sizeof(float)));
+    vao->defineAttribute(m_buffer.get(), DataType::Float,  10, 4, offsetof(BatchQuad, model) + (8 * sizeof(float)));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 11, 4, offsetof(BatchQuad, model) + (12 * sizeof(float)));
 
-    vao->setInstanced(3, 9);
+    vao->setInstanced(3, 11);
 }
 
 void BatchQuads::batch(hg::Entity *entity, Quad *quad) {
@@ -80,13 +93,15 @@ BatchSprites::SpriteBuffer *BatchSprites::getBuffer(std::string texture) {
         vao->bind();
         vao->defineAttribute(buffer->buffer.get(), DataType::Float, 3, 2, offsetof(BatchQuad, size));
         vao->defineAttribute(buffer->buffer.get(), DataType::Float, 4, 2, offsetof(BatchQuad, offset));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 5, 4, offsetof(BatchQuad, color));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 6, 4, offsetof(BatchQuad, model) + (0 * sizeof(float)));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 7, 4, offsetof(BatchQuad, model) + (4 * sizeof(float)));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 8, 4, offsetof(BatchQuad, model) + (8 * sizeof(float)));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 9, 4, offsetof(BatchQuad, model) + (12 * sizeof(float)));
+        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 5, 2, offsetof(BatchQuad, texOffset));
+        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 6, 2, offsetof(BatchQuad, texSize));
+        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 7, 4, offsetof(BatchQuad, color));
+        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 8, 4, offsetof(BatchQuad, model) + (0 * sizeof(float)));
+        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 9, 4, offsetof(BatchQuad, model) + (4 * sizeof(float)));
+        vao->defineAttribute(buffer->buffer.get(), DataType::Float,  10, 4, offsetof(BatchQuad, model) + (8 * sizeof(float)));
+        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 11, 4, offsetof(BatchQuad, model) + (12 * sizeof(float)));
 
-        vao->setInstanced(3, 9);
+        vao->setInstanced(3, 11);
 
         m_buffers.insert(std::make_pair(texture, buffer));
     }
@@ -108,6 +123,9 @@ void BatchSprites::batch(std::string texture, hg::Vec2 size, hg::Vec2 offset, Co
     getBuffer(texture)->data.emplace_back(size, offset, color, model);
 }
 
+void BatchSprites::batch(std::string texture, Vec2 size, Vec2 offset, Rect texRect, Color color, Mat4 model){
+    getBuffer(texture)->data.emplace_back(size, offset, texRect.pos, texRect.size, color, model);
+}
 
 void BatchSprites::render() {
     for (const auto&[texture, buffer] : m_buffers) {

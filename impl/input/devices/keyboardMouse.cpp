@@ -17,7 +17,6 @@ void KeyboardMouse::clearDevice() {
 
 void KeyboardMouse::cursorPosCallback(double xPos, double yPos)
 {
-    std::cout << axes.size() << "\n";
     float currentX = axes[MouseAxes::PosX];
     float currentY = axes[MouseAxes::PosY];
     axes[MouseAxes::PosX] = xPos;

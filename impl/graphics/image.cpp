@@ -1,6 +1,7 @@
 //
 // Created by henry on 1/18/23.
 //
+#include <iostream>
 #include "../../include/hagame/graphics/image.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../thirdparty/stb/stb_image.h"

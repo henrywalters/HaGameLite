@@ -31,7 +31,6 @@ namespace hg::graphics {
         ~FontCharacter();
     };
 
-
     using FontMap = std::unordered_map<char, std::unique_ptr<FontCharacter>>;
 
     using FontTexture = graphics::RawTexture<GL_R8, GL_UNSIGNED_BYTE, GL_RED>;

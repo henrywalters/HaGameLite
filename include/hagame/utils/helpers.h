@@ -9,8 +9,8 @@
 #include <vector>
 
 namespace hg::utils {
-    template <typename T>
-    inline void v_remove(std::vector<T> arr, const T& el) {
+    template <typename Iter, typename T>
+    inline void v_remove(Iter& arr, const T& el) {
         auto pos = std::find(arr.begin(), arr.end(), el);
         if (pos != arr.end()) {
             arr.erase(pos);

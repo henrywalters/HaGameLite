@@ -3,6 +3,7 @@
 //
 #include "../../../include/hagame/graphics/spriteSheet.h"
 #include "../../../include/hagame/utils/helpers.h"
+#include "../../include/hagame/core/assets.h"
 
 using namespace hg;
 using namespace hg::graphics;
@@ -16,11 +17,35 @@ SpriteSheet::SpriteSheet(utils::MultiConfig &config):
 }
 
 
-void SpriteSheet::addToGroup(std::string group, Vec2i index) {
+void SpriteSheet::activateGroup(std::string group) {
+    if (!m_selectedGroup.has_value() || m_selectedGroup.value() != group) {
+        m_selectedGroup = group;
+        reset();
+    }
+}
+
+void SpriteSheet::addGroup(std::string group) {
     if (!utils::contains(m_groups, group)) {
         m_groups.insert(std::make_pair(group, SpriteGroup()));
     }
+    if (m_groups.size() == 1) {
+        activateGroup(group);
+    }
+}
+
+void SpriteSheet::addToGroup(std::string group, Vec2i index) {
+    addGroup(group);
+    if (std::find(m_groups[group].members.begin(), m_groups[group].members.end(), index) != m_groups[group].members.end()) {
+        return;
+    }
     m_groups[group].members.push_back(index);
+}
+
+void SpriteSheet::addToGroup(hg::Vec2i index) {
+    if (!m_selectedGroup.has_value()) {
+        return;
+    }
+    addToGroup(m_selectedGroup.value(), index);
 }
 
 SpriteGroup *SpriteSheet::getGroup(std::string group) {
@@ -33,6 +58,12 @@ SpriteGroup *SpriteSheet::getGroup(std::string group) {
 void SpriteSheet::removeFromGroup(std::string group, hg::Vec2i index) {
     if (utils::contains(m_groups, group)) {
         utils::v_remove(m_groups[group].members, index);
+    }
+}
+
+void SpriteSheet::removeFromGroup(hg::Vec2i index) {
+    if (m_selectedGroup.has_value()) {
+        removeFromGroup(m_selectedGroup.value(), index);
     }
 }
 
@@ -74,7 +105,7 @@ void SpriteSheet::load(utils::MultiConfig &config) {
     animated = page->get<bool>("settings", "animated");
     fps = page->get<int>("settings", "fps");
     frameCount = page->get<int>("settings", "frameCount");
-    m_path = page->getRaw("settings", "path");
+    m_path = ASSET_DIR + page->getRaw("settings", "path");
     looping = page->get<bool>("settings", "looping");
 
     for (const auto& name : config.getPage("Groups")->sections()) {
@@ -95,9 +126,16 @@ hg::Rect SpriteSheet::getRect(hg::Vec2i index) {
 }
 
 hg::Rect SpriteSheet::getRect() {
-    int row = m_currentIndex / size[0];
-    int col = m_currentIndex % size[0];
-    return getRect(hg::Vec2i(col, row));
+    if (m_selectedGroup.has_value()) {
+        if (m_groups[m_selectedGroup.value()].members.size() == 0) {
+            return getRect(hg::Vec2i(0, 0));
+        }
+        return getRect(m_groups[m_selectedGroup.value()].members[m_currentIndex]);
+    } else {
+        int row = m_currentIndex / size[0];
+        int col = m_currentIndex % size[0];
+        return getRect(hg::Vec2i(col, row));
+    }
 }
 
 void SpriteSheet::update(double dt) {
@@ -109,7 +147,19 @@ void SpriteSheet::update(double dt) {
     double frameRate = 1.0 / (double) fps;
     m_elapsedTime += dt;
     int frame = m_elapsedTime / frameRate;
-    int clampedCount = frameCount < 0 ? 0 : (frameCount > size[0] * size[1] ? size[0] * size[1] : frameCount);
+
+    int clampedCount;
+
+    if (m_selectedGroup.has_value()) {
+        std::cout << m_selectedGroup.value() << "\n";
+        auto memberCount = members().size();
+        std::cout << memberCount << "\n";
+        clampedCount = frameCount < 0 ? 0 : (frameCount > memberCount ? memberCount : frameCount);
+    } else {
+        std::cout << "DEFAULT GROUP\n";
+        clampedCount = frameCount < 0 ? 0 : (frameCount > size[0] * size[1] ? size[0] * size[1] : frameCount);
+    }
+
     m_currentIndex = frame % clampedCount;
 
     if (frame > 0 && m_currentIndex == 0) {
@@ -133,3 +183,16 @@ void SpriteSheet::reset() {
         m_playing = false;
     }
 }
+
+std::vector<hg::Vec2i> SpriteSheet::members() {
+    if (m_selectedGroup.has_value()) {
+        return m_groups[m_selectedGroup.value()].members;
+    }
+    return std::vector<hg::Vec2i>();
+}
+
+std::optional<std::string> SpriteSheet::activeGroup() {
+    return m_selectedGroup;
+}
+
+

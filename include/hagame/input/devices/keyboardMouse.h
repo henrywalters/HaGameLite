@@ -39,12 +39,6 @@ namespace hg::input::devices {
 
         friend class hg::graphics::Windows;
 
-        KeyboardMouse() {
-            for (const auto& e : *ENUMS(KeyboardButtons)) {
-                std::cout << e.label << " = " << (int)e.key << "\n";
-            }
-        }
-
         Publisher<KeyboardEvent, KeyPress> events;
 
         std::array<utils::Watcher<bool>, _KEYBOARD_BUTTON_COUNT + _MOUSE_BUTTON_COUNT> buttons;

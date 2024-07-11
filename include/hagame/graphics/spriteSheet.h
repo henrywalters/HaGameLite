@@ -5,6 +5,7 @@
 #ifndef HAGAME2_SPRITESHEET_H
 #define HAGAME2_SPRITESHEET_H
 
+#include <optional>
 #include "texture.h"
 #include "animation.h"
 #include "../utils/config.h"
@@ -39,8 +40,14 @@ namespace hg::graphics {
         hg::Rect getRect(hg::Vec2i index);
         hg::Rect getRect();
 
+        std::optional<std::string> activeGroup();
+        void activateGroup(std::string group);
+        void addGroup(std::string group);
+        void addToGroup(hg::Vec2i index);
         void addToGroup(std::string group, hg::Vec2i index);
         void removeFromGroup(std::string group, hg::Vec2i index);
+        void removeFromGroup(hg::Vec2i index);
+        std::vector<hg::Vec2i> members();
         SpriteGroup* getGroup(std::string group);
         std::unordered_map<std::string, SpriteGroup>* groups();
 
@@ -54,6 +61,7 @@ namespace hg::graphics {
         std::string m_path;
         hg::graphics::Texture m_texture;
         std::unordered_map<std::string, SpriteGroup> m_groups;
+        std::optional<std::string> m_selectedGroup = std::nullopt;
 
         double m_elapsedTime = 0;
         int m_currentIndex = 0;

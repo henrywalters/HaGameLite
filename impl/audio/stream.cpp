@@ -3,6 +3,9 @@
 //
 
 #include "../../include/hagame/audio/stream.h"
+#include "AudioFile.h"
+#include <AL/al.h>
+#include <AL/alc.h>
 
 using namespace hg::audio;
 

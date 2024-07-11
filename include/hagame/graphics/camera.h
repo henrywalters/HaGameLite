@@ -51,9 +51,9 @@ namespace hg::graphics {
             }
             else {
                 return Mat4::Orthographic(
-                        0,
+                        transform.position[0],
                         transform.position[0] + size[0] * zoom,
-                        0,
+                        transform.position[1],
                         transform.position[1] + size[1] * zoom,
                         zNear,
                         zFar

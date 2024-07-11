@@ -85,6 +85,7 @@ namespace hg::utils {
 
 #define ENUM(Enum) namespace Enum { \
     const hg::utils::uuid_t _ID = hg::utils::UUID::Generate(); \
+    using type = hg::utils::uuid_t;                                    \
 }                                   \
 
 #define ENUMS(Enum) hg::utils::GetEnum(Enum::_ID)

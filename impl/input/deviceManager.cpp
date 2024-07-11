@@ -58,10 +58,15 @@ bool DeviceManager::gamepadActive() const {
 }
 
 devices::Gamepad *DeviceManager::gamepad(int index) const {
-    if (!hasGamepad(index)) {
+    if (index >= m_gamepadOrder.size()) {
+        return nullptr;
+    }
+    int gamepadIndex = m_gamepadOrder[index];
+
+    if (!hasGamepad(gamepadIndex)) {
         return nullptr;
     } else {
-        return m_gamepads[index].get();
+        return m_gamepads[gamepadIndex].get();
     }
 }
 

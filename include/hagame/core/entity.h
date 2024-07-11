@@ -99,6 +99,12 @@ namespace hg {
             return NULL;
         }
 
+        // Add a child entity
+        hg::Entity* add();
+
+        // Remove this entity and all of its children
+        void remove();
+
     protected:
         [[nodiscard]] std::string toString() const override {
             return "Entity<" + std::to_string(id()) + ">";

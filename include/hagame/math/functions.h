@@ -8,6 +8,12 @@
 #include "aliases.h"
 
 namespace hg {
+
+    template <typename T>
+    inline constexpr T lerp(T a, T b, T t) {
+        return a + (b - a) * t;
+    }
+
     bool rectContainsPoint(Vec2 pos, Vec2 size, Vec2 point);
 
     inline Vec2 rotate(const Vec2& vec, float theta) {
@@ -51,6 +57,21 @@ namespace hg {
         return points;
     }
 
+    // Map a size to a bounds while perserving the aspect ratio
+    template <size_t ND, typename T>
+    math::Vector<ND, T> mapSizeToBounds(math::Vector<ND, T> size, math::Vector<ND, T> bounds) {
+        T minRatio;
+        bool hasMin = false;
+
+        for (int i = 0; i < ND; i++) {
+            if (!hasMin || bounds[i] / size[i] < minRatio) {
+                hasMin = true;
+                minRatio = bounds[i] / size[i];
+            }
+        }
+
+        return size * minRatio;
+    }
 }
 
 

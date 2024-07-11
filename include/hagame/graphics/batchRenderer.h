@@ -15,11 +15,14 @@ namespace hg::graphics {
     public:
         Vec2 size;
         Vec2 offset;
+        Vec2 texOffset = Vec2::Zero();
+        Vec2 texSize = Vec2::Identity();
         Color color;
         Mat4 model;
 
         BatchQuad(Quad* quad, Entity* entity);
         BatchQuad(Vec2 _size, Vec2 _offset, Color _color, Mat4 _model);
+        BatchQuad(Vec2 _size, Vec2 _offset, Vec2 _texOffset, Vec2 _texSize, Color _color, Mat4 _model);
     };
 
     class BatchQuads {
@@ -48,6 +51,7 @@ namespace hg::graphics {
 
         void batch(Entity* entity, Sprite* sprite);
         void batch(std::string texture, Vec2 size, Vec2 offset, Color color, Mat4 model);
+        void batch(std::string texture, Vec2 size, Vec2 offset, Rect texRect, Color color, Mat4 model);
 
         void render();
 

@@ -7,9 +7,7 @@
 
 #include <memory>
 #include <string>
-#include "AudioFile.h"
-#include <AL/al.h>
-#include <AL/alc.h>
+#include <vector>
 
 namespace hg::audio {
 
@@ -30,7 +28,7 @@ namespace hg::audio {
         int sampleRate() const { return m_sampleRate; }
         int bitDepth() const { return m_bitDepth; }
         int samples() const { return m_samples; }
-        ALCenum getFormat() const;
+        int getFormat() const;
         size_t bytes() const { return m_channels * m_samples * (m_bitDepth / 8); }
 
     private:

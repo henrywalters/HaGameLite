@@ -12,22 +12,10 @@
 
 namespace hg::ui {
 
-    enum class ButtonEvents {
-        MouseEnter,
-        MouseLeave,
-        MouseClick,
-    };
-
     class Button : public Element {
-    public:
-
-        EventEmitter<ButtonEvents> events;
-
-        void update(hg::graphics::Window* window, double dt) override;
-
     protected:
 
-        bool m_mouseInButton;
+        bool onTrigger(utils::enum_t event) override;
 
     };
 }

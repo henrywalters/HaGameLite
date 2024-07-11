@@ -19,7 +19,7 @@
 
 namespace hg::graphics {
 
-    const int DEBUG_CIRCLE_DIVISIONS = 10;
+    const int DEBUG_CIRCLE_DIVISIONS = 20;
 
     /*
      * The Debug class provides a simple way for rendering graphical primitives. Usage is simple.

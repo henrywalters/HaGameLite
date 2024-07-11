@@ -12,7 +12,6 @@ void hg::graphics::Windows::KeyCallback(GLFWwindow *window, int key, int scancod
 }
 
 void hg::graphics::Windows::MouseCursorPosCallback(GLFWwindow *window, double xPos, double yPos) {
-    std::cout << xPos << ", " << yPos << "\n";
     s_windows[window]->input.devices.keyboardMouse()->cursorPosCallback(xPos, yPos);
 }
 
