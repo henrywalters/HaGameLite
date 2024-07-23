@@ -70,6 +70,8 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
         addScript(ScriptFactory::Create(def));
     }
 
+    std::cout << "Loaded script\n";
+
     for (const auto& section : scene.getPage("Entities")->sections()) {
         auto entity = entities.add(std::stol(section));
         entity->name = scene.getPage("Entities")->getRaw(section, "name");
@@ -78,6 +80,8 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
         scene.getPage("Entities")->getArray<float, 4>(section, "rotation", entity->transform.rotation.vector);
         entityMap.insert(std::make_pair(section, entity));
     }
+
+    std::cout << "Loaded Entities\n";
 
     for (const auto& section : scene.getPage("Entities")->sections()) {
         if (scene.getPage("Entities")->has(section, "parent")) {
@@ -88,6 +92,7 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
     }
 
     for (const auto& section : scene.getPage("Components")->sections()) {
+        std::cout << section << "\n";
         auto parts = utils::s_split(section, '_');
         auto name = parts[0];
         auto entityId = std::stol(parts[1]);
@@ -95,13 +100,19 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
         auto componentDef = ComponentFactory::Get(name);
         auto component = componentDef.attach(entities.get(entityId));
 
+        std::cout << componentDef.name << "\n";
+
         for (const auto& field : ComponentFactory::GetFields(name)) {
             auto value = scene.getPage("Components")->getRaw(section, field.field);
+            std::cout << field.field << " = " << value << "\n";
             field.setter(component, utils::deserialize(field.type, value));
+            std::cout << "Success\n";
         }
 
         component->load(scene.getPage("Components"), section);
     }
+
+    std::cout << "Loaded Components\n";
 }
 
 void hg::Scene::init() {

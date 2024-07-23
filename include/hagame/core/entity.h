@@ -206,10 +206,10 @@ namespace hg {
             }
         }
 
-        template<class T>
+        template<typename T, typename... Other>
         void forEach(std::function<void(T*, Entity * )> lambda, std::vector<utils::UUID> ignoreEntities = {},
                                         std::vector<std::string> ignoreTags = {}) {
-            for (auto enttId : m_registry->view<T>()) {
+            for (auto enttId : m_registry->view<T, Other...>()) {
                 auto entity = m_enttMap[enttId].get();
                 if (entity == nullptr) {
                     continue;

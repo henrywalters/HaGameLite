@@ -13,7 +13,7 @@ namespace hg {
     class EntityMap2D {
     public:
 
-        EntityMap2D(hg::Vec2 gridSize);
+        EntityMap2D(hg::Vec2 gridSize = hg::Vec2::Identity());
 
         HG_GET(size_t, size);
 

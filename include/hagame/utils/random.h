@@ -6,6 +6,7 @@
 #define HAGAME2_RANDOM_H
 
 #include <random>
+#include "../graphics/color.h"
 #include "../math/vector.h"
 
 namespace hg::utils {
@@ -70,6 +71,10 @@ namespace hg::utils {
         hg::math::Vector<2, T> unitVector() {
             T theta = real<T>(0, M_PI * 2);
             return hg::math::Vector<2, T>(cos(theta), sin(theta));
+        }
+
+        graphics::Color color() {
+            return graphics::Color(real<float>(0, 1), real<float>(0, 1), real<float>(0, 1));
         }
     };
 }

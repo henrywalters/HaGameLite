@@ -19,7 +19,6 @@ namespace hg::ui {
         void setText(std::string text);
         std::string getText();
         void setPos(Vec2 pos);
-        Rect getRect() override;
 
     private:
         

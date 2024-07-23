@@ -42,7 +42,8 @@ namespace hg::utils {
         std::vector<Vec3i>,
         std::vector<Vec2i>,
         std::vector<void*>,
-        UUID
+        UUID,
+        uuid_t
     >;
 
     template <size_t size, class T>
@@ -107,6 +108,7 @@ namespace hg::utils {
         S_SIMPLE(double)
         std::string operator()(std::string value) { return value; }
         std::string operator()(UUID uuid) { return std::to_string(uuid.id()); }
+        S_SIMPLE(uuid_t)
         S_HG_VECTOR(hg::graphics::Color, float, 4)
         S_HG_VECTOR(hg::Vec4, float, 4)
         S_HG_VECTOR(hg::Vec3, float, 3)
@@ -141,6 +143,7 @@ namespace hg::utils {
         D_SIMPLE(int)
         D_SIMPLE(double)
         D_SIMPLE(void*)
+        D_SIMPLE(hg::utils::uuid_t)
         if (type == "std::string") { return raw; }
         D_HG_VECTOR(hg::graphics::Color, float, 4)
         D_HG_VECTOR(hg::Vec4, float, 4)
