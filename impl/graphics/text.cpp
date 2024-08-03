@@ -77,11 +77,6 @@ std::vector<Text::Character> hg::graphics::Text::Construct(hg::graphics::Font *f
                 break;
         }
     }
-//
-//    std::cout << pos << " -> " << rectOffset << "\n";
-//
-    Debug::DrawRect(Rect(pos.resize<2>() + rectOffset, messageSize), Color::blue());
-    Debug::DrawRect(Rect(pos.resize<2>(), size.resize<2>()), Color::red());
 
     hg::Vec2 cursorPos;
 

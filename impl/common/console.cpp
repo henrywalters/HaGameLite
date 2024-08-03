@@ -193,8 +193,6 @@ void Console::handleScroll() {
 
 void Console::putLine(const std::string& line) {
 
-    std::cout << "PUTTING LINE: " << line << "\n";
-
     m_output.push_back(line);
     if (m_output.size() >= settings.maxOutputSize) {
         m_output.pop_front();
@@ -202,9 +200,6 @@ void Console::putLine(const std::string& line) {
 
     m_outputStartIdx = m_output.size() - std::min<size_t>(m_output.size(), m_outputSize);
     m_outputEndIdx = m_output.size();
-
-    std::cout << m_output.size() << "\n";
-    std::cout << m_outputSize << "\n";
 
     float scrollPercent = m_output.size() < m_outputSize ? 1.0 : (float) m_outputSize / m_output.size();
 
@@ -222,8 +217,6 @@ void Console::updateOutput() {
     for (int i = m_outputStartIdx; i < m_outputEndIdx; i++) {
         output += (i > m_outputStartIdx ? "\n" : "") + m_output[i - m_scrollIdx];
     }
-
-    std::cout << "--BEGIN--\n" << output << "--END--\n";
 
     m_historyBuffer->text(output);
 
