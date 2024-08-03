@@ -44,7 +44,7 @@ namespace hg::input::devices {
     class Gamepad : public InputDevice {
     public:
 
-        double axisDeadzone = 0.0;
+        double axisDeadzone = 0.001;
 
         Gamepad();
 

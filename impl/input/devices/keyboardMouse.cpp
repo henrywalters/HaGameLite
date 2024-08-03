@@ -7,6 +7,35 @@
 using namespace hg::input;
 using namespace hg::input::devices;
 
+const std::unordered_map<int, hg::utils::enum_t> MOUSE_BUTTON_MAP {
+        { GLFW_MOUSE_BUTTON_LEFT, MouseButtons::Left },
+        { GLFW_MOUSE_BUTTON_MIDDLE, MouseButtons::Middle },
+        { GLFW_MOUSE_BUTTON_RIGHT, MouseButtons::Right },
+};
+
+
+const std::unordered_map<int, hg::utils::enum_t> KEYBOARD_BUTTON_MAP {
+        { GLFW_KEY_SPACE, KeyboardButtons::Space },
+        { GLFW_KEY_LEFT_CONTROL, KeyboardButtons::LCtrl },
+        { GLFW_KEY_RIGHT_CONTROL, KeyboardButtons::RCtrl },
+        { GLFW_KEY_LEFT_SHIFT, KeyboardButtons::LShift },
+        { GLFW_KEY_RIGHT_SHIFT, KeyboardButtons::RShift },
+        { GLFW_KEY_LEFT_ALT, KeyboardButtons::LAlt },
+        { GLFW_KEY_RIGHT_ALT, KeyboardButtons::RAlt },
+        { GLFW_KEY_ESCAPE, KeyboardButtons::Escape },
+        { GLFW_KEY_BACKSPACE, KeyboardButtons::Backspace },
+        { GLFW_KEY_ENTER, KeyboardButtons::Enter },
+        { GLFW_KEY_APOSTROPHE, KeyboardButtons::Tilda },
+};
+
+KeyboardMouse::KeyboardMouse() {
+    for (auto& btn : buttons) {
+        btn.onUpdate = [&](){
+            onInput.emit();
+        };
+    }
+}
+
 void KeyboardMouse::clearDevice() {
     axes[MouseAxes::WheelX] = 0;
     axes[MouseAxes::WheelY] = 0;
@@ -27,11 +56,6 @@ void KeyboardMouse::cursorPosCallback(double xPos, double yPos)
     axes[MouseAxes::DeltaY] = yPos - currentY;
 }
 
-const std::unordered_map<int, hg::utils::enum_t> MOUSE_BUTTON_MAP {
-    { GLFW_MOUSE_BUTTON_LEFT, MouseButtons::Left },
-    { GLFW_MOUSE_BUTTON_MIDDLE, MouseButtons::Middle },
-    { GLFW_MOUSE_BUTTON_RIGHT, MouseButtons::Right },
-};
 
 void hg::input::devices::KeyboardMouse::mouseButtonCallback(int button, int action)
 {
@@ -39,20 +63,6 @@ void hg::input::devices::KeyboardMouse::mouseButtonCallback(int button, int acti
         UpdateState(buttons[MOUSE_BUTTON_MAP.at(button)], buttonsPressed[MOUSE_BUTTON_MAP.at(button)], action != 0);
     }
 }
-
-const std::unordered_map<int, hg::utils::enum_t> KEYBOARD_BUTTON_MAP {
-    { GLFW_KEY_SPACE, KeyboardButtons::Space },
-    { GLFW_KEY_LEFT_CONTROL, KeyboardButtons::LCtrl },
-    { GLFW_KEY_RIGHT_CONTROL, KeyboardButtons::RCtrl },
-    { GLFW_KEY_LEFT_SHIFT, KeyboardButtons::LShift },
-    { GLFW_KEY_RIGHT_SHIFT, KeyboardButtons::RShift },
-    { GLFW_KEY_LEFT_ALT, KeyboardButtons::LAlt },
-    { GLFW_KEY_RIGHT_ALT, KeyboardButtons::RAlt },
-    { GLFW_KEY_ESCAPE, KeyboardButtons::Escape },
-    { GLFW_KEY_BACKSPACE, KeyboardButtons::Backspace },
-    { GLFW_KEY_ENTER, KeyboardButtons::Enter },
-    { GLFW_KEY_APOSTROPHE, KeyboardButtons::Tilda },
-};
 
 void hg::input::devices::KeyboardMouse::keyCallback(int key, int action)
 {

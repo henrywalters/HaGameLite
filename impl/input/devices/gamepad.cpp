@@ -50,9 +50,11 @@ void hg::input::devices::Gamepad::setGamepadState(const GLFWgamepadstate &state)
 
     for (const auto& [axesId, glfwId] : AXES_MAP) {
         float value = state.axes[glfwId];
+
         if (axesId == GamepadAxes::RAxisY || axesId == GamepadAxes::LAxisY) {
             value *= -1;
         }
+
         axes[axesId] = std::abs(value) < axisDeadzone ? 0 : value;
     }
 }

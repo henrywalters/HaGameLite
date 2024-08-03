@@ -12,6 +12,7 @@ DeviceManager::DeviceManager() {
         m_gamepads[i]->onInput.subscribe([&](){
             if (m_gamepadOrder.size() > 0) {
                 m_gamepadActive = true;
+                std::cout << "GAMEPAD ACTIVE\n";
                 events.emit(Events::GamepadActive);
             }
         });
@@ -23,6 +24,7 @@ DeviceManager::DeviceManager() {
     m_keyboardMouse = std::make_unique<devices::KeyboardMouse>();
     m_keyboardMouse->onInput.subscribe([&]() {
         m_gamepadActive = false;
+        std::cout << "KEYBOARD ACTIVE\n";
         events.emit(Events::KeyboardMouseActive);
     });
 }

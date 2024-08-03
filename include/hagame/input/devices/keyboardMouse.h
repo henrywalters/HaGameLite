@@ -37,6 +37,8 @@ namespace hg::input::devices {
     class KeyboardMouse : public InputDevice {
     public:
 
+        KeyboardMouse();
+
         friend class hg::graphics::Windows;
 
         Publisher<KeyboardEvent, KeyPress> events;

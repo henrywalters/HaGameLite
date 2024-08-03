@@ -290,6 +290,12 @@ namespace hg::math {
                 return copy;
             }
 
+            Vector sign() const {
+                Vector copy = *this;
+                for (int i = 0; i < size; i++) { copy[i] = copy[i] > 0 ? 1 : (copy[i] < 0 ? -1 : 0); }
+                return copy;
+            }
+
             constexpr T dot(Vector vect) const {
                 T sum = 0;
                 for (int i = 0; i < size; i++) {
