@@ -7,6 +7,7 @@
 
 #include "../math/aliases.h"
 #include "../utils/enum.h"
+#include "../graphics/color.h"
 #include <array>
 
 namespace hg::ui {
@@ -39,6 +40,10 @@ namespace hg::ui {
     using offset_t = std::array<Offset, 4>;
 
     struct Style {
+        graphics::Color backgroundColor = graphics::Color(0, 0, 0, 0);
+        graphics::Color foregroundColor = graphics::Color::white();
+        graphics::Color focusBackgroundColor = graphics::Color(0, 0, 0, 0);
+        graphics::Color focusForegroundColor = graphics::Color::white();
         bool positionAbsolute = false;
         hg::Rect absoluteRect;
         offset_t padding = {0, 0, 0, 0};

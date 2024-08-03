@@ -11,6 +11,8 @@
 #include "../structures/tree.h"
 #include "events.h"
 #include "style.h"
+#include "../graphics/shaderProgram.h"
+#include "../graphics/batchRenderer.h"
 
 namespace hg::ui {
 
@@ -26,7 +28,7 @@ namespace hg::ui {
         void trigger(utils::enum_t triggerType);
         virtual Rect getRect(Rect rootRect);
 
-        virtual void render(double dt) {};
+        virtual void render(graphics::BatchRenderer* renderer, Rect rootRect, double dt) {};
         virtual bool onTrigger(utils::enum_t triggerType) { return false; }
 
         bool focused() const { return m_focused; }

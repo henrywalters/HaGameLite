@@ -49,7 +49,7 @@ void hg::graphics::TextBuffer::updateBuffers() {
         if (charData.find(ch.ch) == charData.end()) {
             charData.insert(std::make_pair(ch.ch, std::vector<Vec3>()));
         }
-        charData[ch.ch].push_back(ch.position.resize<3>());
+        charData[ch.ch].push_back(Vec3(ch.position[0], ch.position[1], m_pos[2]));
     }
 
     for (const auto& [ch, data] : charData) {

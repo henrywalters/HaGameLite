@@ -57,7 +57,7 @@ namespace hg::ui {
 
         GridContainer(GridConfig config);
 
-        void addElement(Element* element, hg::Vec2i index);
+        std::shared_ptr<GridElement> addElement(Element* element, hg::Vec2i index);
 
     private:
         GridConfig m_config;

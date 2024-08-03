@@ -15,6 +15,12 @@ bool hg::ui::Element::mouseClicked(hg::graphics::Window *window) {
 
 void hg::ui::Element::trigger(hg::utils::enum_t triggerType) {
 
+    std::function<void(Element*)> triggerUp = [&](Element* el) {
+        if (!el->onTrigger(triggerType) && el->parent()) {
+            triggerUp((Element*) el->parent());
+        }
+    };
+
     if (triggerType == UITriggers::Focus) { // In the case of a focus, override all other events
         unFocus();
         m_focused = true;
@@ -30,12 +36,6 @@ void hg::ui::Element::trigger(hg::utils::enum_t triggerType) {
                 return true;
             });
         }
-
-        std::function<void(Element*)> triggerUp = [&](Element* el) {
-            if (!el->onTrigger(triggerType) && el->parent()) {
-                triggerUp((Element*) el->parent());
-            }
-        };
 
         triggerUp(node);
     }

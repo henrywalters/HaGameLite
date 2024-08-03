@@ -31,9 +31,10 @@ Console::Console(Font* font, hg::Vec2i windowSize, hg::Vec2i consoleSize):
     m_scrollBar = std::make_unique<MeshInstance>(&m_scrollBarQuad);
     m_scroll = std::make_unique<MeshInstance>(&m_scrollQuad);
     m_commandBuffer = std::make_unique<TextBuffer>(font, "", Vec3(0, -50), TextHAlignment::Left);
-    m_historyBuffer = std::make_unique<TextBuffer>(font, "", Vec3(0, -50), TextHAlignment::Left, TextVAlignment::Top);
+    m_historyBuffer = std::make_unique<TextBuffer>(font, "", Vec3(0, -50), TextHAlignment::Left, TextVAlignment::Bottom);
 
     m_commandBuffer->text(settings.prefix);
+    m_outputSize = 0;
 
     m_buffer = utils::f_readLines(settings.historyFile);
     m_historyIdx = m_buffer.size();
@@ -50,7 +51,7 @@ void Console::submit() {
 
     m_commandBuffer->text(settings.prefix);
 
-    if (parts.size() == 0) {
+    if (utils::s_trim(m_command) == "") {
         return;
     }
 
@@ -134,6 +135,7 @@ void Console::update(double dt) {
 
     updateConsoleGfx();
     updateScrollGfx();
+
 }
 
 void Console::render() {
@@ -190,6 +192,9 @@ void Console::handleScroll() {
 }
 
 void Console::putLine(const std::string& line) {
+
+    std::cout << "PUTTING LINE: " << line << "\n";
+
     m_output.push_back(line);
     if (m_output.size() >= settings.maxOutputSize) {
         m_output.pop_front();
@@ -197,6 +202,9 @@ void Console::putLine(const std::string& line) {
 
     m_outputStartIdx = m_output.size() - std::min<size_t>(m_output.size(), m_outputSize);
     m_outputEndIdx = m_output.size();
+
+    std::cout << m_output.size() << "\n";
+    std::cout << m_outputSize << "\n";
 
     float scrollPercent = m_output.size() < m_outputSize ? 1.0 : (float) m_outputSize / m_output.size();
 
@@ -215,9 +223,10 @@ void Console::updateOutput() {
         output += (i > m_outputStartIdx ? "\n" : "") + m_output[i - m_scrollIdx];
     }
 
+    std::cout << "--BEGIN--\n" << output << "--END--\n";
+
     m_historyBuffer->text(output);
-    float size = m_historyBuffer->font()->calcMessageSize(m_historyBuffer->text())[1];
-    m_historyBuffer->pos(Vec3(0, m_t * m_consoleSize[1] - m_consoleSize[1] + size - settings.lineHeight, 0));
+
 }
 
 bool Console::tryParse(ArgType type, std::string raw, Console::arg_value_t &value) {
@@ -279,28 +288,30 @@ void Console::updateConsoleGfx() {
 
     auto font = m_historyBuffer->font();
 
-    m_consoleQuad.offset(Vec2((m_windowSize[0] - m_consoleSize[0]) / 2.0, m_t * m_consoleSize[1] - m_consoleSize[1]));
+    m_consoleQuad.offset(Vec2((m_windowSize[0] - m_consoleSize[0]) / 2.0, consolePosY()));
     m_console->update(&m_consoleQuad);
 
     float cursorOffset = font->calcMessageSize(m_command)[0];
-    m_cursorQuad.offset(Vec2((m_windowSize[0] - m_consoleSize[0]) / 2.0 + cursorOffset, m_t * m_consoleSize[1] - m_consoleSize[1]));
+    m_cursorQuad.offset(Vec2((m_windowSize[0] - m_consoleSize[0]) / 2.0 + cursorOffset, consolePosY()));
     m_cursor->update(&m_cursorQuad);
 
-    m_commandBuffer->pos(Vec3((m_windowSize[0] - m_consoleSize[0]) / 2.0, m_t * m_consoleSize[1] - m_consoleSize[1], 0));
+    m_commandBuffer->size(Vec3(m_consoleSize[0], settings.lineHeight, 0));
+    m_commandBuffer->pos(Vec3((m_windowSize[0] - m_consoleSize[0]) / 2.0, consolePosY(), 0));
 
-    float historySize = font->calcMessageSize(m_historyBuffer->text())[1];
-    m_historyBuffer->pos(Vec3(0, m_t * m_consoleSize[1] - m_consoleSize[1] + historySize - settings.lineHeight, 0));
+    // float historySize = font->calcMessageSize(m_historyBuffer->text())[1];
+    m_historyBuffer->size(Vec3(m_consoleSize[0], m_consoleSize[1] - settings.lineHeight, 0));
+    m_historyBuffer->pos(Vec3(0, consolePosY() + settings.lineHeight, 0));
 }
 
 void Console::updateScrollGfx() {
-    m_scrollBarQuad.offset(Vec2((m_consoleSize[0] - settings.scrollWidth), m_t * m_consoleSize[1] - m_consoleSize[1]));
+    m_scrollBarQuad.offset(Vec2((m_consoleSize[0] - settings.scrollWidth), consolePosY()));
     m_scrollBar->update(&m_scrollBarQuad);
 
     m_scrollQuad.size(Vec2(settings.scrollWidth, m_scrollHeight));
 
     float scrollPos = m_output.size() < m_outputSize ? 0. : (float) m_scrollIdx / m_output.size() * m_consoleSize[1];
 
-    m_scrollQuad.offset(Vec2((m_consoleSize[0] - settings.scrollWidth), m_t * m_consoleSize[1] - m_consoleSize[1] + scrollPos));
+    m_scrollQuad.offset(Vec2((m_consoleSize[0] - settings.scrollWidth), consolePosY() + scrollPos));
     m_scroll->update(&m_scrollQuad);
 }
 
@@ -323,6 +334,9 @@ void Console::clear() {
     updateScrollGfx();
 }
 
+float Console::consolePosY() const {
+    return m_consoleSize[1] * (m_t - 1.0);
+}
 
 
 std::string Console::Command::help() const {

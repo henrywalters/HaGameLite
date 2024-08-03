@@ -20,7 +20,7 @@ namespace hg::graphics {
         HG_GET_SET(std::string, text, updateBuffers);
         HG_GET_SET(TextHAlignment, hAlignment, updateBuffers);
         HG_GET_SET(TextVAlignment, vAlignment, updateBuffers);
-        HG_GET(Vec3, size);
+        HG_GET_SET(Vec3, size, updateBuffers);
         HG_GET_SET(Vec3, pos, updateBuffers);
 
         void limitSize(const Vec3& size) {

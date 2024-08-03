@@ -8,6 +8,7 @@
 #include <vector>
 #include <stack>
 #include <deque>
+#include "../utils/macros.h"
 
 namespace hg::structures {
 
@@ -16,6 +17,7 @@ namespace hg::structures {
 
         void addChild(Tree* child) {
             child->m_parent = this;
+            child->m_depth = this->m_depth + 1;
             m_children.push_back(child);
         }
 
@@ -72,8 +74,11 @@ namespace hg::structures {
             }
         }
 
+        HG_GET(uint32_t, depth)
+
     private:
 
+        uint32_t m_depth = 0;
         std::vector<Tree*> m_children;
         Tree* m_parent = nullptr;
 

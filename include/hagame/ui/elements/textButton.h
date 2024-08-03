@@ -13,12 +13,11 @@ namespace hg::ui {
     public:
 
         TextButton(Vec2 pos, graphics::Font* font, std::string text);
-        void render(double dt) override;
+        void render(graphics::BatchRenderer* renderer, Rect rootRect, double dt) override;
 
         void setFont(graphics::Font* font);
         void setText(std::string text);
         std::string getText();
-        void setPos(Vec2 pos);
 
     private:
         

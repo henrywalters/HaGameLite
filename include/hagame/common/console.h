@@ -168,6 +168,8 @@ namespace hg {
 
         void updateScrollGfx();
 
+        float consolePosY() const;
+
     };
 }
 

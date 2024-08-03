@@ -6,42 +6,26 @@
 #define HAGAME2_CONTAINER_H
 
 #include "../element.h"
+#include "../../graphics/primitives/quad.h"
+#include "../../graphics/mesh.h"
 
 namespace hg::ui {
     class Container : public Element {
-
     public:
+
+        Container();
 
         bool wrapIndex = false;
 
     protected:
 
-        bool onTrigger(utils::enum_t event) override {
-            if (event == UITriggers::Previous) {
-                m_index--;
-                if (m_index == -1) {
-                    m_index = wrapIndex ? children().size() - 1 : 0;
-                }
-                ((Element*) children()[m_index])->trigger(UITriggers::Focus);
-                return true;
-            }
+        void render(graphics::BatchRenderer* renderer, Rect rootRect, double dt) override;
 
-            if (event == UITriggers::Next) {
-                m_index++;
-                if (m_index == children().size()) {
-                    m_index = wrapIndex ? 0 : children().size() - 1;
-                }
-                ((Element*) children()[m_index])->trigger(UITriggers::Focus);
-                return true;
-            }
-
-            return false;
-        }
+        bool onTrigger(utils::enum_t event) override;
 
     private:
 
         int m_index = 0;
-
     };
 }
 
