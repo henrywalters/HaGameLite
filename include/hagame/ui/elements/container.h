@@ -19,13 +19,17 @@ namespace hg::ui {
 
     protected:
 
-        void render(graphics::BatchRenderer* renderer, Rect rootRect, double dt) override;
+        OBJECT_NAME(Container)
+
+        void render(GraphicsContext* context, Rect rootRect, double dt) override;
 
         bool onTrigger(utils::enum_t event) override;
 
     private:
 
         int m_index = 0;
+        graphics::primitives::Quad m_quad;
+        graphics::MeshInstance m_mesh;
     };
 }
 

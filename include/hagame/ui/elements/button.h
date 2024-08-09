@@ -15,6 +15,8 @@ namespace hg::ui {
     class Button : public Element {
     protected:
 
+        OBJECT_NAME(Button)
+
         bool onTrigger(utils::enum_t event) override;
 
     };

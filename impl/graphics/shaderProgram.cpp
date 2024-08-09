@@ -15,7 +15,7 @@ hg::graphics::ShaderProgram::ShaderProgram(std::string _name, hg::graphics::Shad
     glGetProgramiv(id, GL_LINK_STATUS, &programSuccess);
     if (programSuccess != GL_TRUE) {
         getProgramLog();
-        throw std::runtime_error("Failed to link shader program");
+        throw std::runtime_error("Failed to link shader program: " + _name);
     }
 }
 

@@ -6,6 +6,7 @@
 #define HAGAME2_GRIDCONTAINER_H
 
 #include "../element.h"
+#include "container.h"
 #include "../../utils/macros.h"
 
 namespace hg::ui {
@@ -39,25 +40,26 @@ namespace hg::ui {
     class GridElement : public Element {
     public:
 
-        GridElement(GridConfig config, hg::Vec2i index, Element* element);
+        GridElement(GridConfig config, hg::Vec2i index);
 
         Rect getRect(Rect rootRect);
-
-        HG_GET_PTR(Element, element)
 
     private:
 
         GridConfig m_config;
         hg::Vec2i m_index;
-        Element* m_element;
     };
 
-    class GridContainer : public Element {
+    class GridContainer : public Container {
     public:
 
         GridContainer(GridConfig config);
 
-        std::shared_ptr<GridElement> addElement(Element* element, hg::Vec2i index);
+        HG_GET(GridConfig, config)
+
+    protected:
+
+        OBJECT_NAME(GridContainer)
 
     private:
         GridConfig m_config;

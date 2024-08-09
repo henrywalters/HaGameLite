@@ -13,11 +13,12 @@
 #include "style.h"
 #include "../graphics/shaderProgram.h"
 #include "../graphics/batchRenderer.h"
+#include "graphicsContext.h"
 
 namespace hg::ui {
 
     // The Element is the base of the UI system
-    class Element : public structures::Tree {
+class Element : public structures::Tree, public hg::Object {
     public:
 
         EventEmitter<utils::enum_t> events;
@@ -25,15 +26,18 @@ namespace hg::ui {
         Style style;
 
         void focus();
+        void unFocus();
         void trigger(utils::enum_t triggerType);
         virtual Rect getRect(Rect rootRect);
 
-        virtual void render(graphics::BatchRenderer* renderer, Rect rootRect, double dt) {};
+        virtual void render(GraphicsContext* context, Rect rootRect, double dt) {};
         virtual bool onTrigger(utils::enum_t triggerType) { return false; }
 
         bool focused() const { return m_focused; }
 
     protected:
+
+        OBJECT_NAME(Element)
 
         hg::Vec2 mousePos(hg::graphics::Window* window);
         bool mouseClicked(hg::graphics::Window* window);
@@ -45,9 +49,9 @@ namespace hg::ui {
 
         bool m_focused = false;
 
-        void unFocus();
-
     };
+
+    HG_IS_CONCEPT(Element)
 
 }
 

@@ -5,13 +5,10 @@
 
 using namespace hg::ui;
 
-GridElement::GridElement(GridConfig config, hg::Vec2i index, hg::ui::Element *element):
+GridElement::GridElement(GridConfig config, hg::Vec2i index):
         m_index(index),
-        m_config(config),
-        m_element(element)
-{
-    addChild(element);
-}
+        m_config(config)
+{}
 
 hg::Rect hg::ui::GridElement::getRect(Rect rootRect) {
     Rect parentRect;
@@ -27,12 +24,6 @@ hg::ui::GridContainer::GridContainer(GridConfig config):
     m_config(config)
 {
 
-}
-
-std::shared_ptr<GridElement> hg::ui::GridContainer::addElement(hg::ui::Element *element, hg::Vec2i index) {
-    auto gridElement = std::make_shared<GridElement>(m_config, index, element);
-    addChild(gridElement.get());
-    return gridElement;
 }
 
 GridConfig GridConfig::Uniform(hg::Vec2i size) {
@@ -85,7 +76,7 @@ hg::Rect GridConfig::getRect(hg::Rect container, hg::Vec2i index) {
     }
 
     for (int v = 0; v < m_size[1] - index[1] - 1; v++) {
-        rowOffset += m_rowSizes[v];
+        rowOffset += m_rowSizes[m_size[1] - v - 1];
     }
 
     hg::Vec2 offset = container.size.prod(Vec2(colOffset, rowOffset));

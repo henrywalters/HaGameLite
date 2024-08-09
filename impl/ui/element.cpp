@@ -3,6 +3,8 @@
 //
 #include "../../../include/hagame/ui/element.h"
 
+using namespace hg::graphics;
+
 hg::Vec2 hg::ui::Element::mousePos(hg::graphics::Window *window) {
     hg::Vec2 pos = window->input.devices.keyboardMouse()->mousePosition();
     pos[1] = window->size()[1] - pos[1];
@@ -31,6 +33,7 @@ void hg::ui::Element::trigger(hg::utils::enum_t triggerType) {
             DepthFirstTraverse(root, [&](auto other) {
                 if (((Element*)other)->m_focused) {
                     node = (Element*)other;
+                    node->trigger(triggerType);
                     return false;
                 }
                 return true;

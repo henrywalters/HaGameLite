@@ -6,14 +6,22 @@
 using namespace hg::ui;
 using namespace hg::graphics;
 
-Container::Container()
+Container::Container():
+    m_quad(Vec2::Identity(), Vec2::Zero()),
+    m_mesh(&m_quad)
 {
-
+    m_quad.centered(false);
+    m_mesh.update(&m_quad);
 }
 
-void Container::render(graphics::BatchRenderer* renderer, hg::Rect rootRect, double dt) {
+void Container::render(GraphicsContext* context, hg::Rect rootRect, double dt) {
     auto rect = getRect(rootRect);
-    renderer->quads.batch(rect.size, rect.getCenter(), focused() ? style.focusBackgroundColor : style.backgroundColor, Mat4::Translation(Vec3(0, 0, depth())));
+    m_quad.setSizeAndOffset(rect.size, rect.pos);
+    m_mesh.update(&m_quad);
+    context->colorShader.use();
+    context->colorShader.setVec4("color", focused() ? style.focusForegroundColor : style.backgroundColor);
+    m_mesh.render();
+    //context->renderer.quads.batch(rect.size, rect.getCenter(), focused() ? style.focusBackgroundColor : style.backgroundColor, Mat4::Translation(Vec3(0, 0, depth())));
 }
 
 bool Container::onTrigger(hg::utils::enum_t event) {
