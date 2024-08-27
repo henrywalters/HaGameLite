@@ -2,6 +2,7 @@
 // Created by henry on 6/17/24.
 //
 #include "../../../include/hagame/graphics/spriteSheetV2.h"
+#include "../../include/hagame/core/assets.h"
 
 using namespace hg::graphics;
 
@@ -62,7 +63,7 @@ void SpriteSheetV2::save(hg::utils::Config &config) {
 }
 
 void SpriteSheetV2::load(const hg::utils::Config &config) {
-    m_path = config.getRaw(META, "path");
+    m_path = ASSET_DIR + config.getRaw(META, "path");
     config.getArray<int, 2>(META, "size", atlas.size.vector);
     auto count = config.get<int>(META, "sprites");
 

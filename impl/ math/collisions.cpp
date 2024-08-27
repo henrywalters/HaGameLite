@@ -8,6 +8,27 @@ using namespace hg;
 using namespace hg::math;
 using namespace hg::math::collisions;
 
+components::Collider *collisions::getCollider(hg::Entity* entity) {
+    components::Collider* out = nullptr;
+    out = entity->getComponent<components::RectCollider>();
+    if (out) return out;
+    out = entity->getComponent<components::CircleCollider>();
+    if (out) return out;
+
+    return out;
+}
+
+
+hg::Vec3 collisions::getCenter(hg::Entity *entity) {
+    auto rect = entity->getComponent<components::RectCollider>();
+    if (rect) return (rect->pos + rect->size * 0.5).resize<3>();
+    auto circle = entity->getComponent<components::CircleCollider>();
+    if (circle) return circle->pos.resize<3>();
+
+    return hg::Vec3::Zero();
+}
+
+
 std::optional<Hit> collisions::checkEntityAgainstEntity(hg::Entity* a, hg::Entity* b) {
     if (a->hasComponent<components::RectCollider>() && b->hasComponent<components::RectCollider>()) {
         return checkRectAgainstRect(a->getComponent<components::RectCollider>()->getRect(), b->getComponent<components::RectCollider>()->getRect());
@@ -268,7 +289,7 @@ std::optional<Hit> collisions::checkCircleAgainstCircle(Circle a, Circle b) {
 
     float t = a.radius / mag;
 
-    return Hit { (a.center + delta * t).resize<3>(), (delta.normalized()).resize<3>(), mag - a.radius - b.radius };
+    return Hit { (a.center + delta * t).resize<3>(), (delta.normalized()).resize<3>(), a.radius + b.radius - mag };
 }
 
 std::optional<Hit> collisions::checkCircleAgainstRect(Circle circle, Rect rect) {

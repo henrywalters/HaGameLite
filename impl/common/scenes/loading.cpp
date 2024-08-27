@@ -149,11 +149,15 @@ void Loading::loadDefaultShaders() {
 }
 
 void Loading::readFilesForLoading() {
+    /*
+    std::cout << "READING: " << ASSET_DIR + m_settings.folders.audio << "\n";
     for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.audio, true)) {
         auto parts = f_getParts(file);
         auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.audio + "/", "") + parts.name;
         m_sounds.push_back(std::make_tuple(name, file));
     }
+     */
+    std::cout << "READ SOUNDS\n";
 
     for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.textures, true)) {
         auto parts = f_getParts(file);
@@ -164,6 +168,8 @@ void Loading::readFilesForLoading() {
             m_spriteSheets.push_back(std::make_tuple(name, file));
         }
     }
+
+    std::cout << "READ TEXTURES\n";
 
     auto shaderFiles = std::unordered_map<std::string, ShaderPaths>();
 
@@ -185,4 +191,6 @@ void Loading::readFilesForLoading() {
             m_shaders.push_back(std::make_tuple(name, shaderFiles[name]));
         }
     }
+
+    std::cout << "READ SHADERS\n";
 }

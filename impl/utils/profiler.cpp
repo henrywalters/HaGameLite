@@ -51,7 +51,7 @@ void hg::utils::Profiler::Render() {
     hg::Vec3 pos;
     for (auto &[name, profile] : s_profiles) {
         double dur = utils::Clock::ToSeconds(profile.end - profile.start) * 1000;
-        hg::graphics::Debug::DrawText(pos, name + ": " + std::to_string(dur) + "ms", hg::graphics::Color::blue());
+        hg::graphics::Debug::DrawText(pos, name + ": " + std::to_string(dur) + "ms", hg::graphics::Color::red());
         pos[1] += 16;
     }
 }

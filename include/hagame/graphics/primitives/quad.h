@@ -10,6 +10,7 @@
 #include "../../utils/macros.h"
 
 namespace hg::graphics::primitives {
+
     class Quad : public Mesh {
     public:
 
@@ -33,6 +34,8 @@ namespace hg::graphics::primitives {
             m_offset = offset;
             update();
         }
+
+        static void AddToMesh(Rect rect, Rect tex, bool flipY, bool centered, Mesh& mesh);
 
     private:
 

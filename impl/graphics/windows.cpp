@@ -34,6 +34,7 @@ void hg::graphics::Windows::ResizeCallback(GLFWwindow *window, int width, int he
 }
 
 void hg::graphics::Windows::MoveCallback(GLFWwindow *window, int x, int y) {
+
     s_windows[window]->m_pos = hg::Vec2i(x, y);
     Windows::Events.emit(WindowEvents::Move, s_windows[window].get());
 }

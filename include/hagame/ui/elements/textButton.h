@@ -14,9 +14,10 @@ namespace hg::ui {
     public:
 
         TextButton(Vec2 pos, graphics::Font* font, std::string text);
-        void render(GraphicsContext* context, Rect rootRect, double dt) override;
 
     protected:
+
+        void onRender(GraphicsContext* context, Rect rootRect, double dt) override;
 
         OBJECT_NAME(TextButton)
 

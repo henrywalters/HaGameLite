@@ -60,7 +60,7 @@ namespace hg::utils {
 
         template <size_t N, class T = float>
         hg::math::Vector<N, T> realVector(T min, T max) {
-            hg::math::Vector<N, int> vec;
+            hg::math::Vector<N, T> vec;
             for (int i = 0; i < N; i++) {
                 vec[i] = real<T>(min, max);
             }

@@ -11,7 +11,7 @@ Label::Label(Vec2 pos, graphics::Font *font, std::string text):
         mixins::TextDisplay(pos, font, text)
 {}
 
-void Label::render(GraphicsContext* context, hg::Rect rootRect, double dt) {
+void Label::onRender(GraphicsContext* context, hg::Rect rootRect, double dt) {
     auto rect = getRect(rootRect);
     renderText(context, focused() ? style.focusForegroundColor : style.foregroundColor, rect.pos, rect.size, depth());
 }

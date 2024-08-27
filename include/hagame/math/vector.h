@@ -561,6 +561,14 @@ namespace hg::math {
                 }
                 return *this;
             }
+
+            std::size_t hash() const {
+                std::size_t seed = size;
+                for (auto& i : vector) {
+                    seed ^= i + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+                }
+                return seed;
+            }
         };
 
         template<size_t size, class T>
@@ -594,4 +602,15 @@ namespace hg::math {
             return (b - a).magnitude();
         }
 }
+
+namespace std {
+    template <size_t Size, typename T> struct hash<hg::math::Vector<Size, T>>
+    {
+        size_t operator()(const hg::math::Vector<Size, T> & x) const
+        {
+            return x.hash();
+        }
+    };
+}
+
 #endif //HAGAME2_VECTOR_H

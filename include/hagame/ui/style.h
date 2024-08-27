@@ -40,11 +40,14 @@ namespace hg::ui {
     using offset_t = std::array<Offset, 4>;
 
     struct Style {
+        graphics::Color borderColor = graphics::Color(0, 0, 0, 0);
+        graphics::Color focusBorderColor = graphics::Color(0, 0, 0, 0);
         graphics::Color backgroundColor = graphics::Color(0, 0, 0, 0);
         graphics::Color foregroundColor = graphics::Color::white();
         graphics::Color focusBackgroundColor = graphics::Color(0, 0, 0, 0);
         graphics::Color focusForegroundColor = graphics::Color::white();
         bool positionAbsolute = false;
+        int borderThickness = 0;
         hg::Rect absoluteRect;
         offset_t padding = {0, 0, 0, 0};
         offset_t margin = {0, 0, 0, 0};

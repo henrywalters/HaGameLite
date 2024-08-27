@@ -348,6 +348,30 @@ impl/common/console.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/common/console.cpp.s
 .PHONY : impl/common/console.cpp.s
 
+impl/common/scenes/loading.o: impl/common/scenes/loading.cpp.o
+.PHONY : impl/common/scenes/loading.o
+
+# target to build an object file
+impl/common/scenes/loading.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/common/scenes/loading.cpp.o
+.PHONY : impl/common/scenes/loading.cpp.o
+
+impl/common/scenes/loading.i: impl/common/scenes/loading.cpp.i
+.PHONY : impl/common/scenes/loading.i
+
+# target to preprocess a source file
+impl/common/scenes/loading.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/common/scenes/loading.cpp.i
+.PHONY : impl/common/scenes/loading.cpp.i
+
+impl/common/scenes/loading.s: impl/common/scenes/loading.cpp.s
+.PHONY : impl/common/scenes/loading.s
+
+# target to generate assembly for a file
+impl/common/scenes/loading.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/common/scenes/loading.cpp.s
+.PHONY : impl/common/scenes/loading.cpp.s
+
 impl/common/weapons.o: impl/common/weapons.cpp.o
 .PHONY : impl/common/weapons.o
 
@@ -659,6 +683,30 @@ impl/core/system.s: impl/core/system.cpp.s
 impl/core/system.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/core/system.cpp.s
 .PHONY : impl/core/system.cpp.s
+
+impl/graphics/animatedSprite.o: impl/graphics/animatedSprite.cpp.o
+.PHONY : impl/graphics/animatedSprite.o
+
+# target to build an object file
+impl/graphics/animatedSprite.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/animatedSprite.cpp.o
+.PHONY : impl/graphics/animatedSprite.cpp.o
+
+impl/graphics/animatedSprite.i: impl/graphics/animatedSprite.cpp.i
+.PHONY : impl/graphics/animatedSprite.i
+
+# target to preprocess a source file
+impl/graphics/animatedSprite.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/animatedSprite.cpp.i
+.PHONY : impl/graphics/animatedSprite.cpp.i
+
+impl/graphics/animatedSprite.s: impl/graphics/animatedSprite.cpp.s
+.PHONY : impl/graphics/animatedSprite.s
+
+# target to generate assembly for a file
+impl/graphics/animatedSprite.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/animatedSprite.cpp.s
+.PHONY : impl/graphics/animatedSprite.cpp.s
 
 impl/graphics/batchRenderer.o: impl/graphics/batchRenderer.cpp.o
 .PHONY : impl/graphics/batchRenderer.o
@@ -1020,6 +1068,30 @@ impl/graphics/primitives/quad.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/primitives/quad.cpp.s
 .PHONY : impl/graphics/primitives/quad.cpp.s
 
+impl/graphics/primitives/quadBorder.o: impl/graphics/primitives/quadBorder.cpp.o
+.PHONY : impl/graphics/primitives/quadBorder.o
+
+# target to build an object file
+impl/graphics/primitives/quadBorder.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/primitives/quadBorder.cpp.o
+.PHONY : impl/graphics/primitives/quadBorder.cpp.o
+
+impl/graphics/primitives/quadBorder.i: impl/graphics/primitives/quadBorder.cpp.i
+.PHONY : impl/graphics/primitives/quadBorder.i
+
+# target to preprocess a source file
+impl/graphics/primitives/quadBorder.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/primitives/quadBorder.cpp.i
+.PHONY : impl/graphics/primitives/quadBorder.cpp.i
+
+impl/graphics/primitives/quadBorder.s: impl/graphics/primitives/quadBorder.cpp.s
+.PHONY : impl/graphics/primitives/quadBorder.s
+
+# target to generate assembly for a file
+impl/graphics/primitives/quadBorder.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/primitives/quadBorder.cpp.s
+.PHONY : impl/graphics/primitives/quadBorder.cpp.s
+
 impl/graphics/shader.o: impl/graphics/shader.cpp.o
 .PHONY : impl/graphics/shader.o
 
@@ -1092,6 +1164,30 @@ impl/graphics/spriteSheet.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/spriteSheet.cpp.s
 .PHONY : impl/graphics/spriteSheet.cpp.s
 
+impl/graphics/spriteSheetV2.o: impl/graphics/spriteSheetV2.cpp.o
+.PHONY : impl/graphics/spriteSheetV2.o
+
+# target to build an object file
+impl/graphics/spriteSheetV2.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/spriteSheetV2.cpp.o
+.PHONY : impl/graphics/spriteSheetV2.cpp.o
+
+impl/graphics/spriteSheetV2.i: impl/graphics/spriteSheetV2.cpp.i
+.PHONY : impl/graphics/spriteSheetV2.i
+
+# target to preprocess a source file
+impl/graphics/spriteSheetV2.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/spriteSheetV2.cpp.i
+.PHONY : impl/graphics/spriteSheetV2.cpp.i
+
+impl/graphics/spriteSheetV2.s: impl/graphics/spriteSheetV2.cpp.s
+.PHONY : impl/graphics/spriteSheetV2.s
+
+# target to generate assembly for a file
+impl/graphics/spriteSheetV2.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/spriteSheetV2.cpp.s
+.PHONY : impl/graphics/spriteSheetV2.cpp.s
+
 impl/graphics/text.o: impl/graphics/text.cpp.o
 .PHONY : impl/graphics/text.o
 
@@ -1163,6 +1259,30 @@ impl/graphics/texture.s: impl/graphics/texture.cpp.s
 impl/graphics/texture.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/texture.cpp.s
 .PHONY : impl/graphics/texture.cpp.s
+
+impl/graphics/textureAtlas.o: impl/graphics/textureAtlas.cpp.o
+.PHONY : impl/graphics/textureAtlas.o
+
+# target to build an object file
+impl/graphics/textureAtlas.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/textureAtlas.cpp.o
+.PHONY : impl/graphics/textureAtlas.cpp.o
+
+impl/graphics/textureAtlas.i: impl/graphics/textureAtlas.cpp.i
+.PHONY : impl/graphics/textureAtlas.i
+
+# target to preprocess a source file
+impl/graphics/textureAtlas.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/textureAtlas.cpp.i
+.PHONY : impl/graphics/textureAtlas.cpp.i
+
+impl/graphics/textureAtlas.s: impl/graphics/textureAtlas.cpp.s
+.PHONY : impl/graphics/textureAtlas.s
+
+# target to generate assembly for a file
+impl/graphics/textureAtlas.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/textureAtlas.cpp.s
+.PHONY : impl/graphics/textureAtlas.cpp.s
 
 impl/graphics/tilemap.o: impl/graphics/tilemap.cpp.o
 .PHONY : impl/graphics/tilemap.o
@@ -1500,6 +1620,150 @@ impl/ui/elements/button.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/button.cpp.s
 .PHONY : impl/ui/elements/button.cpp.s
 
+impl/ui/elements/checkbox.o: impl/ui/elements/checkbox.cpp.o
+.PHONY : impl/ui/elements/checkbox.o
+
+# target to build an object file
+impl/ui/elements/checkbox.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/checkbox.cpp.o
+.PHONY : impl/ui/elements/checkbox.cpp.o
+
+impl/ui/elements/checkbox.i: impl/ui/elements/checkbox.cpp.i
+.PHONY : impl/ui/elements/checkbox.i
+
+# target to preprocess a source file
+impl/ui/elements/checkbox.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/checkbox.cpp.i
+.PHONY : impl/ui/elements/checkbox.cpp.i
+
+impl/ui/elements/checkbox.s: impl/ui/elements/checkbox.cpp.s
+.PHONY : impl/ui/elements/checkbox.s
+
+# target to generate assembly for a file
+impl/ui/elements/checkbox.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/checkbox.cpp.s
+.PHONY : impl/ui/elements/checkbox.cpp.s
+
+impl/ui/elements/container.o: impl/ui/elements/container.cpp.o
+.PHONY : impl/ui/elements/container.o
+
+# target to build an object file
+impl/ui/elements/container.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/container.cpp.o
+.PHONY : impl/ui/elements/container.cpp.o
+
+impl/ui/elements/container.i: impl/ui/elements/container.cpp.i
+.PHONY : impl/ui/elements/container.i
+
+# target to preprocess a source file
+impl/ui/elements/container.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/container.cpp.i
+.PHONY : impl/ui/elements/container.cpp.i
+
+impl/ui/elements/container.s: impl/ui/elements/container.cpp.s
+.PHONY : impl/ui/elements/container.s
+
+# target to generate assembly for a file
+impl/ui/elements/container.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/container.cpp.s
+.PHONY : impl/ui/elements/container.cpp.s
+
+impl/ui/elements/divider.o: impl/ui/elements/divider.cpp.o
+.PHONY : impl/ui/elements/divider.o
+
+# target to build an object file
+impl/ui/elements/divider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/divider.cpp.o
+.PHONY : impl/ui/elements/divider.cpp.o
+
+impl/ui/elements/divider.i: impl/ui/elements/divider.cpp.i
+.PHONY : impl/ui/elements/divider.i
+
+# target to preprocess a source file
+impl/ui/elements/divider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/divider.cpp.i
+.PHONY : impl/ui/elements/divider.cpp.i
+
+impl/ui/elements/divider.s: impl/ui/elements/divider.cpp.s
+.PHONY : impl/ui/elements/divider.s
+
+# target to generate assembly for a file
+impl/ui/elements/divider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/divider.cpp.s
+.PHONY : impl/ui/elements/divider.cpp.s
+
+impl/ui/elements/gridContainer.o: impl/ui/elements/gridContainer.cpp.o
+.PHONY : impl/ui/elements/gridContainer.o
+
+# target to build an object file
+impl/ui/elements/gridContainer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/gridContainer.cpp.o
+.PHONY : impl/ui/elements/gridContainer.cpp.o
+
+impl/ui/elements/gridContainer.i: impl/ui/elements/gridContainer.cpp.i
+.PHONY : impl/ui/elements/gridContainer.i
+
+# target to preprocess a source file
+impl/ui/elements/gridContainer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/gridContainer.cpp.i
+.PHONY : impl/ui/elements/gridContainer.cpp.i
+
+impl/ui/elements/gridContainer.s: impl/ui/elements/gridContainer.cpp.s
+.PHONY : impl/ui/elements/gridContainer.s
+
+# target to generate assembly for a file
+impl/ui/elements/gridContainer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/gridContainer.cpp.s
+.PHONY : impl/ui/elements/gridContainer.cpp.s
+
+impl/ui/elements/image.o: impl/ui/elements/image.cpp.o
+.PHONY : impl/ui/elements/image.o
+
+# target to build an object file
+impl/ui/elements/image.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/image.cpp.o
+.PHONY : impl/ui/elements/image.cpp.o
+
+impl/ui/elements/image.i: impl/ui/elements/image.cpp.i
+.PHONY : impl/ui/elements/image.i
+
+# target to preprocess a source file
+impl/ui/elements/image.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/image.cpp.i
+.PHONY : impl/ui/elements/image.cpp.i
+
+impl/ui/elements/image.s: impl/ui/elements/image.cpp.s
+.PHONY : impl/ui/elements/image.s
+
+# target to generate assembly for a file
+impl/ui/elements/image.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/image.cpp.s
+.PHONY : impl/ui/elements/image.cpp.s
+
+impl/ui/elements/label.o: impl/ui/elements/label.cpp.o
+.PHONY : impl/ui/elements/label.o
+
+# target to build an object file
+impl/ui/elements/label.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/label.cpp.o
+.PHONY : impl/ui/elements/label.cpp.o
+
+impl/ui/elements/label.i: impl/ui/elements/label.cpp.i
+.PHONY : impl/ui/elements/label.i
+
+# target to preprocess a source file
+impl/ui/elements/label.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/label.cpp.i
+.PHONY : impl/ui/elements/label.cpp.i
+
+impl/ui/elements/label.s: impl/ui/elements/label.cpp.s
+.PHONY : impl/ui/elements/label.s
+
+# target to generate assembly for a file
+impl/ui/elements/label.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/label.cpp.s
+.PHONY : impl/ui/elements/label.cpp.s
+
 impl/ui/elements/textButton.o: impl/ui/elements/textButton.cpp.o
 .PHONY : impl/ui/elements/textButton.o
 
@@ -1523,6 +1787,78 @@ impl/ui/elements/textButton.s: impl/ui/elements/textButton.cpp.s
 impl/ui/elements/textButton.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/elements/textButton.cpp.s
 .PHONY : impl/ui/elements/textButton.cpp.s
+
+impl/ui/frame.o: impl/ui/frame.cpp.o
+.PHONY : impl/ui/frame.o
+
+# target to build an object file
+impl/ui/frame.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/frame.cpp.o
+.PHONY : impl/ui/frame.cpp.o
+
+impl/ui/frame.i: impl/ui/frame.cpp.i
+.PHONY : impl/ui/frame.i
+
+# target to preprocess a source file
+impl/ui/frame.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/frame.cpp.i
+.PHONY : impl/ui/frame.cpp.i
+
+impl/ui/frame.s: impl/ui/frame.cpp.s
+.PHONY : impl/ui/frame.s
+
+# target to generate assembly for a file
+impl/ui/frame.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/frame.cpp.s
+.PHONY : impl/ui/frame.cpp.s
+
+impl/ui/graphicsContext.o: impl/ui/graphicsContext.cpp.o
+.PHONY : impl/ui/graphicsContext.o
+
+# target to build an object file
+impl/ui/graphicsContext.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/graphicsContext.cpp.o
+.PHONY : impl/ui/graphicsContext.cpp.o
+
+impl/ui/graphicsContext.i: impl/ui/graphicsContext.cpp.i
+.PHONY : impl/ui/graphicsContext.i
+
+# target to preprocess a source file
+impl/ui/graphicsContext.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/graphicsContext.cpp.i
+.PHONY : impl/ui/graphicsContext.cpp.i
+
+impl/ui/graphicsContext.s: impl/ui/graphicsContext.cpp.s
+.PHONY : impl/ui/graphicsContext.s
+
+# target to generate assembly for a file
+impl/ui/graphicsContext.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/graphicsContext.cpp.s
+.PHONY : impl/ui/graphicsContext.cpp.s
+
+impl/ui/mixins/textDisplay.o: impl/ui/mixins/textDisplay.cpp.o
+.PHONY : impl/ui/mixins/textDisplay.o
+
+# target to build an object file
+impl/ui/mixins/textDisplay.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/mixins/textDisplay.cpp.o
+.PHONY : impl/ui/mixins/textDisplay.cpp.o
+
+impl/ui/mixins/textDisplay.i: impl/ui/mixins/textDisplay.cpp.i
+.PHONY : impl/ui/mixins/textDisplay.i
+
+# target to preprocess a source file
+impl/ui/mixins/textDisplay.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/mixins/textDisplay.cpp.i
+.PHONY : impl/ui/mixins/textDisplay.cpp.i
+
+impl/ui/mixins/textDisplay.s: impl/ui/mixins/textDisplay.cpp.s
+.PHONY : impl/ui/mixins/textDisplay.s
+
+# target to generate assembly for a file
+impl/ui/mixins/textDisplay.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/ui/mixins/textDisplay.cpp.s
+.PHONY : impl/ui/mixins/textDisplay.cpp.s
 
 impl/utils/behaviorTree.o: impl/utils/behaviorTree.cpp.o
 .PHONY : impl/utils/behaviorTree.o
@@ -1800,6 +2136,9 @@ help:
 	@echo "... impl/common/console.o"
 	@echo "... impl/common/console.i"
 	@echo "... impl/common/console.s"
+	@echo "... impl/common/scenes/loading.o"
+	@echo "... impl/common/scenes/loading.i"
+	@echo "... impl/common/scenes/loading.s"
 	@echo "... impl/common/weapons.o"
 	@echo "... impl/common/weapons.i"
 	@echo "... impl/common/weapons.s"
@@ -1839,6 +2178,9 @@ help:
 	@echo "... impl/core/system.o"
 	@echo "... impl/core/system.i"
 	@echo "... impl/core/system.s"
+	@echo "... impl/graphics/animatedSprite.o"
+	@echo "... impl/graphics/animatedSprite.i"
+	@echo "... impl/graphics/animatedSprite.s"
 	@echo "... impl/graphics/batchRenderer.o"
 	@echo "... impl/graphics/batchRenderer.i"
 	@echo "... impl/graphics/batchRenderer.s"
@@ -1884,6 +2226,9 @@ help:
 	@echo "... impl/graphics/primitives/quad.o"
 	@echo "... impl/graphics/primitives/quad.i"
 	@echo "... impl/graphics/primitives/quad.s"
+	@echo "... impl/graphics/primitives/quadBorder.o"
+	@echo "... impl/graphics/primitives/quadBorder.i"
+	@echo "... impl/graphics/primitives/quadBorder.s"
 	@echo "... impl/graphics/shader.o"
 	@echo "... impl/graphics/shader.i"
 	@echo "... impl/graphics/shader.s"
@@ -1893,6 +2238,9 @@ help:
 	@echo "... impl/graphics/spriteSheet.o"
 	@echo "... impl/graphics/spriteSheet.i"
 	@echo "... impl/graphics/spriteSheet.s"
+	@echo "... impl/graphics/spriteSheetV2.o"
+	@echo "... impl/graphics/spriteSheetV2.i"
+	@echo "... impl/graphics/spriteSheetV2.s"
 	@echo "... impl/graphics/text.o"
 	@echo "... impl/graphics/text.i"
 	@echo "... impl/graphics/text.s"
@@ -1902,6 +2250,9 @@ help:
 	@echo "... impl/graphics/texture.o"
 	@echo "... impl/graphics/texture.i"
 	@echo "... impl/graphics/texture.s"
+	@echo "... impl/graphics/textureAtlas.o"
+	@echo "... impl/graphics/textureAtlas.i"
+	@echo "... impl/graphics/textureAtlas.s"
 	@echo "... impl/graphics/tilemap.o"
 	@echo "... impl/graphics/tilemap.i"
 	@echo "... impl/graphics/tilemap.s"
@@ -1944,9 +2295,36 @@ help:
 	@echo "... impl/ui/elements/button.o"
 	@echo "... impl/ui/elements/button.i"
 	@echo "... impl/ui/elements/button.s"
+	@echo "... impl/ui/elements/checkbox.o"
+	@echo "... impl/ui/elements/checkbox.i"
+	@echo "... impl/ui/elements/checkbox.s"
+	@echo "... impl/ui/elements/container.o"
+	@echo "... impl/ui/elements/container.i"
+	@echo "... impl/ui/elements/container.s"
+	@echo "... impl/ui/elements/divider.o"
+	@echo "... impl/ui/elements/divider.i"
+	@echo "... impl/ui/elements/divider.s"
+	@echo "... impl/ui/elements/gridContainer.o"
+	@echo "... impl/ui/elements/gridContainer.i"
+	@echo "... impl/ui/elements/gridContainer.s"
+	@echo "... impl/ui/elements/image.o"
+	@echo "... impl/ui/elements/image.i"
+	@echo "... impl/ui/elements/image.s"
+	@echo "... impl/ui/elements/label.o"
+	@echo "... impl/ui/elements/label.i"
+	@echo "... impl/ui/elements/label.s"
 	@echo "... impl/ui/elements/textButton.o"
 	@echo "... impl/ui/elements/textButton.i"
 	@echo "... impl/ui/elements/textButton.s"
+	@echo "... impl/ui/frame.o"
+	@echo "... impl/ui/frame.i"
+	@echo "... impl/ui/frame.s"
+	@echo "... impl/ui/graphicsContext.o"
+	@echo "... impl/ui/graphicsContext.i"
+	@echo "... impl/ui/graphicsContext.s"
+	@echo "... impl/ui/mixins/textDisplay.o"
+	@echo "... impl/ui/mixins/textDisplay.i"
+	@echo "... impl/ui/mixins/textDisplay.s"
 	@echo "... impl/utils/behaviorTree.o"
 	@echo "... impl/utils/behaviorTree.i"
 	@echo "... impl/utils/behaviorTree.s"

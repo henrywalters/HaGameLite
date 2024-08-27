@@ -21,8 +21,7 @@ namespace hg::ui {
 
         OBJECT_NAME(Container)
 
-        void render(GraphicsContext* context, Rect rootRect, double dt) override;
-
+        void onRender(GraphicsContext* context, Rect rootRect, double dt) override;
         bool onTrigger(utils::enum_t event) override;
 
     private:

@@ -13,6 +13,7 @@
 #include "style.h"
 #include "../graphics/shaderProgram.h"
 #include "../graphics/batchRenderer.h"
+#include "../graphics/primitives/quadBorder.h"
 #include "graphicsContext.h"
 
 namespace hg::ui {
@@ -21,6 +22,8 @@ namespace hg::ui {
 class Element : public structures::Tree, public hg::Object {
     public:
 
+        Element();
+
         EventEmitter<utils::enum_t> events;
 
         Style style;
@@ -28,10 +31,9 @@ class Element : public structures::Tree, public hg::Object {
         void focus();
         void unFocus();
         void trigger(utils::enum_t triggerType);
+        void render(GraphicsContext* context, Rect rootRect, double dt);
         virtual Rect getRect(Rect rootRect);
-
-        virtual void render(GraphicsContext* context, Rect rootRect, double dt) {};
-        virtual bool onTrigger(utils::enum_t triggerType) { return false; }
+        virtual bool contains(Rect rootRect, Vec2 pos);
 
         bool focused() const { return m_focused; }
 
@@ -43,11 +45,16 @@ class Element : public structures::Tree, public hg::Object {
         bool mouseClicked(hg::graphics::Window* window);
         Rect adjustedRect(Rect rect, offset_t margin, offset_t padding);
 
+        virtual void onRender(GraphicsContext* context, Rect rootRect, double dt) {}
+        virtual bool onTrigger(utils::enum_t triggerType) { return false; }
     private:
 
         Element* element;
 
         bool m_focused = false;
+
+        graphics::primitives::QuadBorder m_quadBorder;
+        graphics::MeshInstance m_border;
 
     };
 

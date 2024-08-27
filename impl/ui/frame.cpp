@@ -39,7 +39,7 @@ void hg::ui::Frame::initializeShader(hg::graphics::ShaderProgram *shader) {
 }
 
 bool hg::ui::Frame::contains(hg::ui::Element *element, hg::Vec2 pos) const {
-    return element->getRect(m_rect).contains(pos);
+    return element->contains(m_rect, pos);
 }
 
 void hg::ui::Frame::update(Vec2 mousePos, double dt) {

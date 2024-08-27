@@ -41,7 +41,7 @@ void EntityMap2D::insert(hg::Vec2 pos, hg::Vec2 size, hg::Entity *entity) {
 }
 
 void EntityMap2D::remove(hg::Vec2 pos, hg::Vec2 size, hg::Entity *entity) {
-    m_size++;
+    m_size--;
     hg::Vec2i startIdx = getIndex(pos + size * -0.5);
     hg::Vec2i endIdx = getIndex(pos + size * 0.5);
 
@@ -106,6 +106,10 @@ std::optional<hg::Entity*> EntityMap2D::raycast(hg::math::Ray ray, float& t, std
     }
 
     return std::nullopt;
+}
+
+std::vector<hg::Entity *> EntityMap2D::get(hg::Vec2i index) {
+    return m_map.get(index).value;
 }
 
 

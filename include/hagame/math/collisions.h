@@ -28,6 +28,8 @@ namespace hg::math::collisions {
         }
     };
 
+    hg::Vec3 getCenter(hg::Entity* entity);
+    components::Collider* getCollider(hg::Entity* entity);
     std::optional<Hit> checkEntityAgainstEntity(hg::Entity* a, hg::Entity* b);
 
     std::optional<Hit> checkRayAgainstSphere(Ray ray, Sphere sphere, float &t);

@@ -81,6 +81,18 @@ namespace hg::graphics {
             return Color(RGB{ 0.0, 0.0, 1.0, 1.0 });
         }
 
+        static Color yellow() {
+            return Color(RGB{1.0, 1.0, 0.0, 1.0});
+        }
+
+        static Color magenta() {
+            return Color(RGB{1.0, 0.0, 1.0, 1.0});
+        }
+
+        static Color cyan() {
+            return Color(RGB{0.0, 1.0, 1.0, 1.0});
+        }
+
         static Color white() {
             return Color(RGB{ 1.0, 1.0, 1.0, 1.0 });
         }

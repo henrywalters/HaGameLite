@@ -13,29 +13,30 @@ BatchQuad::BatchQuad(Quad *quad, hg::Entity *entity):
     model(entity->model())
 {}
 
-BatchQuad::BatchQuad(hg::Vec2 _size, hg::Vec2 _offset, Color _color, hg::Mat4 _model):
+BatchQuad::BatchQuad(hg::Vec2 _size, hg::Vec2 _offset, int _texIndex, Color _color, hg::Mat4 _model):
     size(_size),
     offset(_offset),
     color(_color),
+    textureIndex(_texIndex),
     model(_model)
 {
 }
 
-BatchQuad::BatchQuad(hg::Vec2 _size, hg::Vec2 _offset, hg::Vec2 _texOffset, hg::Vec2 _texSize, Color _color,
+BatchQuad::BatchQuad(hg::Vec2 _size, hg::Vec2 _offset, int _texIndex, hg::Vec2 _texOffset, hg::Vec2 _texSize, Color _color,
                      hg::Mat4 _model):
     size(_size),
     texOffset(_texOffset),
     texSize(_texSize),
+    textureIndex(_texIndex),
     offset(_offset),
     color(_color),
     model(_model)
 {
 }
 
-
-BatchQuads::BatchQuads():
-    m_mesh(&m_primitive),
-    m_buffer(VertexBuffer<BatchQuad>::Dynamic(0))
+Batcher::Batcher():
+        m_mesh(&m_primitive),
+        m_buffer(VertexBuffer<BatchQuad>::Dynamic(0))
 {
     m_primitive.size(1.0);
     m_primitive.centered(true);
@@ -48,12 +49,18 @@ BatchQuads::BatchQuads():
     vao->defineAttribute(m_buffer.get(), DataType::Float, 5, 2, offsetof(BatchQuad, texOffset));
     vao->defineAttribute(m_buffer.get(), DataType::Float, 6, 2, offsetof(BatchQuad, texSize));
     vao->defineAttribute(m_buffer.get(), DataType::Float, 7, 4, offsetof(BatchQuad, color));
-    vao->defineAttribute(m_buffer.get(), DataType::Float, 8, 4, offsetof(BatchQuad, model) + (0 * sizeof(float)));
-    vao->defineAttribute(m_buffer.get(), DataType::Float, 9, 4, offsetof(BatchQuad, model) + (4 * sizeof(float)));
-    vao->defineAttribute(m_buffer.get(), DataType::Float,  10, 4, offsetof(BatchQuad, model) + (8 * sizeof(float)));
-    vao->defineAttribute(m_buffer.get(), DataType::Float, 11, 4, offsetof(BatchQuad, model) + (12 * sizeof(float)));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 8, 1, offsetof(BatchQuad, textureIndex));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 9, 4, offsetof(BatchQuad, model) + (0 * sizeof(float)));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 10, 4, offsetof(BatchQuad, model) + (4 * sizeof(float)));
+    vao->defineAttribute(m_buffer.get(), DataType::Float,  11, 4, offsetof(BatchQuad, model) + (8 * sizeof(float)));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 12, 4, offsetof(BatchQuad, model) + (12 * sizeof(float)));
 
-    vao->setInstanced(3, 11);
+    vao->setInstanced(3, 12);
+}
+
+void Batcher::clear() {
+    m_data.clear();
+    onClear();
 }
 
 void BatchQuads::batch(hg::Entity *entity, Quad *quad) {
@@ -61,11 +68,7 @@ void BatchQuads::batch(hg::Entity *entity, Quad *quad) {
 }
 
 void BatchQuads::batch(hg::Vec2 size, hg::Vec2 offset, Color color, hg::Mat4 model) {
-    m_data.emplace_back(size, offset, color, model);
-}
-
-void BatchQuads::clear() {
-    m_data.clear();
+    m_data.emplace_back(size, offset, 0, color, model);
 }
 
 void BatchQuads::render() {
@@ -82,66 +85,28 @@ void BatchQuads::render() {
     m_buffer->unbind();
 }
 
+void BatchSprites::onClear() {
 
-BatchSprites::SpriteBuffer *BatchSprites::getBuffer(std::string texture) {
-    if (m_buffers.find(texture) == m_buffers.end()) {
-
-        auto buffer = std::make_shared<SpriteBuffer>();
-        buffer->buffer = VertexBuffer<BatchQuad>::Dynamic(0);
-        
-        auto vao = buffer->mesh->getVAO();
-        vao->bind();
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 3, 2, offsetof(BatchQuad, size));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 4, 2, offsetof(BatchQuad, offset));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 5, 2, offsetof(BatchQuad, texOffset));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 6, 2, offsetof(BatchQuad, texSize));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 7, 4, offsetof(BatchQuad, color));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 8, 4, offsetof(BatchQuad, model) + (0 * sizeof(float)));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 9, 4, offsetof(BatchQuad, model) + (4 * sizeof(float)));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float,  10, 4, offsetof(BatchQuad, model) + (8 * sizeof(float)));
-        vao->defineAttribute(buffer->buffer.get(), DataType::Float, 11, 4, offsetof(BatchQuad, model) + (12 * sizeof(float)));
-
-        vao->setInstanced(3, 11);
-
-        m_buffers.insert(std::make_pair(texture, buffer));
-    }
-
-    return m_buffers[texture].get();
-}
-
-void BatchSprites::clear() {
-    for (const auto&[texture, buffer] : m_buffers) {
-        buffer->data.clear();
-    }
 }
 
 void BatchSprites::batch(hg::Entity *entity, Sprite *sprite) {
-    getBuffer(sprite->texture)->data.emplace_back(sprite, entity);
+    auto index = getTextureIndex(sprite->texture);
+    m_data.emplace_back(sprite->size, sprite->offset, index, sprite->color, entity->model());
 }
 
 void BatchSprites::batch(std::string texture, hg::Vec2 size, hg::Vec2 offset, Color color, hg::Mat4 model) {
-    getBuffer(texture)->data.emplace_back(size, offset, color, model);
+    auto index = getTextureIndex(texture);
+    m_data.emplace_back(size, offset, index, color, model);
 }
 
 void BatchSprites::batch(std::string texture, Vec2 size, Vec2 offset, Rect texRect, Color color, Mat4 model){
-    getBuffer(texture)->data.emplace_back(size, offset, texRect.pos, texRect.size, color, model);
+    auto index = getTextureIndex(texture);
+    m_data.emplace_back(size, offset, index, texRect.pos, texRect.size, color, model);
 }
 
-void BatchSprites::render() {
-    for (const auto&[texture, buffer] : m_buffers) {
-
-        std::sort(buffer->data.begin(), buffer->data.end(), [](auto& a, auto& b) {
-            return a.model.get(2, 3) < b.model.get(2, 3); // Compare the Z values of each quad
-        });
-
-        buffer->buffer->bind();
-        buffer->buffer->clear();
-        buffer->buffer->resize(buffer->data.size());
-        buffer->buffer->update(0, buffer->data);
-        buffer->mesh->getVAO()->bind();
-        hg::getTexture(texture)->bind();
-        glDrawArraysInstanced(GL_TRIANGLES, 0, buffer->mesh->size(), buffer->data.size());
-        buffer->buffer->unbind();
+int BatchSprites::getTextureIndex(std::string texture) {
+    if (m_textures.find(texture) == m_textures.end()) {
+        m_textures.insert(std::make_pair(texture, m_textures.size()));
     }
+    return m_textures[texture];
 }
-

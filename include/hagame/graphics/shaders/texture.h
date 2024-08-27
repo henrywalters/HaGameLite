@@ -8,6 +8,21 @@
 #include "../shader.h"
 
 namespace hg::graphics {
+
+    inline const std::string _textureAt(int index) {
+        return "case " + std::to_string(index) + ":\n" + "FragColor=texture(images[" + std::to_string(index) + "], TexCoord) * Color;\nbreak;\n";
+    }
+
+    inline const std::string _texturesAt(int start, int end) {
+        std::string out;
+        for (int i = start; i < end; i++) {
+            out += _textureAt(i);
+        }
+        return out;
+    }
+
+    const int MAX_BATCH_TEXTURES = 16;
+
     const ShaderSource TEXTURE_SHADER {
         "texture",
         "#version 300 es\n"
@@ -62,10 +77,11 @@ namespace hg::graphics {
         "layout (location = 5) in vec2 a_texOffset;\n"
         "layout (location = 6) in vec2 a_texSize;\n"
         "layout (location = 7) in vec4 a_color;\n"
-        "layout (location = 8) in vec4 a_model0;\n"
-        "layout (location = 9) in vec4 a_model1;\n"
-        "layout (location = 10) in vec4 a_model2;\n"
-        "layout (location = 11) in vec4 a_model3;\n"
+        "layout (location = 8) in float a_textureIndex;\n"
+        "layout (location = 9) in vec4 a_model0;\n"
+        "layout (location = 10) in vec4 a_model1;\n"
+        "layout (location = 11) in vec4 a_model2;\n"
+        "layout (location = 12) in vec4 a_model3;\n"
         "\n"
         "uniform mat4 view;\n"
         "uniform mat4 projection;\n"
@@ -74,6 +90,7 @@ namespace hg::graphics {
         "out vec3 Normal;\n"
         "out vec3 FragPos;\n"
         "out vec4 Color;\n"
+        "out float Texture;\n"
         "\n"
         "void main() {\n"
         "\n"
@@ -88,6 +105,7 @@ namespace hg::graphics {
         "    FragPos = vec3(gl_Position);\n"
         "    Color = a_color;\n"
         "    TexCoord = vec2(a_texOffset.x + a_texSize.x * a_texture.x, a_texOffset.y + a_texSize.y * a_texture.y);\n"
+        "    Texture = a_textureIndex; \n"
         "}",
         "#version 300 es\n"
         "\n"
@@ -96,13 +114,22 @@ namespace hg::graphics {
         "in vec2 TexCoord;\n"
         "in vec3 FragPos;\n"
         "in vec4 Color;\n"
+        "in float Texture;\n"
         "\n"
-        "uniform sampler2D image;\n"
+        "uniform sampler2D images[" + std::to_string(MAX_BATCH_TEXTURES) + "];\n"
         "\n"
         "out vec4 FragColor;\n"
         "\n"
         "void main() {\n"
-        "    FragColor = texture(image, TexCoord) * Color;\n"
+        "    int tid = int(Texture);\n"
+//        "    for (int i = 0; i < 32; i++) {\n"
+//        "       if (i == int(tid)) { \n"
+//        "           FragColor=texture(images[i], TexCoord) * Color;\n"
+//        "       }\n"
+//        "    }\n"
+        "    switch (tid) {\n"
+        + _texturesAt(0, MAX_BATCH_TEXTURES) +
+        "    }\n"
         "}"
     };
 }

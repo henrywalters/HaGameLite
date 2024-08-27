@@ -27,8 +27,8 @@ namespace hg::graphics {
     class OrthographicCamera : public Camera {
     public:
 
-        float zNear = -100;
-        float zFar = 100.0;
+        float zNear = -1000;
+        float zFar = 1000.0;
 
         float zoom = 1.0;
         Vec2 size;

@@ -5,6 +5,13 @@
 
 using namespace hg::graphics;
 
+hg::ui::Element::Element():
+    m_quadBorder(Rect::Zero(), 0),
+    m_border(&m_quadBorder)
+{
+
+}
+
 hg::Vec2 hg::ui::Element::mousePos(hg::graphics::Window *window) {
     hg::Vec2 pos = window->input.devices.keyboardMouse()->mousePosition();
     pos[1] = window->size()[1] - pos[1];
@@ -33,14 +40,14 @@ void hg::ui::Element::trigger(hg::utils::enum_t triggerType) {
             DepthFirstTraverse(root, [&](auto other) {
                 if (((Element*)other)->m_focused) {
                     node = (Element*)other;
-                    node->trigger(triggerType);
+                    // node->trigger(triggerType);
                     return false;
                 }
                 return true;
             });
         }
 
-        triggerUp(node);
+        triggerUp(static_cast<Element*>(node));
     }
 }
 
@@ -73,3 +80,23 @@ hg::Rect hg::ui::Element::adjustedRect(Rect rect, offset_t margin, offset_t padd
     float y1 = rect.pos[1] + rect.size[1] - margin[(int)OffsetType::Bottom].value(rect.size[1]) - padding[(int)OffsetType::Bottom].value(rect.size[1]);
     return hg::Rect(Vec2(x0, y0), Vec2(x1 - x0, y1 - y0));
 }
+
+bool hg::ui::Element::contains(hg::Rect rootRect, hg::Vec2 pos) {
+    return getRect(rootRect).contains(pos);
+}
+
+void hg::ui::Element::render(hg::ui::GraphicsContext *context, hg::Rect rootRect, double dt) {
+    auto rect = getRect(rootRect);
+    if (style.borderThickness > 0) {
+    }
+    m_quadBorder.rect(rect);
+    m_quadBorder.thickness(style.borderThickness);
+    m_border.update(&m_quadBorder);
+    context->colorShader.use();
+    context->colorShader.setMat4("model", Mat4::Translation(Vec3(0, 0,depth() + 1)));
+    context->colorShader.setVec4("color", focused() ? style.focusBorderColor : style.borderColor);
+    m_border.render();
+
+    onRender(context, rootRect, dt);
+}
+

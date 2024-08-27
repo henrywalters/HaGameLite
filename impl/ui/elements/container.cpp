@@ -14,12 +14,12 @@ Container::Container():
     m_mesh.update(&m_quad);
 }
 
-void Container::render(GraphicsContext* context, hg::Rect rootRect, double dt) {
+void Container::onRender(GraphicsContext* context, hg::Rect rootRect, double dt) {
     auto rect = getRect(rootRect);
     m_quad.setSizeAndOffset(rect.size, rect.pos);
     m_mesh.update(&m_quad);
     context->colorShader.use();
-    context->colorShader.setVec4("color", focused() ? style.focusForegroundColor : style.backgroundColor);
+    context->colorShader.setVec4("color", focused() ? style.focusBackgroundColor : style.backgroundColor);
     m_mesh.render();
     //context->renderer.quads.batch(rect.size, rect.getCenter(), focused() ? style.focusBackgroundColor : style.backgroundColor, Mat4::Translation(Vec3(0, 0, depth())));
 }
