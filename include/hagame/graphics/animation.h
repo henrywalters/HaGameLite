@@ -52,6 +52,7 @@ namespace hg::graphics {
                     auto node = m_animations.get(anim);
                     if (node->children.size() > 0) {
                         m_animations.setCurrent(node->children[0]->value);
+                        trigger(node->children[0]->value);
                     }
                 }
             })));

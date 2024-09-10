@@ -5,12 +5,11 @@
 #ifndef HAGAME2_ASSETS_H
 #define HAGAME2_ASSETS_H
 
-#include "../utils/file.h"
 #include "../utils/store.h"
 #include "../graphics/shaderProgram.h"
 #include "../graphics/texture.h"
 #include "../graphics/font.h"
-#include "../graphics/spriteSheet.h"
+#include "../graphics/spriteSheetV2.h"
 #include "../audio/stream.h"
 
 namespace hg {
@@ -32,7 +31,7 @@ namespace hg {
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::ShaderProgram>> SHADERS;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Texture>> TEXTURES;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Font>> FONTS;
-        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::SpriteSheet>> SPRITE_SHEETS;
+        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::SpriteSheetV2>> SPRITE_SHEETS;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::audio::Stream>> AUDIO_STREAMS;
     }
 
@@ -62,8 +61,8 @@ namespace hg {
     std::vector<std::shared_ptr<hg::graphics::Texture>> loadTextures(std::vector<std::string> paths);
     hg::graphics::Texture* getTexture(std::string name);
 
-    std::shared_ptr<hg::graphics::SpriteSheet> loadSpriteSheet(std::string name, std::string path);
-    hg::graphics::SpriteSheet* getSpriteSheet(std::string name);
+    std::shared_ptr<hg::graphics::SpriteSheetV2> loadSpriteSheet(std::string name, std::string path);
+    hg::graphics::SpriteSheetV2* getSpriteSheet(std::string name);
 
     std::shared_ptr<hg::graphics::Font> loadFont(std::string name, std::string path);
     hg::graphics::Font* getFont(std::string name);

@@ -33,7 +33,6 @@ Config Config::Parse(std::vector<std::string> lines) {
     hg::utils::ConfigData parsed;
     std::string sectionName;
     for (auto line : lines) {
-        std::cout << line << "\n";
         if (line[0] == '[' && line[line.size() - 1] == ']') {
             sectionName = line.substr(1, line.size() - 2);
             if (parsed.find(sectionName) == parsed.end()) {
@@ -103,7 +102,6 @@ std::string MultiConfig::toString() const {
     for (auto [name, page] : m_configs) {
         lines.push_back("~" + name + "~\n");
         lines.push_back(page.toString());
-        lines.push_back("\n");
     }
 
     return s_join(lines, "\n");
@@ -123,7 +121,6 @@ MultiConfig MultiConfig::Parse(std::string file) {
 
     for (auto line : f_readLines(file)) {
         line = s_trim(line);
-        std::cout << line << "\n";
         if (line[0] == '~' && line[line.size() - 1] == '~') {
             if (pageName != "") {
                 pages.insert(std::make_pair(pageName, page));

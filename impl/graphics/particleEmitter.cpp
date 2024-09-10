@@ -5,6 +5,7 @@
 
 #include "../../include/hagame/graphics/particleEmitter.h"
 #include "../../include/hagame/utils/profiler.h"
+#include "../../include/hagame/math/constants.h"
 
 using namespace hg;
 using namespace hg::utils;
@@ -151,7 +152,7 @@ void ParticleEmitter::emit() {
     utils::Random rand;
     Particle particle;
     particle.gravity = settings.gravity;
-    float theta = rand.real<float>(settings.angle.lower, settings.angle.upper) * (M_PI / 180.0f);
+    float theta = rand.real<float>(settings.angle.lower, settings.angle.upper) * (math::PI / 180.0f);
     particle.velocity = Vec3(cos(theta), sin(theta), 0).normalized() * rand.real<float>(settings.speed.lower, settings.speed.upper);
     particle.startColor = settings.startColor;
     particle.endColor = settings.endColor;
@@ -256,11 +257,11 @@ Vec3 EmitterShapeSettings::generate() {
     if (type == EmitterShape::Point) {
         return Vec3::Zero();
     } else if (type == EmitterShape::Disc) {
-        float angle = rand.real<float>(0, M_PI * 2);
+        float angle = rand.real<float>(0, math::PI * 2);
         float randRadius = rand.real<float>(0, radius.value());
         return randRadius * Vec3(cos(angle), sin(angle), 0);
     } else if (type == EmitterShape::Donut) {
-        float angle = rand.real<float>(0, M_PI * 2);
+        float angle = rand.real<float>(0, math::PI * 2);
         float randRadius = rand.real<float>(innerRadius.value(), outerRadius.value());
         return randRadius * Vec3(cos(angle), sin(angle), 0);
     }

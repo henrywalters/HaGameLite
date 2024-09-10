@@ -5,7 +5,6 @@
 #ifndef HAGAME2_SCRIPT_H
 #define HAGAME2_SCRIPT_H
 
-#include <dlfcn.h>
 #include "object.h"
 #include "../utils/file.h"
 

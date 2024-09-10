@@ -5,6 +5,7 @@
 #ifndef HAGAME2_VECTOR_H
 #define HAGAME2_VECTOR_H
 
+#include <array>
 #include <functional>
 #include <string>
 #include <vector>
@@ -25,42 +26,42 @@ namespace hg::math {
 
             T vector[size];
 
-            Vector(std::vector<T> vect) {
+            constexpr Vector(std::vector<T> vect) {
                 for (int i = 0; i < size; i++) {
                     vector[i] = i < vect.size() ? vect[i] : 0;
                 }
             }
 
-            Vector() {
+            constexpr Vector() {
                 for (int i = 0; i < size; i++) {
                     vector[i] = 0;
                 }
             }
 
-            Vector(T val) {
+            constexpr Vector(T val) {
                 for (int i = 0; i < size; i++) {
                     vector[i] = val;
                 }
             }
 
-            Vector(const Vector& vect) {
+            constexpr Vector(const Vector& vect) {
                 for (int i = 0; i < size; i++) {
                     vector[i] = vect[i];
                 }
             }
 
-            Vector(T vect[size]) {
+            constexpr Vector(T vect[size]) {
                 for (int i = 0; i < size; i++) {
                     vector[i] = vect[i];
                 }
             }
 
-            Vector(T x, T y) {
+            constexpr Vector(T x, T y) {
                 vector[0] = x;
                 vector[1] = y;
             }
 
-            Vector(T x, T y, T z) {
+            constexpr Vector(T x, T y, T z) {
                 vector[0] = x;
                 vector[1] = y;
                 vector[2] = z;
@@ -162,7 +163,7 @@ namespace hg::math {
 
             // Set all elements to zero
 
-            Vector copy() const {
+            constexpr Vector copy() const {
                 Vector copy = Vector();
                 for (int i = 0; i < size; i++) {
                     copy[i] = vector[i];
@@ -184,7 +185,7 @@ namespace hg::math {
                 }
             }
 
-            size_t getSize() const {
+            constexpr size_t getSize() const {
                 return size;
             }
 
@@ -209,7 +210,7 @@ namespace hg::math {
                 return out.str();
             }
 
-            const T distance(const Vector& other) {
+            constexpr T distance(const Vector& other) const {
                 T dist = 0;
                 for (int i = 0; i < size; i++) {
                     dist += std::abs(other[i] - vector[i]);
@@ -217,18 +218,18 @@ namespace hg::math {
                 return dist;
             }
 
-            const T magnitude() {
+            constexpr T magnitude() const {
                 T sum = 0;
                 for (int i = 0; i < size; i++) { sum += vector[i] * vector[i]; }
                 return sqrt(sum);
             }
 
-            const T magnitudeSq() {
+            constexpr T magnitudeSq() const {
                 T mag = magnitude();
                 return mag * mag;
             }
 
-            Vector normalized() const {
+            constexpr Vector normalized() const {
                 Vector copy = *this;
                 T mag = copy.magnitude();
                 if (mag != 0) {
@@ -249,7 +250,7 @@ namespace hg::math {
 
             }
 
-            Vector rounded(float step = 1.0f) const {
+            constexpr Vector rounded(float step = 1.0f) const {
                 Vector copy = *this;
                 for (int i = 0; i < size; i++) {
                     copy[i] = std::round(copy[i]);
@@ -258,7 +259,7 @@ namespace hg::math {
                 return copy;
             }
 
-            Vector abs() const {
+            constexpr Vector abs() const {
                 Vector copy = *this;
                 for (int i = 0; i < size; i++) {
                     copy[i] = std::abs(copy[i]);
@@ -266,7 +267,7 @@ namespace hg::math {
                 return copy;
             }
 
-            T sum() const {
+            constexpr T sum() const {
                 T total = 0;
                 for (int i = 0; i < size; i++) {
                     total += vector[i];
@@ -290,7 +291,13 @@ namespace hg::math {
                 return copy;
             }
 
-            T dot(Vector vect) const {
+            Vector sign() const {
+                Vector copy = *this;
+                for (int i = 0; i < size; i++) { copy[i] = copy[i] > 0 ? 1 : (copy[i] < 0 ? -1 : 0); }
+                return copy;
+            }
+
+            constexpr T dot(Vector vect) const {
                 T sum = 0;
                 for (int i = 0; i < size; i++) {
                     sum += vector[i] * vect[i];
@@ -298,11 +305,11 @@ namespace hg::math {
                 return sum;
             }
 
-            T angleBetween(Vector vect) {
+            constexpr T angleBetween(Vector vect) const {
                 return atan2(cross(vect).dot(Vector::Face()), dot(vect));
             }
 
-            Quaternion<T> rotationBetween(Vector vect) {
+            constexpr Quaternion<T> rotationBetween(Vector vect) {
 
                 float dotProd = dot(vect);
                 float k = sqrt(magnitudeSq() * vect.magnitudeSq());
@@ -319,7 +326,7 @@ namespace hg::math {
             }
 
             // Compute an orthaganol vector
-            Vector orth() const {
+            constexpr Vector orth() const {
                 if (dot(Vector::Top()) == 0.0) {
                     return cross(Vector::Top());
                 }
@@ -332,7 +339,7 @@ namespace hg::math {
             }
 
             // Return the vector such that V.prod(V.inverse()) = V.Identity();
-            Vector inverse() const {
+            constexpr Vector inverse() const {
                 Vector copy = *this;
                 for (int i = 0; i < size; i++) {
                     copy[i] = 1 / vector[i];
@@ -341,7 +348,7 @@ namespace hg::math {
             }
 
 
-            Vector<3, T> cross(Vector vect) const {
+            constexpr Vector<3, T> cross(Vector vect) const {
                 return Vector<3, T>(
                     vector[1] * vect[2] - vector[2] * vect[1],
                     -(vector[0] * vect[2] - vector[2] * vect[0]),
@@ -350,7 +357,7 @@ namespace hg::math {
             }
 
             // element-wise multiplication
-            Vector prod(Vector vect) const {
+            constexpr Vector prod(Vector vect) const {
                 Vector copy = *this;
                 for (int i = 0; i < size; i++) {
                     copy[i] *= vect[i];
@@ -359,7 +366,7 @@ namespace hg::math {
             }
 
             // element-wise division
-            Vector div(Vector vect) const {
+            constexpr Vector div(Vector vect) const {
                 Vector copy = *this;
                 for (int i = 0; i < size; i++) {
                     copy[i] /= vect[i];
@@ -368,13 +375,13 @@ namespace hg::math {
             }
 
             // Return vect projected onto this vector
-            Vector proj(Vector vect) const {
+            constexpr Vector proj(Vector vect) const {
                 return vect * (dot(vect) / vect.dot(vect));
             }
 
             // Cast vector from type T to V
             template <class V>
-            Vector<size, V> cast() {
+            constexpr Vector<size, V> cast() const {
                 Vector<size, V> copy = Vector<size, V>();
                 for (int i = 0; i < size; i++) {
                     copy[i] = static_cast<V>(vector[i]);
@@ -383,7 +390,7 @@ namespace hg::math {
             }
 
             template <size_t toSize>
-            Vector<toSize, T> resize(T defaultValue = 0.0) const {
+            constexpr Vector<toSize, T> resize(T defaultValue = 0.0) const {
                 Vector<toSize, T> copy = Vector<toSize, T>();
                 for (int i = 0; i < toSize; i++) {
                     if (i < size) {
@@ -396,7 +403,7 @@ namespace hg::math {
                 return copy;
             }
 
-            T min() const {
+            constexpr T min() const {
                 bool hasBest = false;
                 T best;
                 for (int i = 0; i < size; i++) {
@@ -408,7 +415,7 @@ namespace hg::math {
                 return best;
             }
 
-            T max() const {
+            constexpr T max() const {
                 bool hasBest = false;
                 T best;
                 for (int i = 0; i < size; i++) {
@@ -420,7 +427,7 @@ namespace hg::math {
                 return best;
             }
 
-            Vector bounded(Vector by) const {
+            constexpr Vector bounded(Vector by) const {
                 auto out = copy();
                 float maxDim = max();
                 float byMaxDim = by.max();
@@ -433,7 +440,7 @@ namespace hg::math {
                 return out;
             }
 
-            Vector fill(Vector to) const {
+            constexpr Vector fill(Vector to) const {
                 auto out = copy();
                 float scale = max() / to.max();
                 return out * (1 / scale);
@@ -441,17 +448,17 @@ namespace hg::math {
 
             void clamp(T low, T high) {
                 for (int i = 0; i < size; i++) {
-                    vector[i] = std::clamp(vector[i], low, high);
+                    vector[i] = hg::math::clamp(vector[i], low, high);
                 }
             }
 
             void clamp(Vector low, Vector high) {
                 for (int i = 0; i < size; i++) {
-                    vector[i] = std::clamp(vector[i], low[i], high[i]);
+                    vector[i] = hg::math::clamp(vector[i], low[i], high[i]);
                 }
             }
 
-            bool approxEqual(Vector other, T epsilon) {
+            constexpr bool approxEqual(Vector other, T epsilon) const {
                 for (int i = 0; i < size; i++) {
                     if (other[i] < vector[i] - epsilon || other[i] > vector[i] + epsilon) {
                         return false;
@@ -462,7 +469,7 @@ namespace hg::math {
 
             // Operator Overloads
 
-            T operator[](const int i) const {
+            constexpr T operator[](const int i) const {
                 return vector[i];
             }
 
@@ -470,22 +477,23 @@ namespace hg::math {
                 return vector[i];
             }
 
-            bool operator==(const Vector& vect) const {
+            constexpr bool operator==(const Vector& vect) const {
                 for (int i = 0; i < size; i++) {
                     if (vector[i] != vect[i]) return false;
                 }
                 return true;
             }
 
-            bool operator!=(const Vector& vect) const {
+            constexpr bool operator!=(const Vector& vect) const {
                 for (int i = 0; i < size; i++) {
                     if (vector[i] != vect[i]) return true;
                 }
                 return false;
             }
 
-            bool operator<(const Vector& vect) const noexcept {
-                T magA, magB = 0.0f;
+            constexpr bool operator<(const Vector& vect) const noexcept {
+                T magA = 0.0f;
+                T magB = 0.0f;
                 for (int i = 0; i < size; i++) {
                     magA += vector[i] * vector[i];
                     magB += vect[i] * vect[i];
@@ -496,7 +504,7 @@ namespace hg::math {
                 return magA < magB;
             }
 
-            Vector operator+(const Vector& vect) const {
+            constexpr Vector operator+(const Vector& vect) const {
                 Vector copy = *this;
                 for (int i = 0; i < size; i++) {
                     copy[i] += vect[i];
@@ -504,7 +512,7 @@ namespace hg::math {
                 return copy;
             }
 
-            Vector operator-(const Vector& vect) const {
+            constexpr Vector operator-(const Vector& vect) const {
                 Vector copy = *this;
                 for (int i = 0; i < size; i++) {
                     copy[i] -= vect[i];
@@ -512,7 +520,7 @@ namespace hg::math {
                 return copy;
             }
 
-            Vector operator*(T scalar) const {
+            constexpr Vector operator*(T scalar) const {
                 Vector copy = *this;
                 for (int i = 0; i < size; i++) {
                     copy[i] *= scalar;
@@ -520,7 +528,7 @@ namespace hg::math {
                 return copy;
             }
 
-            Vector operator/(T scalar) const {
+            constexpr Vector operator/(T scalar) const {
                 Vector copy = *this;
                 for (int i = 0; i < size; i++) {
                     copy[i] /= scalar;
@@ -555,33 +563,56 @@ namespace hg::math {
                 }
                 return *this;
             }
+
+            std::size_t hash() const {
+                std::size_t seed = size;
+                for (auto& i : vector) {
+                    seed ^= i + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+                }
+                return seed;
+            }
         };
 
         template<size_t size, class T>
-        Vector<size, T> operator *(T scalar, const Vector<size, T>& rhs) {
+        inline constexpr Vector<size, T> operator *(T scalar, const Vector<size, T>& rhs) {
             Vector<size, T> copy = Vector<size, T>(rhs);
             return copy * scalar;
         }
 
         template <size_t size, class T>
-        Vector<size, T> normalize(Vector<size, T> vector) {
+        inline constexpr Vector<size, T> normalize(Vector<size, T> vector) {
             return vector.normalized();
         }
 
         template <size_t size, class T>
-        Vector<size, T> cross(Vector<size, T> a, Vector<size, T> b) {
+        inline constexpr Vector<size, T> cross(Vector<size, T> a, Vector<size, T> b) {
             return a.cross(b);
         }
 
         template <size_t size, class T>
-        T dot(Vector<size, T> a, Vector<size, T> b) {
+        inline constexpr T dot(Vector<size, T> a, Vector<size, T> b) {
             return a.dot(b);
         }
 
         template <size_t size, class T>
-        T dot2(Vector<size, T> a) {
+        inline constexpr T dot2(Vector<size, T> a) {
             return a.dot(a);
         }
 
+        template <size_t Size, typename T>
+        inline constexpr T distance(math::Vector<Size, T> a, math::Vector<Size, T> b) {
+            return (b - a).magnitude();
+        }
 }
+
+namespace std {
+    template <size_t Size, typename T> struct hash<hg::math::Vector<Size, T>>
+    {
+        size_t operator()(const hg::math::Vector<Size, T> & x) const
+        {
+            return x.hash();
+        }
+    };
+}
+
 #endif //HAGAME2_VECTOR_H

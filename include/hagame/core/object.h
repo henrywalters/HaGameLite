@@ -15,12 +15,26 @@ namespace hg {
 #define OBJECT_NAME(name) std::string toString() const override { return #name + std::string("<" + std::to_string(id()) + ">"); } \
     std::string toClassName() const override { return #name; }
 
+    /*
+     *
+     * The Object class provides simple reflection and identification for Objects.
+     *
+     * Example Usage:
+     *
+     * class Example {
+     * protected:
+     *     OBJECT_NAME(Example)
+     * }
+     *
+     */
     class Object : public utils::UUID {
     public:
 
-        virtual ~Object() {}
-
         Object() = default;
+
+        Object(utils::uuid_t id):
+            utils::UUID(id)
+        {}
 
         operator std::string() const {
             return toString();

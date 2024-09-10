@@ -28,11 +28,18 @@ namespace hg::math::collisions {
         }
     };
 
+    hg::Vec3 getCenter(hg::Entity* entity);
+    components::Collider* getCollider(hg::Entity* entity);
+    std::optional<Hit> checkEntityAgainstEntity(hg::Entity* a, hg::Entity* b);
+
     std::optional<Hit> checkRayAgainstSphere(Ray ray, Sphere sphere, float &t);
     std::optional<Hit> checkRayAgainstRect(Ray ray, Rect rect, float& t);
     std::optional<Hit> checkRayAgainstCircle(Ray ray, Circle cirle, float& t);
     std::optional<Hit> checkRayAgainstEntity(Ray ray, Entity* entity, float& t);
     std::optional<Hit> checkRayAgainstPolygon(Ray ray, Polygon polygon, float& t);
+    std::optional<Hit> checkCircleAgainstLine(Circle circle, LineSegment line);
+    std::optional<Hit> checkCircleAgainstCircle(Circle a, Circle b);
+    std::optional<Hit> checkCircleAgainstRect(Circle circle, Rect rect);
     //std::optional<Hit> checkRayAgainstCube(Ray ray, Cube cube, float& t);
     //std::optional<Hit> checkRayAgainstCapsule(Ray ray, Capsule capsule, float& t);
    // std::optional<Hit> checkRayAgainstTriangle(Ray ray, Triangle tri, float& t);
@@ -40,7 +47,7 @@ namespace hg::math::collisions {
     //std::optional<Hit> checkRayAgainstDisc(Ray ray, Disc disc, float& t);
     //std::optional<Hit> checkRayAgainstHollowDisc(Ray ray, Vec3 center, Vec3 normal, float innerRadius, float outerRadius, float& t);
 
-    bool checkRectAgainstRect(Rect a, Rect b);
+    std::optional<Hit> checkRectAgainstRect(Rect a, Rect b);
     bool checkRectAgainstPolygon(Rect rect, Polygon polygon);
 }
 

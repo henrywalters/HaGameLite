@@ -1,0 +1,582 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F318CC15-9922-3E8C-BC5A-4930CA90DF90}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>HaGame2</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Development\HaGameLite\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">HaGame2.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">HaGame2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Development\HaGameLite\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">HaGame2.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">HaGame2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Development\HaGameLite\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">HaGame2.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">HaGame2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Development\HaGameLite\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">HaGame2.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">HaGame2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Development\HaGameLite\thirdparty\AudioFile;D:\Development\HaGameLite\thirdparty\box2d\include;D:\Development\HaGameLite\thirdparty\openal-soft\include;D:\Development\HaGameLite\thirdparty\openal-soft\include\AL;D:\Development\HaGameLite\thirdparty\glad\include;D:\Development\HaGameLite\thirdparty\entt\src;D:\Development\HaGameLite\thirdparty\stb;D:\Development\HaGameLite\thirdparty\asio\asio\include;D:\Development\HaGameLite\thirdparty\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>
+      </SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Debug";HaGame2_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\";HaGame2_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Development\HaGameLite\thirdparty\AudioFile;D:\Development\HaGameLite\thirdparty\box2d\include;D:\Development\HaGameLite\thirdparty\openal-soft\include;D:\Development\HaGameLite\thirdparty\openal-soft\include\AL;D:\Development\HaGameLite\thirdparty\glad\include;D:\Development\HaGameLite\thirdparty\entt\src;D:\Development\HaGameLite\thirdparty\stb;D:\Development\HaGameLite\thirdparty\asio\asio\include;D:\Development\HaGameLite\thirdparty\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Development\HaGameLite\thirdparty\AudioFile;D:\Development\HaGameLite\thirdparty\box2d\include;D:\Development\HaGameLite\thirdparty\openal-soft\include;D:\Development\HaGameLite\thirdparty\openal-soft\include\AL;D:\Development\HaGameLite\thirdparty\glad\include;D:\Development\HaGameLite\thirdparty\entt\src;D:\Development\HaGameLite\thirdparty\stb;D:\Development\HaGameLite\thirdparty\asio\asio\include;D:\Development\HaGameLite\thirdparty\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>thirdparty\openal-soft\Debug\OpenAL32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;glfw3.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Development\HaGameLite\thirdparty\glfw\build\src\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Development/HaGameLite/Debug/HaGame2.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Development/HaGameLite/Debug/HaGame2.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Development\HaGameLite\thirdparty\AudioFile;D:\Development\HaGameLite\thirdparty\box2d\include;D:\Development\HaGameLite\thirdparty\openal-soft\include;D:\Development\HaGameLite\thirdparty\openal-soft\include\AL;D:\Development\HaGameLite\thirdparty\glad\include;D:\Development\HaGameLite\thirdparty\entt\src;D:\Development\HaGameLite\thirdparty\stb;D:\Development\HaGameLite\thirdparty\asio\asio\include;D:\Development\HaGameLite\thirdparty\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>
+      </SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release";HaGame2_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\";HaGame2_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Development\HaGameLite\thirdparty\AudioFile;D:\Development\HaGameLite\thirdparty\box2d\include;D:\Development\HaGameLite\thirdparty\openal-soft\include;D:\Development\HaGameLite\thirdparty\openal-soft\include\AL;D:\Development\HaGameLite\thirdparty\glad\include;D:\Development\HaGameLite\thirdparty\entt\src;D:\Development\HaGameLite\thirdparty\stb;D:\Development\HaGameLite\thirdparty\asio\asio\include;D:\Development\HaGameLite\thirdparty\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Development\HaGameLite\thirdparty\AudioFile;D:\Development\HaGameLite\thirdparty\box2d\include;D:\Development\HaGameLite\thirdparty\openal-soft\include;D:\Development\HaGameLite\thirdparty\openal-soft\include\AL;D:\Development\HaGameLite\thirdparty\glad\include;D:\Development\HaGameLite\thirdparty\entt\src;D:\Development\HaGameLite\thirdparty\stb;D:\Development\HaGameLite\thirdparty\asio\asio\include;D:\Development\HaGameLite\thirdparty\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>thirdparty\openal-soft\Release\OpenAL32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Development/HaGameLite/Release/HaGame2.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Development/HaGameLite/Release/HaGame2.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Development\HaGameLite\thirdparty\AudioFile;D:\Development\HaGameLite\thirdparty\box2d\include;D:\Development\HaGameLite\thirdparty\openal-soft\include;D:\Development\HaGameLite\thirdparty\openal-soft\include\AL;D:\Development\HaGameLite\thirdparty\glad\include;D:\Development\HaGameLite\thirdparty\entt\src;D:\Development\HaGameLite\thirdparty\stb;D:\Development\HaGameLite\thirdparty\asio\asio\include;D:\Development\HaGameLite\thirdparty\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>
+      </SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel";HaGame2_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";HaGame2_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Development\HaGameLite\thirdparty\AudioFile;D:\Development\HaGameLite\thirdparty\box2d\include;D:\Development\HaGameLite\thirdparty\openal-soft\include;D:\Development\HaGameLite\thirdparty\openal-soft\include\AL;D:\Development\HaGameLite\thirdparty\glad\include;D:\Development\HaGameLite\thirdparty\entt\src;D:\Development\HaGameLite\thirdparty\stb;D:\Development\HaGameLite\thirdparty\asio\asio\include;D:\Development\HaGameLite\thirdparty\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Development\HaGameLite\thirdparty\AudioFile;D:\Development\HaGameLite\thirdparty\box2d\include;D:\Development\HaGameLite\thirdparty\openal-soft\include;D:\Development\HaGameLite\thirdparty\openal-soft\include\AL;D:\Development\HaGameLite\thirdparty\glad\include;D:\Development\HaGameLite\thirdparty\entt\src;D:\Development\HaGameLite\thirdparty\stb;D:\Development\HaGameLite\thirdparty\asio\asio\include;D:\Development\HaGameLite\thirdparty\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>thirdparty\openal-soft\MinSizeRel\OpenAL32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Development/HaGameLite/MinSizeRel/HaGame2.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Development/HaGameLite/MinSizeRel/HaGame2.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Development\HaGameLite\thirdparty\AudioFile;D:\Development\HaGameLite\thirdparty\box2d\include;D:\Development\HaGameLite\thirdparty\openal-soft\include;D:\Development\HaGameLite\thirdparty\openal-soft\include\AL;D:\Development\HaGameLite\thirdparty\glad\include;D:\Development\HaGameLite\thirdparty\entt\src;D:\Development\HaGameLite\thirdparty\stb;D:\Development\HaGameLite\thirdparty\asio\asio\include;D:\Development\HaGameLite\thirdparty\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>
+      </SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo";HaGame2_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";HaGame2_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Development\HaGameLite\thirdparty\AudioFile;D:\Development\HaGameLite\thirdparty\box2d\include;D:\Development\HaGameLite\thirdparty\openal-soft\include;D:\Development\HaGameLite\thirdparty\openal-soft\include\AL;D:\Development\HaGameLite\thirdparty\glad\include;D:\Development\HaGameLite\thirdparty\entt\src;D:\Development\HaGameLite\thirdparty\stb;D:\Development\HaGameLite\thirdparty\asio\asio\include;D:\Development\HaGameLite\thirdparty\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Development\HaGameLite\thirdparty\AudioFile;D:\Development\HaGameLite\thirdparty\box2d\include;D:\Development\HaGameLite\thirdparty\openal-soft\include;D:\Development\HaGameLite\thirdparty\openal-soft\include\AL;D:\Development\HaGameLite\thirdparty\glad\include;D:\Development\HaGameLite\thirdparty\entt\src;D:\Development\HaGameLite\thirdparty\stb;D:\Development\HaGameLite\thirdparty\asio\asio\include;D:\Development\HaGameLite\thirdparty\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>thirdparty\openal-soft\RelWithDebInfo\OpenAL32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Development/HaGameLite/RelWithDebInfo/HaGame2.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Development/HaGameLite/RelWithDebInfo/HaGame2.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Development\HaGameLite\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Development/HaGameLite/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Development/HaGameLite -BD:/Development/HaGameLite --check-stamp-file D:/Development/HaGameLite/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\WindowsPaths.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeCCompiler.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeCXXCompiler.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeRCCompiler.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeSystem.cmake;D:\Development\HaGameLite\thirdparty\openal-soft\OpenALConfig.cmake;D:\Development\HaGameLite\thirdparty\openal-soft\OpenALTargets.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Development\HaGameLite\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Development/HaGameLite/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Development/HaGameLite -BD:/Development/HaGameLite --check-stamp-file D:/Development/HaGameLite/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\WindowsPaths.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeCCompiler.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeCXXCompiler.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeRCCompiler.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeSystem.cmake;D:\Development\HaGameLite\thirdparty\openal-soft\OpenALConfig.cmake;D:\Development\HaGameLite\thirdparty\openal-soft\OpenALTargets.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Development\HaGameLite\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Development/HaGameLite/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Development/HaGameLite -BD:/Development/HaGameLite --check-stamp-file D:/Development/HaGameLite/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\WindowsPaths.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeCCompiler.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeCXXCompiler.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeRCCompiler.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeSystem.cmake;D:\Development\HaGameLite\thirdparty\openal-soft\OpenALConfig.cmake;D:\Development\HaGameLite\thirdparty\openal-soft\OpenALTargets.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Development\HaGameLite\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Development/HaGameLite/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Development/HaGameLite -BD:/Development/HaGameLite --check-stamp-file D:/Development/HaGameLite/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.28\Modules\Platform\WindowsPaths.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeCCompiler.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeCXXCompiler.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeRCCompiler.cmake;D:\Development\HaGameLite\CMakeFiles\3.28.1\CMakeSystem.cmake;D:\Development\HaGameLite\thirdparty\openal-soft\OpenALConfig.cmake;D:\Development\HaGameLite\thirdparty\openal-soft\OpenALTargets.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Development\HaGameLite\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Development\HaGameLite\impl\core\component.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\vector.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\constants.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\aliases.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\clock.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\timer.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\matrix.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\quaternion.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\hypercube.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\window.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\window.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\resolution.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\color.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\rgb.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\hsv.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\input\devices\keyboardMouse.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\input\input.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\input\inputDevice.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\glfw.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\shader.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\shader.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\thirdparty\glad\glad.h" />
+    <ClCompile Include="D:\Development\HaGameLite\thirdparty\glad\glad.c" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\shaderProgram.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\shaderProgram.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\vertexArray.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\dataTypes.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\transform.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\physics\transform.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\conversions.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\mesh.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\mesh.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\vertex.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\primitives\quad.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\triangle.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\triangle.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\primitives\quad.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\file.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\utils\file.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\string.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\utils\string.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\primitives\cube.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\primitives\cube.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\primitives\disc.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\primitives\disc.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\macros.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\core\gameObject.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\core\object.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\uuid.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\core\gameObject.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\pubsub.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\random.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\windows.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\windows.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\font.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\font.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\text.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\text.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\primitives\line.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\primitives\line.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\lineIntersection.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\interval.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\lineSegment.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\core\scene.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\stateMachine.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\core\game.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\renderPipeline.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\core\hg.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\core\hg.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\core\game.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\frameBuffer.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\store.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\rawTexture.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\texture.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\image.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\image.cpp">
+      <ObjectFileName>$(IntDir)/impl/graphics/image.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\texture.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\renderPasses.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\ray.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\line.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\collisions.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\hypersphere.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\loopingThread.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\core\component.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\config.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\core\script.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\utils\config.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\core\scene.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\components\sprite.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\functions.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\net\timer.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\net\message.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\net\net.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\net\net.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\net\timer.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\net\server.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\net\client.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\core\assets.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\core\assets.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\hash.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\spatialMap.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\camera.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\components\quad.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\tilemap.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\tilemap.cpp">
+      <ObjectFileName>$(IntDir)/impl/graphics/tilemap.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\polygon.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\common\components\topDownPlayerController.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\parameters.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ math\collisions.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\debug.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\debug.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\particleEmitter.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\particleEmitter.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\components\particleEmitterComponent.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\components\particleEmitterComponent.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\components\timeout.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\utils\components\timeout.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\common\weapons.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\common\weapons.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\pathfinding.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\utils\pathfinding.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\interfaces\iNodeMap.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\core\entityMap.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\core\entityMap.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\common\components\healthBar.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\watcher.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\profiler.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\utils\profiler.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\core\groupManager.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\core\groupManager.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\structures\binaryHeap.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\structures\comparable.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\structures\valued.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\core\system.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\textBuffer.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\textBuffer.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\shaders\text.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\behaviorTree.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\utils\behaviorTree.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\helpers.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\steadyRate.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\components\rectCollider.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\components\circleCollider.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ math\functions.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\variant.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\utils\variant.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\math\components\collider.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ math\collisions\collider.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\components\textRenderer.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\spriteSheet.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\spriteSheet.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\primitives\grid.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\primitives\grid.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\shaders\texture.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\components\spriteSheetAnimator.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\structures\graph.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\animation.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\shaders\color.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\shaders\particle.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\common\level2D.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\audio\device.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\audio\device.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\audio\stream.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\audio\stream.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\audio\player.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\audio\player.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\audio\source.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\structures\tsqueue.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\audio\components\listener.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\audio\components\source.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\audio\streamBuffer.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\audio\streamBuffer.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\aspectRatios.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ math\lineIntersection.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\primitives\light.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\primitives\light.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\anchor.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\anchor.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\element.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\elements\button.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\elements\button.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\elements\textButton.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\elements\textButton.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\batchRenderer.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\batchRenderer.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\core\system.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\core\cppScript.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\core\cppScript.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\core\script.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\monitors.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\components\tilemap.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\components\tilemap.cpp">
+      <ObjectFileName>$(IntDir)/impl/graphics/components/tilemap.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\enum.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\utils\enum.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\elements\container.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\input\devices\gamepad.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\input\input.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\input\devices\gamepad.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\input\devices\inputDevice.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\input\devices\keyboardMouse.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\input\deviceManager.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\input\deviceManager.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\input\action.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\input\devices\keyboardMouseEnums.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\events.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\element.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\structures\tree.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\core\entity.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\common\console.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\common\console.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\textureAtlas.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\animatedSprite.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\textureAtlas.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\animatedSprite.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\spriteSheetV2.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\spriteSheetV2.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\common\scenes\loading.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\common\scenes\loading.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\variantMap.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\style.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\elements\gridContainer.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\elements\gridContainer.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\elements\container.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\frame.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\frame.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\elements\label.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\elements\label.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\mixins\textDisplay.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\mixins\textDisplay.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\graphicsContext.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\graphicsContext.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\elements\checkbox.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\elements\checkbox.cpp" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\graphics\primitives\quadBorder.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\graphics\primitives\quadBorder.h" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\elements\divider.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\elements\divider.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\ui\elements\image.h" />
+    <ClCompile Include="D:\Development\HaGameLite\impl\ui\elements\image.cpp">
+      <ObjectFileName>$(IntDir)/impl/ui/elements/image.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\Development\HaGameLite\impl\utils\libLoader.cpp" />
+    <ClInclude Include="D:\Development\HaGameLite\include\hagame\utils\libLoader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Development\HaGameLite\ZERO_CHECK.vcxproj">
+      <Project>{3517C617-DF87-3B75-B46F-752F18747B31}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

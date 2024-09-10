@@ -7,6 +7,7 @@
 
 #include "rgb.h"
 #include "hsv.h"
+#include "../math/constants.h"
 
 namespace hg::graphics {
     class Color : public RGB
@@ -52,7 +53,7 @@ namespace hg::graphics {
             this->vector[3] = a;
         }
 
-        Color(RGB rgb) {
+        Color(const RGB& rgb) {
             this->vector[0] = rgb[0];
             this->vector[1] = rgb[1];
             this->vector[2] = rgb[2];
@@ -81,6 +82,18 @@ namespace hg::graphics {
             return Color(RGB{ 0.0, 0.0, 1.0, 1.0 });
         }
 
+        static Color yellow() {
+            return Color(RGB{1.0, 1.0, 0.0, 1.0});
+        }
+
+        static Color magenta() {
+            return Color(RGB{1.0, 0.0, 1.0, 1.0});
+        }
+
+        static Color cyan() {
+            return Color(RGB{0.0, 1.0, 1.0, 1.0});
+        }
+
         static Color white() {
             return Color(RGB{ 1.0, 1.0, 1.0, 1.0 });
         }
@@ -91,6 +104,10 @@ namespace hg::graphics {
 
         static Color purple() {
             return Color(RGB({ 1.0, 0.0, 1.0, 1.0 }));
+        }
+
+        static Color transparent() {
+            return Color(RGB({0.0, 0.0, 0.0, 0.0}));
         }
 
         static HSV RGB2HSV(RGB rgb) {
@@ -117,13 +134,13 @@ namespace hg::graphics {
                 out[0] = 2.0 + (rgb[2] - rgb[0]) / delta;
             }
             else {
-                out[0] = 4.0 + (rgb[0] - rgb[1]) / delta;
+                out[0] = 4.0 + (rgb[0] - rgb[1]) / delta; 
             }
 
-            out[0] *= M_PI / 3;
+            out[0] *= math::PI / 3;
 
             if (out[0] < 0.0) {
-                out[0] += M_PI * 2;
+                out[0] += math::PI * 2;
             }
             return out;
         }

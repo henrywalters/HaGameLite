@@ -6,6 +6,7 @@
 #define HAGAME2_RANDOM_H
 
 #include <random>
+#include "../graphics/color.h"
 #include "../math/vector.h"
 
 namespace hg::utils {
@@ -59,7 +60,7 @@ namespace hg::utils {
 
         template <size_t N, class T = float>
         hg::math::Vector<N, T> realVector(T min, T max) {
-            hg::math::Vector<N, int> vec;
+            hg::math::Vector<N, T> vec;
             for (int i = 0; i < N; i++) {
                 vec[i] = real<T>(min, max);
             }
@@ -68,8 +69,12 @@ namespace hg::utils {
 
         template <class T = float>
         hg::math::Vector<2, T> unitVector() {
-            T theta = real<T>(0, M_PI * 2);
+            T theta = real<T>(0, math::PI * 2);
             return hg::math::Vector<2, T>(cos(theta), sin(theta));
+        }
+
+        graphics::Color color() {
+            return graphics::Color(real<float>(0, 1), real<float>(0, 1), real<float>(0, 1));
         }
     };
 }

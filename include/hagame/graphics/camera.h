@@ -27,8 +27,8 @@ namespace hg::graphics {
     class OrthographicCamera : public Camera {
     public:
 
-        float zNear = -100;
-        float zFar = 100.0;
+        float zNear = -1000;
+        float zFar = 1000.0;
 
         float zoom = 1.0;
         Vec2 size;
@@ -51,9 +51,9 @@ namespace hg::graphics {
             }
             else {
                 return Mat4::Orthographic(
-                        0,
+                        transform.position[0],
                         transform.position[0] + size[0] * zoom,
-                        0,
+                        transform.position[1],
                         transform.position[1] + size[1] * zoom,
                         zNear,
                         zFar
@@ -88,9 +88,7 @@ namespace hg::graphics {
                 Vec2 pos = Vec2((windowSize[0] - size[0]) * 0.5, 0);
                 return Rect(pos, size);
             } else {
-                std::cout << "RATIO = " << ratio.inverse() * windowSize[0] << "\n";
                 Vec2 size = Vec2(windowSize[0], ratio.inverse() * windowSize[0]);
-                std::cout << "SIZE = " << size << "\n";
                 Vec2 pos = Vec2(0, (windowSize[1] - size[1]) * 0.5);
                 return Rect(pos, size);
             }

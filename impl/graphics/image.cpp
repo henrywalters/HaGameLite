@@ -1,15 +1,18 @@
 //
 // Created by henry on 1/18/23.
 //
+#include <iostream>
 #include "../../include/hagame/graphics/image.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../thirdparty/stb/stb_image.h"
+#include "../../include/hagame/ui/elements/image.h"
+
 
 hg::graphics::Image::Image(std::string _path, hg::graphics::ImageType _type): path(_path), type(_type) {
     data = stbi_load(path.c_str(), &size[0], &size[1], &channels, getStbiEnum(type));
 
     if (data == nullptr) {
-        throw std::runtime_error("Failed to load texture. Check console for more details.");
+        throw std::runtime_error("Failed to load texture: " + path + " Check console for more details.");
     }
 }
 
@@ -48,5 +51,3 @@ hg::graphics::Color hg::graphics::Image::getColor(hg::Vec2i idx) {
         return Color(r, g, b, static_cast<int>(p[3]));
     }
 }
-
-

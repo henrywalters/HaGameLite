@@ -45,6 +45,20 @@ void hg::graphics::components::Tilemap::save(hg::utils::Config *config, std::str
 }
 
 void hg::graphics::components::Tilemap::bake() {
+    bakeGeometry();
+    bakeRectangles();
+    m_isBaked = true;
+}
+
+hg::Vec2i components::Tilemap::getIndex(hg::Vec2 pos) {
+    return pos.div(tileSize).floor().cast<int>();
+}
+
+hg::Vec2 components::Tilemap::getPos(hg::Vec2i index) {
+    return index.cast<float>().prod(tileSize);
+}
+
+void components::Tilemap::bakeGeometry() {
     m_geometry.clear();
 
     hg::utils::SpatialMap2D<bool, int> visited;
@@ -143,14 +157,8 @@ void hg::graphics::components::Tilemap::bake() {
             }
         }
     }
-
-    m_isBaked = true;
 }
 
-hg::Vec2i components::Tilemap::getIndex(hg::Vec2 pos) {
-    return pos.div(tileSize).floor().cast<int>();
-}
-
-hg::Vec2 components::Tilemap::getPos(hg::Vec2i index) {
-    return index.cast<float>().prod(tileSize);
+void components::Tilemap::bakeRectangles() {
+    m_rectangles = tiles.getRectangles(tileSize);
 }

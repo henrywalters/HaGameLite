@@ -16,8 +16,6 @@
 
 #include "../../include/hagame/graphics/glfw.h"
 
-
-
 hg::graphics::FontCharacter::~FontCharacter() {
     glDeleteTextures(1, &id);
 }

@@ -2,8 +2,8 @@
 #include "../../include/hagame/utils/string.h"
 
 std::shared_ptr<hg::graphics::ShaderProgram> hg::loadShader(std::string name, std::string vertPath, std::string fragPath) {
-    auto vertSrc = hg::utils::f_read(ASSET_DIR + vertPath);
-    auto fragSrc = hg::utils::f_read(ASSET_DIR + fragPath);
+    auto vertSrc = hg::utils::f_read(vertPath);
+    auto fragSrc = hg::utils::f_read(fragPath);
 
     auto shader = std::make_shared<hg::graphics::ShaderProgram>(
             name,
@@ -11,7 +11,7 @@ std::shared_ptr<hg::graphics::ShaderProgram> hg::loadShader(std::string name, st
             hg::graphics::Shader::LoadFragment(fragSrc)
     );
 
-    assets::SHADER_PATHS.set(name, assets::ShaderPaths{ASSET_DIR + vertPath, ASSET_DIR + fragPath});
+    assets::SHADER_PATHS.set(name, assets::ShaderPaths{vertPath, fragPath});
     assets::SHADERS.set(name, shader);
 
     return shader;
@@ -61,7 +61,7 @@ hg::graphics::ShaderProgram* hg::getShader(std::string name) {
 }
 
 std::shared_ptr<hg::graphics::Texture> hg::loadTexture(std::string name, std::string path) {
-    auto texture = std::make_shared<hg::graphics::Texture>(ASSET_DIR + path);
+    auto texture = std::make_shared<hg::graphics::Texture>(path);
     assets::TEXTURES.set(name, texture);
     return texture;
 }
@@ -92,7 +92,7 @@ hg::graphics::Texture* hg::getTexture(std::string name) {
 }
 
 std::shared_ptr<hg::graphics::Font> hg::loadFont(std::string name, std::string path) {
-    auto font = std::make_shared<hg::graphics::Font>( ASSET_DIR + path);
+    auto font = std::make_shared<hg::graphics::Font>(path);
     assets::FONTS.set(name, font);
     return font;
 }
@@ -101,14 +101,18 @@ hg::graphics::Font* hg::getFont(std::string name) {
     return assets::FONTS.get(name).get();
 }
 
-std::shared_ptr<hg::graphics::SpriteSheet> hg::loadSpriteSheet(std::string name, std::string path) {
-    auto config = hg::utils::MultiConfig::Parse(path);
-    auto spriteSheet = std::make_shared<hg::graphics::SpriteSheet>(config);
+std::shared_ptr<hg::graphics::SpriteSheetV2> hg::loadSpriteSheet(std::string name, std::string path) {
+    //auto config = hg::utils::MultiConfig::Parse(path);
+    //auto spriteSheet = std::make_shared<hg::graphics::SpriteSheet>(config);
+
+    auto config = hg::utils::Config::Parse(hg::utils::f_readLines(path));
+    auto spriteSheet = std::make_shared<hg::graphics::SpriteSheetV2>(config);
+
     assets::SPRITE_SHEETS.set(name, spriteSheet);
     return spriteSheet;
 }
 
-hg::graphics::SpriteSheet* hg::getSpriteSheet(std::string name) {
+hg::graphics::SpriteSheetV2* hg::getSpriteSheet(std::string name) {
     return assets::SPRITE_SHEETS.get(name).get();
 }
 

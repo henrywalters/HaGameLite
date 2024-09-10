@@ -5,6 +5,9 @@ wasm/CMakeFiles/
 .vscode/
 ALL_BUILD.*
 CMakeCache.txt
-HaGame2.*
 ZERO_CHECK.*
 CMakeFiles/
+wasm/
+Debug/
+Release/
+x64/

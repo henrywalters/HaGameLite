@@ -56,7 +56,8 @@ namespace hg::graphics {
             glTexImage2D(GL_TEXTURE_2D, 0, TextureType, size[0], size[1], 0, DataFormat, DataType, data);
         }
 
-        void update(hg::Vec2i size) {
+        void update(hg::Vec2i _size) {
+            size = _size;
             glBindTexture(GL_TEXTURE_2D, id);
             glTexImage2D(GL_TEXTURE_2D, 0, TextureType, size[0], size[1], 0, DataFormat, DataType, NULL);
         }

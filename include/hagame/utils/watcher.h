@@ -28,12 +28,19 @@ namespace hg::utils {
         void operator=(const T& value) {
             if (m_value != value) {
                 m_value = value;
-                std::cout << "NEW = " << m_value << "\n";
                 onUpdate();
             }
         }
 
         operator T&() {
+            return m_value;
+        }
+
+        T&& ref() const {
+            return m_value;
+        }
+
+        T value() const {
             return m_value;
         }
 

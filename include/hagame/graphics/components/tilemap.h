@@ -43,6 +43,7 @@ namespace hg::graphics::components {
         bool isBaked() const { return m_isBaked; }
         void bake();
         std::vector<hg::math::Polygon> geometry() const { return m_geometry; }
+        std::vector<hg::Rect> rectangles() const { return m_rectangles; }
 
         hg::Vec2i getIndex(hg::Vec2 pos);
         hg::Vec2 getPos(hg::Vec2i index);
@@ -53,6 +54,10 @@ namespace hg::graphics::components {
 
     private:
 
+        void bakeGeometry();
+        void bakeRectangles();
+
+        std::vector<hg::Rect> m_rectangles;
         std::vector<hg::math::Polygon> m_geometry;
         bool m_isBaked;
 
@@ -63,5 +68,6 @@ namespace hg::graphics::components {
     HG_FIELD(Tilemap, bool, collide)
     HG_FIELD(Tilemap, bool, dynamic)
 }
+
 
 #endif //HAGAME2_TILEMAP_COMPONENT_H

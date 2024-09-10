@@ -9,6 +9,11 @@ namespace hg::math {
     constexpr float PI = 3.14159265359;
     constexpr float RAD2DEG = 180.0f / PI;
     constexpr float DEG2RAD = PI / 180.0;
+
+    template <typename T>
+    constexpr T const& clamp(const T& x, const T& hi, const T& lo) {
+        return x < lo ? lo : (x > hi ? hi : x);
+    }
 }
 
 #endif //HAGAME2_CONSTANTS_H

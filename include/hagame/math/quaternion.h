@@ -6,6 +6,7 @@
 #define HAGAME2_QUATERNION_H
 
 #include "vector.h"
+#include "constants.h"
 
 namespace hg::math {
     template <class T>
@@ -117,7 +118,7 @@ namespace hg::math {
             // Pitch
             T pitch = 2 * (a * c - d * b);
             if (abs(pitch) >= 1)
-                pitch = std::copysign(M_PI / 2, pitch);
+                pitch = std::copysign(PI / 2, pitch);
             else
                 pitch = asin(pitch);
 

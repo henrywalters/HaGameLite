@@ -12,6 +12,7 @@
 #include "string.h"
 #include "../graphics/color.h"
 #include "config.h"
+#include "uuid.h"
 
 namespace hg::utils {
 
@@ -40,7 +41,9 @@ namespace hg::utils {
         std::vector<Vec2>,
         std::vector<Vec3i>,
         std::vector<Vec2i>,
-        std::vector<void*>
+        std::vector<void*>,
+        UUID,
+        uuid_t
     >;
 
     template <size_t size, class T>
@@ -98,41 +101,14 @@ namespace hg::utils {
         return out;                                                      \
     } \
 
-
-    struct DataContextPrint {
-        std::string operator()(bool value) { return value ? "true" : "false"; }
-        SIMPLE_VALUE(float)
-        SIMPLE_VALUE(int)
-        SIMPLE_VALUE(double)
-        std::string operator()(void* value) { return "pointer"; }
-        std::string operator()(std::string value) { return value; }
-        OBJ_VALUE(hg::graphics::Color)
-        OBJ_VALUE(Vec4)
-        OBJ_VALUE(Vec3)
-        OBJ_VALUE(Vec2)
-        OBJ_VALUE(Vec4i)
-        OBJ_VALUE(Vec3i)
-        OBJ_VALUE(Vec2i)
-        VECTOR_VALUE(float)
-        VECTOR_VALUE(bool)
-        VECTOR_VALUE(int)
-        VECTOR_VALUE(double)
-        VECTOR_VALUE(std::string)
-        HG_VECTOR_VALUE(Vec4)
-        HG_VECTOR_VALUE(Vec3)
-        HG_VECTOR_VALUE(Vec2)
-        HG_VECTOR_VALUE(Vec4i)
-        HG_VECTOR_VALUE(Vec3i)
-        HG_VECTOR_VALUE(Vec2i)
-        VECTOR_VALUE(void*)
-    };
-
     struct PrintVariant {
         S_SIMPLE(bool)
         S_SIMPLE(int)
         S_SIMPLE(float)
         S_SIMPLE(double)
         std::string operator()(std::string value) { return value; }
+        std::string operator()(UUID uuid) { return std::to_string(uuid.id()); }
+        S_SIMPLE(uuid_t)
         S_HG_VECTOR(hg::graphics::Color, float, 4)
         S_HG_VECTOR(hg::Vec4, float, 4)
         S_HG_VECTOR(hg::Vec3, float, 3)
@@ -159,11 +135,15 @@ namespace hg::utils {
     }
 
     inline variant deserialize(std::string type, std::string raw) {
+        if (type == "hg::utils::UUID") {
+            return UUID(strToT<long>(raw));
+        }
         D_SIMPLE(bool)
         D_SIMPLE(float)
         D_SIMPLE(int)
         D_SIMPLE(double)
         D_SIMPLE(void*)
+        D_SIMPLE(hg::utils::uuid_t)
         if (type == "std::string") { return raw; }
         D_HG_VECTOR(hg::graphics::Color, float, 4)
         D_HG_VECTOR(hg::Vec4, float, 4)

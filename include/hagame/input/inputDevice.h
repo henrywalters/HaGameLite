@@ -4,58 +4,36 @@
 
 #ifndef HAGAME2_INPUTDEVICE_H
 #define HAGAME2_INPUTDEVICE_H
-#include <iostream>
+
 #include "../math/aliases.h"
+#include "../utils/pubsub.h"
+#include "../utils/watcher.h"
+#include "../utils/enum.h"
 
 namespace hg::input {
+
+    using ButtonState = std::unordered_map<hg::utils::enum_t, bool>;
+    using AxesState = std::unordered_map<hg::utils::enum_t, float>;
+
+    struct InputDeviceState {
+        ButtonState buttons;
+        AxesState axes;
+    };
+
     class InputDevice {
     public:
-        Vec2 rAxis;
-        Vec2 lAxis;
-        Vec2 dPad;
 
-        bool select, selectPressed;
-        bool home, homePressed;
-        bool start, startPressed;
+        Notifier onInput;
 
-        bool a, aPressed;
-        bool b, bPressed;
-        bool x, xPressed;
-        bool y, yPressed;
+        void clear();
 
-        float rTriggerRaw, lTriggerRaw;
-        bool lTrigger, lTriggerPressed;
-        bool rTrigger, rTriggerPressed;
-
-        bool lShoulder, lShoulderPressed;
-        bool rShoulder, rShoulderPressed;
-
-        void clear() {
-            //rAxis.zero();
-            //lAxis.zero();
-            //dPad.zero();
-            selectPressed = false;
-            homePressed = false;
-            startPressed = false;
-            lTriggerPressed = false;
-            rTriggerPressed = false;
-            lShoulderPressed = false;
-            rShoulderPressed = false;
-
-            clearDevice();
-        }
+        virtual ButtonState getButtonState() const = 0;
+        virtual ButtonState getButtonPressedState() const = 0;
+        virtual AxesState getAxesState() const = 0;
 
     protected:
-        static void UpdateState(bool& btn, bool& btnPressed, bool state) {
-            btnPressed = false;
-            if (state) {
-                if (!btn) btnPressed = true;
-                btn = true;
-            }
-            else {
-                btn = false;
-            }
-        }
+
+        static void UpdateState(utils::Watcher<bool>& btn, utils::Watcher<bool>& btnPressed, bool state);
 
         virtual void clearDevice() {};
     };

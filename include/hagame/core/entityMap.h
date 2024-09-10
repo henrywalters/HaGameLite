@@ -13,7 +13,7 @@ namespace hg {
     class EntityMap2D {
     public:
 
-        EntityMap2D(hg::Vec2 gridSize);
+        EntityMap2D(hg::Vec2 gridSize = hg::Vec2::Identity());
 
         HG_GET(size_t, size);
 
@@ -24,6 +24,7 @@ namespace hg {
         void insert(hg::Vec2 pos, hg::Vec2 size, hg::Entity* entity);
         void remove(hg::Vec2 pos, hg::Vec2 size, hg::Entity* entity);
         std::vector<hg::Entity*> getNeighbors(hg::Vec2 pos, hg::Vec2 size);
+        std::vector<hg::Entity*> get(hg::Vec2i index);
         std::optional<hg::Entity*> raycast(hg::math::Ray ray, float& t, std::vector<Entity*> ignore = {});
 
     private:

@@ -100,6 +100,8 @@
     Step                                                                                                                                                         \
 );
 
+#define HG_IS_CONCEPT(Name) template <typename T> concept Is##Name = std::is_base_of<Name, T>::value;
+
 #define HG_SYSTEM(Category, Name) static hg::SystemFactory::RegisteredSystem System_##Name = hg::SystemFactory::Register<Name>(#Category, #Name);
 
 #endif //HAGAME2_MACROS_H

@@ -15,48 +15,33 @@
 
 namespace hg {
 
+    class Scene;
+
     // An entity is a GameObject that functions within the ECS paradigm
     class Entity : public GameObject {
     public:
 
-
         HG_GET(std::vector<Component*>, components);
+
+        Scene* scene;
 
         bool active = true;
 
-        Entity(uint32_t enttId, entt::basic_registry<uint32_t, std::allocator<uint32_t>>* registry):
+        Entity(utils::uuid_t enttId, entt::basic_registry<utils::uuid_t, std::allocator<utils::uuid_t>>* registry):
                 m_enttId(enttId),
                 m_registry(registry)
         {
             name = toString();
         };
 
-        /*
-        entt::meta_any addComponent(std::string id) {
-            //&m_registry->emplace<GetComponent(id)::Type>m_enttId);
-            auto emplace_fn = GetComponent(id).func(entt::hashed_string{(id + "_emplace").c_str()}.value());
-            auto invoked = emplace_fn.invoke({}, entt::forward_as_meta(m_registry), m_enttId);
-            //return invoked;
-            auto component = invoked.try_cast<Component>();
-            std::cout << component << "\n";
-            if (component == nullptr) {
-                std::cout << "WARNING: Failed to find Component: " << id << " Are you sure its registered?\n";
-            } else {
-                m_components.push_back(component);
-                component->entity = this;
-            }
+        Entity(utils::uuid_t id, utils::uuid_t enttId, entt::basic_registry<utils::uuid_t, std::allocator<utils::uuid_t>>* registry):
+            GameObject(id),
+            m_enttId(enttId),
+            m_registry(registry)
+        {
+            name = toString();
+        };
 
-            for (auto&& curr : m_registry->storage()) {
-                auto id = curr.first;
-
-                std::cout << id << " = " << "\n";
-            }
-
-            return invoked;
-            //return component;
-        }
-
-         */
         // Constructs a new instance of the component in memory. Be careful with the returned pointer! Another addComponent call or loss of scope may invalidate the pointer
         template <IsComponent T>
         T* addComponent() {
@@ -114,6 +99,12 @@ namespace hg {
             return NULL;
         }
 
+        // Add a child entity
+        hg::Entity* add();
+
+        // Remove this entity and all of its children
+        void remove();
+
     protected:
         [[nodiscard]] std::string toString() const override {
             return "Entity<" + std::to_string(id()) + ">";
@@ -137,7 +128,9 @@ namespace hg {
 
         GroupManager groups;
 
-        EntityManager() {
+        EntityManager(Scene* scene):
+            m_scene(scene)
+        {
             m_registry = std::make_unique<entt::basic_registry<uint32_t, std::allocator<uint32_t>>>();
             root = createEntity();
             root->name = "root";
@@ -166,6 +159,13 @@ namespace hg {
         // Instantiate a new entity belonging to the registry
         Entity* add() {
             auto entity = createEntity();
+            root->addChild(entity.get());
+            return entity.get();
+        }
+
+        // Instantiate a new entity with a custom ID belonging to the registry
+        Entity* add(utils::uuid_t id) {
+            auto entity = createEntity(id);
             root->addChild(entity.get());
             return entity.get();
         }
@@ -206,10 +206,10 @@ namespace hg {
             }
         }
 
-        template<class T>
+        template<typename T, typename... Other>
         void forEach(std::function<void(T*, Entity * )> lambda, std::vector<utils::UUID> ignoreEntities = {},
                                         std::vector<std::string> ignoreTags = {}) {
-            for (auto enttId : m_registry->view<T>()) {
+            for (auto enttId : m_registry->view<T, Other...>()) {
                 auto entity = m_enttMap[enttId].get();
                 if (entity == nullptr) {
                     continue;
@@ -226,13 +226,16 @@ namespace hg {
 
     private:
 
+        Scene* m_scene;
+
         std::unique_ptr<entt::basic_registry<uint32_t, std::allocator<uint32_t>>> m_registry;
         std::unordered_map<uint32_t, std::shared_ptr<Entity>> m_enttMap;
         std::unordered_map<uint32_t, std::shared_ptr<Entity>> m_idMap;
 
-        std::shared_ptr<Entity> createEntity() {
+        std::shared_ptr<Entity> createEntity(std::optional<utils::uuid_t> id = std::nullopt) {
             auto enttId = registry()->create();
-            auto entity = std::make_shared<hg::Entity>(enttId, registry());
+            auto entity = id.has_value() ? std::make_shared<hg::Entity>(id.value(), enttId, registry()) : std::make_shared<hg::Entity>(enttId, registry());
+            entity->scene = m_scene;
             m_enttMap.insert(std::make_pair(enttId, entity));
             m_idMap.insert(std::make_pair(entity->id(), entity));
             return entity;

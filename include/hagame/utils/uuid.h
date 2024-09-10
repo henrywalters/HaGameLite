@@ -48,9 +48,14 @@ namespace hg {
 
             uuid_t id() const { return uuid; }
 
+            void setId(uuid_t id) {
+                uuid = id;
+            }
+
             uuid_t operator() () const {
                 return id();
             }
+
         private:
 
             uuid_t uuid;

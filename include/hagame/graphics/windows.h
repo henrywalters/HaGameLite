@@ -49,6 +49,7 @@ namespace hg::graphics {
 
         static void MouseScrollCallback(GLFWwindow* window, double xOffset, double yOffset);
 
+        static void JoystickCallback(int joystickId, int event);
     };
 }
 

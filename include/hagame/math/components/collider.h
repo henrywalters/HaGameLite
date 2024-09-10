@@ -14,7 +14,6 @@ namespace hg::math::components {
     public:
 
         virtual Cube getBoundingCube() const = 0;
-
         static Collider* FromEntity(Entity* entity);
     };
 

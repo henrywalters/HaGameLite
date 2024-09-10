@@ -40,8 +40,10 @@ namespace hg::audio {
         }
 
         void bind(uint16_t buffer) {
-            m_settings.buffer = buffer;
-            alSourcei(m_source, AL_BUFFER, m_settings.buffer);
+            if (m_settings.buffer != buffer) {
+                m_settings.buffer = buffer;
+                alSourcei(m_source, AL_BUFFER, m_settings.buffer);
+            }
         }
 
         SourceSettings settings() const { return m_settings; }

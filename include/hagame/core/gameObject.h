@@ -14,6 +14,11 @@ namespace hg {
     class GameObject : public Object {
     public:
 
+        GameObject() = default;
+        GameObject(utils::uuid_t id):
+            Object(id)
+        {}
+
         // Transform relative to the parent object
         math::Transform transform;
         std::string name = "";

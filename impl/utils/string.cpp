@@ -18,9 +18,9 @@ std::vector<std::string> hg::utils::s_split(std::string str, char delim) {
         }
     }
 
-    if (tmp.length() > 0) {
+    //if (tmp.length() > 0) {
         parts.push_back(tmp);
-    }
+    //}
 
     return parts;
 }

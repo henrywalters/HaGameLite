@@ -7,28 +7,30 @@ using namespace hg;
 using namespace hg::utils;
 
 void hg::common::WeaponDef::save(Config& config) {
-    config.addSection(name);
-    config.set(name, "automatic", automatic);
-    config.set(name, "chambered", chambered);
-    config.set(name, "infinite", infinite);
-    config.set(name, "limitAmmo", limitAmmo);
-    config.set(name, "shotsPerSecond", shotsPerSecond);
-    config.set(name, "clipSize", clipSize);
-    config.set(name, "maxAmmo", maxAmmo);
-    config.set(name, "minDamage", minDamage);
-    config.set(name, "maxDamage", maxDamage);
+    std::string idStr = std::to_string(id);
+    config.addSection(idStr);
+    config.set(idStr, "automatic", automatic);
+    config.set(idStr, "chambered", chambered);
+    config.set(idStr, "infinite", infinite);
+    config.set(idStr, "limitAmmo", limitAmmo);
+    config.set(idStr, "shotsPerSecond", shotsPerSecond);
+    config.set(idStr, "clipSize", clipSize);
+    config.set(idStr, "maxAmmo", maxAmmo);
+    config.set(idStr, "minDamage", minDamage);
+    config.set(idStr, "maxDamage", maxDamage);
 }
 
 void hg::common::WeaponDef::load(const hg::utils::Config& config) {
-    automatic = config.get<bool>(name, "automatic", false);
-    chambered = config.get<bool>(name, "chambered", false);
-    infinite = config.get<bool>(name, "infinite", false);
-    limitAmmo = config.get<bool>(name, "limitAmmo", false);
-    shotsPerSecond = config.get<int>(name, "shotsPerSecond", 1);
-    clipSize = config.get<int>(name, "clipSize", 10);
-    maxAmmo = config.get<int>(name, "maxAmmo", 100);
-    minDamage = config.get<float>(name, "minDamage", 10);
-    maxDamage = config.get<float>(name, "maxDamage", 10);
+    std::string idStr = std::to_string(id);
+    automatic = config.get<bool>(idStr, "automatic", false);
+    chambered = config.get<bool>(idStr, "chambered", false);
+    infinite = config.get<bool>(idStr, "infinite", false);
+    limitAmmo = config.get<bool>(idStr, "limitAmmo", false);
+    shotsPerSecond = config.get<int>(idStr, "shotsPerSecond", 1);
+    clipSize = config.get<int>(idStr, "clipSize", 10);
+    maxAmmo = config.get<int>(idStr, "maxAmmo", 100);
+    minDamage = config.get<float>(idStr, "minDamage", 10);
+    maxDamage = config.get<float>(idStr, "maxDamage", 10);
 }
 
 void common::Weapon::update(hg::Vec3 pos, hg::Vec3 dir, double dt, bool triggerDown) {

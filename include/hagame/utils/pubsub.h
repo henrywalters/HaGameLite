@@ -28,8 +28,6 @@ namespace hg {
         Notifier* notifier;
         utils::uuid_t id;
         std::function<void()> onNotify;
-
-        ~NotificationListener();
     };
 
     class Notifier {

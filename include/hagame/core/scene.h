@@ -41,6 +41,7 @@ namespace hg {
         EventEmitter<SceneEvent> events;
 
         Scene():
+            entities(this),
             m_random(std::make_unique<utils::Random>()),
             m_game(nullptr)
         {}

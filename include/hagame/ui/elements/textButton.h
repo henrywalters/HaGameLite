@@ -6,24 +6,20 @@
 #define HAGAME2_TEXTBUTTON_H
 
 #include "button.h"
+#include "../mixins/textDisplay.h"
 #include "../../graphics/textBuffer.h"
 
 namespace hg::ui {
-    class TextButton : public Button {
+    class TextButton : public Button, public mixins::TextDisplay {
     public:
 
         TextButton(Vec2 pos, graphics::Font* font, std::string text);
-        void render(double dt) override;
 
-        void setFont(graphics::Font* font);
-        void setText(std::string text);
-        std::string getText();
-        void setPos(Vec2 pos);
-        Rect getRect() override;
+    protected:
 
-    private:
-        
-        graphics::TextBuffer m_text;
+        void onRender(GraphicsContext* context, Rect rootRect, double dt) override;
+
+        OBJECT_NAME(TextButton)
 
     };
 }

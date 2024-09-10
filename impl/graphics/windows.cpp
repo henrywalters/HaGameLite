@@ -8,19 +8,19 @@ hg::Publisher<hg::graphics::WindowEvents, hg::graphics::WindowEvent> hg::graphic
 std::unordered_map<GLFWwindow*, std::shared_ptr<hg::graphics::Window>> hg::graphics::Windows::s_windows = std::unordered_map<GLFWwindow*, std::shared_ptr<Window>>();
 
 void hg::graphics::Windows::KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    s_windows[window]->input.keyboardMouse.keyCallback(key, action);
+    s_windows[window]->input.devices.keyboardMouse()->keyCallback(key, action);
 }
 
 void hg::graphics::Windows::MouseCursorPosCallback(GLFWwindow *window, double xPos, double yPos) {
-    s_windows[window]->input.keyboardMouse.cursorPosCallback(xPos, yPos);
+    s_windows[window]->input.devices.keyboardMouse()->cursorPosCallback(xPos, yPos);
 }
 
 void hg::graphics::Windows::MouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
-    s_windows[window]->input.keyboardMouse.mouseButtonCallback(button, action);
+    s_windows[window]->input.devices.keyboardMouse()->mouseButtonCallback(button, action);
 }
 
 void hg::graphics::Windows::MouseScrollCallback(GLFWwindow *window, double xOffset, double yOffset) {
-    s_windows[window]->input.keyboardMouse.scrollCallback(xOffset, yOffset);
+    s_windows[window]->input.devices.keyboardMouse()->scrollCallback(xOffset, yOffset);
 }
 
 void hg::graphics::Windows::CloseCallback(GLFWwindow *window) {
@@ -34,6 +34,7 @@ void hg::graphics::Windows::ResizeCallback(GLFWwindow *window, int width, int he
 }
 
 void hg::graphics::Windows::MoveCallback(GLFWwindow *window, int x, int y) {
+
     s_windows[window]->m_pos = hg::Vec2i(x, y);
     Windows::Events.emit(WindowEvents::Move, s_windows[window].get());
 }
@@ -50,6 +51,7 @@ hg::graphics::Window *hg::graphics::Windows::Create(std::string title, Resolutio
     glfwSetWindowSizeCallback(window->window(), ResizeCallback);
     glfwSetCharCallback(window->window(), CharCallback);
     glfwSetWindowPosCallback(window->window(), MoveCallback);
+    glfwSetJoystickCallback(JoystickCallback);
     return window.get();
 }
 
@@ -67,10 +69,20 @@ std::vector<hg::graphics::Window *> hg::graphics::Windows::All() {
 }
 
 void hg::graphics::Windows::CharCallback(GLFWwindow *window, unsigned int codepoint) {
-    s_windows[window]->input.keyboardMouse.charCallback(codepoint);
+    s_windows[window]->input.devices.keyboardMouse()->charCallback(codepoint);
 }
 
 hg::graphics::Window *hg::graphics::Windows::Get() {
     return s_windows[0].get();
+}
+
+void hg::graphics::Windows::JoystickCallback(int joystickId, int event) {
+    for (auto& [ptr, window] : s_windows) {
+        if (event == GLFW_CONNECTED) {
+            window->input.devices.connectGamepad(joystickId);
+        } else {
+            window->input.devices.disconnectGamepad(joystickId);
+        }
+    }
 }
 

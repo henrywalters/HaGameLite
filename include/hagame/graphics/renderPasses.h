@@ -49,7 +49,7 @@ namespace hg::graphics {
             glEnable(GL_DEPTH_TEST);
             glDepthFunc(GL_LEQUAL);
             glEnable(GL_BLEND);
-            //glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+            glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         }
 
@@ -66,11 +66,11 @@ namespace hg::graphics {
 
         void render(KeyType key, int attachments) {
             bind(key);
-            unsigned int attach[attachments];
+            std::vector<unsigned int> attach;
             for (int i = 0; i < attachments; i++) {
-                attach[i] = GL_COLOR_ATTACHMENT0 + i;
+                attach.push_back(GL_COLOR_ATTACHMENT0 + i);
             }
-            glDrawBuffers(1, attach);
+            glDrawBuffers(1, attach.data());
             unbind(key);
         }
 

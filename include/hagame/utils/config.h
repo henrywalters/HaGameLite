@@ -5,6 +5,7 @@
 #ifndef HAGAME2_CONFIG_H
 #define HAGAME2_CONFIG_H
 
+#include <array>
 #include <string>
 #include <charconv>
 #include <unordered_map>
@@ -13,6 +14,8 @@
 #include "string.h"
 #include <string_view>
 #include "../math/interval.h"
+#include "uuid.h"
+#include "../math/vector.h"
 
 namespace hg::utils {
     /*
@@ -64,6 +67,11 @@ namespace hg::utils {
     template<>
     inline int strToT<int>(std::string str) {
         return std::atoi(str.c_str());
+    }
+
+    template<>
+    inline uint32_t strToT<uint32_t>(std::string str) {
+        return std::atol(str.c_str());
     }
 
     template<>
@@ -210,6 +218,19 @@ namespace hg::utils {
         }
 
         template <typename T, size_t N>
+        void setListOfVectors(std::string section, std::string key, std::vector<hg::math::Vector<N, T>> list) {
+            std::vector<std::array<T, N>> arrays;
+            for (const auto& vec : list) {
+                std::array<T, N> arr;
+                for (int i = 0; i < N; i++) {
+                    arr[i] = vec[i];
+                }
+                arrays.push_back(arr);
+            }
+            setListOfArrays(section, key, arrays);
+        }
+
+        template <typename T, size_t N>
         std::vector<std::array<T, N>> getListOfArrays(std::string section, std::string key) const {
             std::vector<std::array<T, N>> out;
             auto chunks = s_partition(getRaw(section, key), '{', '}');
@@ -224,6 +245,21 @@ namespace hg::utils {
             }
 
             return out;
+        }
+
+        template <typename T, size_t N>
+        std::vector<math::Vector<N, T>> getListOfVectors(std::string section, std::string key) const {
+            auto arrays = getListOfArrays<T, N>(section, key);
+            std::vector<math::Vector<N, T>> vectors;
+
+            for (const auto& arr : arrays) {
+                math::Vector<N, T> vec;
+                for (int i = 0; i < N; i++) {
+                    vec[i] = arr[i];
+                }
+                vectors.push_back(vec);
+            }
+            return vectors;
         }
 
         std::string toString() const;

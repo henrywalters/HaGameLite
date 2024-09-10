@@ -4,6 +4,23 @@
 
 #include "../../../include/hagame/core/cppScript.h"
 
+#ifdef __APPLE__
+
+// UH OHHHH
+// TODO: Someone build me!
+
+error;
+
+#endif
+
+#ifdef __UNIX__
+#include <dlfcn.h>
+#endif
+
+#ifdef _WIN32
+#include "windows.h"
+#endif
+
 using namespace hg;
 
 std::unique_ptr<CppLibraryManager::lib_map_t> CppLibraryManager::s_libraries;
@@ -35,15 +52,7 @@ CppLibraryWrapper::CppLibraryWrapper(std::string libPath):
 
 void CppLibraryWrapper::reload() {
 
-    if (m_lib) {
-        dlclose(m_lib);
-    }
-
-    m_lib = dlopen(m_path.c_str(), RTLD_NOW);
-    if (m_lib == nullptr) {
-        std::cout << dlerror() << "\n";
-        throw std::runtime_error("Failed to open library or dll");
-    }
+    m_library = std::make_unique<utils::LibLoader>(m_libPath);
 
     for (const auto &[name, script]: m_scripts) {
         script->init = loadFunction<Script::script_init>(name + "_init");
@@ -57,8 +66,7 @@ CppLibraryWrapper::Script *CppLibraryWrapper::get(std::string name) {
 
 template<typename T>
 T CppLibraryWrapper::loadFunction(std::string name) {
-    std::cout << "LOADING FUNCTION: " << name << "\n";
-    return reinterpret_cast<T>(dlsym(m_lib, name.c_str()));
+    return m_library->loadFunction<T>(name);
 }
 
 CppScript::CppScript(CppLibraryWrapper::Script* script):

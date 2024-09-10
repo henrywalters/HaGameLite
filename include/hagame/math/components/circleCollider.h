@@ -20,7 +20,7 @@ namespace hg::math::components {
         }
 
         Circle getCircle() const {
-            return Circle(pos, radius);
+            return Circle(entity->position().resize<2>() + pos, radius);
         }
 
     protected:
