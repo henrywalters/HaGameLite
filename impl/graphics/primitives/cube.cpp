@@ -18,14 +18,14 @@ void hg::graphics::primitives::Cube::computeMesh() {
     Vec3 h = Vec3( m_size[0] / 2.0f, -m_size[1] / 2.0f, -m_size[0] / 2.0f );
 
     std::array<Triangle, 12> triangles = {
-        Triangle(c, b, a), // Face 0 Front
-        Triangle(d, c, a),
+        Triangle(f, g, h), // Face 3 Back
+        Triangle(e, f, h),
         Triangle(b, f, e), // Face 1 Left
         Triangle(a, b, e),
         Triangle(g, c, d), // Face 2 Right
         Triangle(h, g, d),
-        Triangle(f, g, h), // Face 3 Back
-        Triangle(e, f, h),
+        Triangle(c, b, a), // Face 0 Front
+        Triangle(d, c, a),
         Triangle(g, f, b), // Face 4 Top
         Triangle(c, g, b),
         Triangle(d, a, e), // Face 5 Bottom

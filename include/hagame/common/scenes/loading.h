@@ -32,6 +32,7 @@ namespace hg {
             std::string textures = "textures";
             std::string shaders = "shaders";
             std::string fonts = "fonts";
+            std::string meshes = "meshes";
         };
 
         struct Settings {
@@ -69,6 +70,9 @@ namespace hg {
         int m_textureIdx = 0;
         int m_shaderIdx = 0;
         int m_soundIdx = 0;
+        int m_fontIdx = 0;
+        int m_meshIdx = 0;
+        int m_materialIdx = 0;
 
         graphics::RenderPasses<RenderMode> m_renderPasses;
 
@@ -85,6 +89,9 @@ namespace hg {
         std::vector<std::tuple<std::string, std::string>> m_spriteSheets;
         std::vector<std::tuple<std::string, std::string>> m_textures;
         std::vector<std::tuple<std::string, std::string>> m_sounds;
+        std::vector<std::tuple<std::string, std::string>> m_fonts;
+        std::vector<std::tuple<std::string, std::string>> m_meshes;
+        std::vector<std::tuple<std::string, std::string>> m_materials;
 
         hg::graphics::Window* m_window;
 

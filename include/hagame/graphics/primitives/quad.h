@@ -14,10 +14,11 @@ namespace hg::graphics::primitives {
     class Quad : public Mesh {
     public:
 
-        Quad(Vec2 size = Vec2::Zero(), Vec2 offset = Vec2::Zero(), bool flipY = false):
+        Quad(Vec2 size = Vec2::Zero(), Vec2 offset = Vec2::Zero(), bool flipY = false, bool centered = true):
             m_size(size),
             m_offset(offset),
-            m_flipY(flipY)
+            m_flipY(flipY),
+            m_centered(centered)
         {
             update();
         }

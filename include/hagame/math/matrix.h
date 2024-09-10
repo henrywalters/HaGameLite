@@ -80,7 +80,7 @@ namespace hg::math {
             std::vector<T> orth = {
                     2 / (right - left), 0, 0, -(right + left) / (right - left),
                     0, 2 / (top - bottom), 0, -(top + bottom) / (top - bottom),
-                    0, 0, -2 / (zFar - zNear), -(zFar + zNear) / (zFar - zNear),
+                    0, 0, 2 / (zFar - zNear), -(zFar + zNear) / (zFar - zNear),
                     0, 0, 0, 1
             };
             return Matrix<4, 4, T>(orth);

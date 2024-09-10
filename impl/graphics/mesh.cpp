@@ -2,6 +2,8 @@
 // Created by henry on 12/18/22.
 //
 #include "../../include/hagame/graphics/mesh.h"
+#include "../../include/hagame/utils/file.h"
+#include "../../include/hagame/utils/string.h"
 
 hg::graphics::MeshInstance::MeshInstance(Mesh* mesh) {
     m_mesh = mesh;
@@ -69,3 +71,69 @@ hg::math::Transform hg::graphics::MeshBuffer::get(hg::graphics::MeshBufferInstan
     return m_buffer->read(instance);
 }
 
+
+hg::graphics::Mesh::Mesh(std::string objPath) {
+
+    std::vector<Vec3> positions = std::vector<Vec3>();
+    std::vector<Vec2> textures = std::vector<Vec2>();
+    std::vector<Vec3> normals = std::vector<Vec3>();
+
+    unsigned int idx = 0;
+
+    for (auto line : hg::utils::f_readLines(objPath)) {
+        auto parts = utils::s_split(line, ' ');
+
+        if (parts.size() == 0) continue;
+
+        if (parts[0] == "v") {
+            positions.push_back(Vec3(stof(parts[1]), stof(parts[2]), stof(parts[3])));
+        }
+
+        if (parts[0] == "vt") {
+            textures.push_back(Vec2(stof(parts[1]), stof(parts[2])));
+        }
+
+        if (parts[0] == "vn") {
+            normals.push_back(Vec3(stof(parts[1]), stof(parts[2]), stof(parts[3])));
+        }
+
+        if (parts[0] == "f") {
+
+            auto f1 = utils::s_split(parts[1], '/');
+            auto f2 = utils::s_split(parts[2], '/');
+            auto f3 = utils::s_split(parts[3], '/');
+
+            Vertex v1;
+            Vertex v2;
+            Vertex v3;
+
+            v1.position = positions[stoi(f1[0]) - 1];
+            v2.position = positions[stoi(f2[0]) - 1];
+            v3.position = positions[stoi(f3[0]) - 1];
+
+            v1.texCoords = textures[stoi(f1[1]) - 1];
+            v2.texCoords = textures[stoi(f2[1]) - 1];
+            v3.texCoords = textures[stoi(f3[1]) - 1];
+
+            v1.normal = normals[stoi(f1[2]) - 1];
+            v2.normal = normals[stoi(f2[2]) - 1];
+            v3.normal = normals[stoi(f2[2]) - 1];
+
+            vertices.insert(vertices.end(), { v1, v2, v3 });
+            indices.insert(indices.end(), { idx, idx + 1, idx + 2 });
+            idx += 3;
+
+            if (parts.size() == 5) {
+                auto f4 = utils::s_split(parts[4], '/');
+                Vertex v4;
+                v4.position = positions[stoi(f4[0]) - 1];
+                v4.texCoords = textures[stoi(f4[1]) - 1];
+                v4.normal = normals[stoi(f4[2]) - 1];
+
+                vertices.insert(vertices.end(), { v1, v3, v4});
+                indices.insert(indices.end(), { idx, idx + 1, idx + 2 });
+                idx += 3;
+            }
+        }
+    }
+}

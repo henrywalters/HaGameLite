@@ -15,6 +15,7 @@
 #include "../math/interval.h"
 #include "uuid.h"
 #include "../math/vector.h"
+#include "../utils/enum.h"
 
 namespace hg::utils {
     /*
@@ -76,6 +77,11 @@ namespace hg::utils {
     template<>
     inline bool strToT<bool>(std::string str) {
         return (bool) std::atoi(str.c_str());
+    }
+
+    template<>
+    inline hg::utils::enum_t strToT<hg::utils::enum_t>(std::string str) {
+        return std::atol(str.c_str());
     }
 
     template <typename T, size_t N>
