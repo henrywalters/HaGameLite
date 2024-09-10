@@ -14,13 +14,14 @@ MESSAGE(${OPENAL_ROOT_DIR})
 
 set(CMAKE_FIND_DEBUG_MODE FALSE)
 
-# find_package(PkgConfig REQUIRED)
-
 if(NOT EMSCRIPTEN)
 find_package(OpenAL CONFIG REQUIRED HINTS ${OPENAL_ROOT_DIR})
 endif()
 
-# find_package(GLFW3 REQUIRED glfw3)
+if (NOT WIN32)
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(GLFW REQUIRED glfw3)
+endif()
 
 MESSAGE("OPENAL = ${OPENAL_LIBRARY}")
 
@@ -50,8 +51,11 @@ if(NOT EMSCRIPTEN)
     target_include_directories(HaGame2 PRIVATE ${OPENAL_INCLUDE_DIR})
 endif()
 
-target_link_libraries(HaGame2 PUBLIC "${CMAKE_CURRENT_LIST_DIR}/thirdparty/glfw/build/src/glfw3.lib")
-target_link_libraries(HaGame2 PUBLIC ${GLFW_LIBRARIES})
+if (WIN32)
+    target_link_libraries(HaGame2 PUBLIC "${CMAKE_CURRENT_LIST_DIR}/thirdparty/glfw/build/src/glfw3.lib")
+else()
+    target_link_libraries(HaGame2 PUBLIC ${GLFW_LIBRARIES})
+endif()
 # target_link_libraries(HaGame2 PUBLIC Box2D)
 target_link_libraries(HaGame2 PUBLIC ${OPENAL_LIBRARY})
 
