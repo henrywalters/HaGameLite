@@ -30,6 +30,8 @@ Vec2 calculateAnchorPos(Rect container, Rect rect, AnchorType type, float paddin
             return Vec2(container.size[0] - rect.size[0] - padding, padding);
         case AnchorType::Left:
             return Vec2(padding, container.size[1] * 0.5f - rect.size[1] * 0.5f);
+        default:
+            throw std::runtime_error("Unsupported Anchor Type!");
     }
 }
 

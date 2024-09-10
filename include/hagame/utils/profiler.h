@@ -5,7 +5,7 @@
 #ifndef HAGAME2_PROFILER_H
 #define HAGAME2_PROFILER_H
 
-#ifndef __EMSCRIPTEN__
+#ifdef __UNIX__
     #define USE_EXPERIMENTAL 1;
 #endif
 

@@ -5,6 +5,7 @@
 #ifndef HAGAME2_VECTOR_H
 #define HAGAME2_VECTOR_H
 
+#include <array>
 #include <functional>
 #include <string>
 #include <vector>
@@ -447,13 +448,13 @@ namespace hg::math {
 
             void clamp(T low, T high) {
                 for (int i = 0; i < size; i++) {
-                    vector[i] = std::clamp(vector[i], low, high);
+                    vector[i] = hg::math::clamp(vector[i], low, high);
                 }
             }
 
             void clamp(Vector low, Vector high) {
                 for (int i = 0; i < size; i++) {
-                    vector[i] = std::clamp(vector[i], low[i], high[i]);
+                    vector[i] = hg::math::clamp(vector[i], low[i], high[i]);
                 }
             }
 
@@ -491,7 +492,8 @@ namespace hg::math {
             }
 
             constexpr bool operator<(const Vector& vect) const noexcept {
-                T magA, magB = 0.0f;
+                T magA = 0.0f;
+                T magB = 0.0f;
                 for (int i = 0; i < size; i++) {
                     magA += vector[i] * vector[i];
                     magB += vect[i] * vect[i];

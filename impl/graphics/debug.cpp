@@ -4,6 +4,8 @@
 
 #include "../../include/hagame/graphics/debug.h"
 #include "../../include/hagame/utils/clock.h"
+#include "../../include/hagame/math/constants.h"
+#include "../../include/hagame/math/constants.h"
 
 bool hg::graphics::Debug::ENABLED = true;
 
@@ -96,7 +98,7 @@ void hg::graphics::Debug::DrawCircle(float x, float y, float radius, hg::graphic
     s_calls.emplace_back(Call{[x, y, radius, color, thickness](){
         s_line->clearPoints();
         s_line->thickness(thickness);
-        float step = (2 * M_PI) / hg::graphics::DEBUG_CIRCLE_DIVISIONS;
+        float step = (2 * math::PI) / hg::graphics::DEBUG_CIRCLE_DIVISIONS;
         for (int i = 0; i <= hg::graphics::DEBUG_CIRCLE_DIVISIONS; i++) {
             float theta = i * step;
             s_line->addPoint(Vec3(radius * cos(theta), radius * sin(theta), 0));

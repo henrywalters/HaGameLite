@@ -5,6 +5,7 @@
 #ifndef HAGAME2_CONFIG_H
 #define HAGAME2_CONFIG_H
 
+#include <array>
 #include <string>
 #include <charconv>
 #include <unordered_map>

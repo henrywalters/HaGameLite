@@ -1,6 +1,7 @@
 //
 // Created by henry on 11/5/23.
 //
+#include <array>
 #include "../../../include/hagame/graphics/spriteSheet.h"
 #include "../../../include/hagame/utils/helpers.h"
 #include "../../include/hagame/core/assets.h"

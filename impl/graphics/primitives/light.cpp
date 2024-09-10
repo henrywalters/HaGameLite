@@ -1,6 +1,7 @@
 //
 // Created by henry on 12/1/23.
 //
+#include <array>
 #include "../../../include/hagame/graphics/primitives/light.h"
 
 hg::graphics::primitives::Light::Light(std::vector<math::LineSegment> triangles, Vec3 origin, float radius):
@@ -23,7 +24,7 @@ void hg::graphics::primitives::Light::computeMesh() {
         };
 
         for (int i = 0; i < 2; i++) {
-            deltas[i] = std::clamp<float>(deltas[i].magnitude(), 0, m_radius) * deltas[i].normalized();
+            deltas[i] = hg::math::clamp<float>(deltas[i].magnitude(), 0, m_radius) * deltas[i].normalized();
         }
 
         tri.setTextures({Vec2::Zero(), deltas[0].resize<2>(), deltas[1].resize<2>()});

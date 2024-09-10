@@ -7,6 +7,7 @@
 
 #include "rgb.h"
 #include "hsv.h"
+#include "../math/constants.h"
 
 namespace hg::graphics {
     class Color : public RGB
@@ -133,13 +134,13 @@ namespace hg::graphics {
                 out[0] = 2.0 + (rgb[2] - rgb[0]) / delta;
             }
             else {
-                out[0] = 4.0 + (rgb[0] - rgb[1]) / delta;
+                out[0] = 4.0 + (rgb[0] - rgb[1]) / delta; 
             }
 
-            out[0] *= M_PI / 3;
+            out[0] *= math::PI / 3;
 
             if (out[0] < 0.0) {
-                out[0] += M_PI * 2;
+                out[0] += math::PI * 2;
             }
             return out;
         }

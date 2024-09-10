@@ -5,6 +5,7 @@
 #ifndef HAGAME2_KEYBOARD_MOUSE_H
 #define HAGAME2_KEYBOARD_MOUSE_H
 
+#include <array>
 #include "../../math/aliases.h"
 #include "../inputDevice.h"
 #include "../../utils/clock.h"

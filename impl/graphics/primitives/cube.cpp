@@ -2,6 +2,7 @@
 // Created by henry on 12/18/22.
 //
 
+#include <array>
 #include "../../../include/hagame/graphics/primitives/cube.h"
 
 void hg::graphics::primitives::Cube::computeMesh() {

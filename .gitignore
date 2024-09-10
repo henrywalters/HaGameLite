@@ -1,4 +1,13 @@
 cmake-build-debug/
 lib/
 wasm/CMakeFiles/
+.vs/
+.vscode/
+ALL_BUILD.*
+CMakeCache.txt
+ZERO_CHECK.*
+CMakeFiles/
 wasm/
+Debug/
+Release/
+x64/

@@ -120,14 +120,14 @@ void Console::update(double dt) {
     }
 
     if (m_status == Status::Closing) {
-        m_t = std::clamp<float>((m_t - dt / settings.slideDur), 0, 1);
+        m_t = math::clamp<float>((m_t - dt / settings.slideDur), 0, 1);
         if (m_t == 0) {
             m_status = Status::Closed;
         }
     }
 
     if (m_status == Status::Opening) {
-        m_t = std::clamp<float>(m_t + dt / settings.slideDur, 0, 1);
+        m_t = math::clamp<float>(m_t + dt / settings.slideDur, 0, 1);
         if (m_t == 1.0) {
             m_status = Status::Open;
         }
@@ -311,7 +311,7 @@ void Console::updateScrollGfx() {
 void Console::scroll(int amt) {
     if (amt == 0) return;
     m_scrollIdx += amt;
-    m_scrollIdx = std::clamp<int>(m_scrollIdx, 0, std::max<int>(0, m_output.size() - m_outputSize));
+    m_scrollIdx = math::clamp<int>(m_scrollIdx, 0, std::max<int>(0, m_output.size() - m_outputSize));
     updateScrollGfx();
     updateOutput();
 }

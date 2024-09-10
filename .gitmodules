@@ -16,3 +16,6 @@
 [submodule "thirdparty/AudioFile"]
 	path = thirdparty/AudioFile
 	url = git@github.com:adamstark/AudioFile.git
+[submodule "thirdparty/glfw"]
+	path = thirdparty/glfw
+	url = https://github.com/glfw/glfw.git

@@ -6,6 +6,7 @@
 #define HAGAME2_CPPSCRIPT_H
 
 #include "script.h"
+#include "../utils/libLoader.h"
 
 namespace hg {
     class CppScript;
@@ -43,7 +44,8 @@ namespace hg {
 
     private:
 
-        void* m_lib = nullptr;
+        std::unique_ptr<utils::LibLoader> m_library;
+
         std::string m_libPath;
         std::string m_path;
 

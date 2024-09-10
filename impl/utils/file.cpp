@@ -94,7 +94,7 @@ std::vector<std::string> hg::utils::d_listDirs(std::string path) {
 
     for (const auto& entry : std::filesystem::directory_iterator(path)) {
         if (entry.is_directory()) {
-            out.push_back(entry.path());
+            out.push_back(entry.path().generic_string());
         }
     }
     return out;
@@ -104,10 +104,11 @@ std::vector<std::string> hg::utils::d_listFiles(std::string path, bool recursive
     std::vector<std::string> out;
 
     for (const auto& entry : std::filesystem::directory_iterator(path)) {
+        auto path = entry.path().generic_string();
         if (!entry.is_directory()) {
-            out.push_back(entry.path());
+            out.push_back(path);
         } else if (recursive) {
-            auto dirFiles = d_listFiles(entry.path(), true);
+            auto dirFiles = d_listFiles(path, true);
             out.insert(out.end(), dirFiles.begin(), dirFiles.end());
         }
     }

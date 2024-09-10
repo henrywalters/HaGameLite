@@ -26,7 +26,7 @@ void AnimatedSprite::update(double dt) {
     if (looping) {
         m_currentIndex = frame % m_atlasGroup.size();
     } else {
-        m_currentIndex = std::clamp<int>(frame, 0, m_atlasGroup.size());
+        m_currentIndex = hg::math::clamp<int>(frame, 0, m_atlasGroup.size());
     }
 
 
