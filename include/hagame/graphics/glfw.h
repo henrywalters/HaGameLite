@@ -9,11 +9,12 @@
 #ifdef __EMSCRIPTEN__
     #include <emscripten/emscripten.h>
     #define GLFW_INCLUDE_ES3
-    #include "../../../thirdparty/glad/glad.h"
+    #include <glad/glad.h>
 #else
-    #include "../../../thirdparty/glad/glad.h"
+    #include <glad/glad.h>
 #endif
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 #endif //HAGAME2_GLFW_H

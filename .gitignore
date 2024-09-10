@@ -1,3 +1,10 @@
 cmake-build-debug/
 lib/
 wasm/CMakeFiles/
+.vs/
+.vscode/
+ALL_BUILD.*
+CMakeCache.txt
+HaGame2.*
+ZERO_CHECK.*
+CMakeFiles/
