@@ -732,6 +732,30 @@ impl/graphics/batchRenderer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/batchRenderer.cpp.s
 .PHONY : impl/graphics/batchRenderer.cpp.s
 
+impl/graphics/camera.o: impl/graphics/camera.cpp.o
+.PHONY : impl/graphics/camera.o
+
+# target to build an object file
+impl/graphics/camera.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/camera.cpp.o
+.PHONY : impl/graphics/camera.cpp.o
+
+impl/graphics/camera.i: impl/graphics/camera.cpp.i
+.PHONY : impl/graphics/camera.i
+
+# target to preprocess a source file
+impl/graphics/camera.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/camera.cpp.i
+.PHONY : impl/graphics/camera.cpp.i
+
+impl/graphics/camera.s: impl/graphics/camera.cpp.s
+.PHONY : impl/graphics/camera.s
+
+# target to generate assembly for a file
+impl/graphics/camera.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/camera.cpp.s
+.PHONY : impl/graphics/camera.cpp.s
+
 impl/graphics/components/particleEmitterComponent.o: impl/graphics/components/particleEmitterComponent.cpp.o
 .PHONY : impl/graphics/components/particleEmitterComponent.o
 
@@ -1043,6 +1067,30 @@ impl/graphics/primitives/line.s: impl/graphics/primitives/line.cpp.s
 impl/graphics/primitives/line.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/primitives/line.cpp.s
 .PHONY : impl/graphics/primitives/line.cpp.s
+
+impl/graphics/primitives/plane.o: impl/graphics/primitives/plane.cpp.o
+.PHONY : impl/graphics/primitives/plane.o
+
+# target to build an object file
+impl/graphics/primitives/plane.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/primitives/plane.cpp.o
+.PHONY : impl/graphics/primitives/plane.cpp.o
+
+impl/graphics/primitives/plane.i: impl/graphics/primitives/plane.cpp.i
+.PHONY : impl/graphics/primitives/plane.i
+
+# target to preprocess a source file
+impl/graphics/primitives/plane.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/primitives/plane.cpp.i
+.PHONY : impl/graphics/primitives/plane.cpp.i
+
+impl/graphics/primitives/plane.s: impl/graphics/primitives/plane.cpp.s
+.PHONY : impl/graphics/primitives/plane.s
+
+# target to generate assembly for a file
+impl/graphics/primitives/plane.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HaGame2.dir/build.make CMakeFiles/HaGame2.dir/impl/graphics/primitives/plane.cpp.s
+.PHONY : impl/graphics/primitives/plane.cpp.s
 
 impl/graphics/primitives/quad.o: impl/graphics/primitives/quad.cpp.o
 .PHONY : impl/graphics/primitives/quad.o
@@ -2184,6 +2232,9 @@ help:
 	@echo "... impl/graphics/batchRenderer.o"
 	@echo "... impl/graphics/batchRenderer.i"
 	@echo "... impl/graphics/batchRenderer.s"
+	@echo "... impl/graphics/camera.o"
+	@echo "... impl/graphics/camera.i"
+	@echo "... impl/graphics/camera.s"
 	@echo "... impl/graphics/components/particleEmitterComponent.o"
 	@echo "... impl/graphics/components/particleEmitterComponent.i"
 	@echo "... impl/graphics/components/particleEmitterComponent.s"
@@ -2223,6 +2274,9 @@ help:
 	@echo "... impl/graphics/primitives/line.o"
 	@echo "... impl/graphics/primitives/line.i"
 	@echo "... impl/graphics/primitives/line.s"
+	@echo "... impl/graphics/primitives/plane.o"
+	@echo "... impl/graphics/primitives/plane.i"
+	@echo "... impl/graphics/primitives/plane.s"
 	@echo "... impl/graphics/primitives/quad.o"
 	@echo "... impl/graphics/primitives/quad.i"
 	@echo "... impl/graphics/primitives/quad.s"

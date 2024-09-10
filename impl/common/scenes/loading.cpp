@@ -77,6 +77,21 @@ void Loading::onUpdate(double dt) {
         m_message = "Loading sound: " + name + " from " + path;
         std::cout << m_message << "\n";
         hg::loadAudioStream(name, path);
+    } else if (m_fontIdx < m_fonts.size()) {
+        auto &[name, path] = m_fonts[m_fontIdx++];
+        m_message = "Loading font: " + name + " from " + path;
+        std::cout << m_message << "\n";
+        hg::loadFont(name, path);
+    } else if (m_materialIdx < m_materials.size()) {
+        auto &[name, path] = m_materials[m_materialIdx++];
+        m_message = "Loading material: " + name + " from " + path;
+        std::cout << m_message << "\n";
+        hg::loadMaterials(name, path);
+    } else if (m_meshIdx < m_meshes.size()) {
+        auto &[name, path] = m_meshes[m_meshIdx++];
+        m_message = "Loading mesh: " + name + " from " + path;
+        std::cout << m_message << "\n";
+        hg::loadMesh(name, path);
     } else {
         m_message = "Initializing";
         if (m_settings.minLoadingTime <= m_elapsedTime) {
@@ -116,7 +131,7 @@ void Loading::onUpdate(double dt) {
     shader->setMat4("projection", Mat4::Orthographic(0, m_window->size().x(), 0, m_window->size().y(), -100, 100));
     shader->setMat4("model", Mat4::Identity());
 
-    m_renderPasses.get(RenderMode::Color)->texture->bind();
+    m_renderPasses.get(RenderMode::Color)->textures[0]->bind();
     m_mesh.render();
 }
 
@@ -149,15 +164,40 @@ void Loading::loadDefaultShaders() {
 }
 
 void Loading::readFilesForLoading() {
-    /*
-    std::cout << "READING: " << ASSET_DIR + m_settings.folders.audio << "\n";
-    for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.audio, true)) {
-        auto parts = f_getParts(file);
-        auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.audio + "/", "") + parts.name;
-        m_sounds.push_back(std::make_tuple(name, file));
+
+    if (f_exists(ASSET_DIR + m_settings.folders.audio)) {
+        for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.audio, true)) {
+            auto parts = f_getParts(file);
+            auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.audio + "/", "") + parts.name;
+            m_sounds.push_back(std::make_tuple(name, file));
+        }
     }
-     */
+
     std::cout << "READ SOUNDS\n";
+
+    if (f_exists(ASSET_DIR + m_settings.folders.meshes)) {
+        for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.meshes, true)) {
+            auto parts = f_getParts(file);
+            auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.meshes + "/", "") + parts.name;
+            if (parts.extension == "obj") {
+                m_meshes.push_back(std::make_tuple(name, file));
+            } else if (parts.extension == "mtl") {
+                m_materials.push_back(std::make_tuple(name, file));
+            }
+        }
+    }
+
+    std::cout << "READ MESHES\n";
+
+    for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.fonts, true)) {
+        auto parts = f_getParts(file);
+        auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.fonts + "/", "") + parts.name;
+        if (name != m_settings.font && parts.extension == "ttf") {
+            m_fonts.push_back(std::make_tuple(name, file));
+        }
+    }
+
+    std::cout << "READ FONTS\n";
 
     for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.textures, true)) {
         auto parts = f_getParts(file);

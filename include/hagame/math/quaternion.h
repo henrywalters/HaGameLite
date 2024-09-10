@@ -49,7 +49,7 @@ namespace hg::math {
             this->vector[3] = cr * cp * sy - sr * sp * cy;
         }
 
-        Quaternion operator*(const Quaternion& quat) {
+        Quaternion operator*(const Quaternion& quat) const {
             return Quaternion(
                     this->vector[0] * quat[0] - this->vector[1] * quat[1] - this->vector[2] * quat[2] - this->vector[3] * quat[3],
                     this->vector[0] * quat[1] + this->vector[1] * quat[0] + this->vector[2] * quat[3] - this->vector[3] * quat[2],
@@ -58,11 +58,11 @@ namespace hg::math {
             );
         }
 
-        Quaternion operator*(const Vector<3, T>& vec) {
+        Quaternion operator*(const Vector<3, T>& vec) const {
             return *this * Quaternion(0, vec[0], vec[1], vec[2]);
         }
 
-        Quaternion operator*(T scalar) {
+        Quaternion operator*(T scalar) const {
             return Quaternion(
                     this->vector[0] * scalar,
                     this->vector[1] * scalar,
@@ -71,7 +71,7 @@ namespace hg::math {
             );
         }
 
-        Quaternion operator/(T scalar) {
+        Quaternion operator/(T scalar) const {
             return Quaternion(
                     this->vector[0] / scalar,
                     this->vector[1] / scalar,
@@ -80,31 +80,31 @@ namespace hg::math {
             );
         }
 
-        T magnitude() {
+        T magnitude() const {
             return sqrt(this->vector[0] * this->vector[0] + this->vector[1] * this->vector[1] + this->vector[2] * this->vector[2] + this->vector[3] * this->vector[3]);
         }
 
-        Quaternion conjugate() {
+        Quaternion conjugate() const {
             return Quaternion(this->vector[0], -this->vector[1], -this->vector[2], -this->vector[3]);
         }
 
-        Quaternion inverse() {
+        Quaternion inverse() const {
             return conjugate() / magnitude();
         }
 
-        Vector<3, T> imaginary() {
+        Vector<3, T> imaginary() const {
             return Vector<3, T>(this->vector[1], this->vector[2], this->vector[3]);
         }
 
-        T real() {
+        T real() const {
             return this->vector[0];
         }
 
-        Vector<3, T> rotatePoint(Vector<3, T> point) {
+        Vector<3, T> rotatePoint(Vector<3, T> point) const {
             return ((*this * point) * conjugate()).imaginary();
         }
 
-        Vector<3, T> eulerAngles() {
+        Vector<3, T> eulerAngles() const {
             T a = this->vector[0];
             T b = this->vector[1];
             T c = this->vector[2];

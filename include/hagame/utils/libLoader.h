@@ -10,7 +10,7 @@ error;
 
 #endif
 
-#ifdef __UNIX__
+#ifdef __unix__
 #include <dlfcn.h>
 #endif
 
@@ -32,7 +32,7 @@ namespace hg::utils {
 			if (m_library == nullptr) {
 				throw std::runtime_error("Library is not open!");
 			}
-			#ifdef __UNIX__
+			#ifdef __unix__
 				return reinterpret_cast<T>(dlsym(m_library, name.c_str()));
 			#endif
 

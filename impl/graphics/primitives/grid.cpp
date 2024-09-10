@@ -20,6 +20,9 @@ void hg::graphics::primitives::Grid::computeMesh() {
         Triangle triA = Triangle(a, b, c);
         Triangle triB = Triangle(a, c, d);
 
+        triA.setTextures({{0, 0}, {1, 0}, {1, 1}});
+        triB.setTextures({{0, 0,}, {1, 1}, {0, 1}});
+
         triA.insert(vertices, indices);
         triB.insert(vertices, indices);
     }
@@ -33,6 +36,9 @@ void hg::graphics::primitives::Grid::computeMesh() {
 
         Triangle triA = Triangle(a, b, c);
         Triangle triB = Triangle(a, c, d);
+
+        triA.setTextures({{0, 0}, {1, 0}, {1, 1}});
+        triB.setTextures({{0, 0,}, {1, 1}, {0, 1}});
 
         triA.insert(vertices, indices);
         triB.insert(vertices, indices);

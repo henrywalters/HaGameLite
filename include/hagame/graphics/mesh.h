@@ -19,6 +19,10 @@ namespace hg::graphics {
     // A Mesh is a collection of vertices and their indices representing a 3D object
     class Mesh {
     public:
+
+        Mesh() = default;
+        Mesh(std::string objPath);
+
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
 
