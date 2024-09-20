@@ -5,6 +5,7 @@
 #ifndef HAGAME2_TREE_H
 #define HAGAME2_TREE_H
 
+#include <functional>
 #include <vector>
 #include <stack>
 #include <deque>

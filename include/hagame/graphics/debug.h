@@ -16,6 +16,7 @@
 #include "../math/aliases.h"
 #include "../math/lineSegment.h"
 #include "../math/ray.h"
+#include "primitives/cube.h"
 
 namespace hg::graphics {
 
@@ -37,6 +38,7 @@ namespace hg::graphics {
         static void FillRect(Rect rect, Color color, double duration = 0.0);
         static void FillRect(float x, float y, float width, float height, Color color, double duration = 0.0);
         static void FillCircle(float x, float y, float radius, Color color, double duration = 0.0);
+        static void FillCube(Cube cube, Color color, double duration = 0.0);
 
         static void DrawLine(float x1, float y1, float x2, float y2, Color color, float thickness = 1.0f, double duration = 0.0);
         static void DrawLine(math::LineSegment line, Color color, float thickness = 1.0f, double duration = 0.0);
@@ -48,6 +50,7 @@ namespace hg::graphics {
         static void DrawRay(math::Ray ray, Color color, float triangleSize = 5.0f, float thickness = 1.0f, double duration = 0.0);
         static void DrawCircle(float x, float y, float radius, Color color, float thickness = 1.0f, double duration = 0.0);
         static void DrawText(hg::Vec3 pos, std::string text, Color color, TextHAlignment alignmentH = TextHAlignment::Left, TextVAlignment alignmentV = TextVAlignment::Top, double duration = 0.0);
+
 
         static void Render();
 
@@ -64,6 +67,9 @@ namespace hg::graphics {
 
         static inline std::unique_ptr<primitives::Quad> s_quad;
         static inline std::unique_ptr<MeshInstance> s_quadMesh;
+
+        static inline std::unique_ptr<primitives::Cube> s_cube;
+        static inline std::unique_ptr<MeshInstance> s_cubeMesh;
 
         static inline std::unique_ptr<primitives::Disc> s_disc;
         static inline std::unique_ptr<MeshInstance> s_discMesh;

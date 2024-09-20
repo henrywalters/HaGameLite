@@ -109,11 +109,14 @@ namespace hg::math {
         }
 
         static Matrix<4, 4, T> Perspective(T fov, T aspect, T zNear, T zFar) {
-            T top = tan(fov / 2) * zNear;
-            T bottom = -top;
-            T right = top * aspect;
-            T left = -top * aspect;
-            return Perspective(left, right, bottom, top, zNear, zFar);
+            Matrix<4, 4, T> out;
+            auto tanFov = std::tan(fov / 2);
+            out.set(0, 0, 1.0f / (aspect * tanFov));
+            out.set(1, 1, 1.0f / tanFov);
+            out.set(2, 2, -(zFar + zNear) / (zFar - zNear));
+            out.set(3, 2, -1.0f);
+            out.set(2, 3, -(2.0f * zFar * zNear) / (zFar - zNear));
+            return out;
         }
 
         static Matrix<4, 4, T> Perspective(T left, T right, T bottom, T top, T zNear, T zFar) {

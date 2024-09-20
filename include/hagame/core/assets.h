@@ -13,6 +13,7 @@
 #include "../audio/stream.h"
 #include "../graphics/mesh.h"
 #include "../graphics/material.h"
+#include "../graphics/model.h"
 
 namespace hg {
 #ifdef __EMSCRIPTEN__
@@ -37,6 +38,7 @@ namespace hg {
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::audio::Stream>> AUDIO_STREAMS;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Mesh>> MESHES;
         inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Materials>> MATERIALS;
+        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Model>> MODELS;
     }
 
     // Load a shader directly by name with path
@@ -79,6 +81,8 @@ namespace hg {
     std::shared_ptr<hg::graphics::Materials> loadMaterials(std::string name, std::string path);
     hg::graphics::Materials* getMaterials(std::string name);
 
+    std::shared_ptr<hg::graphics::Model> loadModel(std::string name, std::string path);
+    hg::graphics::Model* getModel(std::string name);
 }
 
 

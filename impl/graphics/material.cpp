@@ -7,9 +7,9 @@
 
 using namespace hg::graphics;
 
-hg::Vec3 getVec(std::string line) {
+Color getColor(std::string line) {
     auto parts = hg::utils::s_split(line, ' ');
-    return hg::Vec3(std::stof(parts[1]), std::stof(parts[2]), std::stof(parts[3]));
+    return Color(std::stof(parts[1]), std::stof(parts[2]), std::stof(parts[3]), 1.0f);
 }
 
 Materials::Materials(std::string mtlPath) {
@@ -32,15 +32,15 @@ Materials::Materials(std::string mtlPath) {
         if (command == "Ns") {
             m_materials[currentMtl].shininess = std::stof(parts[1]);
         } else if (command == "Ka") {
-            m_materials[currentMtl].albedo = getVec(line);
+            m_materials[currentMtl].albedo = getColor(line);
         } else if (command == "Kd") {
-            m_materials[currentMtl].diffuse = getVec(line);
+            m_materials[currentMtl].diffuse = getColor(line);
         } else if (command == "Ke") {
-            m_materials[currentMtl].specular = getVec(line);
+            m_materials[currentMtl].specular = getColor(line);
         } else if (command == "Ni") {
             m_materials[currentMtl].opticalDensity = std::stof(parts[1]);
         } else if (command == "d") {
-            m_materials[currentMtl].diffuse = std::stof(parts[1]);
+            m_materials[currentMtl].dissolve = std::stof(parts[1]);
         } else if (command == "illum") {
             m_materials[currentMtl].illumModel = std::stoi(parts[1]);
         } else if (command == "map_Kd") {

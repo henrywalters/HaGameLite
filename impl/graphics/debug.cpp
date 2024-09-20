@@ -14,6 +14,8 @@ void hg::graphics::Debug::Initialize(hg::graphics::ShaderProgram* shader, Shader
     s_textShader = textShader;
     s_quad = std::make_unique<primitives::Quad>(Vec2::Zero(), Vec2::Zero());
     s_quadMesh = std::make_unique<MeshInstance>(s_quad.get());
+    s_cube = std::make_unique<primitives::Cube>(Vec3::Identity());
+    s_cubeMesh = std::make_unique<MeshInstance>(s_cube.get());
     s_disc = std::make_unique<primitives::Disc>(0, hg::graphics::DEBUG_CIRCLE_DIVISIONS);
     s_discMesh = std::make_unique<MeshInstance>(s_disc.get());
     s_line = std::make_unique<primitives::Line>();
@@ -171,6 +173,16 @@ void hg::graphics::Debug::Render() {
     } catch (std::exception& e) {
         std::cout << e.what() << "\n";
     }
+}
+
+void hg::graphics::Debug::FillCube(hg::Cube cube, hg::graphics::Color color, double duration) {
+    if (!Debug::ENABLED) return;
+    s_calls.emplace_back(Call{[cube, color](){
+        s_shader->use();
+        s_shader->setMat4("model", Mat4::Translation(cube.pos) * Mat4::Scale(cube.size));
+        s_shader->setVec4("color", color);
+        s_cubeMesh->render();
+    }});
 }
 
 

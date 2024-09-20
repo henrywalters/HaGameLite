@@ -91,6 +91,7 @@ void Loading::onUpdate(double dt) {
         auto &[name, path] = m_meshes[m_meshIdx++];
         m_message = "Loading mesh: " + name + " from " + path;
         std::cout << m_message << "\n";
+        hg::loadModel(name, path);
         hg::loadMesh(name, path);
     } else {
         m_message = "Initializing";

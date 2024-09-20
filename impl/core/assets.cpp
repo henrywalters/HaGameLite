@@ -178,4 +178,14 @@ hg::graphics::Materials *hg::getMaterials(std::string name) {
     return assets::MATERIALS.get(name).get();
 }
 
+std::shared_ptr<hg::graphics::Model> hg::loadModel(std::string name, std::string path) {
+    auto model = std::make_shared<Model>(path);
+    assets::MODELS.set(name, model);
+    return model;
+}
+
+hg::graphics::Model *hg::getModel(std::string name) {
+    return assets::MODELS.get(name).get();
+}
+
 

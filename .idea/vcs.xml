@@ -4,6 +4,7 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/thirdparty/AudioFile" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/thirdparty/asio" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/thirdparty/assimp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/thirdparty/box2d" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/thirdparty/entt" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/thirdparty/openal-soft" vcs="Git" />

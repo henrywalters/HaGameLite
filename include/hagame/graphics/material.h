@@ -6,12 +6,14 @@
 #define HAGAME2_MATERIAL_H
 
 #include "../math/aliases.h"
+#include "color.h"
 
 namespace hg::graphics {
     struct Material {
-        Vec3 albedo;
-        Vec3 diffuse;
-        Vec3 specular;
+        graphics::Color albedo;
+        graphics::Color diffuse;
+        graphics::Color specular;
+        graphics::Color emissive;
         float shininess;
         float opticalDensity;
         float dissolve;

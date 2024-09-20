@@ -37,7 +37,8 @@ void hg::graphics::MeshInstance::update(Mesh* mesh) {
 void hg::graphics::MeshInstance::render() {
     m_vao->bind();
     m_ebo->bind();
-    glDrawArrays(GL_TRIANGLES, 0, m_mesh->vertices.size());
+    glDrawElements(GL_TRIANGLES, m_mesh->indices.size(), GL_UNSIGNED_INT, 0);
+    //glDrawArrays(GL_TRIANGLES, 0, m_mesh->vertices.size());
 }
 
 void hg::graphics::MeshBuffer::initialize(int layoutStart) {

@@ -66,7 +66,7 @@ namespace hg::graphics {
         hg::Vec3 up = hg::Vec3::Top();
         hg::Vec3 forward = hg::Vec3::Face();
 
-        float fov = hg::math::PI / 3.0;
+        float fov = hg::math::PI * 2.0 / 3.0;
         float aspect = 1.0f;
         float zNear = 0.001f;
         float zFar = 1000.0f;

@@ -88,11 +88,11 @@ namespace hg::graphics {
 
         void render(KeyType key, int attachments) {
             bind(key);
-            std::vector<unsigned int> attach;
+            unsigned int attach[attachments];
             for (int i = 0; i < attachments; i++) {
-                attach.push_back(GL_COLOR_ATTACHMENT0 + i);
+                attach[i] = GL_COLOR_ATTACHMENT0 + i;
             }
-            glDrawBuffers(1, attach.data());
+            glDrawBuffers(attachments, attach);
             unbind(key);
         }
 
