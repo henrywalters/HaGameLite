@@ -11,6 +11,13 @@ namespace hg {
 
         using uuid_t = uint32_t;
 
+        struct Identity {
+            template <typename T>
+            hg::utils::uuid_t operator()(const T& data) {
+                return data;
+            }
+        };
+
         static std::random_device device;
         static std::mt19937_64 engine(device());
         static std::uniform_int_distribution<uuid_t> uniDist;
@@ -60,6 +67,9 @@ namespace hg {
 
             uuid_t uuid;
         };
+
+        template <typename T>
+        concept IsUUID = std::is_base_of_v<UUID, T>;
     }
 }
 

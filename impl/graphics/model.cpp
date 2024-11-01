@@ -64,6 +64,7 @@ Model::Model(std::string path) {
     std::function<void(ModelNode*, aiNode*, const aiScene*)> processNode = [&](ModelNode* modelNode, aiNode* node, const aiScene* scene) {
         for (int i = 0; i < node->mNumMeshes; i++) {
             auto mesh = scene->mMeshes[node->mMeshes[i]];
+            modelNode->name = node->mName.C_Str();
             modelNode->meshes.push_back(processMesh(mesh, scene));
             modelNode->instances.push_back(MeshInstance(&modelNode->meshes.back()));
 
@@ -90,12 +91,16 @@ Model::Model(std::string path) {
     processNode(m_nodes.back().get(), scene->mRootNode, scene);
 }
 
-void Model::render() {
-    structures::Tree::DepthFirstTraverse(root(), [](const auto& node){
-        auto modelNode = static_cast<ModelNode*>(node);
+void Model::render(ShaderProgram* shader) {
+    structures::Tree::DepthFirstTraverse<ModelNode>(root(), [shader](const auto& modelNode){
         for (int i = 0; i < modelNode->instances.size(); i++) {
+            shader->setVec4("material.albedo", modelNode->materials[i].albedo);
+            shader->setVec4("material.diffuse", modelNode->materials[i].diffuse);
+            shader->setVec4("material.specular", modelNode->materials[i].specular);
+            shader->setVec4("material.emissive", modelNode->materials[i].emissive);
+            shader->setFloat("material.shininess", modelNode->materials[i].shininess);
+            shader->setBool("material.useTexture", modelNode->materials[i].mapTexture != "");
             modelNode->instances[i].render();
-            std::cout << modelNode->materials[i].shininess << "\n";
         }
         return true;
     });

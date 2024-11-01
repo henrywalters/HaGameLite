@@ -51,44 +51,32 @@ void hg::Game::tick() {
 
     onBeforeUpdate();
 
-    if (!running()) {
-        return;
-    }
-
     onUpdate(m_dt);
-
-    if (!running()) {
-        return;
-    }
 
     if (doFixedUpdate) {
         onFixedUpdate(m_fixedDt);
-
-        if (!running()) {
-            return;
-        }
     }
 
     if (scenes()->hasActive()) {
         if (doFixedUpdate) {
             scenes()->active()->fixedUpdate(m_fixedDt);
         }
-        if (!running()) {
-            return;
-        }
         scenes()->active()->update(m_dt);
-        if (!running()) {
-            return;
-        }
     }
 
-    if (!running()) {
-        return;
-    }
     onAfterUpdate();
+
+    if (m_requestedShutdown) {
+        running(false);
+    }
+
 }
 
 void hg::Game::destroy() {
     m_scenes->clear();
     onDestroy();
+}
+
+void hg::Game::requestShutdown() {
+    m_requestedShutdown = true;
 }

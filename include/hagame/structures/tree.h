@@ -42,33 +42,36 @@ namespace hg::structures {
             return node;
         }
 
-        static void Traverse(Tree* tree, std::function<void(Tree*)> lambda) {
-            lambda(tree);
+        template <typename T> requires std::is_base_of_v<Tree, T>
+        static void Traverse(Tree* tree, std::function<void(T*)> lambda) {
+            lambda(static_cast<T*>(tree));
             for (auto& child : tree->children()) {
                 Traverse(child, lambda);
             }
         }
 
-        static void DepthFirstTraverse(Tree* tree, std::function<bool(Tree*)> lambda) {
+        template <typename T> requires std::is_base_of_v<Tree, T>
+        static void DepthFirstTraverse(Tree* tree, std::function<bool(T*)> lambda) {
             std::stack<Tree*> nodes;
             nodes.push(tree);
             while (!nodes.empty()) {
                 auto node = nodes.top();
                 nodes.pop();
-                if (!lambda(node)) { return ; }
+                if (!lambda(static_cast<T*>(node))) { return ; }
                 for (auto& child : node->children()) {
                     nodes.push(child);
                 }
             }
         }
 
-        static void BreadthFirstTraverse(Tree* tree, std::function<bool(Tree*)>lambda) {
+        template <typename T> requires std::is_base_of_v<Tree, T>
+        static void BreadthFirstTraverse(Tree* tree, std::function<bool(T*)>lambda) {
             std::deque<Tree*> nodes;
             nodes.push_back(tree);
             while (!nodes.empty()) {
                 auto node = nodes.front();
                 nodes.pop_front();
-                if (!lambda(node)) { return ; }
+                if (!lambda(static_cast<T*>(node))) { return ; }
                 for (auto& child : node->children()) {
                     nodes.push_back(child);
                 }

@@ -15,7 +15,9 @@ namespace hg::ui {
     class Frame {
     public:
 
-        Frame(Rect rect);
+        Frame() = default;
+
+        Rect rect;
 
         template <IsElement El, class... Args>
         El* addElement(Args &&... args) {
@@ -40,12 +42,13 @@ namespace hg::ui {
 
         bool contains(Element* element, hg::Vec2 pos) const;
 
+        void resize();
+
     private:
 
         GraphicsContext m_context;
         std::vector<Element*> m_elements;
         std::set<hg::utils::uuid_t> m_hovered;
-        Rect m_rect;
         Container m_root;
 
         void initializeShader(graphics::ShaderProgram* shader);

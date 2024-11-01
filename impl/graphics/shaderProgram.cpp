@@ -53,6 +53,11 @@ int hg::graphics::ShaderProgram::getAttrib(std::string var) {
     return glGetAttribLocation(id, var.c_str());
 }
 
+void hg::graphics::ShaderProgram::setBool(std::string var, bool val)
+{
+    glUniform1i(getUniform(var), val);
+}
+
 void hg::graphics::ShaderProgram::setInt(std::string var, int val)
 {
     glUniform1i(getUniform(var), val);

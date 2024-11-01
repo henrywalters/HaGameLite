@@ -40,6 +40,9 @@ class Game : public utils::LoopingThread {
         void initialize();
         void destroy();
 
+        // Gracefully shutdown after a full game loop to prevent crashes.
+        void requestShutdown();
+
         HG_GET(double, dt);
         HG_GET(double, fixedDt);
         HG_GET_SET(bool, running, destroy);
@@ -64,6 +67,7 @@ class Game : public utils::LoopingThread {
 
     private:
 
+        bool m_requestedShutdown = false;
         bool m_running;
 
         std::string m_name;

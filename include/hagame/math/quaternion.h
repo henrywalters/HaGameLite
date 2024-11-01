@@ -104,6 +104,41 @@ namespace hg::math {
             return ((*this * point) * conjugate()).imaginary();
         }
 
+        Quaternion<T> normalized() const {
+            T mag = magnitude();
+            return (*this) / mag;
+        }
+
+        // Spherical Linear Interpolation (Slerp)
+        Quaternion<T> slerp(const Quaternion<T>& target, T t) const {
+            T dotProduct = dot(target);
+
+            // If the dot product is negative, use the opposite direction
+            if (dotProduct < 0.0f) {
+                return slerp(-target, t);
+            }
+
+            // If the quaternions are very close, use linear interpolation
+            if (dotProduct > 0.9995f) {
+                return normalized() * (1 - t) + target.normalize() * t;
+            }
+
+            dotProduct = std::clamp(dotProduct, -1.0f, 1.0f);
+            T theta_0 = acos(dotProduct); // angle between the two quaternions
+            T theta = theta_0 * t; // angle at the interpolation point
+            Quaternion<T> targetNorm = (target - (*this) * dotProduct).normalize(); // perpendicular quaternion
+
+            return (*this) * cos(theta) + targetNorm * sin(theta);
+        }
+
+        // Computes the dot product between two quaternions
+        T dot(const Quaternion<T>& quat) const {
+            return this->vector[0] * quat[0] +
+                   this->vector[1] * quat[1] +
+                   this->vector[2] * quat[2] +
+                   this->vector[3] * quat[3];
+        }
+
         Vector<3, T> eulerAngles() const {
             T a = this->vector[0];
             T b = this->vector[1];
@@ -111,23 +146,19 @@ namespace hg::math {
             T d = this->vector[3];
 
             // Roll
-            T roll_a = 2 * (a * b + c * d);
-            T roll_b = 1 - 2 * (b * b + c + c);
-            T roll = atan2(roll_a, roll_b);
+            T roll = atan2(2 * (a * b + c * d), 1 - 2 * (b * b + c * c));
 
             // Pitch
-            T pitch = 2 * (a * c - d * b);
-            if (abs(pitch) >= 1)
-                pitch = std::copysign(PI / 2, pitch);
-            else
-                pitch = asin(pitch);
+            T pitch = asin(2 * (a * c - d * b));
+
+            // Clamp pitch to the range [-pi/2, pi/2]
+            if (pitch > PI / 2) pitch = PI / 2;
+            else if (pitch < -PI / 2) pitch = -PI / 2;
 
             // Yaw
-            T yaw_a = 2 * (a * d + b * c);
-            T yaw_b = 1 - 2 * (c * c + d * d);
-            T yaw = atan2(yaw_a, yaw_b);
+            T yaw = atan2(2 * (a * d + b * c), 1 - 2 * (c * c + d * d));
 
-            return Vector<3, T>(yaw, pitch, roll);
+            return Vector<3, T>(roll, pitch, yaw);
         }
 
     };

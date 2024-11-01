@@ -184,8 +184,13 @@ std::shared_ptr<hg::graphics::Model> hg::loadModel(std::string name, std::string
     return model;
 }
 
+bool hg::hasModel(std::string name) {
+    return assets::MODELS.has(name);
+}
+
 hg::graphics::Model *hg::getModel(std::string name) {
     return assets::MODELS.get(name).get();
 }
+
 
 

@@ -80,7 +80,7 @@ namespace hg::math {
             std::vector<T> orth = {
                     2 / (right - left), 0, 0, -(right + left) / (right - left),
                     0, 2 / (top - bottom), 0, -(top + bottom) / (top - bottom),
-                    0, 0, 2 / (zFar - zNear), -(zFar + zNear) / (zFar - zNear),
+                    0, 0, -2 / (zFar - zNear), -(zFar + zNear) / (zFar - zNear),
                     0, 0, 0, 1
             };
             return Matrix<4, 4, T>(orth);
@@ -142,6 +142,13 @@ namespace hg::math {
                     zAxis[0], zAxis[1], zAxis[2], -zAxis.dot(eye),
                     0, 0, 0, 1
             };
+
+//            std::vector<T> view = {
+//                    xAxis[0], yAxis[0], zAxis[0], 0,
+//                    xAxis[1], yAxis[1], zAxis[1], 0,
+//                    xAxis[2], yAxis[2], zAxis[2], 0,
+//                    -xAxis.dot(eye), -yAxis.dot(eye), -zAxis.dot(eye), 1
+//            };
 
             return Matrix<4, 4, T>(view);
         }

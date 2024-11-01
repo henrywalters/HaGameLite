@@ -54,7 +54,7 @@ namespace hg {
                 return;
             }
 
-            member = std::get<T>(params[key]);
+            member = params[key];
         }
 
         virtual void onUpdate(double dt) {}

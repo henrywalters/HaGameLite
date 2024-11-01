@@ -2,6 +2,7 @@
 // Created by henry on 12/18/22.
 //
 
+#include <iostream>
 #include "../../include/hagame/utils/string.h"
 
 std::vector<std::string> hg::utils::s_split(std::string str, char delim) {
@@ -113,4 +114,36 @@ std::string hg::utils::s_replace(std::string str, std::string replace, std::stri
     }
 
     return out;
+}
+
+bool hg::utils::s_startsWith(std::string str, std::string check) {
+
+    if (str.size() < check.size()) {
+        return false;
+    }
+
+    for (int i = 0; i < check.size(); i++) {
+        if (str[i] != check[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool hg::utils::s_endsWith(std::string str, std::string check) {
+    if (str.size() < check.size()) {
+        return false;
+    }
+
+    auto length = str.size();
+    auto checkLength = check.size();
+
+    for (int i = 0; i < check.size(); i++) {
+        if (str[length - checkLength + i] != check[i]) {
+            return false;
+        }
+    }
+
+    return true;
 }

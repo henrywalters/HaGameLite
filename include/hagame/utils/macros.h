@@ -87,7 +87,7 @@
     #Name,                                                                                                                                    \
     [](auto component, auto value) { ((CompName*) component)->Name = std::get<Type>(value); },                                        \
     [](auto component) { return ((CompName*) component)->Name; }                                                                           \
-);                                                                                                                                            \
+);                                                                                                                                               \
 
 #define HG_NUMBER_FIELD(CompName, Type, Name, Min, Max, Step) static hg::ComponentFactory::ComponentField Field_##CompName##Name = hg::ComponentFactory::RegisterField( \
     #Type,                                                                                                                                    \
@@ -99,6 +99,7 @@
     Max,                                                                                                                                                          \
     Step                                                                                                                                                         \
 );
+
 
 #define HG_IS_CONCEPT(Name) template <typename T> concept Is##Name = std::is_base_of<Name, T>::value;
 

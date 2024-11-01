@@ -9,10 +9,12 @@
 #include "../structures/tree.h"
 #include "mesh.h"
 #include "material.h"
+#include "shaderProgram.h"
 
 namespace hg::graphics {
 
     struct ModelNode : public structures::Tree {
+        std::string name;
         std::vector<Mesh> meshes;
         std::vector<Material> materials;
         std::vector<MeshInstance> instances;
@@ -27,7 +29,7 @@ namespace hg::graphics {
             return m_nodes.size() > 0 ? m_nodes[0].get() : nullptr;
         }
 
-        void render();
+        void render(ShaderProgram* shader);
 
     private:
 

@@ -26,7 +26,9 @@ namespace hg {
         virtual void update(double dt) {}
 
         HG_GET(GameObject*, parent);
-        HG_GET(std::vector<GameObject*>, children);
+        std::vector<GameObject*>& children() {
+            return m_children;
+        }
 
         void addChild(GameObject* child);
         void removeChild(GameObject* child);

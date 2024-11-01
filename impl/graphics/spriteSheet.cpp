@@ -152,12 +152,9 @@ void SpriteSheet::update(double dt) {
     int clampedCount;
 
     if (m_selectedGroup.has_value()) {
-        std::cout << m_selectedGroup.value() << "\n";
         auto memberCount = members().size();
-        std::cout << memberCount << "\n";
         clampedCount = frameCount < 0 ? 0 : (frameCount > memberCount ? memberCount : frameCount);
     } else {
-        std::cout << "DEFAULT GROUP\n";
         clampedCount = frameCount < 0 ? 0 : (frameCount > size[0] * size[1] ? size[0] * size[1] : frameCount);
     }
 

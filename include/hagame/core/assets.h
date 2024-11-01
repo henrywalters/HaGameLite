@@ -82,6 +82,7 @@ namespace hg {
     hg::graphics::Materials* getMaterials(std::string name);
 
     std::shared_ptr<hg::graphics::Model> loadModel(std::string name, std::string path);
+    bool hasModel(std::string name);
     hg::graphics::Model* getModel(std::string name);
 }
 

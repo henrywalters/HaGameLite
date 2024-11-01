@@ -37,9 +37,9 @@ void hg::ui::Element::trigger(hg::utils::enum_t triggerType) {
         Element* node = this;
         if (!m_focused) {
             auto root = Root(this);
-            DepthFirstTraverse(root, [&](auto other) {
-                if (((Element*)other)->m_focused) {
-                    node = (Element*)other;
+            DepthFirstTraverse<Element>(root, [&](auto other) {
+                if ((other)->m_focused) {
+                    node = other;
                     // node->trigger(triggerType);
                     return false;
                 }
@@ -53,8 +53,8 @@ void hg::ui::Element::trigger(hg::utils::enum_t triggerType) {
 
 void hg::ui::Element::unFocus() {
     auto root = Root(this);
-    Traverse(root, [](auto node) {
-        ((Element*) node)->m_focused = false;
+    Traverse<Element>(root, [](auto node) {
+        node->m_focused = false;
     });
 }
 

@@ -21,26 +21,17 @@ namespace hg {
     class Entity : public GameObject {
     public:
 
-        HG_GET(std::vector<Component*>, components);
+        std::vector<Component*>& components() {
+            return m_components;
+        }
 
         Scene* scene;
 
         bool active = true;
 
-        Entity(utils::uuid_t enttId, entt::basic_registry<utils::uuid_t, std::allocator<utils::uuid_t>>* registry):
-                m_enttId(enttId),
-                m_registry(registry)
-        {
-            name = toString();
-        };
+        Entity(utils::uuid_t enttId, entt::basic_registry<utils::uuid_t, std::allocator<utils::uuid_t>>* registry);
 
-        Entity(utils::uuid_t id, utils::uuid_t enttId, entt::basic_registry<utils::uuid_t, std::allocator<utils::uuid_t>>* registry):
-            GameObject(id),
-            m_enttId(enttId),
-            m_registry(registry)
-        {
-            name = toString();
-        };
+        Entity(utils::uuid_t id, utils::uuid_t enttId, entt::basic_registry<utils::uuid_t, std::allocator<utils::uuid_t>>* registry);
 
         // Constructs a new instance of the component in memory. Be careful with the returned pointer! Another addComponent call or loss of scope may invalidate the pointer
         template <IsComponent T>
@@ -106,9 +97,8 @@ namespace hg {
         void remove();
 
     protected:
-        [[nodiscard]] std::string toString() const override {
-            return "Entity<" + std::to_string(id()) + ">";
-        }
+        std::string toString() const override;
+
 
     private:
 
@@ -119,6 +109,12 @@ namespace hg {
 
         std::vector<Component*> m_components;
 
+    };
+
+    struct EntityIdentity {
+        hg::utils::uuid_t operator()(hg::Entity* data) {
+            return data->id();
+        }
     };
 
     class EntityManager {

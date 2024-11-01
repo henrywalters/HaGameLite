@@ -122,11 +122,6 @@ namespace hg::graphics {
         "\n"
         "void main() {\n"
         "    int tid = int(Texture);\n"
-//        "    for (int i = 0; i < 32; i++) {\n"
-//        "       if (i == int(tid)) { \n"
-//        "           FragColor=texture(images[i], TexCoord) * Color;\n"
-//        "       }\n"
-//        "    }\n"
         "    switch (tid) {\n"
         + _texturesAt(0, MAX_BATCH_TEXTURES) +
         "    }\n"

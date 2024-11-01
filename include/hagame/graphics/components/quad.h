@@ -16,7 +16,7 @@ namespace hg::graphics {
     class Quad : public Component {
     public:
 
-        Vec2 size;
+        Vec2 size = Vec2(1.0);
         Vec2 offset;
         Color color = Color::white();
 

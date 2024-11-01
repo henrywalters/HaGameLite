@@ -21,6 +21,7 @@ Loading::Loading(graphics::Window *window, Loading::Settings settings):
     m_logoQuad(Vec2(window->size()[0] / 2, window->size()[0] / 8), Vec2(window->size()[0] / 2, window->size()[1] / 2)),
     m_logo(&m_logoQuad)
 {
+
     m_quad.centered(false);
     m_mesh.update(&m_quad);
 
@@ -137,6 +138,7 @@ void Loading::onUpdate(double dt) {
 }
 
 void Loading::resize() {
+
     auto size = m_window->size();
 
     m_quad.size(size.cast<float>());

@@ -14,6 +14,8 @@ namespace hg::utils {
     std::string s_join(std::vector<std::string> strs, std::string delim);
     std::string s_trim(std::string str);
     std::string s_replace(std::string str, std::string replace, std::string with);
+    bool s_startsWith(std::string str, std::string check);
+    bool s_endsWith(std::string str, std::string check);
 }
 
 #endif //HAGAME2_STRING_H

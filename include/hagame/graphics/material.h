@@ -19,6 +19,13 @@ namespace hg::graphics {
         float dissolve;
         std::string mapTexture;
         int illumModel;
+
+        std::string toString() const {
+            return "Albedo: " + albedo.toString() + "\n" +
+                "Diffuse: " + diffuse.toString() + "\n" +
+                "Specular: " + specular.toString() + "\n" +
+                "Shininess: " + std::to_string(shininess) + "\n";
+        }
     };
 
     class Materials {
