@@ -19,7 +19,7 @@ namespace hg {
 class Game : public utils::LoopingThread {
     public:
 
-        int fixedTicksPerSecond = 60;
+        int fixedTicksPerSecond = 120;
 
         friend class HG;
 

@@ -25,14 +25,21 @@ namespace hg::math {
             size = _size;
         }
 
-        bool contains(Vector<dimensions, T> point) {
+        bool contains(Vector<dimensions, T> point) const {
             for (int i = 0; i < dimensions; i++) {
                 if (point[i] < pos[i] || point[i] > pos[i] + size[i]) return false;
             }
             return true;
         }
 
-        bool intersects(Hypercube<dimensions, T> cube) {
+        bool contains(Hypercube<dimensions, T> other) const {
+            for (int i = 0; i < dimensions; i++) {
+                if (other.pos[i] < pos[i] || other.pos[i] + other.size[i] > pos[i] + size[i]) return false;
+            }
+            return true;
+        }
+
+        bool intersects(Hypercube<dimensions, T> cube) const {
             auto a = getCenter();
             auto b = cube.getCenter();
             for (int i = 0; i < dimensions; i++) {
@@ -49,11 +56,11 @@ namespace hg::math {
             return Hypercube(Vector<dimensions, T>::Zero(), Vector<dimensions, T>::Zero());
         }
 
-        Vector<dimensions, T> getCenter() {
+        Vector<dimensions, T> getCenter() const {
             return pos + (size * 0.5);
         }
 
-        Vector<dimensions, T> closestPoint(Vector<dimensions, T> point) {
+        Vector<dimensions, T> closestPoint(Vector<dimensions, T> point) const  {
             Vector<dimensions, T> out;
             auto center = getCenter();
             for (int i = 0; i < dimensions; i++) {
@@ -67,11 +74,11 @@ namespace hg::math {
             return out;
         }
 
-        Vector<dimensions, T> min() {
+        Vector<dimensions, T> min() const  {
             return pos;
         }
 
-        Vector<dimensions, T> max() {
+        Vector<dimensions, T> max() const  {
             return pos + size;
         }
 

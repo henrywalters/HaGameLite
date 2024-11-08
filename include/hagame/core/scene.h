@@ -71,7 +71,7 @@ namespace hg {
 
         void clear();
 
-        hg::utils::MultiConfig save();
+        hg::utils::MultiConfig save(hg::Entity* entity = nullptr);
         void load(hg::utils::MultiConfig scene);
 
         template <IsScene _Scene, class... Args>

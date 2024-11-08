@@ -2,10 +2,12 @@
 // Created by henry on 4/30/23.
 //
 
-#include "../../include/hagame/graphics/debug.h"
-#include "../../include/hagame/utils/clock.h"
-#include "../../include/hagame/math/constants.h"
-#include "../../include/hagame/math/constants.h"
+#include <hagame/graphics/debug.h>
+#include <hagame/utils/clock.h>
+#include <hagame/math/constants.h>
+#include <hagame/math/constants.h>
+#include <hagame/math/aliases.h>
+
 
 bool hg::graphics::Debug::ENABLED = true;
 
@@ -77,22 +79,33 @@ hg::graphics::Debug::DrawLine(hg::Vec2 p1, hg::Vec2 p2, hg::graphics::Color colo
 void
 hg::graphics::Debug::DrawRect(float x, float y, float width, float height, hg::graphics::Color color, float thickness, double duration) {
     if (!Debug::ENABLED) return;
-    s_calls.emplace_back(Call{[x, y, width, height, color, thickness](){
+    DrawRotatedRect(x, y, width, height, Quat(0, Vec3::Face()), color, thickness, duration);
+}
+
+void hg::graphics::Debug::DrawRotatedRect(float x, float y, float width, float height, const Quat& rotation, hg::graphics::Color color,
+                                          float thickness, double duration) {
+    if (!Debug::ENABLED) return;
+    s_calls.emplace_back(Call{[x, y, width, height, color, thickness, rotation](){
         s_line->clearPoints();
         s_line->thickness(thickness);
         s_line->addPoints({
-              Vec3(x, y, 0),
-              Vec3(x + width, y, 0),
-              Vec3(x + width, y + height, 0),
-              Vec3(x, y + height, 0),
-              Vec3(x, y, 0)
-          });
+                                  Vec3(x, y, 0),
+                                  Vec3(x + width, y, 0),
+                                  Vec3(x + width, y + height, 0),
+                                  Vec3(x, y + height, 0),
+                                  Vec3(x, y, 0)
+                          });
         s_lineMesh->update(s_line.get());
         s_shader->use();
-        s_shader->setMat4("model", Mat4::Translation(Vec3(0, 0, 0)));
+        s_shader->setMat4("model", Mat4::Translation(Vec3(0, 0, 0)) * Mat4::Rotation(rotation));
         s_shader->setVec4("color", color);
         s_lineMesh->render();
     }, duration, utils::Clock::Now()});
+}
+
+void hg::graphics::Debug::DrawRotatedRect(hg::Rect rect, const Quat& rotation, hg::graphics::Color color, float thickness,
+                                          double duration) {
+    DrawRotatedRect(rect.pos[0], rect.pos[1], rect.size[0], rect.size[1], rotation, color, thickness, duration);
 }
 
 void hg::graphics::Debug::DrawCircle(float x, float y, float radius, hg::graphics::Color color, float thickness, double duration) {
@@ -184,5 +197,6 @@ void hg::graphics::Debug::FillCube(hg::Cube cube, hg::graphics::Color color, dou
         s_cubeMesh->render();
     }});
 }
+
 
 

@@ -163,13 +163,31 @@ std::optional<Hit> hg::math::collisions::checkRectAgainstRect(Rect a, Rect b) {
     }
 
     auto closestPointOnB = b.closestPoint(a.getCenter());
-    auto closestPointOnA = a.closestPoint(b.getCenter());
-    auto delta = closestPointOnA - closestPointOnB;
+    //auto closestPointOnA = a.closestPoint(b.getCenter());
+    //auto delta = closestPointOnA - closestPointOnB;
+
+    auto centerA = a.getCenter();
+    auto centerB = b.getCenter();
+
+    auto delta = centerB - centerA;
+
+    Vec2 overlap = Vec2(a.size * 0.5 + b.size * 0.5) - delta.abs();
+
+    Vec3 normal;
+    float depth;
+
+    if (overlap[0] < overlap[1]) {
+        normal = Vec3(delta[0] > 0 ? 1 : -1, 0, 0);
+        depth = (a.size[0] / 2 + b.size[0] / 2) - std::abs(delta[0]);
+    } else {
+        normal = Vec3(0, delta[1] > 0 ? 1 : -1, 0);
+        depth = (a.size[1] / 2 + b.size[1] / 2) - std::abs(delta[1]);
+    }
 
     return Hit{
         closestPointOnB.resize<3>(),
-        delta.normalized().resize<3>(),
-        delta.magnitude()
+        normal,
+        depth
     };
 }
 

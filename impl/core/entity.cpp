@@ -1,9 +1,11 @@
 //
 // Created by henry on 3/4/24.
 //
-#include "../../../include/hagame/core/entity.h"
-#include "../../../include/hagame/core/scene.h"
+#include <hagame/core/scene.h>
+#include <hagame/core/entity.h>
+#include <hagame/utils/config.h>
 
+using namespace hg;
 
 static int entityCount = 0;
 
@@ -35,4 +37,3 @@ void hg::Entity::remove() {
 std::string hg::Entity::toString() const {
     return name;
 }
-

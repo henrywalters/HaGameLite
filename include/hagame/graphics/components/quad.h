@@ -19,6 +19,7 @@ namespace hg::graphics {
         Vec2 size = Vec2(1.0);
         Vec2 offset;
         Color color = Color::white();
+        bool centered = true;
 
     protected:
 
@@ -30,6 +31,7 @@ namespace hg::graphics {
     HG_FIELD(Quad, hg::Vec2, size)
     HG_FIELD(Quad, hg::Vec2, offset)
     HG_FIELD(Quad, hg::graphics::Color, color)
+    HG_FIELD(Quad, bool, centered)
 
 }
 

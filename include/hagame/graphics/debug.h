@@ -46,6 +46,8 @@ namespace hg::graphics {
         static void DrawPath(std::vector<hg::Vec3> points, Color color, float thickness, double duration = 0.0);
         static void DrawRect(float x, float y, float width, float height, Color color, float thickness = 1.0f, double duration = 0.0);
         static void DrawRect(Rect rect, Color color, float thickness = 1.0f, double duration = 0.0);
+        static void DrawRotatedRect(float x, float y, float width, float height, const Quat& rotation, Color color, float thickness = 1.0f, double duration = 0.0);
+        static void DrawRotatedRect(Rect rect, const Quat& rotation, Color color, float thickness = 1.0f, double duration = 0.0);
         static void DrawTriangle(hg::Vec3 a, hg::Vec3 b, hg::Vec3 c, Color color, float thickness = 1.0f, double duration = 0.0);
         static void DrawRay(math::Ray ray, Color color, float triangleSize = 5.0f, float thickness = 1.0f, double duration = 0.0);
         static void DrawCircle(float x, float y, float radius, Color color, float thickness = 1.0f, double duration = 0.0);

@@ -173,6 +173,14 @@ namespace hg {
             return entity.get();
         }
 
+        Entity* add(const hg::utils::MultiConfig& config) {
+            auto entity = createEntity();
+            root->addChild(entity.get());
+            return entity.get();
+        }
+
+        // Entity* add(Entity*parent, const hg::utils::MultiConfig& config)
+
         // Destroy an entity
         void remove(Entity* entity) {
 
@@ -219,6 +227,29 @@ namespace hg {
         }
 
         [[nodiscard]] entt::basic_registry<uint32_t, std::allocator<uint32_t>>* registry() const { return m_registry.get(); }
+
+        void save(utils::MultiConfig& config, Entity* entity) {
+            config.getPage("Entities")->addSection(std::to_string(entity->id()));
+
+            config.getPage("Entities")->setRaw(std::to_string(entity->id()), "name", entity->name);
+            config.getPage("Entities")->setArray<float, 3>(std::to_string(entity->id()), "position", entity->transform.position.vector);
+            config.getPage("Entities")->setArray<float, 3>(std::to_string(entity->id()), "scale", entity->transform.scale.vector);
+            config.getPage("Entities")->setArray<float, 4>(std::to_string(entity->id()), "rotation", entity->transform.rotation.vector);
+
+            if (entity->parent() && entity->parent()->id() != root->id()) {
+                config.getPage("Entities")->set<int>(std::to_string(entity->id()), "parent", entity->parent()->id());
+            }
+
+            for (hg::Component* component : entity->components()) {
+                auto id = component->className() + "_" + std::to_string(entity->id()) + "_" + std::to_string(component->id());
+                config.getPage("Components")->addSection(id);
+                for (const auto& field : ComponentFactory::GetFields(component->className())) {
+                    auto value = field.getter(component);
+                    config.getPage("Components")->setRaw(id, field.field, hg::utils::serialize(value));
+                }
+                component->save(config.getPage("Components"), id);
+            }
+        }
 
     private:
 

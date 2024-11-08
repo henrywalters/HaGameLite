@@ -14,13 +14,19 @@ public:
 
     hg::Vec2 pos;
     hg::Vec2 size;
+    bool centered = false;
 
     Cube getBoundingCube() const override {
-        return Cube(entity->position() + Vec3(pos[0], pos[1], 0), Vec3(size[0], size[1], 0));
+        return Cube(
+            entity->position() + Vec3(pos[0], pos[1], 0) - (centered ? Vec3(size[0], size[1], 0) * 0.5 : Vec3::Zero()),
+            Vec3(size[0], size[1], 0)
+        );
     }
 
     Rect getRect() const {
-        return Rect(entity->position().resize<2>() + pos, size);
+        auto adjSize = entity->transform.scale.resize<2>().prod(size);
+        auto adjPos = entity->position().resize<2>() + pos - (centered ? adjSize * 0.5 : Vec2::Zero());
+        return Rect(adjPos, adjSize);
     }
 
 protected:
@@ -32,6 +38,7 @@ protected:
 HG_COMPONENT(Math, RectCollider)
 HG_FIELD(RectCollider, hg::Vec2, pos)
 HG_FIELD(RectCollider, hg::Vec2, size)
+HG_FIELD(RectCollider, bool, centered)
 
 }
 

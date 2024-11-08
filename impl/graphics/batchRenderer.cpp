@@ -8,7 +8,7 @@ using namespace hg::graphics;
 
 BatchQuad::BatchQuad(Quad *quad, hg::Entity *entity):
     size(quad->size),
-    offset(quad->offset),
+    offset(quad->offset + (quad->centered ? hg::Vec2::Zero() : quad->size * 0.5)),
     color(quad->color),
     model(entity->model())
 {}

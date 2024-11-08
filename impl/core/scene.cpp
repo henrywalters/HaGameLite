@@ -6,10 +6,11 @@
 #include "../../../include/hagame/core/scene.h"
 
 #include <box2d/box2d.h>
+#include <deque>
 
 hg::utils::uuid_t hg::System::id = 0;
 
-hg::utils::MultiConfig hg::Scene::save() {
+hg::utils::MultiConfig hg::Scene::save(hg::Entity* entity) {
     hg::utils::MultiConfig scene;
     auto scripts = scene.addPage("Scripts");
     auto meta = scene.addPage("Scenes");
@@ -24,32 +25,38 @@ hg::utils::MultiConfig hg::Scene::save() {
         scripts->setRaw(def.name, "libPath", def.libPath);
     }
 
-    entities.forEach([&](auto entity) {
-
-        if (entity == nullptr || entity->name == "root") {
-            return;
+    std::function<void(hg::Entity*)> saveEntity = [&](hg::Entity* node) {
+        if (node->name != "root") {
+            entities.save(scene, node);
         }
-
-        scene.getPage("Entities")->addSection(std::to_string(entity->id()));
-        scene.getPage("Entities")->setRaw(std::to_string(entity->id()), "name", entity->name);
-        scene.getPage("Entities")->setArray<float, 3>(std::to_string(entity->id()), "position", entity->transform.position.vector);
-        scene.getPage("Entities")->setArray<float, 3>(std::to_string(entity->id()), "scale", entity->transform.scale.vector);
-        scene.getPage("Entities")->setArray<float, 4>(std::to_string(entity->id()), "rotation", entity->transform.rotation.vector);
-
-        if (entity->parent() && entity->parent()->id() != entities.root->id()) {
-            scene.getPage("Entities")->set<int>(std::to_string(entity->id()), "parent", entity->parent()->id());
+        for (const auto& child : node->children()) {
+            saveEntity(static_cast<Entity*>(child));
         }
+    };
 
-        for (hg::Component* component : entity->components()) {
-            auto id = component->className() + "_" + std::to_string(entity->id()) + "_" + std::to_string(component->id());
-            scene.getPage("Components")->addSection(id);
-            for (const auto& field : ComponentFactory::GetFields(component->className())) {
-                auto value = field.getter(component);
-                scene.getPage("Components")->setRaw(id, field.field, hg::utils::serialize(value));
-            }
-            component->save(scene.getPage("Components"), id);
-        }
-    });
+    saveEntity(entity ? entity : entities.root.get());
+
+//    while (nodes.size() > 0) {
+//        auto front = nodes.front();
+//        nodes.pop_front();
+//
+//        if (front->name != "root") {
+//            entities.save(scene, front);
+//        }
+//
+//        for (const auto& child : front->children()) {
+//            nodes.push_back(static_cast<hg::Entity*>(child));
+//        }
+//    }
+//
+//    entities.forEach([&](auto entity) {
+//
+//        if (entity == nullptr || entity->name == "root") {
+//            return;
+//        }
+//
+//        entities.save(scene, entity);
+//    });
 
     return scene;
 }
@@ -72,8 +79,11 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
 
     std::cout << "Loaded script\n";
 
+    std::unordered_map<utils::uuid_t, hg::Entity*> idMap;
+
     for (const auto& section : scene.getPage("Entities")->sections()) {
-        auto entity = entities.add(std::stol(section));
+        auto entity = entities.add();
+        idMap.insert(std::make_pair(std::stol(section), entity));
         entity->name = scene.getPage("Entities")->getRaw(section, "name");
         scene.getPage("Entities")->getArray<float, 3>(section, "position", entity->transform.position.vector);
         scene.getPage("Entities")->getArray<float, 3>(section, "scale", entity->transform.scale.vector);
@@ -85,9 +95,9 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
 
     for (const auto& section : scene.getPage("Entities")->sections()) {
         if (scene.getPage("Entities")->has(section, "parent")) {
-            auto parent = entities.get(scene.getPage("Entities")->get<hg::utils::uuid_t>(section, "parent"));
-            auto entity = entities.get(std::stol(section));
-            parent->addChild(entity);
+            //auto parent = entities.get();
+            auto entity = idMap.at(std::stol(section));
+            idMap.at(scene.getPage("Entities")->get<hg::utils::uuid_t>(section, "parent"))->addChild(entity);
         }
     }
 
@@ -98,7 +108,7 @@ void hg::Scene::load(hg::utils::MultiConfig scene) {
         auto entityId = std::stol(parts[1]);
 
         auto componentDef = ComponentFactory::Get(name);
-        auto component = componentDef.attach(entities.get(entityId));
+        auto component = componentDef.attach(idMap.at(entityId));
 
         std::cout << componentDef.name << "\n";
 
