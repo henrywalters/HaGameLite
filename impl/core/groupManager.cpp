@@ -1,6 +1,7 @@
 //
 // Created by henry on 8/18/23.
 //
+#include <algorithm>
 #include "../../../include/hagame/core/groupManager.h"
 
 void hg::GroupManager::addToGroup(std::string group, hg::Entity *entity) {
@@ -40,7 +41,7 @@ void hg::GroupManager::removeEntity(hg::Entity *entity) {
 
 bool hg::GroupManager::inGroup(hg::Entity *entity, std::string group) {
     auto groups = getGroups(entity);
-    return std::find(groups.begin(), groups.end(), group) != groups.end();
+    return std::ranges::find(groups.begin(), groups.end(), group) != groups.end();
 }
 
 std::vector<std::string> hg::GroupManager::getGroups(hg::Entity *entity) {

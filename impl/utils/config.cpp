@@ -97,6 +97,10 @@ void Config::concat(Config config) {
     }
 }
 
+void Config::clear() {
+    m_data.clear();
+}
+
 std::string MultiConfig::toString() const {
     auto lines = std::vector<std::string>();
     for (auto [name, page] : m_configs) {
@@ -149,4 +153,8 @@ MultiConfig MultiConfig::Parse(std::string file) {
     }
 
     return multiConfig;
+}
+
+void MultiConfig::clear() {
+    m_configs.clear();
 }

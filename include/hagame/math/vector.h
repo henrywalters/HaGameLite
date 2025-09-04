@@ -253,8 +253,8 @@ namespace hg::math {
             constexpr Vector rounded(float step = 1.0f) const {
                 Vector copy = *this;
                 for (int i = 0; i < size; i++) {
-                    copy[i] = std::round(copy[i]);
-                    //copy[i] = (float)std::floor(copy[i] * step + 0.5f) / step;
+                    //copy[i] = std::round(copy[i]);
+                    copy[i] = (float)std::floor(copy[i] * step + 0.5f) / step;
                 }
                 return copy;
             }

@@ -40,7 +40,7 @@ Vec3 GameObject::position() {
     GameObject* node = this;
 
     while (node != nullptr) {
-        pos += node->transform.position;
+        pos += node->transform.position; //node->transform.rotation.rotatePoint(node->transform.position + node->transform.positionOffset);
         node = node->parent();
     }
 

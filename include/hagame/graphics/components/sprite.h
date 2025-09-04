@@ -7,13 +7,15 @@
 
 #include "quad.h"
 #include "../../core/entity.h"
+#include "hagame/graphics/texture.h"
 
 namespace hg::graphics {
     class Sprite : public Quad {
     public:
 
-        std::string texture;
+        TextureAsset texture;
         bool visible = true;
+        bool batched = false;
 
     protected:
 
@@ -22,8 +24,9 @@ namespace hg::graphics {
     };
 
     HG_COMPONENT(Graphics, Sprite)
-    HG_FIELD(Sprite, std::string, texture)
+    HG_FIELD(Sprite, hg::graphics::TextureAsset, texture)
     HG_FIELD(Sprite, bool, visible)
+    HG_FIELD(Sprite, bool, batched)
     HG_FIELD(Sprite, hg::Vec2, size)
     HG_FIELD(Sprite, hg::Vec2, offset)
     HG_FIELD(Sprite, hg::graphics::Color, color)

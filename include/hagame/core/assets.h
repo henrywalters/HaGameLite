@@ -14,6 +14,7 @@
 #include "../graphics/mesh.h"
 #include "../graphics/material.h"
 #include "../graphics/model.h"
+#include "prefab.h"
 
 namespace hg {
 #ifdef __EMSCRIPTEN__
@@ -29,16 +30,18 @@ namespace hg {
             std::string fragPath;
         };
 
-        inline static std::shared_ptr<hg::graphics::Texture> MISSING_TEXTURE;
-        inline static hg::utils::Store<std::string, ShaderPaths> SHADER_PATHS;
-        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::ShaderProgram>> SHADERS;
-        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Texture>> TEXTURES;
-        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Font>> FONTS;
-        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::SpriteSheetV2>> SPRITE_SHEETS;
-        inline static hg::utils::Store<std::string, std::shared_ptr<hg::audio::Stream>> AUDIO_STREAMS;
-        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Mesh>> MESHES;
-        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Materials>> MATERIALS;
-        inline static hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Model>> MODELS;
+        inline std::shared_ptr<hg::graphics::Texture> MISSING_TEXTURE;
+        inline hg::utils::Store<std::string, ShaderPaths> SHADER_PATHS;
+        inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::ShaderProgram>> SHADERS;
+        inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Texture>> TEXTURES;
+        inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Font>> FONTS;
+        inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::SpriteSheetV2>> SPRITE_SHEETS;
+        inline hg::utils::Store<std::string, std::shared_ptr<hg::audio::Stream>> AUDIO_STREAMS;
+        inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Mesh>> MESHES;
+        inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Materials>> MATERIALS;
+        inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Model>> MODELS;
+        inline hg::utils::Store<std::string, std::shared_ptr<hg::Prefab>> PREFABS;
+
     }
 
     // Load a shader directly by name with path
@@ -65,6 +68,7 @@ namespace hg {
     hg::graphics::SpriteSheetV2* getSpriteSheet(std::string name);
 
     std::shared_ptr<hg::graphics::Font> loadFont(std::string name, std::string path);
+    bool hasFont(std::string name);
     hg::graphics::Font* getFont(std::string name);
 
     std::shared_ptr<hg::audio::Stream> loadAudioStream(std::string name, std::string path);
@@ -84,6 +88,11 @@ namespace hg {
     std::shared_ptr<hg::graphics::Model> loadModel(std::string name, std::string path);
     bool hasModel(std::string name);
     hg::graphics::Model* getModel(std::string name);
+
+    std::shared_ptr<hg::Prefab> loadPrefab(std::string name, std::string path);
+    std::shared_ptr<hg::Prefab> createPrefab(std::string name);
+    bool hasPrefab(std::string name);
+    hg::Prefab* getPrefab(std::string name);
 }
 
 

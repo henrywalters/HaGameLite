@@ -24,6 +24,9 @@ namespace hg {
 
         friend class Scene;
 
+        Script() = default;
+        Script(hg::Scene* scene) : m_scene(scene) {}
+
         hg::Scene* scene() const {
             return m_scene;
         }

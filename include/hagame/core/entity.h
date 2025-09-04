@@ -11,6 +11,7 @@
 #include "gameObject.h"
 #include "component.h"
 #include "groupManager.h"
+#include "prefab.h"
 #include <entt/entity/registry.hpp>
 
 namespace hg {
@@ -21,6 +22,8 @@ namespace hg {
     class Entity : public GameObject {
     public:
 
+        Prefab* prefab = nullptr;
+        
         std::vector<Component*>& components() {
             return m_components;
         }
@@ -33,9 +36,30 @@ namespace hg {
 
         Entity(utils::uuid_t id, utils::uuid_t enttId, entt::basic_registry<utils::uuid_t, std::allocator<utils::uuid_t>>* registry);
 
+        int getDepth() {
+            int depth = 0;
+            auto node = static_cast<hg::GameObject*>(this);
+            while (node->parent()) {
+                depth++;
+                node = node->parent();
+            }
+            return depth;
+        }
+
+        void refresh() {
+            if (!prefab) {
+                return;
+            }
+            clear();
+            prefab->updateEntity(this);
+        }
+
         // Constructs a new instance of the component in memory. Be careful with the returned pointer! Another addComponent call or loss of scope may invalidate the pointer
         template <IsComponent T>
         T* addComponent() {
+            if (hasComponent<T>()) {
+                return getComponent<T>();
+            }
             T* component = &m_registry->emplace<T>(m_enttId);
             component->entity = this;
             m_components.push_back(component);
@@ -44,6 +68,9 @@ namespace hg {
 
         template <IsComponent T, class... Args>
         T* addComponent(Args &&... args) {
+            if (hasComponent<T>()) {
+                return getComponent<T>();
+            }
             T* component = &m_registry->emplace<T>(m_enttId, std::forward<Args>(args)...);
             component->entity = this;
             m_components.push_back(component);
@@ -92,6 +119,9 @@ namespace hg {
 
         // Add a child entity
         hg::Entity* add();
+
+        // Clear all components and children
+        void clear();
 
         // Remove this entity and all of its children
         void remove();
@@ -173,11 +203,48 @@ namespace hg {
             return entity.get();
         }
 
-        Entity* add(const hg::utils::MultiConfig& config) {
+        Entity* add(Prefab* prefab) {
             auto entity = createEntity();
+            entity->prefab = prefab;
+            entity->refresh();
+            entity->prefab->onUpdate.subscribe([entity](){
+                entity->refresh();
+            });
             root->addChild(entity.get());
             return entity.get();
         }
+
+        Entity* add(Entity*parent, Prefab* prefab) {
+            auto entity = createEntity();
+            entity->prefab = prefab;
+            entity->refresh();
+            parent->addChild(entity.get());
+            return entity.get();
+        }
+
+        Entity* duplicate(Entity* entity) {
+            std::function<Entity *(Entity *, Entity *)> addNode = [&](Entity *og, Entity *parent) {
+                hg::Entity *entity = parent ? parent->add() : add();
+                entity->transform = og->transform;
+                entity->name = !parent ? "Copy of " + og->name : og->name;
+                for (const auto &component: og->components()) {
+                    auto newComponent = ComponentFactory::Attach(entity, component->className());
+                    for (const ComponentFactory::ComponentField &field: ComponentFactory::GetFields(
+                            component->className())) {
+                        field.setter(newComponent, field.getter(component));
+                    }
+                }
+
+                for (auto &child: og->children()) {
+                    addNode(static_cast<Entity *>(child), entity);
+                }
+
+                return entity;
+            };
+
+            return addNode(entity, static_cast<Entity *>(entity->parent()));
+        }
+
 
         // Entity* add(Entity*parent, const hg::utils::MultiConfig& config)
 
@@ -236,18 +303,26 @@ namespace hg {
             config.getPage("Entities")->setArray<float, 3>(std::to_string(entity->id()), "scale", entity->transform.scale.vector);
             config.getPage("Entities")->setArray<float, 4>(std::to_string(entity->id()), "rotation", entity->transform.rotation.vector);
 
+            if (entity->prefab) {
+                config.getPage("Entities")->set(std::to_string(entity->id()), "prefab", entity->prefab->id());
+            }
+
             if (entity->parent() && entity->parent()->id() != root->id()) {
                 config.getPage("Entities")->set<int>(std::to_string(entity->id()), "parent", entity->parent()->id());
             }
 
-            for (hg::Component* component : entity->components()) {
-                auto id = component->className() + "_" + std::to_string(entity->id()) + "_" + std::to_string(component->id());
-                config.getPage("Components")->addSection(id);
-                for (const auto& field : ComponentFactory::GetFields(component->className())) {
-                    auto value = field.getter(component);
-                    config.getPage("Components")->setRaw(id, field.field, hg::utils::serialize(value));
+            if (!entity->prefab) {
+                for (hg::Component *component: entity->components()) {
+                    auto id = component->className() + "_" + std::to_string(entity->id()) + "_" +
+                              std::to_string(component->id());
+                    std::cout << id << "\n";
+                    config.getPage("Components")->addSection(id);
+                    for (const auto &field: ComponentFactory::GetFields(component->className())) {
+                        auto value = field.getter(component);
+                        config.getPage("Components")->setRaw(id, field.field, hg::utils::serialize(value));
+                    }
+                    component->save(config.getPage("Components"), id);
                 }
-                component->save(config.getPage("Components"), id);
             }
         }
 

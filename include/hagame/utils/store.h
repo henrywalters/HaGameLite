@@ -57,6 +57,10 @@ namespace hg::utils {
             }
         }
 
+        std::unordered_map<Key, Value>& store() {
+            return m_store;
+        }
+
         void clear() {
             m_store.clear();
         }

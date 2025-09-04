@@ -43,7 +43,6 @@ class Element : public structures::Tree, public hg::Object {
 
         hg::Vec2 mousePos(hg::graphics::Window* window);
         bool mouseClicked(hg::graphics::Window* window);
-        Rect adjustedRect(Rect rect, offset_t margin, offset_t padding);
 
         virtual void onRender(GraphicsContext* context, Rect rootRect, double dt) {}
         virtual bool onTrigger(utils::enum_t triggerType) { return false; }

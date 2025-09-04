@@ -4,6 +4,7 @@
 #include <hagame/core/scene.h>
 #include <hagame/core/entity.h>
 #include <hagame/utils/config.h>
+#include "hagame/physics/rigidbody2D.h"
 
 using namespace hg;
 
@@ -32,6 +33,18 @@ hg::Entity *hg::Entity::add() {
 
 void hg::Entity::remove() {
     return scene->entities.remove(this);
+}
+
+void Entity::clear() {
+    for (const auto& child : children()) {
+        static_cast<Entity*>(child)->remove();
+    }
+    children().clear();
+    components().clear();
+
+    for(auto [id, storage]: m_registry->storage()) {
+        storage.remove(m_enttId);
+    }
 }
 
 std::string hg::Entity::toString() const {

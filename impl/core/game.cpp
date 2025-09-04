@@ -31,6 +31,10 @@ void hg::Game::initialize() {
     onInit();
 }
 
+double hg::Game::timeSinceLastFixedTick() const {
+    return Clock::ToSeconds(m_lastTick - m_lastFixedTick);
+}
+
 void hg::Game::tick() {
 
     auto now = Clock::Now();
@@ -80,3 +84,4 @@ void hg::Game::destroy() {
 void hg::Game::requestShutdown() {
     m_requestedShutdown = true;
 }
+

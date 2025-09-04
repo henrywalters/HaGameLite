@@ -103,3 +103,15 @@ std::vector<ComponentFactory::ComponentField> ComponentFactory::GetFields(std::s
 
     return fields;
 }
+
+utils::variant ComponentFactory::DefaultValue(std::string type) {
+    if (type == "int" || type == "float" || type == "double") {
+        return 0;
+    } else if (type == "bool") {
+        return false;
+    } else if (type == "string") {
+        return "";
+    } else {
+        throw std::runtime_error("This Type: " + type + " does not have a default value defined");
+    }
+}

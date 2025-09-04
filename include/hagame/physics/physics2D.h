@@ -9,6 +9,8 @@
 #include <memory>
 #include <hagame/math/aliases.h>
 #include <hagame/math/transform.h>
+#include <hagame/core/entity.h>
+#include <optional>
 
 #include <box2d/box2d.h>
 #include "hagame/math/ray.h"
@@ -36,9 +38,12 @@ namespace hg::physics {
 
         void initializeWorld();
 
+        void onBeforeUpdate() override;
         void onFixedUpdate(double dt) override;
 
         std::optional<Hit> raycast(const math::Ray& ray);
+
+        double lastTick() const { return m_elapsedTime; }
 
         void play();
         void pause();
@@ -47,6 +52,8 @@ namespace hg::physics {
     private:
 
         std::unordered_map<int32_t, hg::Entity*> m_shapeMap;
+
+        double m_elapsedTime = 0;
 
         bool m_running = false;
 

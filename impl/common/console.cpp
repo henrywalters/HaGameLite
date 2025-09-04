@@ -120,14 +120,14 @@ void Console::update(double dt) {
     }
 
     if (m_status == Status::Closing) {
-        m_t = math::clamp<float>((m_t - dt / settings.slideDur), 0, 1);
+        m_t = math::clamp<double>((m_t - dt / settings.slideDur), 0, 1);
         if (m_t == 0) {
             m_status = Status::Closed;
         }
     }
 
     if (m_status == Status::Opening) {
-        m_t = math::clamp<float>(m_t + dt / settings.slideDur, 0, 1);
+        m_t = math::clamp<double>(m_t + dt / settings.slideDur, 0, 1);
         if (m_t == 1.0) {
             m_status = Status::Open;
         }

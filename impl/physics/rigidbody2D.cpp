@@ -17,6 +17,9 @@ using namespace hg::math::components;
 
 
 RigidBody2D::RigidBody2D() {
+
+    std::cout << "INITIALIZING RIGIDBODY 2D\n";
+
     dynamic.onUpdate = [&]() {
         VALID_ID
         b2Body_SetType(m_id, dynamic ? b2_dynamicBody : b2_staticBody);
@@ -44,11 +47,13 @@ RigidBody2D::RigidBody2D() {
 
     damping.onUpdate = [&]() {
         VALID_ID
+        std::cout << "SET DAMPING TO " << damping << "\n";
         b2Body_SetLinearDamping(m_id, damping);
     };
 
     restitution.onUpdate = [&]() {
         VALID_ID
+        std::cout << "SETTING RESTITUTION TO " << restitution << "\n";
         b2Shape_SetRestitution(m_shapeId, restitution);
     };
 }

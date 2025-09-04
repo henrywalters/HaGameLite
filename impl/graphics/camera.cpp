@@ -7,6 +7,10 @@ hg::Mat4 hg::graphics::OrthographicCamera::projection() const {
 
     auto position = entity->position();
 
+    if (roundTo > 0) {
+        position = position.rounded(roundTo);
+    }
+
     if (centered) {
         return Mat4::Orthographic(
                 position[0] - size[0] * 0.5f * zoom,

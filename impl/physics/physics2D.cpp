@@ -5,6 +5,8 @@
 #include <hagame/physics/box2D.h>
 #include <hagame/physics/physics2D.h>
 #include <hagame/physics/rigidbody2D.h>
+#include <hagame/utils/profiler.h>
+#include <hagame/core/game.h>
 #include "hagame/math/ray.h"
 
 using namespace hg;
@@ -41,6 +43,10 @@ void Physics2D::onFixedUpdate(double dt) {
         return;
     }
 
+    utils::Profiler::Start("Physics2D::onFixedUpdate");
+
+    m_elapsedTime += dt;
+
     m_shapeMap.clear();
 
     scene->entities.forEach<RigidBody2D>([&](RigidBody2D* rb, Entity* entity) {
@@ -48,12 +54,16 @@ void Physics2D::onFixedUpdate(double dt) {
         m_shapeMap.insert(std::make_pair(rb->m_shapeId.index1, entity));
     });
 
-    b2World_Step(m_world, dt, 4);
+    b2World_Step(m_world, dt, 1);
 
     auto events = b2World_GetContactEvents(m_world);
 
     for (int i = 0; i < events.beginCount; i++) {
         auto event = events.beginEvents[i];
+        if (m_shapeMap.find(event.shapeIdA.index1) == m_shapeMap.end() || m_shapeMap.find(event.shapeIdB.index1) == m_shapeMap.end()) {
+            std::cout << "WARNING: Missing Shape ID for collision" << "\n";
+            continue;
+        }
         m_shapeMap.at(event.shapeIdA.index1)
             ->getComponent<RigidBody2D>()
             ->m_collisions.insert(std::make_pair(m_shapeMap.at(event.shapeIdB.index1), event.manifold));
@@ -64,6 +74,10 @@ void Physics2D::onFixedUpdate(double dt) {
 
     for (int i = 0; i < events.endCount; i++) {
         auto event = events.endEvents[i];
+        if (m_shapeMap.find(event.shapeIdA.index1) == m_shapeMap.end() || m_shapeMap.find(event.shapeIdB.index1) == m_shapeMap.end()) {
+            std::cout << "WARNING: Missing Shape ID for collision" << "\n";
+            continue;
+        }
         m_shapeMap.at(event.shapeIdA.index1)
             ->getComponent<RigidBody2D>()
             ->m_collisions.erase(m_shapeMap.at(event.shapeIdB.index1));
@@ -75,6 +89,8 @@ void Physics2D::onFixedUpdate(double dt) {
     scene->entities.forEach<RigidBody2D>([&](RigidBody2D* rb, Entity* entity) {
         rb->updateTransform();
     });
+
+    utils::Profiler::End("Physics2D::onFixedUpdate");
 }
 
 void Physics2D::play() {
@@ -111,6 +127,7 @@ void Physics2D::pause() {
 void Physics2D::reset() {
     pause();
     clear();
+    m_elapsedTime = 0;
 }
 
 struct TmpHit {
@@ -142,5 +159,14 @@ std::optional<Hit> Physics2D::raycast(const Ray &ray) {
     }
 
     return std::nullopt;
+}
+
+void Physics2D::onBeforeUpdate() {
+    utils::Profiler::Start("Physics2D::onUpdate");
+    double tickOffset = scene->game()->timeSinceLastFixedTick();
+    scene->entities.forEach<RigidBody2D>([&](RigidBody2D* rb, Entity* entity) {
+        entity->transform.positionOffset = (rb->velocity() * tickOffset).resize<3>();
+    });
+    utils::Profiler::End("Physics2D::onUpdate");
 }
 

@@ -12,8 +12,9 @@ namespace hg::math {
     struct Transform {
 
         Vec3 position = Vec3::Zero();
+        Vec3 positionOffset = Vec3::Zero();
         Vec3 scale = Vec3::Identity();
-        Quat rotation = Quat(0, Vec3::Right());
+        Quat rotation = Quat(0, Vec3::Face());
 
         void move(Vec3 offset);
         void rotate(Vec3 axis, float rotateBy);

@@ -22,3 +22,6 @@
 [submodule "thirdparty/box2d"]
 	path = thirdparty/box2d
 	url = git@github.com:erincatto/box2d.git
+[submodule "thirdparty/json"]
+	path = thirdparty/json
+	url = https://github.com/nlohmann/json.git

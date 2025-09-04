@@ -11,12 +11,13 @@
 #include <array>
 
 namespace hg::ui {
-
     ENUM(OffsetType)
     ENUM_VALUE(OffsetType, Left)
     ENUM_VALUE(OffsetType, Top)
     ENUM_VALUE(OffsetType, Right)
     ENUM_VALUE(OffsetType, Bottom)
+
+    /*
 
     ENUM(Unit)
     ENUM_VALUE(Unit, Pixels)
@@ -32,28 +33,39 @@ namespace hg::ui {
             } else if (unit == Unit::Percent) {
                 return rawValue * containerSize;
             } else {
-                throw std::runtime_error("Unhandled Offset unit type");
+                throw std::runtime_error("[HAGAME ERROR]: Unhandled Offset unit type");
             }
         }
     };
 
-    using offset_t = std::array<Offset, 4>;
+    using offset_t = std::array<Offset, 4>;*/
+
+    constexpr float unitValue(bool usePixels, float value, float size) {
+        if (usePixels) {
+            return value;
+        } else {
+            return value * size;
+        }
+    }
 
     struct Style {
-        graphics::Color borderColor = graphics::Color(0, 0, 0, 0);
-        graphics::Color focusBorderColor = graphics::Color(0, 0, 0, 0);
-        graphics::Color backgroundColor = graphics::Color(0, 0, 0, 0);
+        graphics::Color borderColor = graphics::Color(0, 0, 0, 1);
+        graphics::Color focusBorderColor = graphics::Color(0, 0, 0, 1);
+        graphics::Color backgroundColor = graphics::Color(0, 0, 0, 1);
         graphics::Color foregroundColor = graphics::Color::white();
-        graphics::Color focusBackgroundColor = graphics::Color(0, 0, 0, 0);
+        graphics::Color focusBackgroundColor = graphics::Color(0, 0, 0, 1);
         graphics::Color focusForegroundColor = graphics::Color::white();
         bool positionAbsolute = false;
         int borderThickness = 0;
         hg::Rect absoluteRect;
-        offset_t padding = {0, 0, 0, 0};
-        offset_t margin = {0, 0, 0, 0};
+
+        bool paddingInPixels = true;
+        bool marginInPixels = true;
+        Vec4 padding;
+        Vec4 margin;
     };
 
-    inline offset_t offset(float left, float top, float right, float bottom, Unit::type unit = Unit::Pixels) {
+/*    inline offset_t offset(float left, float top, float right, float bottom, Unit::type unit = Unit::Pixels) {
         return offset_t{
                 Offset{unit, left},
                 Offset{unit, top},
@@ -69,7 +81,7 @@ namespace hg::ui {
                 Offset{unit, amt},
                 Offset{unit, amt},
         };
-    }
+    }*/
 }
 
 #endif //HAGAME2_STYLE_H

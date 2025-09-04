@@ -33,6 +33,7 @@ namespace hg {
             std::string shaders = "shaders";
             std::string fonts = "fonts";
             std::string meshes = "meshes";
+            std::string prefabs = "prefabs";
         };
 
         struct Settings {
@@ -40,6 +41,7 @@ namespace hg {
             std::string logo;
             std::string version;
             std::string font;
+            std::string prefabs;
             AssetFolders folders;
         };
 
@@ -72,6 +74,7 @@ namespace hg {
         int m_soundIdx = 0;
         int m_fontIdx = 0;
         int m_meshIdx = 0;
+        int m_prefabIdx = 0;
         int m_materialIdx = 0;
 
         graphics::RenderPasses<RenderMode> m_renderPasses;
@@ -91,6 +94,7 @@ namespace hg {
         std::vector<std::tuple<std::string, std::string>> m_sounds;
         std::vector<std::tuple<std::string, std::string>> m_fonts;
         std::vector<std::tuple<std::string, std::string>> m_meshes;
+        std::vector<std::tuple<std::string, std::string>> m_prefabs;
         std::vector<std::tuple<std::string, std::string>> m_materials;
 
         hg::graphics::Window* m_window;

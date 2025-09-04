@@ -18,6 +18,7 @@
 #include "../math/vector.h"
 #include "../utils/enum.h"
 
+
 namespace hg::utils {
     /*
 
@@ -118,6 +119,8 @@ namespace hg::utils {
         return raw;
     }
 
+    // using JsonConfig = nlohmann::json;
+
     class Config {
     public:
 
@@ -126,6 +129,8 @@ namespace hg::utils {
             m_data(data) {}
 
         static Config Parse(std::vector<std::string> lines);
+
+        void clear();
 
         bool hasSection(std::string section) const;
         bool has(std::string section, std::string key) const;
@@ -296,6 +301,8 @@ namespace hg::utils {
                 m_configs.insert(std::make_pair(key, Config(config)));
             }
         }
+
+        void clear();
 
         static MultiConfig Parse(std::string file);
 

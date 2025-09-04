@@ -19,7 +19,7 @@ namespace hg {
 class Game : public utils::LoopingThread {
     public:
 
-        int fixedTicksPerSecond = 120;
+        int fixedTicksPerSecond = 55;
 
         friend class HG;
 
@@ -47,6 +47,8 @@ class Game : public utils::LoopingThread {
         HG_GET(double, fixedDt);
         HG_GET_SET(bool, running, destroy);
         HG_GET_SET_SIMPLE(std::string, name);
+
+        double timeSinceLastFixedTick() const;
 
     protected:
 

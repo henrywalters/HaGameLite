@@ -5,7 +5,6 @@
 
 bool hg::ui::Button::onTrigger(hg::utils::enum_t event) {
     if (event == UITriggers::Select) {
-        std::cout << "SELECTED\n";
         events.emit(UIEvents::Selected);
         return true;
     }

@@ -103,6 +103,10 @@ std::shared_ptr<Font> hg::loadFont(std::string name, std::string path) {
     return font;
 }
 
+bool hg::hasFont(std::string name) {
+    return assets::FONTS.has(name);
+}
+
 Font* hg::getFont(std::string name) {
     return assets::FONTS.get(name).get();
 }
@@ -192,5 +196,24 @@ hg::graphics::Model *hg::getModel(std::string name) {
     return assets::MODELS.get(name).get();
 }
 
+std::shared_ptr<hg::Prefab> hg::loadPrefab(std::string name, std::string path) {
+    auto prefab = std::make_shared<Prefab>(path);
+    assets::PREFABS.set(name, prefab);
+    return prefab;
+}
+
+std::shared_ptr<hg::Prefab> hg::createPrefab(std::string name) {
+    auto prefab = std::make_shared<Prefab>();
+    assets::PREFABS.set(name, prefab);
+    return prefab;
+}
+
+bool hg::hasPrefab(std::string name) {
+    return assets::PREFABS.has(name);
+}
+
+hg::Prefab *hg::getPrefab(std::string name) {
+    return assets::PREFABS.get(name).get();
+}
 
 

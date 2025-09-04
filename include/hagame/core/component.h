@@ -22,7 +22,7 @@ namespace hg {
 
     class Entity;
 
-    class Component : public Object {
+    class Component : public virtual Object {
     public:
 
         Entity* entity;
@@ -95,6 +95,8 @@ namespace hg {
             getter_fn getter;
             std::optional<NumberSettings> number;
         };
+
+        static utils::variant DefaultValue(std::string type);
 
         // Register a component in the factory
         template <IsComponent Comp>

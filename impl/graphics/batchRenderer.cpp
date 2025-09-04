@@ -90,7 +90,7 @@ void BatchSprites::onClear() {
 }
 
 void BatchSprites::batch(hg::Entity *entity, Sprite *sprite) {
-    auto index = getTextureIndex(sprite->texture);
+    auto index = getTextureIndex(sprite->texture.path());
     m_data.emplace_back(sprite->size, sprite->offset, index, sprite->color, entity->model());
 }
 

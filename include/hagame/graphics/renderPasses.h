@@ -104,14 +104,14 @@ namespace hg::graphics {
             m_passes[key]->buffer->bind();
         }
 
-        hg::graphics::RenderPass* get(KeyType key) {
+        hg::graphics::RenderPass* get(KeyType key) const {
             if (!has(key)) {
                 throw std::runtime_error("RenderPass does not exist");
             }
-            return m_passes[key].get();
+            return m_passes.at(key).get();
         }
 
-        bool has(KeyType key) {
+        bool has(KeyType key) const {
             return m_passes.find(key) != m_passes.end();
         }
     private:

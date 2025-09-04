@@ -77,8 +77,9 @@ void hg::input::devices::KeyboardMouse::keyCallback(int key, int action)
     }
 
     if (key >= GLFW_KEY_A && key <= GLFW_KEY_Z) {
+
         auto id = key - GLFW_KEY_A + KeyboardButtons::LetterStart;
-        UpdateState(buttons[id], buttons[id], action != 0);
+        UpdateState(buttons[id], buttonsPressed[id], action != 0);
 
         axes[KeyboardAxes::WASD_X] = buttons[KeyboardButtons::D] - buttons[KeyboardButtons::A];
         axes[KeyboardAxes::WASD_Y] = buttons[KeyboardButtons::W] - buttons[KeyboardButtons::S];

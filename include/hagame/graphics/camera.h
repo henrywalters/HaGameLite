@@ -34,6 +34,8 @@ namespace hg::graphics {
         Vec2 size;
         bool centered;
 
+        float roundTo = 0;
+
         Mat4 projection() const override;
         Mat4 view() const override;
 
@@ -51,6 +53,7 @@ namespace hg::graphics {
     HG_NUMBER_FIELD(OrthographicCamera, float, zoom, 0.0000001, 10, 0.001)
     HG_FIELD(OrthographicCamera, hg::Vec2, size)
     HG_FIELD(OrthographicCamera, bool, centered)
+    HG_NUMBER_FIELD(OrthographicCamera, float, roundTo, 0, 100, 0.01);
 
 
     class FixedAspectOrthographicCamera : public Camera {

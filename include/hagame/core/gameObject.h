@@ -21,6 +21,7 @@ namespace hg {
 
         // Transform relative to the parent object
         math::Transform transform;
+
         std::string name = "";
 
         virtual void update(double dt) {}

@@ -13,6 +13,8 @@
 #include "../graphics/color.h"
 #include "config.h"
 #include "uuid.h"
+#include "hagame/graphics/texture.h"
+#include "../ui/style.h"
 
 namespace hg::utils {
 
@@ -42,8 +44,10 @@ namespace hg::utils {
         std::vector<Vec3i>,
         std::vector<Vec2i>,
         std::vector<void*>,
+        hg::Rect,
         UUID,
-        uuid_t
+        uuid_t,
+        hg::graphics::TextureAsset
     >;
 
     template <size_t size, class T>
@@ -95,7 +99,6 @@ namespace hg::utils {
         auto parts = hg::utils::s_split(raw, ',');             \
         Type out;                                              \
         for (int i = 0; i < Size; i++) {                             \
-            std::cout << parts[i] << "\n";                                                         \
             out.vector[i] = strToT<DataType>(parts[i]);                  \
         }                                                                \
         return out;                                                      \
@@ -128,6 +131,8 @@ namespace hg::utils {
         S_LIST_OF_HG_VECTORS(hg::Vec4i, int, 4)
         S_LIST_OF_HG_VECTORS(hg::Vec3i, int, 3)
         S_LIST_OF_HG_VECTORS(hg::Vec2i, int, 2)
+        std::string operator()(hg::Rect value) { return vector_to_string(std::vector<float>{value.pos[0], value.pos[1], value.size[0], value.size[1]}); }
+        std::string operator()(hg::graphics::TextureAsset value) { return value.path(); }
     };
 
     inline std::string serialize(const variant& var) {
@@ -152,6 +157,13 @@ namespace hg::utils {
         D_HG_VECTOR(hg::Vec4i, int, 4)
         D_HG_VECTOR(hg::Vec3i, int, 3)
         D_HG_VECTOR(hg::Vec2i, int, 2)
+        if (type == "hg::graphics::TextureAsset") {
+            return hg::graphics::TextureAsset(raw);
+        }
+        if (type == "hg::Rect") {
+            auto parts = s_split(raw, ',');
+            return hg::Rect(Vec2(std::stof(parts[0]), std::stof(parts[1])), Vec2(std::stof(parts[2]), std::stof(parts[3])));
+        }
 
         throw std::runtime_error("Unsupported variant type parser: " + type);
     }

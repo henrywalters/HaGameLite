@@ -2,6 +2,7 @@
 // Created by henry on 1/18/23.
 //
 #include "../../include/hagame/graphics/texture.h"
+#include "../../include/hagame/core/assets.h"
 
 hg::graphics::Texture::Texture(std::string _path, hg::graphics::ImageType _type):
         image(std::make_unique<Image>(_path, _type)) {
@@ -23,3 +24,12 @@ hg::graphics::Texture::Texture(hg::Vec2i size):
 
 }
 
+hg::graphics::TextureAsset::TextureAsset(std::string path):
+    m_path(path)
+{
+    reload();
+}
+
+void hg::graphics::TextureAsset::reload() {
+    m_texture = hg::getTexture(m_path);
+}

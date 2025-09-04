@@ -1,13 +1,13 @@
 //
 // Created by henry on 6/22/24.
 //
-#include "../../../../include/hagame/common/scenes/loading.h"
-#include "../../../include/hagame/core/assets.h"
-#include "../../../include/hagame/graphics/shaders/color.h"
-#include "../../../include/hagame/graphics/shaders/texture.h"
-#include "../../../include/hagame/graphics/shaders/text.h"
-#include "../../../include/hagame/graphics/shaders/particle.h"
-#include "../../../include/hagame/graphics/windows.h"
+#include <hagame/common/scenes/loading.h>
+#include <hagame/core/assets.h>
+#include <hagame/graphics/shaders/color.h>
+#include <hagame/graphics/shaders/texture.h>
+#include <hagame/graphics/shaders/text.h>
+#include <hagame/graphics/shaders/particle.h>
+#include <hagame/graphics/windows.h>
 
 using namespace hg;
 using namespace hg::graphics;
@@ -94,7 +94,12 @@ void Loading::onUpdate(double dt) {
         std::cout << m_message << "\n";
         hg::loadModel(name, path);
         hg::loadMesh(name, path);
-    } else {
+    } else if (m_prefabIdx < m_prefabs.size()) {
+        auto &[name, path] = m_prefabs[m_prefabIdx++];
+        m_message = "Loading prefab: " + name + " from " + path;
+        std::cout << m_message << "\n";
+        hg::loadPrefab(name, path);
+    } {
         m_message = "Initializing";
         if (m_settings.minLoadingTime <= m_elapsedTime) {
             onFinish();
@@ -197,6 +202,14 @@ void Loading::readFilesForLoading() {
         auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.fonts + "/", "") + parts.name;
         if (name != m_settings.font && parts.extension == "ttf") {
             m_fonts.push_back(std::make_tuple(name, file));
+        }
+    }
+
+    for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.prefabs, true)) {
+        auto parts = f_getParts(file);
+        auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.prefabs + "/", "") + parts.name;
+        if (name != m_settings.prefabs && parts.extension == "hg_pfb") {
+            m_prefabs.push_back(std::make_tuple(name, file));
         }
     }
 

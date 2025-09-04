@@ -72,6 +72,12 @@ namespace hg {
 
         return size * minRatio;
     }
+
+    template <size_t ND, typename T>
+    math::Hypercube<ND, T> mapRectToBounds(math::Vector<ND, T> size, math::Vector<ND, T> bounds) {
+        auto boundedSize = mapSizeToBounds(size, bounds);
+        return math::Hypercube((bounds - boundedSize) * 0.5, boundedSize);
+    }
 }
 
 

@@ -1,7 +1,8 @@
 //
 // Created by henry on 7/22/24.
 //
-#include "../../../../include/hagame/ui/elements/gridContainer.h"
+#include <hagame/ui/elements/gridContainer.h>
+#include <hagame/ui/math.h>
 
 using namespace hg::ui;
 
@@ -17,7 +18,7 @@ hg::Rect hg::ui::GridElement::getRect(Rect rootRect) {
     } else {
         parentRect = rootRect;
     }
-    return adjustedRect(m_config.getRect(parentRect, m_index), style.padding, style.margin);
+    return adjustedRect(m_config.getRect(parentRect, m_index), style.marginInPixels, style.paddingInPixels, style.margin, style.padding);
 }
 
 hg::ui::GridContainer::GridContainer(GridConfig config):

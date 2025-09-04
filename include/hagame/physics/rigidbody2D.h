@@ -26,8 +26,8 @@ namespace hg::physics {
         utils::Watcher<bool> fixRotation = false;
         utils::Watcher<bool> isBullet = false;
         utils::Watcher<float> density = 1.0;
-        utils::Watcher<float> friction = 1.0;
-        utils::Watcher<float> restitution = 1.0;
+        utils::Watcher<float> friction = 0.25;
+        utils::Watcher<float> restitution = 0.25;
         utils::Watcher<float>  damping = 1.0;
 
         Vec2 velocity() const;
@@ -66,7 +66,7 @@ namespace hg::physics {
 
     };
 
-    HG_COMPONENT(Physics, RigidBody2D)
+    HG_COMPONENT(Physics2D, RigidBody2D)
     HG_FIELD(RigidBody2D, bool, dynamic)
     HG_FIELD(RigidBody2D, bool, fixRotation)
     HG_FIELD(RigidBody2D, bool, isBullet)

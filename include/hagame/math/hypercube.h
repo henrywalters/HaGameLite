@@ -32,6 +32,14 @@ namespace hg::math {
             return true;
         }
 
+        bool operator==(Hypercube<dimensions, T> const& other) const {
+            return size == other.size && pos == other.pos;
+        }
+
+        bool operator!=(Hypercube<dimensions, T> const& other) const {
+            return !(*this == other);
+        }
+
         bool contains(Hypercube<dimensions, T> other) const {
             for (int i = 0; i < dimensions; i++) {
                 if (other.pos[i] < pos[i] || other.pos[i] + other.size[i] > pos[i] + size[i]) return false;

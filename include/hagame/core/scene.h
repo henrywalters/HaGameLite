@@ -71,6 +71,10 @@ namespace hg {
 
         void clear();
 
+        // TODO: Add Json saving cause multi config is a bit whack
+        //hg::utils::JsonConfig saveToJson(hg::Entity* entity = nullptr);
+        //void loadFromJson(hg::utils::JsonConfig const& config);
+
         hg::utils::MultiConfig save(hg::Entity* entity = nullptr);
         void load(hg::utils::MultiConfig scene);
 

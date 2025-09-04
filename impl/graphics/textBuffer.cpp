@@ -69,6 +69,7 @@ void hg::graphics::TextBuffer::updateBuffers() {
 }
 
 void hg::graphics::TextBuffer::render() {
+    glActiveTexture(GL_TEXTURE0);
     m_font->m_atlas->bind();
     for (const auto& [ch, character] : m_characters) {
         character->buffer->bind();

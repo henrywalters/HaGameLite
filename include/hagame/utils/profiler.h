@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <stdexcept>
 #include <deque>
+#include <functional>
 #include "file.h"
 #include "clock.h"
 
@@ -51,28 +52,35 @@ namespace hg::utils {
     struct ProfileFrame {
         long long start;
         long long end;
+
+        long long duration() const {
+            return end - start;
+        }
+
+        double durationInSeconds() const {
+            return hg::utils::Clock::ToSeconds(duration());
+        }
     };
 
     const int MAX_PROFILER_FRAMES = 100;
 
-    struct Profile {
-        std::string name;
-        source_t source;
-        std::deque<ProfileFrame> frames;
-        long long start, end;
-        double sum;
-
-        double duration() const {
-            return hg::utils::Clock::ToSeconds(end - start);
-        }
-
-        double average() const {
-            return sum / frames.size();
-        }
-    };
-
     class Profiler {
     public:
+
+        struct Profile {
+            std::string name;
+            source_t source;
+            std::deque<ProfileFrame> frames;
+            long long sum = 0;
+
+            long long average() const {
+                return sum / frames.size();
+            }
+
+            double averageInSeconds() const {
+                return hg::utils::Clock::ToSeconds(average());
+            }
+        };
 
         static bool ENABLED;
 
@@ -89,6 +97,20 @@ namespace hg::utils {
         static inline std::unordered_map<std::string, bool> s_started;
 
     };
+
+
+    template <typename Fn, typename... Args>
+    void Profile(std::string name, Fn&& fn, Args &&... args) {
+        Profiler::Start(name);
+        if constexpr (std::is_member_function_pointer_v<Fn>) {
+            // Member function pointer requires an instance (first arg)
+            std::invoke(std::forward<Fn>(fn), std::forward<Args>(args)...);
+        } else {
+            // Non-member function or callable
+            std::invoke(std::forward<Fn>(fn), std::forward<Args>(args)...);
+        }
+        Profiler::End(name);
+    }
 }
 
 #endif //HAGAME2_PROFILER_H

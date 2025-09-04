@@ -66,7 +66,7 @@ namespace hg {
             std::string prefix = "> ";
 
             int maxOutputSize = 1000;
-            float slideDur = 0.125f;
+            double slideDur = 0.125;
             int lineHeight = 26.0f;
 
             float scrollWidth = 15;
@@ -136,7 +136,7 @@ namespace hg {
         double m_elapsedTime;
 
         Status m_status = Status::Closed;
-        float m_t = 0;
+        double m_t = 0;
 
         std::string m_command;
         std::vector<std::string> m_buffer;
