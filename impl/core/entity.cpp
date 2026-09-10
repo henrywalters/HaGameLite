@@ -50,3 +50,58 @@ void Entity::clear() {
 std::string hg::Entity::toString() const {
     return name;
 }
+
+nlohmann::json Entity::save() {
+    nlohmann::json j;
+    j["name"] = name;
+    j["id"] = id();
+    j["transform"] = {
+        {"position", transform.position},
+        {"scale", transform.scale},
+        {"rotation", transform.rotation}
+    };
+
+    if (prefab) {
+        j["prefab"] = prefab->id();
+    }
+
+    j["children"] = nlohmann::json::array();
+    j["components"] = nlohmann::json::array();
+
+    if (!prefab) {
+        for (hg::Component *component: components()) {
+            j["components"].push_back(component->save());
+        }
+
+        for (const auto& child : children()) {
+            j["children"].push_back(static_cast<Entity*>(child)->save());
+        }
+    }
+
+    return j;
+}
+
+void Entity::load(nlohmann::json const &j) {
+    name = j["name"].get<std::string>();
+    transform.position = j["transform"]["position"].get<hg::Vec3>();
+    transform.rotation = j["transform"]["rotation"].get<hg::Quat>();
+    transform.scale = j["transform"]["scale"].get<hg::Vec3>();
+
+    for (const auto& compJ : j["components"]) {
+        auto name = compJ["name"].get<std::string>();
+        auto componentDef = ComponentFactory::Get(name);
+        auto component = componentDef.attach(this);
+
+        for (const auto& field : ComponentFactory::GetFields(name)) {
+            auto value = compJ["params"][field.field];
+            std::visit(utils::overloaded{
+                [&](ComponentFactory::PrimitiveDetails const& details) {
+                    details.setter(component, utils::deserializeFromJson(field.type, value));
+                },
+                [&](ComponentFactory::JsonDetails const& details) {
+                    details.setter(component, value);
+                }
+            }, field.details);
+        }
+    }
+}

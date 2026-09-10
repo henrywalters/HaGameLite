@@ -55,6 +55,14 @@ namespace hg::math {
             if (e >= f) return dot2(bc);
             return dot2(ac) - e * e / f;
         }
+
+        bool operator==(LineSegment const& other) const {
+            return a == other.a && b == other.b;
+        }
+
+        bool operator!=(LineSegment const& other) const {
+            return a != other.a || b != other.b;
+        }
     };
 }
 

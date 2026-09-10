@@ -14,6 +14,10 @@
 #include "prefab.h"
 #include <entt/entity/registry.hpp>
 
+#include "hagame/utils/helpers.h"
+#include "hagame/utils/serialization.h"
+#include "nlohmann/json.hpp"
+
 namespace hg {
 
     class Scene;
@@ -108,13 +112,15 @@ namespace hg {
 
         template <class T>
         T* getComponentInChildren() {
+            auto comp = getComponent<T>();
+            if (comp) return comp;
+
             for (auto child : children()) {
-                if (((Entity*)child)->hasComponent<T>()) {
-                    return ((Entity*)child)->getComponent<T>();
-                }
+                auto comp = static_cast<Entity*>(child)->getComponentInChildren<T>();
+                if (comp) return comp;
             }
 
-            return NULL;
+            return nullptr;
         }
 
         // Add a child entity
@@ -125,6 +131,10 @@ namespace hg {
 
         // Remove this entity and all of its children
         void remove();
+
+        nlohmann::json save();
+
+        void load(nlohmann::json const& j);
 
     protected:
         std::string toString() const override;
@@ -231,7 +241,15 @@ namespace hg {
                     auto newComponent = ComponentFactory::Attach(entity, component->className());
                     for (const ComponentFactory::ComponentField &field: ComponentFactory::GetFields(
                             component->className())) {
-                        field.setter(newComponent, field.getter(component));
+                        std::visit(utils::overloaded{
+                            [&](ComponentFactory::PrimitiveDetails const& details) {
+                                details.setter(newComponent, details.getter(component));
+                            },
+                            [&](ComponentFactory::JsonDetails const& details) {
+                                details.setter(newComponent, details.getter(component));
+                            }
+                        }, field.details);
+
                     }
                 }
 
@@ -294,37 +312,6 @@ namespace hg {
         }
 
         [[nodiscard]] entt::basic_registry<uint32_t, std::allocator<uint32_t>>* registry() const { return m_registry.get(); }
-
-        void save(utils::MultiConfig& config, Entity* entity) {
-            config.getPage("Entities")->addSection(std::to_string(entity->id()));
-
-            config.getPage("Entities")->setRaw(std::to_string(entity->id()), "name", entity->name);
-            config.getPage("Entities")->setArray<float, 3>(std::to_string(entity->id()), "position", entity->transform.position.vector);
-            config.getPage("Entities")->setArray<float, 3>(std::to_string(entity->id()), "scale", entity->transform.scale.vector);
-            config.getPage("Entities")->setArray<float, 4>(std::to_string(entity->id()), "rotation", entity->transform.rotation.vector);
-
-            if (entity->prefab) {
-                config.getPage("Entities")->set(std::to_string(entity->id()), "prefab", entity->prefab->id());
-            }
-
-            if (entity->parent() && entity->parent()->id() != root->id()) {
-                config.getPage("Entities")->set<int>(std::to_string(entity->id()), "parent", entity->parent()->id());
-            }
-
-            if (!entity->prefab) {
-                for (hg::Component *component: entity->components()) {
-                    auto id = component->className() + "_" + std::to_string(entity->id()) + "_" +
-                              std::to_string(component->id());
-                    std::cout << id << "\n";
-                    config.getPage("Components")->addSection(id);
-                    for (const auto &field: ComponentFactory::GetFields(component->className())) {
-                        auto value = field.getter(component);
-                        config.getPage("Components")->setRaw(id, field.field, hg::utils::serialize(value));
-                    }
-                    component->save(config.getPage("Components"), id);
-                }
-            }
-        }
 
     private:
 

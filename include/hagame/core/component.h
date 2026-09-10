@@ -15,6 +15,7 @@
 #include <optional>
 #include "../utils/config.h"
 #include "../utils/variant.h"
+#include "nlohmann/json.hpp"
 
 namespace hg {
 
@@ -39,8 +40,8 @@ namespace hg {
             onUpdateParams(params);
         }
 
-        virtual void load(utils::Config* config, std::string section) {}
-        virtual void save(utils::Config* config, std::string section) {}
+        nlohmann::json save();
+        void load(nlohmann::json const& j);
 
         virtual void onParamChange() {};
 
@@ -74,6 +75,8 @@ namespace hg {
         using remove_fn = std::function<void(Entity*)>;
         using setter_fn = std::function<void(Component*, utils::variant)>;
         using getter_fn = std::function<utils::variant(Component*)>;
+        using json_setter_fn = std::function<void(Component*, nlohmann::json const&)>;
+        using json_getter_fn = std::function<nlohmann::json(Component*)>;
 
         struct RegisteredComponent {
             std::string category;
@@ -88,12 +91,23 @@ namespace hg {
             double step;
         };
 
-        struct ComponentField {
-            std::string type;
-            std::string field;
+        struct PrimitiveDetails {
             setter_fn setter;
             getter_fn getter;
             std::optional<NumberSettings> number;
+        };
+
+        struct JsonDetails {
+            json_setter_fn setter;
+            json_getter_fn getter;
+        };
+
+        using Details = std::variant<PrimitiveDetails, JsonDetails>;
+
+        struct ComponentField {
+            std::string type;
+            std::string field;
+            Details details;
         };
 
         static utils::variant DefaultValue(std::string type);
@@ -105,6 +119,8 @@ namespace hg {
         static ComponentField RegisterField(std::string type, std::string component, std::string fieldName, setter_fn setter, getter_fn getter);
 
         static ComponentField RegisterField(std::string type, std::string component, std::string fieldName, setter_fn setter, getter_fn getter, double min, double max, double step);
+
+        static ComponentField RegisterJsonField(std::string type, std::string component, std::string fieldName, json_setter_fn setter, json_getter_fn getter);
 
         // List all the registered components
         static std::vector<RegisteredComponent> GetAll();

@@ -64,6 +64,7 @@ namespace hg {
     std::vector<std::shared_ptr<hg::graphics::Texture>> loadTextures(std::vector<std::string> paths);
     hg::graphics::Texture* getTexture(std::string name);
 
+    bool hasSpriteSheet(std::string name);
     std::shared_ptr<hg::graphics::SpriteSheetV2> loadSpriteSheet(std::string name, std::string path);
     hg::graphics::SpriteSheetV2* getSpriteSheet(std::string name);
 

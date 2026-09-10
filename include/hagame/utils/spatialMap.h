@@ -86,9 +86,9 @@ namespace hg::utils {
 
         size_t size() const { return m_size; }
 
-        void forEach(std::function<void(hg::Vec2i, DataType)> fn) {
-            for (const auto&[col, map] : m_map) {
-                for (const auto&[row, val] : m_map[col]) {
+        void forEach(std::function<void(hg::Vec2i, DataType)> fn) const {
+            for (const auto&[col, rowMap] : m_map) {
+                for (const auto&[row, val] : rowMap) {
                     fn(hg::Vec2i(col, row), val);
                 }
             }

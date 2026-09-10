@@ -21,7 +21,7 @@ namespace hg::graphics {
         return out;
     }
 
-    const int MAX_BATCH_TEXTURES = 16;
+    const int MAX_BATCH_TEXTURES = 32;
 
     const ShaderSource TEXTURE_SHADER {
         "texture",

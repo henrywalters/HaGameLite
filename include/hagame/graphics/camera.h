@@ -36,6 +36,8 @@ namespace hg::graphics {
 
         float roundTo = 0;
 
+        float pixelsPerMeter = 1;
+
         Mat4 projection() const override;
         Mat4 view() const override;
 
@@ -54,6 +56,40 @@ namespace hg::graphics {
     HG_FIELD(OrthographicCamera, hg::Vec2, size)
     HG_FIELD(OrthographicCamera, bool, centered)
     HG_NUMBER_FIELD(OrthographicCamera, float, roundTo, 0, 100, 0.01);
+    HG_NUMBER_FIELD(OrthographicCamera, float, pixelsPerMeter, 1, 1000, 0.1)
+
+    class OrthographicZoom : public Component {
+    public:
+
+        float zoomSpeed = 1.0;
+
+        void update(int scroll, Vec2 mousePos, double dt);
+
+    protected:
+
+        OBJECT_NAME(OrthographicZoom)
+
+    };
+
+    HG_COMPONENT(Graphics, OrthographicZoom)
+    HG_NUMBER_FIELD(OrthographicZoom, float, zoomSpeed, 0.01, 10, 0.01)
+
+    class OrthographicPan : public Component {
+    public:
+
+        void update(bool move, Vec2 mousePos);
+
+    protected:
+
+        OBJECT_NAME(OrthographicPan)
+
+    private:
+
+        Vec2 m_lastMousePos;
+
+    };
+
+    HG_COMPONENT(Graphics, OrthographicPan)
 
 
     class FixedAspectOrthographicCamera : public Camera {

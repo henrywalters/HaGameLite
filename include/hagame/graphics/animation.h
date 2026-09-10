@@ -76,7 +76,7 @@ namespace hg::graphics {
 
         // Adds this animation to the queue. It will be played after the current animation finishes
         void trigger(Animation* animation) {
-            if (animation != m_animations.get()->value && std::find(m_animationQueue.begin(), m_animationQueue.end(), animation) == m_animationQueue.end()) {
+            if (animation != m_animations.get()->value && std::ranges::find(m_animationQueue, animation) == m_animationQueue.end()) {
                 m_animationQueue.push_back(animation);
             }
         }

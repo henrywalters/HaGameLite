@@ -24,12 +24,6 @@ hg::graphics::Texture::Texture(hg::Vec2i size):
 
 }
 
-hg::graphics::TextureAsset::TextureAsset(std::string path):
-    m_path(path)
-{
-    reload();
-}
-
 void hg::graphics::TextureAsset::reload() {
-    m_texture = hg::getTexture(m_path);
+    m_asset = hg::getTexture(m_path);
 }

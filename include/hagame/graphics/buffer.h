@@ -50,7 +50,7 @@ namespace hg::graphics {
             buffer->allocated = data.size();
             buffer->max = buffer->allocated;
             glBindBuffer(Type, buffer->id);
-            glBufferData(Type, sizeof(DataType) * buffer->max, &data[0], GL_DYNAMIC_DRAW);
+            glBufferData(Type, sizeof(DataType) * buffer->max, data.data(), GL_DYNAMIC_DRAW);
             glBindBuffer(Type, 0);
             return buffer;
         }
@@ -62,7 +62,7 @@ namespace hg::graphics {
             buffer->max = data.size();
             buffer->allocated = buffer->max;
             glBindBuffer(Type, buffer->id);
-            glBufferData(Type, sizeof(DataType) * data.size(), &data[0], GL_STATIC_DRAW);
+            glBufferData(Type, sizeof(DataType) * data.size(), data.data(), GL_STATIC_DRAW);
             glBindBuffer(Type, 0);
             return buffer;
         }

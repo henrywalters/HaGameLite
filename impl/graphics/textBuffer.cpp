@@ -76,5 +76,6 @@ void hg::graphics::TextBuffer::render() {
         character->mesh.getVAO()->bind();
         glDrawArraysInstanced(GL_TRIANGLES, 0, 6, character->buffer->max);
     }
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 

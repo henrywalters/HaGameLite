@@ -4,43 +4,40 @@
 #include "../../../include/hagame/graphics/camera.h"
 
 hg::Mat4 hg::graphics::OrthographicCamera::projection() const {
-
-    auto position = entity->position();
-
-    if (roundTo > 0) {
-        position = position.rounded(roundTo);
-    }
+    hg::Vec2 visibleSize = size.cast<float>() / pixelsPerMeter * zoom;
 
     if (centered) {
         return Mat4::Orthographic(
-                position[0] - size[0] * 0.5f * zoom,
-                position[0] + size[0] * 0.5f * zoom,
-                position[1] - size[1] * 0.5f * zoom,
-                position[1] + size[1] * 0.5f * zoom,
-                zNear,
-                zFar
+                -visibleSize[0] * 0.5f, visibleSize[0] * 0.5f,
+                -visibleSize[1] * 0.5f, visibleSize[1] * 0.5f,
+                zNear, zFar
         );
-    }
-    else {
+    } else {
         return Mat4::Orthographic(
-                position[0],
-                position[0] + size[0] * zoom,
-                position[1],
-                position[1] + size[1] * zoom,
-                zNear,
-                zFar
+                0, visibleSize[0],
+                0, visibleSize[1],
+                zNear, zFar
         );
     }
+}
+
+hg::Mat4 hg::graphics::OrthographicCamera::view() const {
+    auto position = entity->position();
+    if (roundTo > 0) {
+        position = position.rounded(roundTo);
+    }
+    return Mat4::Translation(position.resize<3>() * -1); // camera offset now lives here
 }
 
 hg::Vec2 hg::graphics::OrthographicCamera::getGamePos(hg::Vec2 screenPos) {
     auto position = entity->position();
-    return (screenPos - size.cast<float>() * 0.5f) * zoom + position.resize<2>();
+    // pixels from screen center -> world units -> offset by camera world position
+    return (screenPos - size.cast<float>() * 0.5f) / pixelsPerMeter * zoom + position.resize<2>();
 }
 
-hg::Mat4 hg::graphics::OrthographicCamera::view() const {
-    return Mat4::Identity();
-}
+// hg::Mat4 hg::graphics::OrthographicCamera::view() const {
+//     return Mat4::Identity();
+// }
 
 hg::Rect hg::graphics::FixedAspectOrthographicCamera::getViewport() const {
     if (windowSize[0] > windowSize[1] * ratio.ratio()) {
@@ -119,4 +116,25 @@ hg::Mat4 hg::graphics::ObliqueCamera::projection() const {
     // mat.set(2, 2, 0);
     return mat * orth;
 
+}
+
+void hg::graphics::OrthographicZoom::update(int scroll, Vec2 mousePos, double dt) {
+    auto camera = entity->getComponent<OrthographicCamera>();
+
+    if (scroll != 0.0f && camera) {
+        float factor = 1.0f + scroll * zoomSpeed * dt;
+        camera->zoom = camera->zoom * factor;
+    }
+}
+
+void hg::graphics::OrthographicPan::update(bool move, Vec2 mousePos) {
+
+    auto camera = entity->getComponent<OrthographicCamera>();
+
+    if (move && camera) {
+        auto delta = mousePos - m_lastMousePos;
+        entity->transform.position -= (delta / camera->pixelsPerMeter * camera->zoom).resize<3>();
+    }
+
+    m_lastMousePos = mousePos;
 }

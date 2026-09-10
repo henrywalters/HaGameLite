@@ -44,6 +44,10 @@ namespace hg::graphics {
             glBindTexture(GL_TEXTURE_2D, id);
         }
 
+        void unbind() {
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
+
         void clear(Color color) {
             bind();
             float col[4] = {0, 0, 0, 0};
@@ -53,12 +57,16 @@ namespace hg::graphics {
         template <class T>
         void update(hg::Vec2i size, T* data) {
             glBindTexture(GL_TEXTURE_2D, id);
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
             glTexImage2D(GL_TEXTURE_2D, 0, TextureType, size[0], size[1], 0, DataFormat, DataType, data);
         }
 
         void update(hg::Vec2i _size) {
             size = _size;
             glBindTexture(GL_TEXTURE_2D, id);
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
             glTexImage2D(GL_TEXTURE_2D, 0, TextureType, size[0], size[1], 0, DataFormat, DataType, NULL);
         }
 
@@ -70,8 +78,11 @@ namespace hg::graphics {
         template <class T>
         void initialize(hg::Vec2i size, T* data) {
             glGenTextures(1, &id);
+            bind();
             setParameter(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             setParameter(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
             update(size, data);
         }
 
@@ -80,6 +91,8 @@ namespace hg::graphics {
             bind();
             setParameter(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             setParameter(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
             update(size);
         }
     };

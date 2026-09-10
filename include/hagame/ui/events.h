@@ -24,6 +24,7 @@ namespace hg::ui {
     ENUM_VALUE(UIEvents, Selected)
     ENUM_VALUE(UIEvents, MouseEnter)
     ENUM_VALUE(UIEvents, MouseLeave)
+
 }
 
 #endif //HAGAME2_EVENTS_H

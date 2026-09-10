@@ -5,15 +5,19 @@
 #ifndef HAGAME2_OBJECT_H
 #define HAGAME2_OBJECT_H
 
+#include <optional>
 #include <string>
 #include <ostream>
 #include "../utils/macros.h"
 #include "../utils/uuid.h"
+#include "hagame/utils/variant.h"
 
 namespace hg {
 
 #define OBJECT_NAME(name) std::string toString() const override { return #name + std::string("<" + std::to_string(id()) + ">"); } \
     std::string toClassName() const override { return #name; }
+
+#define OBJECT_BASE(name) std::string toBaseClassName() const override { return #name; }
 
     /*
      *
@@ -49,9 +53,16 @@ namespace hg {
             return toClassName();
         }
 
+        std::string baseClassName() const {
+            return toBaseClassName();
+        }
+
     protected:
         virtual std::string toString() const = 0;
         virtual std::string toClassName() const = 0;
+        virtual std::string toBaseClassName() const {
+            return "Object";
+        }
 
     };
 }

@@ -10,106 +10,74 @@
 
 hg::utils::uuid_t hg::System::id = 0;
 
-hg::utils::MultiConfig hg::Scene::save(hg::Entity* entity) {
-    hg::utils::MultiConfig scene;
-    auto scripts = scene.addPage("Scripts");
-    auto meta = scene.addPage("Scenes");
-    scene.addPage("Entities");
-    scene.addPage("Components");
+nlohmann::json hg::Scene::save(hg::Entity* entity) {
+    nlohmann::json j;
+    j["scripts"] = nlohmann::json::array();
+    j["entities"] = nlohmann::json::array();
 
     for (const auto& script : m_scripts) {
         ScriptDef def = script->getDef();
-        scripts->addSection(def.name);
-        scripts->setRaw(def.name, "path", def.path);
-        scripts->setRaw(def.name, "extension", def.extension);
-        scripts->setRaw(def.name, "libPath", def.libPath);
+        nlohmann::json scriptJ;
+        scriptJ["path"] = def.path;
+        scriptJ["extension"] = def.extension;
+        scriptJ["libPath"] = def.libPath;
+        j["scripts"].push_back(scriptJ);
     }
 
     std::function<void(hg::Entity*)> saveEntity = [&](hg::Entity* node) {
-        if (node->name != "root") {
-            entities.save(scene, node);
-        }
-        if (!node->prefab) { // Only save the children & components of non-prefab entities
-            for (const auto &child: node->children()) {
-                saveEntity(static_cast<Entity *>(child));
+        if (node->name == "root") {
+            // Never serialize the root sentinel itself — just its direct children
+            for (const auto& child : node->children()) {
+                saveEntity(static_cast<Entity*>(child));
             }
+            return;
         }
+
+        j["entities"].push_back(node->save());
     };
 
     saveEntity(entity ? entity : entities.root.get());
-
-    return scene;
+    return j;
 }
 
-void hg::Scene::load(hg::utils::MultiConfig scene) {
-    std::unordered_map<std::string, Entity*> entityMap;
+void hg::Scene::load(nlohmann::json const &j) {
     std::unordered_map<hg::utils::uuid_t, Prefab*> prefabMap;
 
     for (const auto&[key, prefab] : assets::PREFABS.store()) {
         prefabMap.insert(std::make_pair(prefab->id(), prefab.get()));
     }
 
-    auto scripts = scene.getPage("Scripts");
-
-    for (const auto& section : scripts->sections()) {
+    for (const auto& script : j["scripts"]) {
         ScriptDef def;
-        def.name = section;
-        def.path = scripts->getRaw(section, "path");
-        def.extension = scripts->getRaw(section, "extension");
-        def.libPath = scripts->getRaw(section, "libPath");
+        def.name = script["name"].get<std::string>();
+        def.path = script["path"].get<std::string>();
+        def.extension = script["extension"].get<std::string>();
+        def.libPath = script["libPath"].get<std::string>();
         addScript(ScriptFactory::Create(def));
     }
 
-    std::unordered_map<utils::uuid_t, hg::Entity*> idMap;
-
-    auto entitiesPage = scene.getPage("Entities");
-
-    for (const auto& section : entitiesPage->sections()) {
-
+    std::function<void(nlohmann::json, hg::Entity*)> loadEntity = [&](nlohmann::json const& entityJ, hg::Entity* parent = nullptr) {
         hg::Entity* entity;
 
-        if (entitiesPage->has(section, "prefab")) {
-            auto prefabId = entitiesPage->get<utils::uuid_t>(section, "prefab");
+        if (entityJ.find("prefab") != entityJ.end()) {
+            auto prefabId = entityJ["prefab"].get<utils::uuid_t>();
             if (prefabMap.find(prefabId) == prefabMap.end()) {
                 throw std::runtime_error("Prefab '" + std::to_string(prefabId) + "' not loaded into assets!");
             }
-            entity = entities.add(prefabMap.at(prefabId));
+            entity = parent ? entities.add(parent, prefabMap.at(prefabId)) : entities.add(prefabMap.at(prefabId));
         } else {
-            entity = entities.add();
+            entity = parent ? entities.add(parent) : entities.add();
         }
 
-        idMap.insert(std::make_pair(std::stol(section), entity));
-        entity->name = entitiesPage->getRaw(section, "name");
+        entity->load(entityJ);
 
-        entitiesPage->getArray<float, 3>(section, "position", entity->transform.position.vector);
-        entitiesPage->getArray<float, 3>(section, "scale", entity->transform.scale.vector);
-        entitiesPage->getArray<float, 4>(section, "rotation", entity->transform.rotation.vector);
-
-        entityMap.insert(std::make_pair(section, entity));
-    }
-
-    for (const auto& section : entitiesPage->sections()) {
-        if (entitiesPage->has(section, "parent")) {
-            //auto parent = entities.get();
-            auto entity = idMap.at(std::stol(section));
-            idMap.at(entitiesPage->get<hg::utils::uuid_t>(section, "parent"))->addChild(entity);
+        for (const auto& child : entityJ["children"]) {
+            loadEntity(child, entity);
         }
-    }
+    };
 
-    for (const auto& section : scene.getPage("Components")->sections()) {
-        auto parts = utils::s_split(section, '_');
-        auto name = parts[0];
-        auto entityId = std::stol(parts[1]);
-
-        auto componentDef = ComponentFactory::Get(name);
-        auto component = componentDef.attach(idMap.at(entityId));
-
-        for (const auto& field : ComponentFactory::GetFields(name)) {
-            auto value = scene.getPage("Components")->getRaw(section, field.field);
-            field.setter(component, utils::deserialize(field.type, value));
-        }
-
-        component->load(scene.getPage("Components"), section);
+    for (const auto &entityJ : j["entities"]) {
+        loadEntity(entityJ, nullptr);
     }
 }
 

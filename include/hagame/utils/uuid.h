@@ -18,9 +18,9 @@ namespace hg {
             }
         };
 
-        static std::random_device device;
-        static std::mt19937_64 engine(device());
-        static std::uniform_int_distribution<uuid_t> uniDist;
+        inline std::random_device device;
+        inline std::mt19937_64 engine(device());
+        inline std::uniform_int_distribution<uuid_t> uniDist;
 
         class UUID {
         public:

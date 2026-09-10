@@ -11,12 +11,29 @@
 #include "../../math/lineSegment.h"
 
 namespace hg::graphics::primitives {
+
+    struct LightTriangles {
+        std::vector<math::LineSegment> triangles;
+
+        bool operator==(const LightTriangles &other) const {
+            if (triangles.size() != other.triangles.size()) return false;
+            for (int i = 0; i < triangles.size(); ++i) {
+                if (triangles[i] != other.triangles[i]) return false;
+            }
+            return true;
+        }
+
+        bool operator!=(const LightTriangles &other) const {
+            return !(*this == other);
+        }
+    };
+
     class Light : public Mesh {
     public:
 
-        Light(std::vector<math::LineSegment> triangles, Vec3 origin, float radius);
+        Light(LightTriangles triangles, Vec3 origin, float radius);
 
-        HG_GET_SET(std::vector<math::LineSegment>, triangles, update);
+        HG_GET_SET(LightTriangles, triangles, update);
         HG_GET_SET(Vec3, origin, update);
         HG_GET_SET(float, radius, update);
 
@@ -26,7 +43,7 @@ namespace hg::graphics::primitives {
 
     private:
 
-        std::vector<math::LineSegment> m_triangles;
+        LightTriangles m_triangles;
         Vec3 m_origin;
         float m_radius;
 

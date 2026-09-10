@@ -72,6 +72,9 @@ void BatchQuads::batch(hg::Vec2 size, hg::Vec2 offset, Color color, hg::Mat4 mod
 }
 
 void BatchQuads::render() {
+
+    if (m_data.empty()) return;
+
     std::sort(m_data.begin(), m_data.end(), [](auto& a, auto& b) {
         return a.model.get(2, 3) < b.model.get(2, 3); // Compare the Z values of each quad
     });
@@ -86,7 +89,7 @@ void BatchQuads::render() {
 }
 
 void BatchSprites::onClear() {
-
+    m_textures.clear();
 }
 
 void BatchSprites::batch(hg::Entity *entity, Sprite *sprite) {

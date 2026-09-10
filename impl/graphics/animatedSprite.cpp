@@ -1,66 +1,83 @@
 //
 // Created by henry on 6/16/24.
 //
-#include "../../../include/hagame/graphics/animatedSprite.h"
+#include "hagame/graphics/animatedSprite.h"
+#include "hagame/utils/serialization.h"
+
+#include "nlohmann/json.hpp"
 
 using namespace hg::graphics;
 
-AnimatedSprite::AnimatedSprite(Texture* texture, TextureAtlas* atlas, TextureAtlasGroup group):
-    m_texture(texture),
-    m_atlas(atlas),
+AnimatedSprite::AnimatedSprite(TextureAtlasGroup group):
     m_atlasGroup(group)
 {
 
 }
+//
+// void AnimatedSprite::update(double dt) {
+//
+//     if (!m_playing || !animated || m_atlasGroup.size() < 1) {
+//         return;
+//     }
+//
+//     double frameRate = 1.0 / (double) fps;
+//     m_elapsedTime += dt;
+//     int frame = m_elapsedTime / frameRate;
+//
+//     if (looping) {
+//         currentIndex = frame % m_atlasGroup.size();
+//     } else {
+//         currentIndex = hg::math::clamp<int>(frame, 0, m_atlasGroup.size() - 1);
+//     }
+//
+//
+//     if (frame > 0 && currentIndex == 0) {
+//         currentIndex = currentIndex % m_atlasGroup.size();
+//         onFinish.emit(this);
+//     }
+// }
+//
+// void AnimatedSprite::play() {
+//     m_playing = true;
+// }
+//
+// void AnimatedSprite::stop() {
+//     m_playing = false;
+// }
+//
+// void AnimatedSprite::reset() {
+//     currentIndex = 0;
+//     m_elapsedTime = 0;
+//     if (!looping) {
+//         m_playing = false;
+//     }
+// }
 
-void AnimatedSprite::update(double dt) {
+// hg::Rect AnimatedSprite::getRect() const {
+//     if (m_atlasGroup.size() == 0) {
+//         return Rect();
+//     }
+//     return m_atlas->getRect(m_atlasGroup[currentIndex], m_texture->image->size);
+//     Vec2 imageSize = m_texture->image->size.cast<float>();
+//     Vec2 cellSize = m_texture->image->size.div(m_atlas->size).cast<float>();
+//     Vec2 cellPos = cellSize.prod(m_atlasGroup[currentIndex].cast<float>()).div(imageSize);
+//     return Rect(cellPos, cellSize.div(imageSize));
+// }
 
-    if (!m_playing || !animated || m_atlasGroup.size() < 1) {
-        return;
-    }
-
-    double frameRate = 1.0 / (double) fps;
-    m_elapsedTime += dt;
-    int frame = m_elapsedTime / frameRate;
-
-    if (looping) {
-        m_currentIndex = frame % m_atlasGroup.size();
-    } else {
-        m_currentIndex = hg::math::clamp<int>(frame, 0, m_atlasGroup.size());
-    }
-
-
-    if (frame > 0 && m_currentIndex == 0) {
-        m_currentIndex = m_currentIndex % m_atlasGroup.size();
-        onFinish.emit(this);
-    }
+nlohmann::json AnimatedSprite::save() const {
+    nlohmann::json json;
+    json["animated"] = animated;
+    json["fps"] = fps;
+    json["looping"] = looping;
+    json["members"] = m_atlasGroup;
+    return json;
 }
 
-void AnimatedSprite::play() {
-    m_playing = true;
-}
-
-void AnimatedSprite::stop() {
-    m_playing = false;
-}
-
-void AnimatedSprite::reset() {
-    m_currentIndex = 0;
-    m_elapsedTime = 0;
-    if (!looping) {
-        m_playing = false;
-    }
-}
-
-hg::Rect AnimatedSprite::getRect() const {
-    if (m_atlasGroup.size() == 0) {
-        return Rect();
-    }
-    return m_atlas->getRect(m_atlasGroup[m_currentIndex], m_texture->image->size);
-    Vec2 imageSize = m_texture->image->size.cast<float>();
-    Vec2 cellSize = m_texture->image->size.div(m_atlas->size).cast<float>();
-    Vec2 cellPos = cellSize.prod(m_atlasGroup[m_currentIndex].cast<float>()).div(imageSize);
-    return Rect(cellPos, cellSize.div(imageSize));
+void AnimatedSprite::load(nlohmann::json const& json) {
+    animated = json["animated"].get<bool>();
+    fps = json["fps"].get<int>();
+    looping = json["looping"].get<bool>();
+    m_atlasGroup = json["members"].get<std::vector<hg::Vec2i>>();
 }
 
 TextureAtlasGroup &AnimatedSprite::group() {
@@ -75,9 +92,14 @@ AnimatedSpriteStore::AnimatedSpriteStore(Texture *texture, TextureAtlas *atlas) 
 }
 
 void AnimatedSpriteStore::addSprite(std::string name, TextureAtlasGroup group) {
-    m_sprites.insert(std::make_pair(name, AnimatedSprite(m_texture, m_atlas, group)));
-    if (m_sprites.size() == 1) {
-        m_activeSprite = name;
+    m_sprites.insert(std::make_pair(name, AnimatedSprite(group)));
+}
+
+void AnimatedSpriteStore::renameSprite(std::string name, std::string newName) {
+    auto sprite = m_sprites.extract(name);
+    if (!sprite.empty()) {
+        sprite.key() = newName;
+        m_sprites.insert(std::move(sprite));
     }
 }
 
@@ -85,12 +107,8 @@ void AnimatedSpriteStore::removeSprite(std::string name) {
     m_sprites.erase(name);
 }
 
-std::string AnimatedSpriteStore::activeSprite() {
-    return m_activeSprite;
-}
-
-void AnimatedSpriteStore::setSprite(std::string name) {
-    m_activeSprite = name;
+bool AnimatedSpriteStore::hasSprite(std::string const& name) {
+    return m_sprites.find(name) != m_sprites.end();
 }
 
 AnimatedSprite* AnimatedSpriteStore::getSprite(std::string name) {
@@ -98,10 +116,6 @@ AnimatedSprite* AnimatedSpriteStore::getSprite(std::string name) {
         throw std::runtime_error("Sprite: " + name + " does not exist in store");
     }
     return &m_sprites.at(name);
-}
-
-AnimatedSprite* AnimatedSpriteStore::active() {
-    return getSprite(m_activeSprite);
 }
 
 void AnimatedSpriteStore::forEach(std::function<void(std::string, AnimatedSprite *)> fn) {
@@ -124,4 +138,8 @@ void AnimatedSpriteStore::setTexture(Texture *texture) {
 
 void AnimatedSpriteStore::setAtlas(TextureAtlas *atlas) {
     m_atlas = atlas;
+}
+
+void AnimatedSpriteStore::clear() {
+    m_sprites.clear();
 }

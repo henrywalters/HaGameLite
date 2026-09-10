@@ -17,6 +17,7 @@
 #include "uuid.h"
 #include "../math/vector.h"
 #include "../utils/enum.h"
+#include "nlohmann/json_fwd.hpp"
 
 
 namespace hg::utils {
@@ -177,7 +178,7 @@ namespace hg::utils {
         }
 
         template <typename T, size_t N>
-        void setArray(std::string section, std::string key, T arr[N]) {
+        void setArray(std::string section, std::string key, std::array<T, N> arr) {
             if (has(section, key)) {
                 m_data[section][key] = arrToString<T, N>(arr);
             } else {
@@ -188,7 +189,7 @@ namespace hg::utils {
         template <typename T>
         void setInterval(std::string section, std::string key, hg::math::Interval<T> interval) {
             std::array<T, 2> intervalArr = {interval.lower, interval.upper};
-            setArray<T, 2>(section, key, intervalArr.data());
+            setArray<T, 2>(section, key, intervalArr);
         }
 
         template <typename T>
@@ -208,7 +209,7 @@ namespace hg::utils {
         }
 
         template <typename T, size_t N>
-        void getArray(std::string section, std::string key, T arr[N]) const {
+        void getArray(std::string section, std::string key, std::array<T, N>& arr) const {
             auto parts = s_split(getRaw(section, key), ',');
             for (int i = 0; i < parts.size(); i++) {
                 arr[i] = strToT<T>(parts[i]);
@@ -332,7 +333,16 @@ namespace hg::utils {
     };
 
     template <typename T>
-    concept IsConfigurable = std::is_base_of<Configurable, T>::value;
+    concept IsConfigurable = std::is_base_of_v<Configurable, T>;
+
+    class JsonConfigurable {
+    public:
+        virtual nlohmann::json save() const = 0;
+        virtual void load(nlohmann::json const& json) = 0;
+    };
+
+    template <typename T>
+    concept IsJsonConfigurable = std::is_base_of_v<JsonConfigurable, T>;
 }
 
 #endif //HAGAME2_CONFIG_H

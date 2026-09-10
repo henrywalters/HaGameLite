@@ -111,13 +111,16 @@ Font* hg::getFont(std::string name) {
     return assets::FONTS.get(name).get();
 }
 
+bool hg::hasSpriteSheet(std::string name) {
+    return assets::SPRITE_SHEETS.has(name);
+}
+
 std::shared_ptr<SpriteSheetV2> hg::loadSpriteSheet(std::string name, std::string path) {
     //auto config = hg::utils::MultiConfig::Parse(path);
     //auto spriteSheet = std::make_shared<SpriteSheet>(config);
 
-    auto config = hg::utils::Config::Parse(hg::utils::f_readLines(path));
+    auto config = nlohmann::json::parse(hg::utils::f_read(path));
     auto spriteSheet = std::make_shared<SpriteSheetV2>(config);
-
     assets::SPRITE_SHEETS.set(name, spriteSheet);
     return spriteSheet;
 }
@@ -215,5 +218,3 @@ bool hg::hasPrefab(std::string name) {
 hg::Prefab *hg::getPrefab(std::string name) {
     return assets::PREFABS.get(name).get();
 }
-
-

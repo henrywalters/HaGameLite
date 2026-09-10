@@ -5,6 +5,7 @@
 #ifndef HAGAME2_STREAM_H
 #define HAGAME2_STREAM_H
 
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>

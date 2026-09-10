@@ -4,7 +4,7 @@
 #include "../../include/hagame/graphics/tilemap.h"
 #include "../../include/hagame/math/functions.h"
 #include "../../include/hagame/graphics/debug.h"
-#include "../../include/hagame/graphics/components/tilemap.h"
+#include "../../include/hagame/common/components/tilemap.h"
 
 
 using namespace hg::math;

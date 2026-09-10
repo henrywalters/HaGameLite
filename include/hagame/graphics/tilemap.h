@@ -24,6 +24,8 @@
 
 namespace hg::graphics {
 
+    using tilemap_path_t = std::string;
+
     enum class TileMode {
         Color,
         Sprite,
@@ -45,7 +47,7 @@ namespace hg::graphics {
 
     };
 
-    class Tilemap {
+    class [[deprecated("Use Tilemap Components instead. Base Tilemap will be removed in the next release.")]] Tilemap {
     public:
 
         Tilemap(Vec2 tileSize);

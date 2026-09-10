@@ -13,7 +13,15 @@ std::vector<EnumElement> *hg::utils::GetEnum(uuid_t id) {
     return &Enums.at(id);
 }
 
-hg::utils::enum_t hg::utils::RegisterValue(uuid_t enumId, std::string label, int offset) {
+std::string hg::utils::GetEnumLabel(hg::utils::uuid_t enumId, hg::utils::enum_t value) {
+    for (const auto& e : *GetEnum(enumId)) {
+        if (e.key == value) return e.label;
+    }
+
+    throw std::runtime_error("Invalid Enum value");
+}
+
+EnumElement hg::utils::RegisterValue(uuid_t enumId, std::string label, int offset) {
     auto enums = GetEnum(enumId);
     EnumElement element(label);
     hg::utils::enum_t key;
@@ -27,5 +35,5 @@ hg::utils::enum_t hg::utils::RegisterValue(uuid_t enumId, std::string label, int
 
     element.key = key;
     enums->push_back(element);
-    return element.key;
+    return element;
 }

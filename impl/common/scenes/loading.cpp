@@ -63,16 +63,16 @@ void Loading::onUpdate(double dt) {
         m_message = "Loading shader: " + name + " from " + paths.vertex + " & " + paths.fragment;
         std::cout << m_message << "\n";
         hg::loadShader(name, paths.vertex, paths.fragment);
-    } else if (m_spriteSheetIdx < m_spriteSheets.size()) {
-        auto &[name, path] = m_spriteSheets[m_spriteSheetIdx++];
-        m_message = "Loading sprite sheet: " + name + " from " + path;
-        std::cout << m_message << "\n";
-        hg::loadSpriteSheet(name, path);
     } else if (m_textureIdx < m_textures.size()) {
         auto &[name, path] = m_textures[m_textureIdx++];
         m_message = "Loading texture: " + name + " from " + path;
         std::cout << m_message << "\n";
         hg::loadTexture(name, path);
+    } else if (m_spriteSheetIdx < m_spriteSheets.size()) {
+        auto &[name, path] = m_spriteSheets[m_spriteSheetIdx++];
+        m_message = "Loading sprite sheet: " + name + " from " + path;
+        std::cout << m_message << "\n";
+        hg::loadSpriteSheet(name, path);
     } else if (m_soundIdx < m_sounds.size()) {
         auto &[name, path] = m_sounds[m_soundIdx++];
         m_message = "Loading sound: " + name + " from " + path;
@@ -176,7 +176,7 @@ void Loading::readFilesForLoading() {
     if (f_exists(ASSET_DIR + m_settings.folders.audio)) {
         for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.audio, true)) {
             auto parts = f_getParts(file);
-            auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.audio + "/", "") + parts.name;
+            auto name = s_replace(parts.path, ASSET_DIR, "") + parts.name;
             m_sounds.push_back(std::make_tuple(name, file));
         }
     }
@@ -186,7 +186,7 @@ void Loading::readFilesForLoading() {
     if (f_exists(ASSET_DIR + m_settings.folders.meshes)) {
         for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.meshes, true)) {
             auto parts = f_getParts(file);
-            auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.meshes + "/", "") + parts.name;
+            auto name = s_replace(parts.path, ASSET_DIR, "") + parts.name;
             if (parts.extension == "obj") {
                 m_meshes.push_back(std::make_tuple(name, file));
             } else if (parts.extension == "mtl") {
@@ -199,7 +199,7 @@ void Loading::readFilesForLoading() {
 
     for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.fonts, true)) {
         auto parts = f_getParts(file);
-        auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.fonts + "/", "") + parts.name;
+        auto name = s_replace(parts.path, ASSET_DIR, "") + parts.name;
         if (name != m_settings.font && parts.extension == "ttf") {
             m_fonts.push_back(std::make_tuple(name, file));
         }
@@ -207,7 +207,7 @@ void Loading::readFilesForLoading() {
 
     for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.prefabs, true)) {
         auto parts = f_getParts(file);
-        auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.prefabs + "/", "") + parts.name;
+        auto name = s_replace(parts.path, ASSET_DIR, "") + parts.name;
         if (name != m_settings.prefabs && parts.extension == "hg_pfb") {
             m_prefabs.push_back(std::make_tuple(name, file));
         }
@@ -217,7 +217,7 @@ void Loading::readFilesForLoading() {
 
     for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.textures, true)) {
         auto parts = f_getParts(file);
-        auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.textures + "/", "") + parts.name;
+        auto name = s_replace(parts.path, ASSET_DIR, "") + parts.name;
         if (parts.extension == "png") {
             m_textures.push_back(std::make_tuple(name, file));
         } else if (parts.extension == "hgss") {
@@ -231,7 +231,7 @@ void Loading::readFilesForLoading() {
 
     for (const auto& file: d_listFiles(ASSET_DIR + m_settings.folders.shaders, true)) {
         auto parts = f_getParts(file);
-        auto name = s_replace(parts.path, ASSET_DIR + m_settings.folders.shaders + "/", "") + parts.name;
+        auto name = s_replace(parts.path, ASSET_DIR, "") + parts.name;
         if (shaderFiles.find(name) == shaderFiles.end()) {
             shaderFiles.insert(std::make_pair(name, ShaderPaths{}));
         }

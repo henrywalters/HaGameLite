@@ -9,6 +9,8 @@
 
 #include <nlohmann/json.hpp>
 
+#include "hagame/core/assets.h"
+
 using json = nlohmann::json;
 
 hg::Prefab::Prefab():
@@ -28,6 +30,8 @@ void hg::Prefab::updatePrefab(hg::Entity *rootEntity) {
         // Capture the original entity ID but don't count on having it in when instantiated
         node->transform = entity->transform;
         node->name = entity->name;
+        node->components.clear();
+        node->children.clear();
 
         for (const auto& component: entity->components()) {
             PfbComponent newComponent;
@@ -36,7 +40,15 @@ void hg::Prefab::updatePrefab(hg::Entity *rootEntity) {
             for (const auto& field : ComponentFactory::GetFields(component->className())) {
                 Field newField;
                 newField.field = field;
-                newField.value = field.getter(component);
+                std::visit(utils::overloaded{
+                    [&](ComponentFactory::PrimitiveDetails const& details) {
+                        newField.value = details.getter(component);
+                    },
+                    [&](ComponentFactory::JsonDetails const& details) {
+                        newField.value = details.getter(component);
+                    }
+                }, field.details);
+
                 newComponent.fields.push_back(newField);
             }
 
@@ -69,7 +81,18 @@ void hg::Prefab::updateEntity(hg::Entity *root) {
         for (const auto& component : node->components) {
             auto newComp = component.component.attach(entity);
             for (const auto& field : component.fields) {
-                field.field.setter(newComp, field.value);
+                try {
+                    std::visit(utils::overloaded{
+                        [&](ComponentFactory::PrimitiveDetails const& details) {
+                            details.setter(newComp, std::get<utils::variant>(field.value));
+                        },
+                        [&](ComponentFactory::JsonDetails const& details) {
+                            details.setter(newComp, std::get<nlohmann::json>(field.value));
+                        }
+                    }, field.field.details);
+                } catch (...) {
+                    std::cout << "Missing field in prefab: " << field.field.field << "\n";
+                }
             }
         }
 
@@ -99,7 +122,14 @@ void hg::Prefab::save(std::string path) {
         for (const auto& component : node->components) {
             json fields;
             for (const auto& field : component.fields) {
-                fields[field.field.field] = hg::utils::serialize(field.value);
+                std::visit(utils::overloaded{
+                    [&](ComponentFactory::PrimitiveDetails const& details) {
+                        fields[field.field.field] = hg::utils::serialize(std::get<utils::variant>(field.value));
+                    },
+                    [&](ComponentFactory::JsonDetails const& details) {
+                        fields[field.field.field] = std::get<nlohmann::json>(field.value);
+                    }
+                }, field.field.details);
             }
             components.push_back({
                 {"name", component.component.name},

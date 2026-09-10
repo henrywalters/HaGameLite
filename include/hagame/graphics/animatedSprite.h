@@ -8,33 +8,27 @@
 #include "animation.h"
 #include "textureAtlas.h"
 #include "texture.h"
+#include "hagame/utils/config.h"
 
 namespace hg::graphics {
-    class AnimatedSprite : public hg::graphics::Animation {
+    class AnimatedSprite : public utils::JsonConfigurable {
     public:
 
-        AnimatedSprite(Texture* texture, TextureAtlas* atlas, TextureAtlasGroup group);
+        AnimatedSprite(TextureAtlasGroup group);
 
         bool animated = false;
         int fps = 10;
         bool looping = false;
 
-        void play() override;
-        void update(double dt) override;
-        void stop() override;
-        void reset() override;
-
-        hg::Rect getRect() const;
         TextureAtlasGroup& group();
+
+        nlohmann::json save() const override;
+        void load(nlohmann::json const& json) override;
 
     private:
 
-        Texture* m_texture;
-        TextureAtlas* m_atlas;
         TextureAtlasGroup m_atlasGroup;
 
-        double m_elapsedTime = 0;
-        int m_currentIndex = 0;
         bool m_playing = true;
 
     };
@@ -49,19 +43,20 @@ namespace hg::graphics {
         void setTexture(Texture* texture);
         void setAtlas(TextureAtlas* atlas);
 
+        bool hasSprite(std::string const& name);
         void addSprite(std::string name, TextureAtlasGroup group);
-        AnimatedSprite* active();
         AnimatedSprite* getSprite(std::string name);
         std::unordered_map<std::string, AnimatedSprite>& sprites();
         void removeSprite(std::string name);
-        std::string activeSprite();
-        void setSprite(std::string name);
+        void renameSprite(std::string name, std::string newName);
         void forEach(std::function<void(std::string, AnimatedSprite*)> fn);
         size_t size() const;
+        void clear();
+
+        HG_GET_PTR(Texture, texture);
 
     private:
 
-        std::string m_activeSprite;
         std::unordered_map<std::string, AnimatedSprite> m_sprites;
         Texture* m_texture;
         TextureAtlas* m_atlas;

@@ -5,6 +5,7 @@
 #ifndef HAGAME2_VECTOR_H
 #define HAGAME2_VECTOR_H
 
+#include <algorithm>
 #include <array>
 #include <functional>
 #include <string>
@@ -24,7 +25,9 @@ namespace hg::math {
         class Vector {
         public:
 
-            T vector[size];
+            std::array<T, size> vector;
+
+            //T vector[size];
 
             constexpr Vector(std::vector<T> vect) {
                 for (int i = 0; i < size; i++) {
@@ -131,15 +134,15 @@ namespace hg::math {
             }
 
             // Basic accessors
-            constexpr T x() {
+            constexpr T x() const {
                 return vector[0];
             }
 
-            constexpr T y() {
+            constexpr T y() const {
                 return vector[1];
             }
 
-            constexpr T z() {
+            constexpr T z() const  {
                 return vector[2];
             }
 

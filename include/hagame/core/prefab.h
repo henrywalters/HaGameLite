@@ -42,9 +42,11 @@ namespace hg {
 
     private:
 
+        using FieldValue = std::variant<hg::utils::variant, nlohmann::json>;
+
         struct Field {
             hg::ComponentFactory::ComponentField field;
-            hg::utils::variant value;
+            FieldValue value;
         };
 
         struct PfbComponent {

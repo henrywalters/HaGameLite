@@ -64,6 +64,8 @@ namespace hg::graphics {
 
         void render() override{
 
+            if (m_data.empty()) return;
+
             for (const auto&[texture, index] : m_textures) {
                 auto tex = hg::getTexture(texture);
                 glActiveTexture(GL_TEXTURE0 + index);
@@ -83,6 +85,8 @@ namespace hg::graphics {
             m_buffer->unbind();
         }
 
+        std::unordered_map<std::string, int> m_textures;
+
     protected:
 
         void onClear() override;
@@ -91,7 +95,7 @@ namespace hg::graphics {
 
         int getTextureIndex(std::string texture);
 
-        std::unordered_map<std::string, int> m_textures;
+
 
 //        struct SpriteBuffer {
 //

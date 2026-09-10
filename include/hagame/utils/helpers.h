@@ -9,6 +9,9 @@
 #include <vector>
 
 namespace hg::utils {
+
+    template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
+
     template <typename Iter, typename T>
     inline void v_remove(Iter& arr, const T& el) {
         auto pos = std::find(arr.begin(), arr.end(), el);

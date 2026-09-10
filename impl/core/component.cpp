@@ -6,6 +6,30 @@
 
 using namespace hg;
 
+nlohmann::json Component::save() {
+    nlohmann::json comp;
+    comp["id"] = id();
+    comp["name"] = className();
+    comp["params"] = nlohmann::json::object();
+    for (const auto &field: ComponentFactory::GetFields(className())) {
+        std::visit(utils::overloaded{
+            [&](ComponentFactory::PrimitiveDetails const& details) {
+                auto value = details.getter(this);
+                comp["params"][field.field] = hg::utils::serializeToJson(value);
+            },
+            [&](ComponentFactory::JsonDetails const& details) {
+                auto value = details.getter(this);
+                comp["params"][field.field] = value;
+            }
+        }, field.details);
+    }
+    return comp;
+}
+
+void Component::load(nlohmann::json const &j) {
+
+}
+
 std::unique_ptr<std::unordered_map<std::string, ComponentFactory::RegisteredComponent>> ComponentFactory::s_components;
 std::unique_ptr<std::unordered_map<std::string, std::unordered_map<std::string, ComponentFactory::ComponentField>>> ComponentFactory::s_fields;
 
@@ -75,9 +99,11 @@ ComponentFactory::RegisterField(std::string type, std::string component, std::st
     ComponentField field;
     field.type = type;
     field.field = fieldName;
-    field.setter = setter;
-    field.getter = getter;
-    field.number = std::nullopt;
+    field.details = PrimitiveDetails{
+        .setter = setter,
+        .getter = getter,
+        .number = std::nullopt
+    };
     Fields(component).insert(std::make_pair(fieldName, field));
     return field;
 }
@@ -87,9 +113,24 @@ ComponentFactory::RegisterField(std::string type, std::string component, std::st
     ComponentField field;
     field.type = type;
     field.field = fieldName;
-    field.setter = setter;
-    field.getter = getter;
-    field.number = NumberSettings{min, max, step};
+    field.details = PrimitiveDetails{
+        .setter = setter,
+        .getter = getter,
+        .number = NumberSettings{min, max, step}
+    };
+    Fields(component).insert(std::make_pair(fieldName, field));
+    return field;
+}
+
+ComponentFactory::ComponentField ComponentFactory::RegisterJsonField(std::string type, std::string component,
+    std::string fieldName, json_setter_fn setter, json_getter_fn getter) {
+    ComponentField field;
+    field.type = type;
+    field.field = fieldName;
+    field.details = JsonDetails {
+        .setter = setter,
+        .getter = getter
+    };
     Fields(component).insert(std::make_pair(fieldName, field));
     return field;
 }

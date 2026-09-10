@@ -22,15 +22,19 @@
 #define HG_SET(type, name, method) \
     void name(const type& value)         \
     {                               \
-        m_##name = value;           \
-        method();                   \
+        if (m_##name != value) {   \
+            m_##name = value;           \
+            method();                   \
+        } \
     }
 
 #define HG_SET_PTR(type, name, method) \
     void name(type* value)         \
     {                               \
-        m_##name = value;           \
-        method();                   \
+        if (m_##name != value) {   \
+            m_##name = value;           \
+            method();                   \
+        } \
     }
 
 #define HG_SET_SIMPLE(type, name) \
@@ -100,6 +104,13 @@
     Step                                                                                                                                                         \
 );
 
+#define HG_JSON_FIELD(CompName, Type, Name) static hg::ComponentFactory::ComponentField Field_##CompName##Name = hg::ComponentFactory::RegisterJsonField( \
+#Type,                                                                                                                                    \
+#CompName,                                                                                                                               \
+#Name,                                                                                                                                    \
+[](auto component, auto value) { value.get_to(((CompName*)  component)->Name); },                                        \
+[](auto component) { nlohmann::json j; j = ((CompName*) component)->Name; return j; }                                                                           \
+);
 
 #define HG_IS_CONCEPT(Name) template <typename T> concept Is##Name = std::is_base_of<Name, T>::value;
 

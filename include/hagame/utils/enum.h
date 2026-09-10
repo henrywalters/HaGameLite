@@ -57,9 +57,13 @@ namespace hg::utils {
         bool operator >(const EnumElement& el) const {
             return key > el.key;
         }
+
+        operator enum_t() const { return key; }
     };
 
     std::vector<EnumElement>* GetEnum(hg::utils::uuid_t id);
+
+    std::string GetEnumLabel(hg::utils::uuid_t enumId, hg::utils::enum_t value);
 
     template <typename T>
     enum_factory_t<T>* GetEnumFactory(hg::utils::uuid_t id) {
@@ -71,7 +75,7 @@ namespace hg::utils {
     }
 
     // Register an enum value. Offsets allow multiple enums to non-exclusively use one enum_t
-    enum_t RegisterValue(hg::utils::uuid_t enumId, std::string label, int offset = 0);
+    EnumElement RegisterValue(hg::utils::uuid_t enumId, std::string label, int offset = 0);
 
     template <typename Base, typename Ext>
     enum_constructor_t<Ext> RegisterFactoryMethod(hg::utils::uuid_t factoryId, enum_t value) {
@@ -86,16 +90,18 @@ namespace hg::utils {
 #define ENUM(Enum) namespace Enum { \
     const hg::utils::uuid_t _ID = hg::utils::UUID::Generate(); \
     using type = hg::utils::uuid_t;                                    \
+    inline auto values() { return hg::utils::GetEnum(_ID); } \
+    inline auto labelFor(hg::utils::enum_t value) { return hg::utils::GetEnumLabel(_ID, value); } \
 }                                   \
 
 #define ENUMS(Enum) hg::utils::GetEnum(Enum::_ID)
 
 #define ENUM_VALUE(Enum, Value) namespace Enum { \
-    const hg::utils::enum_t Value = hg::utils::RegisterValue(_ID, #Value);                             \
+    const auto Value = hg::utils::RegisterValue(_ID, #Value);                             \
 }
 
 #define ENUM_VALUE_OFFSET(Enum, Value, Offset) namespace Enum { \
-    const hg::utils::enum_t Value = hg::utils::RegisterValue(_ID, #Value, Offset);                             \
+    const auto Value = hg::utils::RegisterValue(_ID, #Value, Offset);                             \
 }
 
 #define ENUM_FACTORY(Enum) namespace Enum { \

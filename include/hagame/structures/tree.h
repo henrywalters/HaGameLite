@@ -23,7 +23,7 @@ namespace hg::structures {
         }
 
         void removeChild(Tree* child) {
-            m_children.erase(std::find(m_children.begin(), m_children.end(), child));
+            m_children.erase(std::ranges::find(m_children, child));
         }
 
         Tree* parent() const {

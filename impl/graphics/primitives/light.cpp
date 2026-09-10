@@ -4,7 +4,7 @@
 #include <array>
 #include "../../../include/hagame/graphics/primitives/light.h"
 
-hg::graphics::primitives::Light::Light(std::vector<math::LineSegment> triangles, Vec3 origin, float radius):
+hg::graphics::primitives::Light::Light(LightTriangles triangles, Vec3 origin, float radius):
     m_triangles(triangles),
     m_origin(origin),
     m_radius(radius)
@@ -16,7 +16,7 @@ void hg::graphics::primitives::Light::computeMesh() {
     vertices.clear();
     indices.clear();
 
-    for (const auto& triangle : m_triangles) {
+    for (const auto& triangle : m_triangles.triangles) {
         Triangle tri(triangle.b, m_origin, triangle.a);
         std::array<Vec3, 2> deltas = {
             triangle.a - m_origin,
