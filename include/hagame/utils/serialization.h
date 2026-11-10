@@ -36,12 +36,54 @@ namespace hg::graphics {
         sheet.path(j.get<std::string>());
     }
 
+    inline void to_json(nlohmann::json& j, RigAtlasAsset const& atlas) {
+        j = atlas.path();
+    }
+
+    inline void from_json(nlohmann::json const& j, RigAtlasAsset& atlas) {
+        atlas.path(j.get<std::string>());
+    }
+
+    inline void to_json(nlohmann::json& j, SkeletonAsset const& skeleton) {
+        j = skeleton.path();
+    }
+
+    inline void from_json(nlohmann::json const& j, SkeletonAsset& skeleton) {
+        skeleton.path(j.get<std::string>());
+    }
+
+    inline void to_json(nlohmann::json& j, FontAsset const& font) {
+        j = font.path();
+    }
+
+    inline void from_json(nlohmann::json const& j, FontAsset& font) {
+        font.path(j.get<std::string>());
+    }
+
+    inline void to_json(nlohmann::json& j, RigAnimationSetAsset const& set) {
+        j = set.path();
+    }
+
+    inline void from_json(nlohmann::json const& j, RigAnimationSetAsset& set) {
+        set.path(j.get<std::string>());
+    }
+
     inline void to_json(nlohmann::json& j, Color const& color) {
         j = color.vector;
     }
 
     inline void from_json(nlohmann::json const& j, Color& color) {
         color.vector = j.get<std::array<float, 4>>();
+    }
+}
+
+namespace hg::audio {
+    inline void to_json(nlohmann::json& j, StreamAsset const& stream) {
+        j = stream.path();
+    }
+
+    inline void from_json(nlohmann::json const& j, StreamAsset& stream) {
+        stream.path(j.get<std::string>());
     }
 }
 
@@ -130,14 +172,19 @@ namespace hg::utils {
             {"std::vector<hg::Vec2i>", as<std::vector<Vec2i>>},
             {"hg::Rect", as<hg::Rect>},
             {"hg::utils::UUID", as<UUID>},
-            {"uuid_t", as<uuid_t>},
+            {"hg::utils::uuid_t", as<uuid_t>},
             {"hg::graphics::TextureAsset", as<hg::graphics::TextureAsset>},
             {"hg::graphics::SpriteSheetAsset", as<hg::graphics::SpriteSheetAsset>},
+            {"hg::graphics::RigAtlasAsset", as<hg::graphics::RigAtlasAsset>},
+            {"hg::graphics::SkeletonAsset", as<hg::graphics::SkeletonAsset>},
+            {"hg::graphics::RigAnimationSetAsset", as<hg::graphics::RigAnimationSetAsset>},
+            {"hg::graphics::FontAsset", as<hg::graphics::FontAsset>},
             {"hg::PrefabAsset", as<hg::PrefabAsset>},
+            {"hg::audio::StreamAsset", as<hg::audio::StreamAsset>}
         };
 
         auto it = parsers.find(type);
-        if (it == parsers.end()) throw std::runtime_error("Unsupported variant type" + type + " in deserializer");
+        if (it == parsers.end()) throw std::runtime_error("Unsupported variant type " + type + " in deserializer");
         return it->second(j);
     }
 

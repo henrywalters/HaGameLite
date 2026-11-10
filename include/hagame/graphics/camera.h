@@ -43,6 +43,10 @@ namespace hg::graphics {
 
         Vec2 getGamePos(Vec2 screenPos);
 
+        // Map a position on the rendered image (pixels, origin bottom-left) to world space. Works however size /
+        // pixelsPerMeter are set up, because it only relies on what the camera actually shows.
+        Vec2 screenToWorld(Vec2 screenPos, Vec2 screenSize);
+
     protected:
 
         OBJECT_NAME(OrthographicCamera)

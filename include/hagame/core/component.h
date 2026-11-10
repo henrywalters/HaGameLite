@@ -26,7 +26,12 @@ namespace hg {
     class Component : public virtual Object {
     public:
 
-        Entity* entity;
+        // Tells EnTT to leave a hole when a component is removed rather than moving the last one of its type into the
+        // gap. Entities keep raw pointers to their components (and other code to the components it uses), which a
+        // move would leave pointing at the wrong component or freed memory
+        static constexpr bool in_place_delete = true;
+
+        Entity* entity = nullptr;
 
         void update(double dt) {
             onUpdate(dt);
@@ -83,6 +88,8 @@ namespace hg {
             std::string name;
             attach_fn attach;
             remove_fn remove;
+            // A standalone, default-constructed instance. Used to read field defaults, never attached to an entity.
+            std::function<std::shared_ptr<Component>()> create;
         };
 
         struct NumberSettings {
@@ -169,6 +176,7 @@ namespace hg {
         component.category = category;
         component.attach = attachFunc;
         component.remove = removeFunc;
+        component.create = []() { return std::static_pointer_cast<Component>(std::make_shared<Comp>()); };
 
         ComponentMap().insert(std::make_pair(className, component));
         return attachFunc;

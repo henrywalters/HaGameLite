@@ -19,6 +19,10 @@ namespace hg::graphics::components {
         SpriteSheetAsset sprites;
         std::string activeSprite;
         int currentIndex = 0;
+        bool flipX = false; // Mirror horizontally, e.g. to face left
+
+        // Switch to another sprite in the sheet and play it from the start. Does nothing if it's already active.
+        void setSprite(const std::string& name);
 
         AnimatedSprite* getSprite();
 
@@ -29,6 +33,10 @@ namespace hg::graphics::components {
 
         hg::Rect getRect();
 
+        // What renderers should draw: the current frame's texture rect and the quad offset, mirrored when flipX is set
+        hg::Rect drawRect();
+        hg::Vec2 drawOffset() const;
+
     protected:
 
         OBJECT_NAME(SpriteSheetAnimator)
@@ -36,7 +44,7 @@ namespace hg::graphics::components {
     private:
 
         bool m_playing = true;
-        double m_elapsedTime;
+        double m_elapsedTime = 0;
 
     };
 
@@ -47,6 +55,7 @@ namespace hg::graphics::components {
     HG_FIELD(SpriteSheetAnimator, hg::Vec2, offset)
     HG_FIELD(SpriteSheetAnimator, hg::graphics::Color, color)
     HG_FIELD(SpriteSheetAnimator, bool, centered)
+    HG_FIELD(SpriteSheetAnimator, bool, flipX)
 }
 
 #endif //HAGAME2_SPRITESHEETANIMATOR_H

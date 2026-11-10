@@ -35,6 +35,7 @@ Console::Console(Font* font, hg::Vec2i windowSize, hg::Vec2i consoleSize):
 
     m_commandBuffer->text(settings.prefix);
     m_outputSize = 0;
+    m_scrollHeight = consoleSize[1]; // No output yet, so the thumb fills the bar
 
     m_buffer = utils::f_readLines(settings.historyFile);
     m_historyIdx = m_buffer.size();
@@ -139,6 +140,11 @@ void Console::update(double dt) {
 }
 
 void Console::render() {
+
+    // Off screen when closed anyway, but drawing nothing means nothing can poke into view
+    if (m_status == Status::Closed) {
+        return;
+    }
 
     Mat4 proj = Mat4::Orthographic(0, m_windowSize[0], 0, m_windowSize[1], -100, 100);
 

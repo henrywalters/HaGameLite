@@ -11,10 +11,12 @@
 #include "stb_truetype.h"
 
 #include "../../include/hagame/graphics/font.h"
+#include "../../include/hagame/graphics/fontAsset.h"
 
 #include <iostream>
 
 #include "../../include/hagame/graphics/glfw.h"
+#include "../../include/hagame/core/assets.h"
 
 hg::graphics::FontCharacter::~FontCharacter() {
     glDeleteTextures(1, &id);
@@ -150,4 +152,13 @@ hg::Vec2i hg::graphics::Font::calcMessageSize(std::string message) {
     size[1] = y;
 
     return size;
+}
+
+void hg::graphics::FontAsset::reload() {
+    if (hg::hasFont(m_path)) {
+        m_asset = hg::getFont(m_path);
+        return;
+    }
+    auto name = m_path.substr(m_path.find_last_of('/') + 1);
+    m_asset = hg::hasFont(name) ? hg::getFont(name) : nullptr;
 }

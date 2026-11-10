@@ -129,6 +129,52 @@ SpriteSheetV2* hg::getSpriteSheet(std::string name) {
     return assets::SPRITE_SHEETS.get(name).get();
 }
 
+bool hg::hasRigAtlas(std::string name) {
+    return assets::RIG_ATLASES.has(name);
+}
+
+std::shared_ptr<RigAtlas> hg::loadRigAtlas(std::string name, std::string path) {
+    auto json = nlohmann::json::parse(hg::utils::f_read(path));
+    auto atlas = std::make_shared<RigAtlas>(json);
+    assets::RIG_ATLASES.set(name, atlas);
+    return atlas;
+}
+
+RigAtlas* hg::getRigAtlas(std::string name) {
+    return assets::RIG_ATLASES.get(name).get();
+}
+
+bool hg::hasSkeleton(std::string name) {
+    return assets::SKELETONS.has(name);
+}
+
+std::shared_ptr<Skeleton> hg::loadSkeleton(std::string name, std::string path) {
+    auto json = nlohmann::json::parse(hg::utils::f_read(path));
+    auto skeleton = std::make_shared<Skeleton>(json);
+    assets::SKELETONS.set(name, skeleton);
+    return skeleton;
+}
+
+Skeleton* hg::getSkeleton(std::string name) {
+    return assets::SKELETONS.get(name).get();
+}
+
+bool hg::hasRigAnimationSet(std::string name) {
+    return assets::RIG_ANIMATION_SETS.has(name);
+}
+
+std::shared_ptr<RigAnimationSet> hg::loadRigAnimationSet(std::string name, std::string path) {
+    auto json = nlohmann::json::parse(hg::utils::f_read(path));
+    auto set = std::make_shared<RigAnimationSet>(json);
+    set->filePath = path;
+    assets::RIG_ANIMATION_SETS.set(name, set);
+    return set;
+}
+
+RigAnimationSet* hg::getRigAnimationSet(std::string name) {
+    return assets::RIG_ANIMATION_SETS.get(name).get();
+}
+
 std::shared_ptr<Stream> hg::loadAudioStream(std::string name, std::string path) {
     auto stream = std::make_shared<Stream>(path);
     assets::AUDIO_STREAMS.set(name, stream);
@@ -136,6 +182,15 @@ std::shared_ptr<Stream> hg::loadAudioStream(std::string name, std::string path) 
 }
 
 Stream* hg::getAudioStream(std::string name) {
+    if (!assets::AUDIO_STREAMS.has(name)) {
+        // Sounds are loaded at startup, so one added while the game is running isn't there yet: load it now. Null,
+        // rather than throwing like the store does, for a name with no file, e.g. an AudioSource not set up yet
+        auto path = ASSET_DIR + name + ".wav";
+        if (name.empty() || !utils::f_exists(path)) {
+            return nullptr;
+        }
+        return loadAudioStream(name, path).get();
+    }
     return assets::AUDIO_STREAMS.get(name).get();
 }
 

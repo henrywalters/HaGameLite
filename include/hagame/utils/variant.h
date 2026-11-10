@@ -15,9 +15,14 @@
 #include "spatialMap.h"
 #include "uuid.h"
 #include "hagame/graphics/texture.h"
+#include "hagame/graphics/fontAsset.h"
 #include "../ui/style.h"
+#include "hagame/audio/stream.h"
 #include "hagame/core/prefabAsset.h"
 #include "hagame/graphics/spriteSheetV2.h"
+#include "hagame/graphics/rigAtlas.h"
+#include "hagame/graphics/skeleton.h"
+#include "hagame/graphics/rigAnimation.h"
 
 namespace hg::utils {
     constexpr bool is_string_type(std::string const& type) {
@@ -54,7 +59,12 @@ namespace hg::utils {
         uuid_t,
         hg::graphics::TextureAsset,
         hg::graphics::SpriteSheetAsset,
-        hg::PrefabAsset
+        hg::graphics::RigAtlasAsset,
+        hg::graphics::SkeletonAsset,
+        hg::graphics::RigAnimationSetAsset,
+        hg::graphics::FontAsset,
+        hg::PrefabAsset,
+        hg::audio::StreamAsset
         // SpatialMap2D<hg::graphics::Color, int>
     >;
 
@@ -150,7 +160,12 @@ return strToT<Type>(raw);                     \
         std::string operator()(hg::Rect value) { return vector_to_string(std::vector<float>{value.pos[0], value.pos[1], value.size[0], value.size[1]}); }
         std::string operator()(hg::graphics::TextureAsset value) { return value.path(); }
         std::string operator()(hg::graphics::SpriteSheetAsset value) { return value.path(); }
+        std::string operator()(hg::graphics::RigAtlasAsset value) { return value.path(); }
+        std::string operator()(hg::graphics::SkeletonAsset value) { return value.path(); }
+        std::string operator()(hg::graphics::RigAnimationSetAsset value) { return value.path(); }
+        std::string operator()(hg::graphics::FontAsset value) { return value.path(); }
         std::string operator()(hg::PrefabAsset value) { return value.path(); }
+        std::string operator()(hg::audio::StreamAsset value) { return value.path(); }
         std::string operator()(hg::utils::SpatialMap2D<hg::graphics::Color, int> value) {
             std::vector<std::string> parts;
             value.forEach([&parts](Vec2i idx, graphics::Color color) {
@@ -192,8 +207,33 @@ return strToT<Type>(raw);                     \
             asset.path(raw);
             return asset;
         }
+        if (type == "hg::graphics::RigAtlasAsset") {
+            hg::graphics::RigAtlasAsset asset;
+            asset.path(raw);
+            return asset;
+        }
+        if (type == "hg::graphics::SkeletonAsset") {
+            hg::graphics::SkeletonAsset asset;
+            asset.path(raw);
+            return asset;
+        }
+        if (type == "hg::graphics::FontAsset") {
+            hg::graphics::FontAsset asset;
+            asset.path(raw);
+            return asset;
+        }
+        if (type == "hg::graphics::RigAnimationSetAsset") {
+            hg::graphics::RigAnimationSetAsset asset;
+            asset.path(raw);
+            return asset;
+        }
         if (type == "hg::PrefabAsset") {
             hg::PrefabAsset asset;
+            asset.path(raw);
+            return asset;
+        }
+        if (type == "hg::audio::StreamAsset") {
+            hg::audio::StreamAsset asset;
             asset.path(raw);
             return asset;
         }

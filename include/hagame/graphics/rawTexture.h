@@ -70,6 +70,13 @@ namespace hg::graphics {
             glTexImage2D(GL_TEXTURE_2D, 0, TextureType, size[0], size[1], 0, DataFormat, DataType, NULL);
         }
 
+        template <class T>
+        void updatePixel(hg::Vec2i pos, T const* pixel) {
+            glBindTexture(GL_TEXTURE_2D, id);
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, pos[0], pos[1], 1, 1, DataFormat, DataType, pixel);
+        }
+
     protected:
 
         // Protected so only extending classes are able provide custom initialization

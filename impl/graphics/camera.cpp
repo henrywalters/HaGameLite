@@ -22,15 +22,22 @@ hg::Mat4 hg::graphics::OrthographicCamera::projection() const {
 }
 
 hg::Mat4 hg::graphics::OrthographicCamera::view() const {
-    auto position = entity->position();
+    auto position = entity->renderPosition();
     if (roundTo > 0) {
         position = position.rounded(roundTo);
     }
     return Mat4::Translation(position.resize<3>() * -1); // camera offset now lives here
 }
 
+hg::Vec2 hg::graphics::OrthographicCamera::screenToWorld(hg::Vec2 screenPos, hg::Vec2 screenSize) {
+    Vec2 visibleSize = size.cast<float>() / pixelsPerMeter * zoom;
+    Vec2 normalized = screenPos.div(screenSize); // 0..1 across the image
+    Vec2 local = centered ? (normalized - Vec2(0.5f)).prod(visibleSize) : normalized.prod(visibleSize);
+    return entity->renderPosition().resize<2>() + local;
+}
+
 hg::Vec2 hg::graphics::OrthographicCamera::getGamePos(hg::Vec2 screenPos) {
-    auto position = entity->position();
+    auto position = entity->renderPosition();
     // pixels from screen center -> world units -> offset by camera world position
     return (screenPos - size.cast<float>() * 0.5f) / pixelsPerMeter * zoom + position.resize<2>();
 }
@@ -77,7 +84,7 @@ hg::Vec2 hg::graphics::FixedAspectOrthographicCamera::getGamePos(hg::Vec2 screen
 }
 
 hg::Mat4 hg::graphics::PerspectiveCamera::view() const {
-    auto position = entity->position();
+    auto position = entity->renderPosition();
     return Mat4::LookAt(
         position,
         entity->rotation().rotatePoint(forward) + position,

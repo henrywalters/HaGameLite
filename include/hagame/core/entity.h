@@ -5,6 +5,7 @@
 #ifndef HAGAME2_ENTITY_H
 #define HAGAME2_ENTITY_H
 
+#include <format>
 #include <memory>
 #include <iostream>
 
@@ -34,7 +35,20 @@ namespace hg {
 
         Scene* scene;
 
+        // Inactive entities, and everything under them, are left out of EntityManager::forEach, so the systems
+        // that go through components (rendering, physics, audio, events) pass them over. Finding one by name still
+        // works, e.g. to switch it back on
         bool active = true;
+
+        // Whether this entity and every one of its parents is active
+        bool activeInHierarchy() {
+            for (GameObject* node = this; node != nullptr; node = node->parent()) {
+                if (!static_cast<Entity*>(node)->active) {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         Entity(utils::uuid_t enttId, entt::basic_registry<utils::uuid_t, std::allocator<utils::uuid_t>>* registry);
 
@@ -192,6 +206,60 @@ namespace hg {
             return m_idMap[id].get();
         }
 
+        std::vector<Entity*> getAllByName(std::string const& name) {
+            std::vector<Entity*> out;
+            for (const auto& [id, entity] : m_idMap) {
+                if (entity->name == name) {
+                    out.push_back(entity.get());
+                }
+            }
+            return out;
+        }
+
+        Entity* getFirstByName(std::string const& name, bool throwExceptionIfMissing = false) {
+            Entity* out = nullptr;
+            for (const auto& [id, entity] : m_idMap) {
+                if (entity->name == name) {
+                    out = entity.get();
+                    break;
+                }
+            }
+
+            if (throwExceptionIfMissing && !out) {
+                throw std::runtime_error(std::format("Entity '{}' does not exist", name));
+            }
+
+            return out;
+        }
+
+        std::vector<Entity*> getAllByName(Entity* parent, std::string const& name) {
+            std::vector<Entity*> out;
+            for (const auto& child : parent->children()) {
+                auto childEntity = static_cast<Entity*>(child);
+                if (childEntity->name == name) {
+                    out.push_back(childEntity);
+                }
+            }
+            return out;
+        }
+
+        Entity* getFirstByName(Entity* parent, std::string const& name, bool throwExceptionIfMissing = false) {
+            Entity* out = nullptr;
+            for (const auto& child : parent->children()) {
+                auto childEntity = static_cast<Entity*>(child);
+                if (childEntity->name == name) {
+                    out = childEntity;
+                    break;
+                }
+            }
+
+            if (throwExceptionIfMissing && !out) {
+                throw std::runtime_error(std::format("Entity '{}' does not exist", name));
+            }
+
+            return out;
+        }
+
         // Instantiate a new entity belonging to the registry
         Entity* add() {
             auto entity = createEntity();
@@ -213,23 +281,53 @@ namespace hg {
             return entity.get();
         }
 
+        // New instances take the prefab root's scale (where they go is up to the caller). Otherwise they start at 1,
+        // and saving the prefab back from one writes 1 over the authored scale
         Entity* add(Prefab* prefab) {
             auto entity = createEntity();
-            entity->prefab = prefab;
-            entity->refresh();
-            entity->prefab->onUpdate.subscribe([entity](){
-                entity->refresh();
-            });
+            linkPrefab(entity.get(), prefab);
+            entity->transform.scale = prefab->rootTransform().scale;
             root->addChild(entity.get());
             return entity.get();
         }
 
         Entity* add(Entity*parent, Prefab* prefab) {
             auto entity = createEntity();
-            entity->prefab = prefab;
-            entity->refresh();
+            linkPrefab(entity.get(), prefab);
+            entity->transform.scale = prefab->rootTransform().scale;
             parent->addChild(entity.get());
             return entity.get();
+        }
+
+        // Make the entity an instance of the prefab and rebuild it whenever the prefab changes.
+        // Pass rebuild = false when the entity already matches the prefab (e.g. it was just saved as one).
+        void linkPrefab(Entity* entity, Prefab* prefab, bool rebuild = true) {
+            entity->prefab = prefab;
+            if (rebuild) {
+                entity->refresh();
+            }
+
+            // Prefabs outlive scenes, so the listener must not keep the entity alive: once the entity is removed or
+            // the scene is cleared its entt id is recycled, and refreshing it would write components onto another entity.
+            std::weak_ptr<Entity> weakEntity = m_enttMap.at(entity->m_enttId);
+
+            // Keep the instance's own changes when the prefab is updated: diff against the old definition,
+            // rebuild from the new one, then re-apply the diff
+            auto overrides = std::make_shared<nlohmann::json>();
+            prefab->onBeforeUpdate.subscribe([weakEntity, prefab, overrides]() {
+                auto instance = weakEntity.lock();
+                if (instance && instance->prefab == prefab) {
+                    *overrides = prefab->getOverrides(instance.get());
+                }
+            });
+            prefab->onUpdate.subscribe([weakEntity, prefab, overrides]() {
+                auto instance = weakEntity.lock();
+                if (instance && instance->prefab == prefab) {
+                    instance->refresh();
+                    prefab->applyOverrides(instance.get(), *overrides);
+                }
+                *overrides = nullptr;
+            });
         }
 
         Entity* duplicate(Entity* entity) {
@@ -269,26 +367,30 @@ namespace hg {
         // Destroy an entity
         void remove(Entity* entity) {
 
-            for (auto child : entity->children()) {
+            // A copy: removing each child takes it out of this list
+            auto children = entity->children();
+            for (auto child : children) {
                 remove((Entity*) child);
             }
 
             groups.removeEntity(entity);
 
-            m_registry->destroy(entity->m_enttId);
-            m_idMap[entity->id()].reset();
-            m_enttMap[entity->m_enttId].reset();
-            m_idMap.erase(entity->id());
-            m_enttMap.erase(entity->m_enttId);
-
+            // While the entity is still alive: dropping the maps' references below destroys it
             if (entity->parent() != nullptr) {
                 entity->parent()->removeChild(entity);
             }
+
+            auto id = entity->id();
+            auto enttId = entity->m_enttId;
+            m_registry->destroy(enttId);
+            m_idMap.erase(id);
+            m_enttMap.erase(enttId);
         }
 
-        void forEach(std::function<void(Entity*)> lambda) {
+        // Every active entity (see Entity::active), or every entity with includeInactive
+        void forEach(std::function<void(Entity*)> lambda, bool includeInactive = false) {
             for (const auto &[id, entity] : m_idMap) {
-                if (entity == nullptr) {
+                if (entity == nullptr || (!includeInactive && !entity->activeInHierarchy())) {
                     continue;
                 }
                 lambda(entity.get());
@@ -296,18 +398,26 @@ namespace hg {
         }
 
         template<typename T, typename... Other>
+        // Every active entity with the components (see Entity::active), or every one with includeInactive
         void forEach(std::function<void(T*, Entity * )> lambda, std::vector<utils::UUID> ignoreEntities = {},
-                                        std::vector<std::string> ignoreTags = {}) {
+                                        std::vector<std::string> ignoreTags = {}, bool includeInactive = false) {
             for (auto enttId : m_registry->view<T, Other...>()) {
                 auto entity = m_enttMap[enttId].get();
                 if (entity == nullptr) {
                     continue;
                 }
-                if (!entity->active) continue;
+                if (!includeInactive && !entity->activeInHierarchy()) continue;
                 auto isIgnored = std::find(ignoreEntities.begin(), ignoreEntities.end(), entity->id()) != ignoreEntities.end();
                 if (!isIgnored) {
                     lambda(&m_registry->get<T>(enttId), entity);
                 }
+            }
+        }
+
+        void flushIDs() {
+            m_idMap.clear();
+            for (const auto& [enttId, entity] : m_enttMap) {
+                m_idMap.insert(std::make_pair(entity->id(), entity));
             }
         }
 

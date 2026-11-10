@@ -19,7 +19,11 @@ namespace hg {
 class Game : public utils::LoopingThread {
     public:
 
-        int fixedTicksPerSecond = 55;
+        // Fixed updates (physics) run at exactly this rate, independent of the frame rate
+        int fixedTicksPerSecond = 60;
+
+        // Upper bound on fixed updates in one frame, so a long frame can't snowball into ever longer ones
+        int maxFixedTicksPerFrame = 5;
 
         friend class HG;
 
@@ -48,7 +52,12 @@ class Game : public utils::LoopingThread {
         HG_GET_SET(bool, running, destroy);
         HG_GET_SET_SIMPLE(std::string, name);
 
+        // Time accumulated towards the next fixed update
         double timeSinceLastFixedTick() const;
+
+        // How far the current frame is between the last fixed update and the next one, in [0, 1).
+        // Use it to interpolate state produced by fixed updates when rendering.
+        double fixedAlpha() const;
 
     protected:
 
@@ -75,10 +84,10 @@ class Game : public utils::LoopingThread {
         std::string m_name;
         std::unique_ptr<utils::StateMachine<Scene>> m_scenes;
         long long m_lastTick;
-        long long m_lastFixedTick;
         double m_elapsedTime;
         double m_dt;
-        double m_fixedDt;
+        double m_fixedDt = 1.0 / 60.0;
+        double m_fixedAccumulator = 0;
 
 
     };

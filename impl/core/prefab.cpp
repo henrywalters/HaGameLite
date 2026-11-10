@@ -10,6 +10,7 @@
 #include <nlohmann/json.hpp>
 
 #include "hagame/core/assets.h"
+#include "hagame/utils/serialization.h"
 
 using json = nlohmann::json;
 
@@ -23,13 +24,19 @@ hg::Prefab::Prefab(std::string path) {
 
 void hg::Prefab::updatePrefab(hg::Entity *rootEntity) {
 
+    onBeforeUpdate.emit();
+
     std::function<void(hg::Entity*, Node*)> createNode = [&](hg::Entity* entity, Node* node) {
 
-        entity->prefab = this;
+        // Only the root is an instance. Marking children too makes them save as whole-prefab instances.
+        if (node == &m_root) {
+            entity->prefab = this;
+        }
 
         // Capture the original entity ID but don't count on having it in when instantiated
         node->transform = entity->transform;
         node->name = entity->name;
+        node->active = entity->active;
         node->components.clear();
         node->children.clear();
 
@@ -76,6 +83,7 @@ void hg::Prefab::updateEntity(hg::Entity *root) {
         if (node->parent) { // Don't modify the name and transform or root entity instances
             entity->name = node->name;
             entity->transform = node->transform;
+            entity->active = node->active;
         }
 
         for (const auto& component : node->components) {
@@ -116,6 +124,7 @@ void hg::Prefab::save(std::string path) {
         };
 
         object["name"] = node->name;
+        object["active"] = node->active;
 
         std::vector<json> components;
 
@@ -172,10 +181,15 @@ void hg::Prefab::load(std::string path) {
             }
         }
         node->name = object["name"];
+        node->active = object.value("active", true);
 
         for (const auto& component : object["components"]) {
             PfbComponent newComponent;
             newComponent.component = ComponentFactory::Get(component["name"]);
+
+            // Fields added to the component after the prefab was saved take the component's own default,
+            // not the type's zero value (e.g. gravityScale 1, not 0)
+            std::shared_ptr<hg::Component> defaults;
 
             for (const auto& field : ComponentFactory::GetFields(component["name"])) {
                 Field newField;
@@ -183,7 +197,17 @@ void hg::Prefab::load(std::string path) {
                 if (component["fields"].contains(field.field)) {
                     newField.value = hg::utils::deserialize(field.type, component["fields"][field.field]);
                 } else {
-                    newField.value = ComponentFactory::DefaultValue(field.type);
+                    if (!defaults) {
+                        defaults = newComponent.component.create();
+                    }
+                    std::visit(utils::overloaded{
+                        [&](ComponentFactory::PrimitiveDetails const& details) {
+                            newField.value = details.getter(defaults.get());
+                        },
+                        [&](ComponentFactory::JsonDetails const& details) {
+                            newField.value = details.getter(defaults.get());
+                        }
+                    }, field.details);
                 }
                 newComponent.fields.push_back(newField);
             }
@@ -206,3 +230,155 @@ void hg::Prefab::load(std::string path) {
 
 }
 
+
+namespace {
+    json fieldToJson(hg::ComponentFactory::ComponentField const& field, hg::Component* component) {
+        json value;
+        std::visit(hg::utils::overloaded{
+            [&](hg::ComponentFactory::PrimitiveDetails const& details) {
+                value = hg::utils::serializeToJson(details.getter(component));
+            },
+            [&](hg::ComponentFactory::JsonDetails const& details) {
+                value = details.getter(component);
+            }
+        }, field.details);
+        return value;
+    }
+
+    json transformToJson(hg::math::Transform const& transform) {
+        return {
+            {"position", transform.position},
+            {"rotation", transform.rotation},
+            {"scale", transform.scale},
+        };
+    }
+}
+
+json hg::Prefab::getOverrides(hg::Entity *instance) const {
+    std::function<json(hg::Entity*, const Node*)> diffNode = [&](hg::Entity* entity, const Node* node) -> json {
+        json out = json::object();
+
+        if (node != &m_root) { // The root's name and transform belong to the instance, not the prefab
+            if (entity->name != node->name) {
+                out["name"] = entity->name;
+            }
+            auto transform = transformToJson(entity->transform);
+            if (transform != transformToJson(node->transform)) {
+                out["transform"] = transform;
+            }
+        }
+
+        json components = json::array();
+        for (const auto& component : entity->components()) {
+            auto name = component->className();
+            auto pfbComponent = std::find_if(node->components.begin(), node->components.end(), [&](const PfbComponent& c) {
+                return c.component.name == name;
+            });
+
+            json params = json::object();
+            for (const auto& field : ComponentFactory::GetFields(name)) {
+                auto value = fieldToJson(field, component);
+                if (pfbComponent != node->components.end()) {
+                    auto pfbField = std::find_if(pfbComponent->fields.begin(), pfbComponent->fields.end(), [&](const Field& f) {
+                        return f.field.field == field.field;
+                    });
+                    if (pfbField != pfbComponent->fields.end()) {
+                        json pfbValue = std::holds_alternative<nlohmann::json>(pfbField->value) ?
+                                std::get<nlohmann::json>(pfbField->value) :
+                                hg::utils::serializeToJson(std::get<hg::utils::variant>(pfbField->value));
+                        if (pfbValue == value) {
+                            continue;
+                        }
+                    }
+                }
+                params[field.field] = value;
+            }
+
+            // Components the prefab doesn't have are kept whole, even if they have no fields
+            if (!params.empty() || pfbComponent == node->components.end()) {
+                components.push_back({{"name", name}, {"params", params}});
+            }
+        }
+        if (!components.empty()) {
+            out["components"] = components;
+        }
+
+        json children = json::array();
+        bool anyChild = false;
+        auto entityChildren = entity->children();
+        for (size_t i = 0; i < entityChildren.size() && i < node->children.size(); i++) {
+            auto childJ = diffNode(static_cast<hg::Entity*>(entityChildren[i]), node->children[i].get());
+            anyChild = anyChild || !childJ.is_null();
+            children.push_back(childJ);
+        }
+        if (anyChild) {
+            out["children"] = children;
+        }
+
+        return out.empty() ? json() : out;
+    };
+
+    return diffNode(instance, &m_root);
+}
+
+void hg::Prefab::applyOverrides(hg::Entity *instance, json const &overrides) const {
+    std::function<void(hg::Entity*, json const&)> applyNode = [&](hg::Entity* entity, json const& j) {
+        if (j.is_null()) {
+            return;
+        }
+
+        if (j.contains("name")) {
+            entity->name = j["name"].get<std::string>();
+        }
+
+        if (j.contains("transform")) {
+            entity->transform.position = j["transform"]["position"].get<hg::Vec3>();
+            entity->transform.rotation = j["transform"]["rotation"].get<hg::Quat>();
+            entity->transform.scale = j["transform"]["scale"].get<hg::Vec3>();
+        }
+
+        if (j.contains("components")) {
+            for (const auto& compJ : j["components"]) {
+                auto name = compJ["name"].get<std::string>();
+                hg::Component* component = nullptr;
+                for (const auto& existing : entity->components()) {
+                    if (existing->className() == name) {
+                        component = existing;
+                        break;
+                    }
+                }
+                if (!component) {
+                    component = ComponentFactory::Attach(entity, name);
+                }
+
+                for (const auto& field : ComponentFactory::GetFields(name)) {
+                    if (!compJ["params"].contains(field.field)) {
+                        continue;
+                    }
+                    auto const& value = compJ["params"][field.field];
+                    try {
+                        std::visit(utils::overloaded{
+                            [&](ComponentFactory::PrimitiveDetails const& details) {
+                                details.setter(component, hg::utils::deserializeFromJson(field.type, value));
+                            },
+                            [&](ComponentFactory::JsonDetails const& details) {
+                                details.setter(component, value);
+                            }
+                        }, field.details);
+                    } catch (std::exception const& e) {
+                        std::cout << "Failed to apply prefab override " << name << "." << field.field << ": " << e.what() << "\n";
+                    }
+                }
+            }
+        }
+
+        if (j.contains("children")) {
+            auto entityChildren = entity->children();
+            for (size_t i = 0; i < entityChildren.size() && i < j["children"].size(); i++) {
+                applyNode(static_cast<hg::Entity*>(entityChildren[i]), j["children"][i]);
+            }
+        }
+    };
+
+    applyNode(instance, overrides);
+}

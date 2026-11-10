@@ -41,6 +41,11 @@ namespace hg::graphics {
         void draw(Font* font, std::string message, Vec3 size, Vec3 pos, TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
         void draw(Font* font, std::vector<std::string> lines, Vec3 pos = Vec3::Zero(), TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
 
+        // Lays text out without drawing it: where each character goes and how big it is. E.g. to measure text
+        static std::vector<Character> Construct(Font* font, std::string message, Vec3 pos = Vec3::Zero(), TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
+        static std::vector<Character> Construct(Font* font, std::string message, Vec3 size, Vec3 pos, TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
+        static std::vector<Character> Construct(Font* font, std::vector<std::string> lines, Vec3 pos = Vec3::Zero(), Vec3 size = Vec3::Zero(), TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
+
     private:
 
         friend class TextBuffer;
@@ -50,9 +55,6 @@ namespace hg::graphics {
 
         void render(Font* font, std::vector<Character>& characters);
 
-        static std::vector<Character> Construct(Font* font, std::string message, Vec3 pos = Vec3::Zero(), TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
-        static std::vector<Character> Construct(Font* font, std::string message, Vec3 size, Vec3 pos, TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
-        static std::vector<Character> Construct(Font* font, std::vector<std::string> lines, Vec3 pos = Vec3::Zero(), Vec3 size = Vec3::Zero(), TextHAlignment alignmentH = TextHAlignment::Center, TextVAlignment alignmentV = TextVAlignment::Top);
     };
 }
 

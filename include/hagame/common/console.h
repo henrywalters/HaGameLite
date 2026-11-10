@@ -141,7 +141,7 @@ namespace hg {
         std::string m_command;
         std::vector<std::string> m_buffer;
 
-        float m_scrollHeight;
+        float m_scrollHeight = 0; // Set from the output in putLine; left unset it drew a bar of garbage height
 
         int m_scrollIdx = 0;
         size_t m_outputStartIdx = 0;

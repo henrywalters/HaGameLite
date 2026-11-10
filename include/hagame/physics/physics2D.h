@@ -45,6 +45,8 @@ namespace hg::physics {
 
         double lastTick() const { return m_elapsedTime; }
 
+        Vec2 gravity() const { return m_gravity; }
+
         void play();
         void pause();
         void reset();
@@ -52,6 +54,12 @@ namespace hg::physics {
     private:
 
         std::unordered_map<int32_t, hg::Entity*> m_shapeMap;
+
+        // Shapes of the static bodies built from tilemaps on play. They have no RigidBody2D, so they're kept here
+        // and merged into m_shapeMap each step
+        std::unordered_map<int32_t, hg::Entity*> m_tilemapShapes;
+
+        void createTilemapBody(hg::Entity* entity);
 
         double m_elapsedTime = 0;
 

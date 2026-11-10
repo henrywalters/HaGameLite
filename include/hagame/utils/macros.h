@@ -112,7 +112,7 @@
 [](auto component) { nlohmann::json j; j = ((CompName*) component)->Name; return j; }                                                                           \
 );
 
-#define HG_IS_CONCEPT(Name) template <typename T> concept Is##Name = std::is_base_of<Name, T>::value;
+#define HG_IS_CONCEPT(Name) template <typename T> concept Is##Name = std::is_base_of_v<Name, T>;
 
 #define HG_SYSTEM(Category, Name) static hg::SystemFactory::RegisteredSystem System_##Name = hg::SystemFactory::Register<Name>(#Category, #Name);
 

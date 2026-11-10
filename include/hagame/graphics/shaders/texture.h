@@ -60,6 +60,7 @@ namespace hg::graphics {
         "\n"
         "void main() {\n"
         "    FragColor = texture(image, TexCoord);\n"
+        "    if (FragColor.a < 0.01) discard;\n"
         "}"
     };
 
@@ -125,6 +126,7 @@ namespace hg::graphics {
         "    switch (tid) {\n"
         + _texturesAt(0, MAX_BATCH_TEXTURES) +
         "    }\n"
+        "    if (FragColor.a < 0.01) discard;\n"
         "}"
     };
 }

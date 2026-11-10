@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <algorithm>
 #include "../../../include/hagame/core/game.h"
 #include "../../include/hagame/graphics/windows.h"
 
@@ -25,46 +26,50 @@ void hg::Game::initialize() {
     });
 
     m_lastTick = Clock::Now();
-    m_lastFixedTick = Clock::Now();
+    m_fixedAccumulator = 0;
     m_dt = 0;
 
     onInit();
 }
 
 double hg::Game::timeSinceLastFixedTick() const {
-    return Clock::ToSeconds(m_lastTick - m_lastFixedTick);
+    return m_fixedAccumulator;
+}
+
+double hg::Game::fixedAlpha() const {
+    return m_fixedDt > 0 ? m_fixedAccumulator / m_fixedDt : 0;
 }
 
 void hg::Game::tick() {
 
     auto now = Clock::Now();
-    auto delta = now - m_lastTick;
-    auto fixedDelta = now - m_lastFixedTick;
-    double tmpFixedDt = Clock::ToSeconds(fixedDelta);
 
-    bool doFixedUpdate = tmpFixedDt >= 1.0 / (double) fixedTicksPerSecond;
-
-    m_dt = Clock::ToSeconds(delta);
+    m_dt = Clock::ToSeconds(now - m_lastTick);
     m_elapsedTime += m_dt;
     m_lastTick = now;
 
-    if (doFixedUpdate) {
-        m_lastFixedTick = now;
-        m_fixedDt = tmpFixedDt;
-    }
+    // Fixed timestep: bank real time and spend it in constant-size steps, so the simulation advances at the same
+    // rate and in the same increments regardless of frame rate. Time beyond the per-frame cap is dropped
+    // (the game briefly slows down) rather than trying to catch up forever.
+    m_fixedDt = 1.0 / (double) std::max(1, fixedTicksPerSecond);
+    int maxTicks = std::max(1, maxFixedTicksPerFrame);
+    m_fixedAccumulator = std::min(m_fixedAccumulator + m_dt, m_fixedDt * maxTicks);
 
     onBeforeUpdate();
 
     onUpdate(m_dt);
 
-    if (doFixedUpdate) {
+    int ticks = 0;
+    while (m_fixedAccumulator >= m_fixedDt && ticks < maxTicks) {
         onFixedUpdate(m_fixedDt);
+        if (scenes()->hasActive()) {
+            scenes()->active()->fixedUpdate(m_fixedDt);
+        }
+        m_fixedAccumulator -= m_fixedDt;
+        ticks++;
     }
 
     if (scenes()->hasActive()) {
-        if (doFixedUpdate) {
-            scenes()->active()->fixedUpdate(m_fixedDt);
-        }
         scenes()->active()->update(m_dt);
     }
 

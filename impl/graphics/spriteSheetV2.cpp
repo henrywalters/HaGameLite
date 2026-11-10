@@ -64,7 +64,34 @@ nlohmann::json SpriteSheetV2::save() const {
 
     json["sprites"] = sJson;
 
+    if (!m_cellColliders.empty()) {
+        nlohmann::json colliders = nlohmann::json::array();
+        for (const auto& [cell, shapes] : m_cellColliders) {
+            nlohmann::json collider;
+            collider["cell"] = hg::Vec2i(cell.first, cell.second);
+            collider["shapes"] = shapes;
+            colliders.push_back(collider);
+        }
+        json["cellColliders"] = colliders;
+    }
+
     return json;
+}
+
+std::optional<std::vector<std::vector<hg::Vec2>>> SpriteSheetV2::getCellColliders(hg::Vec2i cell) const {
+    auto it = m_cellColliders.find({cell[0], cell[1]});
+    if (it == m_cellColliders.end()) {
+        return std::nullopt;
+    }
+    return it->second;
+}
+
+void SpriteSheetV2::setCellColliders(hg::Vec2i cell, std::vector<std::vector<hg::Vec2>> shapes) {
+    m_cellColliders[{cell[0], cell[1]}] = shapes;
+}
+
+void SpriteSheetV2::clearCellColliders(hg::Vec2i cell) {
+    m_cellColliders.erase({cell[0], cell[1]});
 }
 
 void SpriteSheetV2::load(const hg::utils::Config &config) {
@@ -92,6 +119,21 @@ void SpriteSheetV2::load(nlohmann::json const &json) {
     for (const auto& [key, sprite]: json["sprites"].items()) {
         sprites->addSprite(key, TextureAtlasGroup{});
         sprites->getSprite(key)->load(sprite);
+    }
+
+    m_cellColliders.clear();
+
+    if (json.contains("cellColliders")) {
+        for (const auto& collider : json["cellColliders"]) {
+            auto cell = collider["cell"].get<hg::Vec2i>();
+            if (collider.contains("shapes")) {
+                setCellColliders(cell, collider["shapes"].get<std::vector<std::vector<hg::Vec2>>>());
+            } else {
+                // Saved when a cell had a single shape. No points meant no collision
+                auto points = collider["points"].get<std::vector<hg::Vec2>>();
+                setCellColliders(cell, points.empty() ? std::vector<std::vector<hg::Vec2>>{} : std::vector<std::vector<hg::Vec2>>{points});
+            }
+        }
     }
 }
 

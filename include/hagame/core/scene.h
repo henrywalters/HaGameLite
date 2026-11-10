@@ -74,6 +74,8 @@ namespace hg {
         nlohmann::json save(hg::Entity* entity = nullptr);
         void load(nlohmann::json const& json);
 
+        void loadEntity(nlohmann::json const& json, std::unordered_map<hg::utils::uuid_t, Prefab*> prefabMap = {}, hg::Entity* parent = nullptr);
+
         template <IsScene _Scene, class... Args>
         _Scene* addChild(Args &&... args) {
             m_children.push_back(std::make_unique<_Scene>(std::forward<Args>(args)...));

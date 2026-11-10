@@ -14,6 +14,16 @@ namespace hg {
         return a + (b - a) * t;
     }
 
+    template <size_t ND, typename T>
+    inline constexpr math::Vector<ND, T> lerp(math::Vector<ND, T> a, math::Vector<ND, T> b, T t) {
+        math::Vector<ND, T> result;
+        for (int i = 0; i < ND; i++) {
+            result[i] = lerp(a[i], b[i], t);
+        }
+        return result;
+    }
+
+
     bool rectContainsPoint(Vec2 pos, Vec2 size, Vec2 point);
 
     inline Vec2 rotate(const Vec2& vec, float theta) {

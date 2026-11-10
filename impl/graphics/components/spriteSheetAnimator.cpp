@@ -72,3 +72,26 @@ hg::Rect SpriteSheetAnimator::getRect() {
     }
     return sheet->atlas.getRect(group[currentIndex], sheet->texture()->image->size);
 }
+
+void SpriteSheetAnimator::setSprite(const std::string& name) {
+    if (name == activeSprite) {
+        return;
+    }
+    activeSprite = name;
+    reset();
+    play(); // reset() stops non-looping sprites, but a newly chosen one should play once
+}
+
+hg::Rect SpriteSheetAnimator::drawRect() {
+    auto rect = getRect();
+    if (flipX) {
+        // Sample the frame right-to-left
+        rect.pos[0] += rect.size[0];
+        rect.size[0] = -rect.size[0];
+    }
+    return rect;
+}
+
+hg::Vec2 SpriteSheetAnimator::drawOffset() const {
+    return flipX ? hg::Vec2(-offset[0], offset[1]) : offset;
+}

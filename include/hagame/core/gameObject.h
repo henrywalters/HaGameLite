@@ -47,6 +47,10 @@ namespace hg {
         // Get the global model of the game object
         hg::Mat4 model();
 
+        // World position plus render-only offsets (e.g. physics interpolation). Use for anything drawn or
+        // anything that follows something drawn, like cameras; use position() for gameplay.
+        Vec3 renderPosition();
+
     protected:
 
         OBJECT_NAME(GameObject)

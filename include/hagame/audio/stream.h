@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 
+#include "hagame/core/asset.h"
+
 namespace hg::audio {
 
     using SampleType = uint16_t;
@@ -27,10 +29,11 @@ namespace hg::audio {
 
         int channels() const { return m_channels; }
         int sampleRate() const { return m_sampleRate; }
+        // Bit depth of the source file. Samples are always converted to 16 bit on load
         int bitDepth() const { return m_bitDepth; }
         int samples() const { return m_samples; }
         int getFormat() const;
-        size_t bytes() const { return m_channels * m_samples * (m_bitDepth / 8); }
+        size_t bytes() const { return m_stream.size() * sizeof(SampleType); }
 
     private:
 
@@ -40,6 +43,11 @@ namespace hg::audio {
         int m_samples;
         std::vector<SampleType> m_stream;
 
+    };
+
+    class StreamAsset : public Asset<Stream> {
+    protected:
+        void reload() override;
     };
 }
 

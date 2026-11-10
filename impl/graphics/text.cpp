@@ -16,7 +16,6 @@ hg::graphics::Text::Text() {
 
 void hg::graphics::Text::draw(hg::graphics::Font *font, std::string message, hg::Vec3 pos,
                               hg::graphics::TextHAlignment alignmentH, hg::graphics::TextVAlignment alignmentV) {
-    draw(font, utils::s_split(message, '\n'), pos, alignmentH, alignmentV);
 
     auto characters = Construct(font, message, pos, alignmentH, alignmentV);
     render(font, characters);

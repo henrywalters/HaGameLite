@@ -2,6 +2,7 @@
 // Created by henry on 6/22/24.
 //
 #include <hagame/common/scenes/loading.h>
+#include <filesystem>
 #include <hagame/core/assets.h>
 #include <hagame/graphics/shaders/color.h>
 #include <hagame/graphics/shaders/texture.h>
@@ -73,6 +74,21 @@ void Loading::onUpdate(double dt) {
         m_message = "Loading sprite sheet: " + name + " from " + path;
         std::cout << m_message << "\n";
         hg::loadSpriteSheet(name, path);
+    } else if (m_rigAtlasIdx < m_rigAtlases.size()) {
+        auto &[name, path] = m_rigAtlases[m_rigAtlasIdx++];
+        m_message = "Loading rig atlas: " + name + " from " + path;
+        std::cout << m_message << "\n";
+        hg::loadRigAtlas(name, path);
+    } else if (m_skeletonIdx < m_skeletons.size()) {
+        auto &[name, path] = m_skeletons[m_skeletonIdx++];
+        m_message = "Loading skeleton: " + name + " from " + path;
+        std::cout << m_message << "\n";
+        hg::loadSkeleton(name, path);
+    } else if (m_rigAnimationSetIdx < m_rigAnimationSets.size()) {
+        auto &[name, path] = m_rigAnimationSets[m_rigAnimationSetIdx++];
+        m_message = "Loading rig animations: " + name + " from " + path;
+        std::cout << m_message << "\n";
+        hg::loadRigAnimationSet(name, path);
     } else if (m_soundIdx < m_sounds.size()) {
         auto &[name, path] = m_sounds[m_soundIdx++];
         m_message = "Loading sound: " + name + " from " + path;
@@ -99,7 +115,9 @@ void Loading::onUpdate(double dt) {
         m_message = "Loading prefab: " + name + " from " + path;
         std::cout << m_message << "\n";
         hg::loadPrefab(name, path);
-    } {
+    } else {
+        // Only once everything above has loaded. Without the else this ran every frame, so a slow load (big sounds)
+        // finished as soon as minLoadingTime passed and skipped whatever was left, prefabs last of all
         m_message = "Initializing";
         if (m_settings.minLoadingTime <= m_elapsedTime) {
             onFinish();
@@ -222,10 +240,25 @@ void Loading::readFilesForLoading() {
             m_textures.push_back(std::make_tuple(name, file));
         } else if (parts.extension == "hgss") {
             m_spriteSheets.push_back(std::make_tuple(name, file));
+        } else if (parts.extension == "hgra") {
+            m_rigAtlases.push_back(std::make_tuple(name, file));
         }
     }
 
     std::cout << "READ TEXTURES\n";
+
+    // Optional: games without rigs don't need the folder
+    if (std::filesystem::exists(ASSET_DIR + m_settings.folders.rigs)) {
+        for (const auto& file : d_listFiles(ASSET_DIR + m_settings.folders.rigs, true)) {
+            auto parts = f_getParts(file);
+            auto name = s_replace(parts.path, ASSET_DIR, "") + parts.name;
+            if (parts.extension == "hg_skel") {
+                m_skeletons.push_back(std::make_tuple(name, file));
+            } else if (parts.extension == "hg_anims") {
+                m_rigAnimationSets.push_back(std::make_tuple(name, file));
+            }
+        }
+    }
 
     auto shaderFiles = std::unordered_map<std::string, ShaderPaths>();
 

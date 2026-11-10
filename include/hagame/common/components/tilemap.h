@@ -63,7 +63,14 @@ namespace hg::components {
             }
         }
 
-        std::vector<hg::Recti> getCollisionRects() const;
+        // The outlines of the regions covered by collider tiles that fill their cell and by the axis aligned rects of
+        // sprite sheet cell colliders, as closed loops in the tilemap's local space. Outer boundaries wind
+        // counter-clockwise and holes clockwise, so the solid side is always on the left
+        std::vector<std::vector<hg::Vec2>> getCollisionOutlines() const;
+
+        // The sprite sheet cell collider shapes (see SpriteSheetV2::getCellColliders) that aren't in the outlines,
+        // like slopes, one polygon per tile in the tilemap's local space
+        std::vector<std::vector<hg::Vec2>> getCollisionPolygons() const;
 
     protected:
         OBJECT_NAME(Tilemap)

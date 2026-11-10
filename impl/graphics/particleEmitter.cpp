@@ -1,6 +1,7 @@
 //
 // Created by henry on 5/8/23.
 //
+#include <algorithm>
 #include <thread>
 
 #include "../../include/hagame/graphics/particleEmitter.h"
@@ -119,15 +120,22 @@ void ParticleEmitter::update(hg::Vec3 pos, double dt) {
             m_lastEmission = m_elapsedTime;
         }
 
+    } else if (settings.particlesPerSecond <= 0) {
+        // Not emitting. Don't bank the time, or turning the rate back up would release it all at once
+        m_lastEmission = m_elapsedTime;
     } else {
         double emissionRate = 1.0 / settings.particlesPerSecond;
         if (timeSinceLastEmission >= emissionRate) {
             int particles = timeSinceLastEmission / emissionRate;
+
+            // Keep the time left over, so the rate holds at any frame rate instead of drifting low
+            m_lastEmission += particles * emissionRate;
+
+            // A long frame can't emit more than the buffer holds; the extra would only overwrite each other
+            particles = std::min<int>(particles, m_maxParticles);
             for (int i = 0; i < particles; i++) {
                 emit();
             }
-
-            m_lastEmission = m_elapsedTime;
         }
     }
 

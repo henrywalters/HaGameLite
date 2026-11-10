@@ -18,6 +18,7 @@ nlohmann::json hg::Scene::save(hg::Entity* entity) {
     for (const auto& script : m_scripts) {
         ScriptDef def = script->getDef();
         nlohmann::json scriptJ;
+        scriptJ["name"] = def.name;
         scriptJ["path"] = def.path;
         scriptJ["extension"] = def.extension;
         scriptJ["libPath"] = def.libPath;
@@ -40,6 +41,31 @@ nlohmann::json hg::Scene::save(hg::Entity* entity) {
     return j;
 }
 
+void hg::Scene::loadEntity(nlohmann::json const &entityJ, std::unordered_map<hg::utils::uuid_t, Prefab*> prefabMap, hg::Entity *parent) {
+    hg::Entity* entity;
+    bool isPrefabInstance = entityJ.find("prefab") != entityJ.end();
+
+    if (isPrefabInstance) {
+        auto prefabId = entityJ["prefab"].get<utils::uuid_t>();
+        if (prefabMap.find(prefabId) == prefabMap.end()) {
+            throw std::runtime_error("Prefab '" + std::to_string(prefabId) + "' not loaded into assets!");
+        }
+        entity = parent ? entities.add(parent, prefabMap.at(prefabId)) : entities.add(prefabMap.at(prefabId));
+    } else {
+        entity = parent ? entities.add(parent) : entities.add();
+    }
+
+    entity->load(entityJ);
+
+    if (!isPrefabInstance) { // only walk saved children for non-prefab entities
+        for (const auto& child : entityJ["children"]) {
+            loadEntity(child, prefabMap, entity);
+        }
+    }
+
+    entities.flushIDs();
+}
+
 void hg::Scene::load(nlohmann::json const &j) {
     std::unordered_map<hg::utils::uuid_t, Prefab*> prefabMap;
 
@@ -56,28 +82,8 @@ void hg::Scene::load(nlohmann::json const &j) {
         addScript(ScriptFactory::Create(def));
     }
 
-    std::function<void(nlohmann::json, hg::Entity*)> loadEntity = [&](nlohmann::json const& entityJ, hg::Entity* parent = nullptr) {
-        hg::Entity* entity;
-
-        if (entityJ.find("prefab") != entityJ.end()) {
-            auto prefabId = entityJ["prefab"].get<utils::uuid_t>();
-            if (prefabMap.find(prefabId) == prefabMap.end()) {
-                throw std::runtime_error("Prefab '" + std::to_string(prefabId) + "' not loaded into assets!");
-            }
-            entity = parent ? entities.add(parent, prefabMap.at(prefabId)) : entities.add(prefabMap.at(prefabId));
-        } else {
-            entity = parent ? entities.add(parent) : entities.add();
-        }
-
-        entity->load(entityJ);
-
-        for (const auto& child : entityJ["children"]) {
-            loadEntity(child, entity);
-        }
-    };
-
     for (const auto &entityJ : j["entities"]) {
-        loadEntity(entityJ, nullptr);
+        loadEntity(entityJ, prefabMap, nullptr);
     }
 }
 

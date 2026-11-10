@@ -54,8 +54,9 @@ Batcher::Batcher():
     vao->defineAttribute(m_buffer.get(), DataType::Float, 10, 4, offsetof(BatchQuad, model) + (4 * sizeof(float)));
     vao->defineAttribute(m_buffer.get(), DataType::Float,  11, 4, offsetof(BatchQuad, model) + (8 * sizeof(float)));
     vao->defineAttribute(m_buffer.get(), DataType::Float, 12, 4, offsetof(BatchQuad, model) + (12 * sizeof(float)));
+    vao->defineAttribute(m_buffer.get(), DataType::Float, 13, 1, offsetof(BatchQuad, emission));
 
-    vao->setInstanced(3, 12);
+    vao->setInstanced(3, 13);
 }
 
 void Batcher::clear() {
@@ -102,9 +103,10 @@ void BatchSprites::batch(std::string texture, hg::Vec2 size, hg::Vec2 offset, Co
     m_data.emplace_back(size, offset, index, color, model);
 }
 
-void BatchSprites::batch(std::string texture, Vec2 size, Vec2 offset, Rect texRect, Color color, Mat4 model){
+void BatchSprites::batch(std::string texture, Vec2 size, Vec2 offset, Rect texRect, Color color, Mat4 model, float emission){
     auto index = getTextureIndex(texture);
     m_data.emplace_back(size, offset, index, texRect.pos, texRect.size, color, model);
+    m_data.back().emission = emission;
 }
 
 int BatchSprites::getTextureIndex(std::string texture) {

@@ -36,43 +36,40 @@ void GameObject::removeChild(GameObject *child) {
 }
 
 Vec3 GameObject::position() {
-    Vec3 pos;
-    GameObject* node = this;
-
-    while (node != nullptr) {
-        pos += node->transform.position; //node->transform.rotation.rotatePoint(node->transform.position + node->transform.positionOffset);
-        node = node->parent();
+    if (parent() == nullptr) {
+        return transform.position;
     }
-
-    return pos;
+    Vec3 parentPos = parent()->position();
+    Quat parentRot = parent()->rotation();
+    Vec3 parentScale = parent()->scale();
+    return parentPos + parentRot.rotatePoint(parentScale.prod(transform.position));
 }
 
 hg::Vec3 GameObject::scale() {
-    Vec3 scale = Vec3::Identity();
-    GameObject* node = this;
-
-    while (node != nullptr) {
-        scale = scale.prod(node->transform.scale);
-        node = node->parent();
+    if (parent() == nullptr) {
+        return transform.scale;
     }
-
-    return scale;
+    return parent()->scale().prod(transform.scale);
 }
 
 hg::Quat GameObject::rotation() {
-    Quat rotation = Quat(0, Vec3(1, 0, 0));
-    GameObject* node = this;
-
-    while (node != nullptr) {
-        rotation = node->transform.rotation * rotation;
-        node = node->parent();
+    if (parent() == nullptr) {
+        return transform.rotation;
     }
+    return parent()->rotation() * transform.rotation;
+}
 
-    return rotation;
+hg::Vec3 GameObject::renderPosition() {
+    // positionOffset is a render-only nudge (e.g. physics interpolation between fixed steps); children inherit it
+    Vec3 offset = transform.positionOffset;
+    for (auto node = parent(); node != nullptr; node = node->parent()) {
+        offset += node->transform.positionOffset;
+    }
+    return position() + offset;
 }
 
 Mat4 GameObject::model() {
-    return Mat4::Translation(position()) * Mat4::Rotation(rotation()) * Mat4::Scale(scale());
+    return Mat4::Translation(renderPosition()) * Mat4::Rotation(rotation()) * Mat4::Scale(scale());
 }
 
 GameObject *GameObject::getChildByName(std::string name) {

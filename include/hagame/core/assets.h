@@ -10,6 +10,9 @@
 #include "../graphics/texture.h"
 #include "../graphics/font.h"
 #include "../graphics/spriteSheetV2.h"
+#include "../graphics/rigAtlas.h"
+#include "../graphics/skeleton.h"
+#include "../graphics/rigAnimation.h"
 #include "../audio/stream.h"
 #include "../graphics/mesh.h"
 #include "../graphics/material.h"
@@ -36,6 +39,9 @@ namespace hg {
         inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Texture>> TEXTURES;
         inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Font>> FONTS;
         inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::SpriteSheetV2>> SPRITE_SHEETS;
+        inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::RigAtlas>> RIG_ATLASES;
+        inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Skeleton>> SKELETONS;
+        inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::RigAnimationSet>> RIG_ANIMATION_SETS;
         inline hg::utils::Store<std::string, std::shared_ptr<hg::audio::Stream>> AUDIO_STREAMS;
         inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Mesh>> MESHES;
         inline hg::utils::Store<std::string, std::shared_ptr<hg::graphics::Materials>> MATERIALS;
@@ -67,6 +73,18 @@ namespace hg {
     bool hasSpriteSheet(std::string name);
     std::shared_ptr<hg::graphics::SpriteSheetV2> loadSpriteSheet(std::string name, std::string path);
     hg::graphics::SpriteSheetV2* getSpriteSheet(std::string name);
+
+    bool hasRigAtlas(std::string name);
+    std::shared_ptr<hg::graphics::RigAtlas> loadRigAtlas(std::string name, std::string path);
+    hg::graphics::RigAtlas* getRigAtlas(std::string name);
+
+    bool hasSkeleton(std::string name);
+    std::shared_ptr<hg::graphics::Skeleton> loadSkeleton(std::string name, std::string path);
+    hg::graphics::Skeleton* getSkeleton(std::string name);
+
+    bool hasRigAnimationSet(std::string name);
+    std::shared_ptr<hg::graphics::RigAnimationSet> loadRigAnimationSet(std::string name, std::string path);
+    hg::graphics::RigAnimationSet* getRigAnimationSet(std::string name);
 
     std::shared_ptr<hg::graphics::Font> loadFont(std::string name, std::string path);
     bool hasFont(std::string name);

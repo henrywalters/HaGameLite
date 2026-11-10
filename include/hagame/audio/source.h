@@ -8,6 +8,7 @@
 #include "../../../include/hagame/math/aliases.h"
 #include "AL/al.h"
 #include "AL/alc.h"
+#include "AL/alext.h"
 
 namespace hg::audio {
 
@@ -18,12 +19,21 @@ namespace hg::audio {
     };
 
     struct SourceSettings {
-        uint16_t buffer;
+        ALuint buffer = 0; // AL_NONE until a buffer is bound
         float pitch = 1.0f;
         float gain = 1.0f;
         Vec3 position;
         Vec3 velocity;
         bool looping = false;
+
+        // Spatial sources live in world space and fade with distance from the listener. Non-spatial sources
+        // (music, UI) stay glued to the listener at full volume
+        bool spatial = false;
+        float referenceDistance = 1.0f; // Full volume within this distance
+        float maxDistance = 20.0f; // Silent beyond this distance (linear clamped model)
+        float rolloff = 1.0f;
+
+        bool operator==(const SourceSettings&) const = default;
     };
 
     class Source {
@@ -31,15 +41,23 @@ namespace hg::audio {
 
         Source() {
             alGenSources((ALuint)1, &m_source);
-            alSourcei(m_source, AL_SOURCE_RELATIVE, 1);
+            spatial(m_settings.spatial);
         }
+
+        ~Source() {
+            alSourceStop(m_source);
+            alDeleteSources(1, &m_source);
+        }
+
+        Source(const Source&) = delete;
+        Source& operator=(const Source&) = delete;
 
         Source(const SourceSettings& _settings):
         Source() {
             settings(_settings);
         }
 
-        void bind(uint16_t buffer) {
+        void bind(ALuint buffer) {
             if (m_settings.buffer != buffer) {
                 m_settings.buffer = buffer;
                 alSourcei(m_source, AL_BUFFER, m_settings.buffer);
@@ -54,7 +72,29 @@ namespace hg::audio {
             position(settings.position);
             velocity(settings.velocity);
             looping(settings.looping);
+            spatial(settings.spatial);
+            attenuation(settings.referenceDistance, settings.maxDistance, settings.rolloff);
             bind(settings.buffer);
+        }
+
+        bool spatial() const { return m_settings.spatial; }
+
+        void spatial(bool value) {
+            m_settings.spatial = value;
+            alSourcei(m_source, AL_SOURCE_RELATIVE, value ? AL_FALSE : AL_TRUE);
+            // Without this OpenAL Soft plays stereo buffers un-attenuated; with it they're downmixed and positioned
+            if (alIsExtensionPresent("AL_SOFT_source_spatialize")) {
+                alSourcei(m_source, AL_SOURCE_SPATIALIZE_SOFT, value ? AL_TRUE : AL_FALSE);
+            }
+        }
+
+        void attenuation(float referenceDistance, float maxDistance, float rolloff) {
+            m_settings.referenceDistance = referenceDistance;
+            m_settings.maxDistance = maxDistance;
+            m_settings.rolloff = rolloff;
+            alSourcef(m_source, AL_REFERENCE_DISTANCE, referenceDistance);
+            alSourcef(m_source, AL_MAX_DISTANCE, maxDistance);
+            alSourcef(m_source, AL_ROLLOFF_FACTOR, rolloff);
         }
 
         float pitch() const { return m_settings.pitch; }
@@ -139,7 +179,7 @@ namespace hg::audio {
 
     private:
 
-        ALCuint m_source;
+        ALuint m_source;
 
         SourceSettings m_settings;
     };

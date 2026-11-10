@@ -34,6 +34,7 @@ namespace hg {
             std::string fonts = "fonts";
             std::string meshes = "meshes";
             std::string prefabs = "prefabs";
+            std::string rigs = "rigs";
         };
 
         struct Settings {
@@ -69,6 +70,9 @@ namespace hg {
         double m_elapsedTime = 0;
 
         int m_spriteSheetIdx = 0;
+        int m_rigAtlasIdx = 0;
+        int m_skeletonIdx = 0;
+        int m_rigAnimationSetIdx = 0;
         int m_textureIdx = 0;
         int m_shaderIdx = 0;
         int m_soundIdx = 0;
@@ -90,6 +94,9 @@ namespace hg {
 
         std::vector<std::tuple<std::string, ShaderPaths>> m_shaders;
         std::vector<std::tuple<std::string, std::string>> m_spriteSheets;
+        std::vector<std::tuple<std::string, std::string>> m_rigAtlases;
+        std::vector<std::tuple<std::string, std::string>> m_skeletons;
+        std::vector<std::tuple<std::string, std::string>> m_rigAnimationSets;
         std::vector<std::tuple<std::string, std::string>> m_textures;
         std::vector<std::tuple<std::string, std::string>> m_sounds;
         std::vector<std::tuple<std::string, std::string>> m_fonts;

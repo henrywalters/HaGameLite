@@ -6,6 +6,7 @@
 #define HAGAME2_LOOPINGTHREAD_H
 
 #include <thread>
+#include <atomic>
 #include <iostream>
 
 namespace hg::utils {
@@ -35,11 +36,13 @@ class LoopingThread {
         virtual void onStart() {}
         virtual void onTick() {}
         virtual void onAbort() {}
+        // Runs on the thread after the loop exits, so thread-owned resources can be released there
+        virtual void onEnd() {}
 
     private:
 
-        std::atomic_bool m_aborting;
-        std::atomic_bool m_running;
+        std::atomic_bool m_aborting = false;
+        std::atomic_bool m_running = false;
         std::thread m_thread;
 
         void tickFunc() {
@@ -64,6 +67,8 @@ class LoopingThread {
                     // Make sure that nothing leaves the thread for now...
                 }
             }
+
+            onEnd();
 
             m_running.store(false);
         }

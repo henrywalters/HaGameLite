@@ -102,9 +102,11 @@ namespace hg::graphics {
             hg::Vec3 velocity;
             hg::graphics::Color startColor;
             hg::graphics::Color endColor;
-            float scale;
-            float startTime;
-            float aliveFor;
+            // Zeroed so the buffer's unused slots are dead (0 seconds to live) rather than whatever was in memory.
+            // Shaders should go by aliveFor: initialized is uploaded as a float, so its bits don't read as 1
+            float scale = 0.0f;
+            float startTime = 0.0f;
+            float aliveFor = 0.0f;
             hg::Vec3 gravity;
             int initialized = 0;
         };

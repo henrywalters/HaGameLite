@@ -3,6 +3,7 @@
 //
 #include "../../../include/hagame/ui/frame.h"
 #include "../../../include/hagame/graphics/debug.h"
+#include <vector>
 
 using namespace hg::graphics;
 
@@ -38,18 +39,29 @@ bool hg::ui::Frame::contains(hg::ui::Element *element, hg::Vec2 pos) const {
 }
 
 void hg::ui::Frame::update(Vec2 mousePos, double dt) {
+    // Send every MouseLeave before any MouseEnter. Otherwise, when the mouse jumps from one element to another
+    // earlier in the tree within a frame, the old element's leave (often an unFocus) runs after the new one's
+    // enter and undoes it, so the element under the mouse ends up unfocused and ignores clicks.
+    std::vector<Element*> entered;
+    std::vector<Element*> left;
+
     structures::Tree::BreadthFirstTraverse<Element>(&m_root, [&](auto ui) {
-        if (contains(ui, mousePos)) {
-            if (!m_hovered.contains(ui->id())) {
-                m_hovered.insert(ui->id());
-                ui->events.emit(UIEvents::MouseEnter);
-            }
-        } else {
-            if (m_hovered.contains(ui->id())) {
-                m_hovered.erase(ui->id());
-                ui->events.emit(UIEvents::MouseLeave);
-            }
+        bool inside = contains(ui, mousePos);
+        bool wasInside = m_hovered.contains(ui->id());
+        if (inside && !wasInside) {
+            m_hovered.insert(ui->id());
+            entered.push_back(ui);
+        } else if (!inside && wasInside) {
+            m_hovered.erase(ui->id());
+            left.push_back(ui);
         }
         return true;
     });
+
+    for (auto ui : left) {
+        ui->events.emit(UIEvents::MouseLeave);
+    }
+    for (auto ui : entered) {
+        ui->events.emit(UIEvents::MouseEnter);
+    }
 }
