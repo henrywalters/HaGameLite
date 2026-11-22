@@ -22,10 +22,14 @@ hg::graphics::FontCharacter::~FontCharacter() {
     glDeleteTextures(1, &id);
 }
 
+// The characters packed into the atlas: space (32) up to and including 127
+static constexpr int FIRST_PACKED_CHAR = 32;
+static constexpr int NUM_PACKED_CHARS = 96;
+
 hg::graphics::Font::Font(std::string ttf):
     m_font(new stbtt_fontinfo()),
     m_packContext(new stbtt_pack_context()),
-    m_packedChar(malloc(sizeof(stbtt_packedchar) * 96)),
+    m_packedChar(malloc(sizeof(stbtt_packedchar) * NUM_PACKED_CHARS)),
     m_bakedChar(malloc(sizeof(stbtt_bakedchar) * 96))
 {
 
@@ -35,7 +39,7 @@ hg::graphics::Font::Font(std::string ttf):
     }
 
     unsigned char pixels[512*512];
-    void* context;
+    void* context = nullptr; // stb_truetype's allocator context: unused with its default malloc, but it was read uninitialised
 
     //stbtt_BakeFontBitmap(m_fileBuffer.data, 0, fontSize(), pixels, 512, 512, 32, 96, (stbtt_bakedchar *)m_bakedChar);
     //m_atlas = std::make_unique<FontTexture>(hg::Vec2i(512, 512), pixels);
@@ -60,7 +64,7 @@ void hg::graphics::Font::updateFont() {
     stbtt_GetFontVMetrics(m_font, &m_ascent, &m_descent, &m_lineGap);
 
     //stbtt_PackSetOversampling(m_packContext, 16, 16);
-    stbtt_PackFontRange(m_packContext, m_fileBuffer.data, 0, fontSize(), 32, 96, (stbtt_packedchar*) m_packedChar);
+    stbtt_PackFontRange(m_packContext, m_fileBuffer.data, 0, fontSize(), FIRST_PACKED_CHAR, NUM_PACKED_CHARS, (stbtt_packedchar*) m_packedChar);
 
     m_atlas->update(hg::Vec2i(512, 512), m_packContext->pixels);
 
@@ -84,15 +88,16 @@ void hg::graphics::Font::loadChar(char character, FontCharacter* fontChar) {
     stbtt_GetCodepointHMetrics(m_font, character, &fontChar->advance, &fontChar->bearing[0]);
     stbtt_GetCodepointBitmapBox(m_font, character, 0, m_scale, 0, &fontChar->ascent[0], 0, &fontChar->ascent[1]);
 
-    float posX, posY;
-
-    stbtt_aligned_quad q;
-
-    //stbtt_GetBakedQuad((stbtt_bakedchar*)m_bakedChar, 512, 512, character -  32, )
-
-    stbtt_GetPackedQuad((stbtt_packedchar *)m_packedChar, 512, 512, character - 32, &posX, &posY, &q, 0);
-
-    fontChar->texCoords = Rect(Vec2(q.s0, q.t0), Vec2(q.s1 - q.s0, q.t1 - q.t0));
+    // The atlas only packs the printable characters, FIRST_PACKED_CHAR up to 127. Anything below that (control
+    // characters) has no place in it: looking one up read before the start of m_packedChar
+    if (character >= FIRST_PACKED_CHAR && character - FIRST_PACKED_CHAR < NUM_PACKED_CHARS) {
+        float posX = 0, posY = 0; // GetPackedQuad advances these, so they have to start somewhere
+        stbtt_aligned_quad q;
+        stbtt_GetPackedQuad((stbtt_packedchar *)m_packedChar, 512, 512, character - FIRST_PACKED_CHAR, &posX, &posY, &q, 0);
+        fontChar->texCoords = Rect(Vec2(q.s0, q.t0), Vec2(q.s1 - q.s0, q.t1 - q.t0));
+    } else {
+        fontChar->texCoords = Rect(Vec2(0, 0), Vec2(0, 0));
+    }
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glGenTextures(1, &fontChar->id);

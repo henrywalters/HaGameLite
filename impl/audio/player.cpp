@@ -81,6 +81,10 @@ void Player::onTick() {
             if (auto it = m_sources.find(event.source); it != m_sources.end()) {
                 it->second->setState(event.state);
             }
+            std::scoped_lock lock(m_stateMutex);
+            if (--m_pendingStates[event.source] <= 0) {
+                m_pendingStates.erase(event.source);
+            }
         } else if (type == EventType::RemoveSource) {
             auto event = std::get<RemoveSourceEvent>(e);
             m_sources.erase(event.source);
@@ -96,10 +100,18 @@ void Player::onTick() {
 
     {
         std::scoped_lock lock(m_stateMutex);
-        m_states.clear();
+        std::unordered_map<source_t, SourceState> states;
         for (const auto& [id, source] : m_sources) {
-            m_states[id] = source->state();
+            states[id] = source->state();
         }
+        // A change queued after this tick drained the queue keeps the state it asked for, rather than being
+        // overwritten by the state from before it
+        for (const auto& [id, count] : m_pendingStates) {
+            if (auto it = m_states.find(id); it != m_states.end()) {
+                states[id] = it->second;
+            }
+        }
+        m_states = std::move(states);
     }
 
     if (!processed) {
@@ -199,6 +211,11 @@ void Player::updateListener(const ListenerSettings& settings) {
 }
 
 void Player::changeState(source_t source, SourceState state) {
+    {
+        std::scoped_lock lock(m_stateMutex);
+        m_states[source] = state;
+        m_pendingStates[source]++;
+    }
     ChangeStateEvent e;
     e.type = EventType::ChangeState;
     e.state = state;

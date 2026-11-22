@@ -4,12 +4,15 @@
 
 #ifndef HAGAME2_UUID_H
 #define HAGAME2_UUID_H
+#include <cstdint>
 #include <random>
 
 namespace hg {
     namespace utils {
 
-        using uuid_t = uint32_t;
+        // 64 bits: ids are random, and with 32 bits two of them coincide once there are tens of thousands (entities,
+        // components, prefabs and saves together), silently swapping one entity for another
+        using uuid_t = uint64_t;
 
         struct Identity {
             template <typename T>

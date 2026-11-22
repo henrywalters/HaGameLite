@@ -195,7 +195,12 @@ void hg::Prefab::load(std::string path) {
                 Field newField;
                 newField.field = field;
                 if (component["fields"].contains(field.field)) {
-                    newField.value = hg::utils::deserialize(field.type, component["fields"][field.field]);
+                    // A JSON field (e.g. a rig's pose) is saved as JSON, not as a string to deserialize
+                    if (std::holds_alternative<ComponentFactory::JsonDetails>(field.details)) {
+                        newField.value = component["fields"][field.field];
+                    } else {
+                        newField.value = hg::utils::deserialize(field.type, component["fields"][field.field]);
+                    }
                 } else {
                     if (!defaults) {
                         defaults = newComponent.component.create();

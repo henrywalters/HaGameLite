@@ -45,7 +45,8 @@ namespace hg::utils {
 
         Value get(Key key) const {
             if (!has(key)) {
-                throw new std::runtime_error("Key does not exist in store");
+                // By value: a thrown pointer can only be caught with catch (...), and leaks
+                throw std::runtime_error("Key does not exist in store");
             }
             // events.emit(StoreEvent::Get, std::make_tuple(key, get(key)));
             return m_store.at(key);

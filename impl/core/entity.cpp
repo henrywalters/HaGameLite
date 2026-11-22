@@ -10,16 +10,16 @@ using namespace hg;
 
 static int entityCount = 0;
 
-hg::Entity::Entity(hg::utils::uuid_t enttId,
-                   entt::basic_registry<utils::uuid_t, std::allocator<utils::uuid_t>> *registry):
+hg::Entity::Entity(uint32_t enttId,
+                   entt::basic_registry<uint32_t, std::allocator<uint32_t>> *registry):
         m_enttId(enttId),
         m_registry(registry)
 {
     name = "Entity " + std::to_string(entityCount++);
 };
 
-hg::Entity::Entity(hg::utils::uuid_t id, hg::utils::uuid_t enttId,
-                   entt::basic_registry<utils::uuid_t, std::allocator<utils::uuid_t>> *registry):
+hg::Entity::Entity(hg::utils::uuid_t id, uint32_t enttId,
+                   entt::basic_registry<uint32_t, std::allocator<uint32_t>> *registry):
         GameObject(id),
         m_enttId(enttId),
         m_registry(registry)

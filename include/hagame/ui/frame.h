@@ -38,17 +38,25 @@ namespace hg::ui {
         Container* root();
 
         void render(double dt, bool debug = false);
-        void update(Vec2 mousePos, double dt);
+
+        // Sends MouseEnter / MouseLeave, and with mouseDown (the left button held), presses and drags to the element
+        // under the mouse that takes them (see Element::onPointerDown)
+        void update(Vec2 mousePos, double dt, bool mouseDown = false);
 
         bool contains(Element* element, hg::Vec2 pos) const;
 
         void resize();
+
+        // Removes and deletes every element, leaving the root (and its style) to build the frame again
+        void clear();
 
     private:
 
         GraphicsContext m_context;
         std::vector<Element*> m_elements;
         std::set<hg::utils::uuid_t> m_hovered;
+        bool m_mouseDown = false;
+        Element* m_captured = nullptr; // Took the current press, and gets its drags until release
         Container m_root;
 
         void initializeShader(graphics::ShaderProgram* shader);

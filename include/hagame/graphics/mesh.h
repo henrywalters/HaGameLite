@@ -22,6 +22,8 @@ namespace hg::graphics {
 
         Mesh() = default;
         Mesh(std::string objPath);
+        // Virtual so deleting through a base pointer runs the whole destructor chain
+        virtual ~Mesh() = default;
 
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;

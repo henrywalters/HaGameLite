@@ -42,7 +42,8 @@ namespace hg::audio {
         void updateSource(source_t source, const SourceSettings& settings);
         void removeSource(source_t source);
 
-        // State as of the player thread's last tick, or nullopt if the source hasn't been created yet
+        // State as of the player thread's last tick, or nullopt if the source hasn't been created yet. A state
+        // asked for with play/pause/stopSource reads back straight away, before the player thread gets to it
         std::optional<SourceState> getState(source_t source);
 
         void playSource(source_t source);
@@ -119,6 +120,8 @@ namespace hg::audio {
 
         std::mutex m_stateMutex;
         std::unordered_map<source_t, SourceState> m_states;
+        // State changes queued but not yet applied, per source. Their requested state stands in m_states until then
+        std::unordered_map<source_t, int> m_pendingStates;
 
         void checkError();
 

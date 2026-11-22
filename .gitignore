@@ -11,3 +11,4 @@ wasm/
 Debug/
 Release/
 x64/
+lib-asan/

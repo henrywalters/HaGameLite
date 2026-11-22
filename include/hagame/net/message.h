@@ -12,7 +12,7 @@ namespace hg::net {
     template <typename T>
     struct MessageHeader {
         T id{};
-        utils::uuid_t size;
+        uint32_t size;
     };
 
     template <typename T>

@@ -328,6 +328,7 @@ namespace hg::utils {
 
     class Configurable {
     public:
+        virtual ~Configurable() = default;
         virtual void save(Config& config) = 0;
         virtual void load(const Config& config) = 0;
     };
@@ -337,6 +338,7 @@ namespace hg::utils {
 
     class JsonConfigurable {
     public:
+        virtual ~JsonConfigurable() = default;
         virtual nlohmann::json save() const = 0;
         virtual void load(nlohmann::json const& json) = 0;
     };

@@ -35,6 +35,8 @@ namespace hg {
     public:
 
         Object() = default;
+        // Virtual so deleting through a base pointer runs the whole destructor chain
+        virtual ~Object() = default;
 
         Object(utils::uuid_t id):
             utils::UUID(id)

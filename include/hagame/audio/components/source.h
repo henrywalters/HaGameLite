@@ -5,6 +5,7 @@
 #ifndef HAGAME2_SOURCE_COMPONENT_H
 #define HAGAME2_SOURCE_COMPONENT_H
 
+#include <optional>
 #include "../player.h"
 #include "../../core/entity.h"
 #include "../../core/component.h"
@@ -13,7 +14,7 @@ namespace hg::audio {
     class AudioSource : public hg::Component {
     public:
 
-        int channel;
+        int channel = 0;
         StreamAsset stream;
         float pitch = 1.0f;
         float gain = 1.0f;
@@ -32,8 +33,44 @@ namespace hg::audio {
         bool persistent = false;
         std::string persistentKey;
 
+        // Start playing, or carry on from where pause() left off
+        void play() { request(SourceState::Playing); }
+
+        // Hold the sound where it is, to carry on with play()
+        void pause() { request(SourceState::Paused); }
+
+        // Stop the sound and rewind it, so play() starts it from the beginning
+        void stop() { request(SourceState::Stopped); }
+
+        // These read back a request straight away, e.g. isPlaying() is true right after play(). Otherwise they follow
+        // the sound itself, so a sound that isn't looping goes back to Stopped when it reaches the end
+        SourceState state() const { return m_state; }
+        bool isPlaying() const { return m_state == SourceState::Playing; }
+        bool isPaused() const { return m_state == SourceState::Paused; }
+        bool isStopped() const { return m_state == SourceState::Stopped; }
+
+        // For the audio system: takes the latest play/pause/stop request, if there's one waiting
+        std::optional<SourceState> takeRequest() {
+            auto request = m_request;
+            m_request.reset();
+            return request;
+        }
+
+        // For the audio system: reports what the sound is doing
+        void setState(SourceState state) { m_state = state; }
+
     protected:
         OBJECT_NAME(AudioSource)
+
+    private:
+
+        std::optional<SourceState> m_request;
+        SourceState m_state = SourceState::Stopped;
+
+        void request(SourceState state) {
+            m_request = state;
+            m_state = state;
+        }
     };
 
     HG_COMPONENT(Audio, AudioSource)

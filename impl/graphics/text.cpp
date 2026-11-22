@@ -84,18 +84,17 @@ std::vector<Text::Character> hg::graphics::Text::Construct(hg::graphics::Font *f
 
     cursorPos[1] += font->calcLineSpacing() * (lines.size() - 1);
 
+    // Centres the font's ascent-to-descent box in each line, the same for any text
+    float baselineOffset = (font->calcLineSpacing() - (font->ascent() - font->descent()) * font->scale()) * 0.5f;
+
+    int lineIndex = 0;
     for (const auto& line : lines) {
 
         auto lineSize = font->calcMessageSize(line);
 
-        float lineHeight = 0;
         std::unordered_map<char, FontCharacter*> chars;
-
         for (const auto& c : line) {
             chars.insert(std::make_pair(c, font->getChar(c)));
-            if (chars.at(c)->size[1] > lineHeight) {
-                lineHeight = chars.at(c)->size[1];
-            }
         }
 
         for (const auto& c : line) {
@@ -121,26 +120,16 @@ std::vector<Text::Character> hg::graphics::Text::Construct(hg::graphics::Font *f
                     break;
             }
 
-            /*
-            switch (alignmentV) {
-                case TextVAlignment::Top:
-                    charPos[1] -= lineSize[1] - lineHeight;
-                    break;
-                case TextVAlignment::Center:
-                    charPos[1] -= (lineSize[1] - lineHeight * 0.5);
-                    break;
-                case TextVAlignment::Bottom:
-                    break;
-            }
-            */
-
-            charPos[1] += (lineSize[1] - lineHeight) * 0.5;
+            // Every line shares one baseline from the font's metrics. It used to be nudged by the tallest glyph in the
+            // line, so a 'p' or 'g' moved the whole line
+            charPos[1] += baselineOffset;
 
             Character newChar;
             newChar.ch = c;
             newChar.size = charSize;
             newChar.texCoords = chars[c]->texCoords;
             newChar.position = charPos + charSize * 0.5;
+            newChar.line = lineIndex;
 
             characters.push_back(newChar);
 
@@ -150,6 +139,7 @@ std::vector<Text::Character> hg::graphics::Text::Construct(hg::graphics::Font *f
 
         cursorPos[0] = pos[0];
         cursorPos[1] -= font->calcLineSpacing();
+        lineIndex++;
     }
 
     return characters;

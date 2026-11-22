@@ -33,6 +33,7 @@ namespace hg::graphics {
             Vec2 size;
             Rect texCoords;
             Vec2 position;
+            int line = 0; // Which line it's on, from the top, after wrapping
         };
 
         Text();

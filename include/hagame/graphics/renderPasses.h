@@ -5,6 +5,7 @@
 #ifndef HAGAME2_RENDERPASSES_H
 #define HAGAME2_RENDERPASSES_H
 
+#include <vector>
 #include "./frameBuffer.h"
 
 namespace hg::graphics {
@@ -88,11 +89,12 @@ namespace hg::graphics {
 
         void render(KeyType key, int attachments) {
             bind(key);
-            unsigned int attach[attachments];
+            // A vector rather than a variable length array, which is a Clang extension, not C++
+            std::vector<unsigned int> attach(attachments);
             for (int i = 0; i < attachments; i++) {
                 attach[i] = GL_COLOR_ATTACHMENT0 + i;
             }
-            glDrawBuffers(attachments, attach);
+            glDrawBuffers(attachments, attach.data());
             unbind(key);
         }
 

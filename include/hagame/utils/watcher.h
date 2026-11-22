@@ -46,7 +46,9 @@ namespace hg::utils {
 
     private:
 
-        T m_value;
+        // Value-initialised (false, 0, empty) when not given one. Left uninitialised, a Watcher<bool> input button's
+        // first comparison read garbage, and could report a change, and call onUpdate, before anything happened
+        T m_value{};
 
     };
 }

@@ -11,6 +11,8 @@ namespace hg {
 class Asset {
     public:
 
+        virtual ~Asset() = default;
+
         bool operator==(const Asset& other) { return m_path == other.m_path; }
         bool operator!=(const Asset& other) { return !(*this == other); }
 

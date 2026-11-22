@@ -19,6 +19,7 @@ namespace hg::interfaces {
     template <typename IndexType, typename ValueType>
     class INodeMap {
     public:
+        virtual ~INodeMap() = default;
 
         virtual void clear() = 0;
         virtual bool has(IndexType index) = 0;

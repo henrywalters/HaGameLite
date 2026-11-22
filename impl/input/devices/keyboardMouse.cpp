@@ -72,7 +72,8 @@ void hg::input::devices::KeyboardMouse::keyCallback(int key, int action)
     }
 
     if (key >= GLFW_KEY_0 && key <= GLFW_KEY_9) {
-        auto id = key - GLFW_KEY_0 + KeyboardButtons::NumberStart;
+        // KeyboardButtons runs One to Nine then Zero, the order across a keyboard, but GLFW runs 0 to 9
+        auto id = KeyboardButtons::NumberStart + (key == GLFW_KEY_0 ? 9 : key - GLFW_KEY_1);
         UpdateState(buttons[id], buttonsPressed[id], action != 0);
     }
 

@@ -38,7 +38,33 @@ bool hg::ui::Frame::contains(hg::ui::Element *element, hg::Vec2 pos) const {
     return element->contains(rect, pos);
 }
 
-void hg::ui::Frame::update(Vec2 mousePos, double dt) {
+void hg::ui::Frame::update(Vec2 mousePos, double dt, bool mouseDown) {
+    bool pressed = mouseDown && !m_mouseDown;
+    bool released = !mouseDown && m_mouseDown;
+    m_mouseDown = mouseDown;
+
+    if (pressed) {
+        // The front-most element under the mouse that wants the press: deeper elements draw over their parents
+        std::vector<Element*> under;
+        structures::Tree::BreadthFirstTraverse<Element>(&m_root, [&](auto ui) {
+            if (contains(ui, mousePos)) {
+                under.push_back(ui);
+            }
+            return true;
+        });
+        for (auto it = under.rbegin(); it != under.rend(); it++) {
+            if ((*it)->onPointerDown(rect, mousePos)) {
+                m_captured = *it;
+                break;
+            }
+        }
+    } else if (m_captured && mouseDown) {
+        m_captured->onPointerDrag(rect, mousePos);
+    } else if (m_captured && released) {
+        m_captured->onPointerUp(rect, mousePos);
+        m_captured = nullptr;
+    }
+
     // Send every MouseLeave before any MouseEnter. Otherwise, when the mouse jumps from one element to another
     // earlier in the tree within a frame, the old element's leave (often an unFocus) runs after the new one's
     // enter and undoes it, so the element under the mouse ends up unfocused and ignores clicks.
@@ -64,4 +90,15 @@ void hg::ui::Frame::update(Vec2 mousePos, double dt) {
     for (auto ui : entered) {
         ui->events.emit(UIEvents::MouseEnter);
     }
+}
+void hg::ui::Frame::clear() {
+    for (auto child : m_root.children()) {
+        m_root.removeChild(child);
+    }
+    for (auto element : m_elements) {
+        delete element;
+    }
+    m_elements.clear();
+    m_hovered.clear();
+    m_captured = nullptr;
 }

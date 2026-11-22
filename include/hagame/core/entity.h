@@ -50,9 +50,9 @@ namespace hg {
             return true;
         }
 
-        Entity(utils::uuid_t enttId, entt::basic_registry<utils::uuid_t, std::allocator<utils::uuid_t>>* registry);
+        Entity(uint32_t enttId, entt::basic_registry<uint32_t, std::allocator<uint32_t>>* registry);
 
-        Entity(utils::uuid_t id, utils::uuid_t enttId, entt::basic_registry<utils::uuid_t, std::allocator<utils::uuid_t>>* registry);
+        Entity(utils::uuid_t id, uint32_t enttId, entt::basic_registry<uint32_t, std::allocator<uint32_t>>* registry);
 
         int getDepth() {
             int depth = 0;

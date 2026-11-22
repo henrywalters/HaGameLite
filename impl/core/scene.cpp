@@ -5,6 +5,7 @@
 
 #include <hagame/core/assets.h>
 #include <hagame/core/scene.h>
+#include <hagame/utils/log.h>
 
 #include <deque>
 
@@ -48,7 +49,10 @@ void hg::Scene::loadEntity(nlohmann::json const &entityJ, std::unordered_map<hg:
     if (isPrefabInstance) {
         auto prefabId = entityJ["prefab"].get<utils::uuid_t>();
         if (prefabMap.find(prefabId) == prefabMap.end()) {
-            throw std::runtime_error("Prefab '" + std::to_string(prefabId) + "' not loaded into assets!");
+            // The rest of the scene still loads: one missing prefab shouldn't take the whole level down with it
+            hg::log::error("Prefab {} isn't loaded, so '{}' was left out of the scene. Is its .hg_pfb in prefabs/?",
+                           prefabId, entityJ.value("name", std::string("?")));
+            return;
         }
         entity = parent ? entities.add(parent, prefabMap.at(prefabId)) : entities.add(prefabMap.at(prefabId));
     } else {

@@ -138,12 +138,17 @@ namespace hg::graphics {
                 Text::Construct(sized, text, box, Vec3::Zero(), h, v) :
                 Text::Construct(sized, text, Vec3::Zero(), h, v);
             Vec2 min(std::numeric_limits<float>::max()), max(std::numeric_limits<float>::lowest());
+            int lineCount = 0;
             for (const auto& ch : characters) {
-                for (int i = 0; i < 2; i++) {
-                    min[i] = std::min(min[i], ch.position[i] - ch.size[i] * 0.5f);
-                    max[i] = std::max(max[i], ch.position[i] + ch.size[i] * 0.5f);
-                }
+                min[0] = std::min(min[0], ch.position[0] - ch.size[0] * 0.5f);
+                max[0] = std::max(max[0], ch.position[0] + ch.size[0] * 0.5f);
+                lineCount = std::max(lineCount, ch.line + 1);
             }
+            // Up and down by the lines rather than the letters drawn, which Construct stacks upwards from the
+            // origin. Measuring the letters moved the text whenever a 'p' or 'g' (or a capital) came or went, e.g.
+            // as dialogue types out
+            min[1] = 0.0f;
+            max[1] = lineCount * sized->calcLineSpacing();
             Vec2 pivot(h == TextHAlignment::Left ? 0.0f : h == TextHAlignment::Right ? 1.0f : 0.5f,
                        v == TextVAlignment::Bottom ? 0.0f : v == TextVAlignment::Top ? 1.0f : 0.5f);
             Vec2 offset = characters.empty() ? Vec2::Zero() : (min + (max - min).prod(pivot)) * -1.0f;

@@ -37,6 +37,13 @@ class Element : public structures::Tree, public hg::Object {
 
         bool focused() const { return m_focused; }
 
+        // The mouse, from Frame::update when it's given the button. An element that returns true from onPointerDown
+        // takes the press: it gets onPointerDrag every update while the button stays down, wherever the mouse goes,
+        // then onPointerUp. Positions are in the frame's space, like getRect's
+        virtual bool onPointerDown(Rect rootRect, Vec2 pos) { return false; }
+        virtual void onPointerDrag(Rect rootRect, Vec2 pos) {}
+        virtual void onPointerUp(Rect rootRect, Vec2 pos) {}
+
     protected:
 
         OBJECT_NAME(Element)

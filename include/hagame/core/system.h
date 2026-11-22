@@ -17,6 +17,8 @@ namespace hg {
 
     class System {
     public:
+        // Virtual so a System deleted through a base pointer runs its own destructor
+        virtual ~System() = default;
 
         static hg::utils::uuid_t id;
 
