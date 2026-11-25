@@ -112,6 +112,12 @@ namespace hg {
     std::shared_ptr<hg::Prefab> createPrefab(std::string name);
     bool hasPrefab(std::string name);
     hg::Prefab* getPrefab(std::string name);
+
+    // Loads the file at path again, under every name something was loaded from it as. A texture or prefab changes in
+    // place; anything else is replaced, the old one kept alive for whatever still points at it, and every Asset looks
+    // its asset up again. A file nothing was loaded from yet is loaded the way the loading scene would load it.
+    // Errors are logged rather than thrown. Returns whether anything changed
+    bool reloadAsset(std::string path);
 }
 
 

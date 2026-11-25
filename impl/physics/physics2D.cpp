@@ -120,6 +120,10 @@ void Physics2D::onFixedUpdate(double dt) {
 
     // Every body, active or not, so one whose entity was switched off since the last step is taken out of the world
     scene->entities.forEach<RigidBody2D>([&](RigidBody2D* rb, Entity* entity) {
+        // Added after play started (spawned, or a component added at runtime): it gets its body here, where it is now
+        if (!b2Body_IsValid(rb->m_id)) {
+            rb->initialize(m_world);
+        }
         bool active = entity->activeInHierarchy();
         rb->setEnabled(active);
         if (active) {

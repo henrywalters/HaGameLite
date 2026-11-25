@@ -40,8 +40,16 @@ namespace hg {
         // Apply overrides from getOverrides to an instance that was built from this Prefab
         void applyOverrides(hg::Entity* instance, nlohmann::json const& overrides) const;
 
+        // The Prefab as saved to disc
+        nlohmann::json toJson();
+
         // Save the Prefab to disc
         void save(std::string path);
+
+        // Load the file again in place, so instances (which point at this Prefab) rebuild with their overrides kept.
+        // False, changing nothing, when the file matches the Prefab already (e.g. it was just saved from it).
+        // Throws, changing nothing, when the file can't be loaded
+        bool reload(std::string path);
 
         // Load the Prefab from disc
         void load(std::string path);
@@ -51,6 +59,9 @@ namespace hg {
         // The root entity's transform as authored. Instances don't take it (they're placed by whoever spawns them),
         // so spawners copy what they need, such as the scale
         hg::math::Transform const& rootTransform() const { return m_root.transform; }
+
+        // The root entity's name as authored. Instances don't take it either
+        std::string const& rootName() const { return m_root.name; }
 
     private:
 

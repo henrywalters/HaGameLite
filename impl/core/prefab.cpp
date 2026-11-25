@@ -112,7 +112,7 @@ void hg::Prefab::updateEntity(hg::Entity *root) {
     loadEntity(root, &m_root);
 }
 
-void hg::Prefab::save(std::string path) {
+nlohmann::json hg::Prefab::toJson() {
     std::function<json(Node*)> saveNode = [&](Node* node) {
 
         json object;
@@ -162,7 +162,23 @@ void hg::Prefab::save(std::string path) {
     json output;
     output["id"] = m_id;
     output["entities"] = saveNode(&m_root);
-    hg::utils::f_write(path, output.dump(4));
+    return output;
+}
+
+void hg::Prefab::save(std::string path) {
+    hg::utils::f_write(path, toJson().dump(4));
+}
+
+bool hg::Prefab::reload(std::string path) {
+    // Load it on the side first: a bad or half-written file throws here, before this Prefab is cleared
+    Prefab loaded(path);
+    if (loaded.toJson()["entities"] == toJson()["entities"]) {
+        return false;
+    }
+    onBeforeUpdate.emit();
+    load(path);
+    onUpdate.emit();
+    return true;
 }
 
 void hg::Prefab::load(std::string path) {

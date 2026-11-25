@@ -62,6 +62,8 @@ add_library(HaGame2 SHARED impl/core/component.cpp include/hagame/math/vector.h 
         include/hagame/utils/log.h
         include/hagame/common/textEditor.h
         impl/common/textEditor.cpp
+        include/hagame/core/assetWatcher.h
+        impl/core/assetWatcher.cpp
 
 )
 

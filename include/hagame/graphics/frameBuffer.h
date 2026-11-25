@@ -66,6 +66,13 @@ namespace hg::graphics {
             texture->bind();
             // glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture->id, 0);
         }
+        // A depth buffer to draw with, of the size of the colour attachments
+        void attachDepthBuffer(hg::Vec2i size) {
+            glGenRenderbuffers(1, &m_rboDepth);
+            glBindRenderbuffer(GL_RENDERBUFFER, m_rboDepth);
+            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, size[0], size[1]);
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_rboDepth);
+        }
     private:
         unsigned int m_id, m_rbo, m_rboDepth;
     };

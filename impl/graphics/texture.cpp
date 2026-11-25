@@ -24,6 +24,14 @@ hg::graphics::Texture::Texture(hg::Vec2i size):
 
 }
 
+void hg::graphics::Texture::load(std::string path) {
+    auto next = std::make_unique<Image>(path, image ? image->type : ImageType::RGBA);
+    image = std::move(next);
+    size = image->size;
+    update(size, image->data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+}
+
 void hg::graphics::TextureAsset::reload() {
     m_asset = hg::getTexture(m_path);
 }
