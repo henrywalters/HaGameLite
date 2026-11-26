@@ -5,7 +5,6 @@
 #ifndef HAGAME2_QUADTREE_H
 #define HAGAME2_QUADTREE_H
 
-#include <aliases.h>
 #include <set>
 #include <iostream>
 #include "../math/vector.h"

@@ -9,6 +9,7 @@
 #include <hagame/core/game.h>
 #include <hagame/common/components/tilemap.h>
 #include "hagame/math/ray.h"
+#include <unordered_set>
 
 using namespace hg;
 using namespace hg::physics;
@@ -29,6 +30,7 @@ void Physics2D::clear() {
     worldDef.gravity = FromVec(m_gravity);
     m_world = b2CreateWorld(&worldDef);
     m_tilemapShapes.clear();
+    m_shapeMap.clear();
 
     m_initialized = true;
 }
@@ -84,7 +86,7 @@ void Physics2D::createTilemapBody(Entity* entity) {
         std::vector<b2ShapeId> segments(b2Chain_GetSegmentCount(chain));
         b2Chain_GetSegments(chain, segments.data(), segments.size());
         for (const auto& segment : segments) {
-            m_tilemapShapes.insert(std::make_pair(segment.index1, entity));
+            m_tilemapShapes.insert(std::make_pair(segment.index1, entity->id()));
         }
     }
 
@@ -101,8 +103,25 @@ void Physics2D::createTilemapBody(Entity* entity) {
         }
         auto convex = b2MakePolygon(&hull, 0);
         auto shape = b2CreatePolygonShape(body, &shapeDef, &convex);
-        m_tilemapShapes.insert(std::make_pair(shape.index1, entity));
+        m_tilemapShapes.insert(std::make_pair(shape.index1, entity->id()));
     }
+}
+
+hg::Entity* Physics2D::entityForShape(b2ShapeId shape) {
+    auto it = m_shapeMap.find(shape.index1);
+    if (it == m_shapeMap.end() || !b2Shape_IsValid(shape)) {
+        return nullptr;
+    }
+    auto entity = scene->entities.get(it->second);
+    if (!entity) {
+        return nullptr;
+    }
+    // A body's shape is rebuilt when its collider changes, and the index can pass to another body's: only the
+    // entity whose shape this exactly is (index and generation) owns it. Tilemap shapes live until the world resets
+    if (auto rb = entity->getComponent<RigidBody2D>()) {
+        return B2_ID_EQUALS(rb->m_shapeId, shape) ? entity : nullptr;
+    }
+    return entity->hasComponent<components::Tilemap>() ? entity : nullptr;
 }
 
 void Physics2D::onFixedUpdate(double dt) {
@@ -118,8 +137,17 @@ void Physics2D::onFixedUpdate(double dt) {
     m_shapeMap.clear();
     m_shapeMap.insert(m_tilemapShapes.begin(), m_tilemapShapes.end());
 
+    // Everything that can be in a body's collisions this step: entities with a body, and tilemaps
+    std::unordered_set<Entity*> live;
+    for (const auto& [index, id] : m_tilemapShapes) {
+        if (auto entity = scene->entities.get(id)) {
+            live.insert(entity);
+        }
+    }
+
     // Every body, active or not, so one whose entity was switched off since the last step is taken out of the world
     scene->entities.forEach<RigidBody2D>([&](RigidBody2D* rb, Entity* entity) {
+        live.insert(entity);
         // Added after play started (spawned, or a component added at runtime): it gets its body here, where it is now
         if (!b2Body_IsValid(rb->m_id)) {
             rb->initialize(m_world);
@@ -129,7 +157,7 @@ void Physics2D::onFixedUpdate(double dt) {
         if (active) {
             rb->updateBody();
         }
-        m_shapeMap.insert(std::make_pair(rb->m_shapeId.index1, entity));
+        m_shapeMap[rb->m_shapeId.index1] = entity->id();
     }, {}, {}, true);
 
     // Tilemap entities are in the shape map but have no RigidBody2D to record contacts on
@@ -152,12 +180,11 @@ void Physics2D::onFixedUpdate(double dt) {
 
     for (int i = 0; i < events.beginCount; i++) {
         auto event = events.beginEvents[i];
-        if (m_shapeMap.find(event.shapeIdA.index1) == m_shapeMap.end() || m_shapeMap.find(event.shapeIdB.index1) == m_shapeMap.end()) {
-            std::cout << "WARNING: Missing Shape ID for collision" << "\n";
+        auto entityA = entityForShape(event.shapeIdA);
+        auto entityB = entityForShape(event.shapeIdB);
+        if (!entityA || !entityB) {
             continue;
         }
-        auto entityA = m_shapeMap.at(event.shapeIdA.index1);
-        auto entityB = m_shapeMap.at(event.shapeIdB.index1);
         addCollision(entityA, entityB, event.manifold);
         addCollision(entityB, entityA, event.manifold);
     }
@@ -166,18 +193,22 @@ void Physics2D::onFixedUpdate(double dt) {
         auto event = events.endEvents[i];
         // A destroyed shape (e.g. one rebuilt by RigidBody2D::refreshShape) still reports its contacts ending. Its
         // body's replacement shape may already be touching the same thing, so erasing by entity would drop that
-        if (!b2Shape_IsValid(event.shapeIdA) || !b2Shape_IsValid(event.shapeIdB)) {
+        // (entityForShape is null for a destroyed shape)
+        auto entityA = entityForShape(event.shapeIdA);
+        auto entityB = entityForShape(event.shapeIdB);
+        if (!entityA || !entityB) {
             continue;
         }
-        if (m_shapeMap.find(event.shapeIdA.index1) == m_shapeMap.end() || m_shapeMap.find(event.shapeIdB.index1) == m_shapeMap.end()) {
-            std::cout << "WARNING: Missing Shape ID for collision" << "\n";
-            continue;
-        }
-        auto entityA = m_shapeMap.at(event.shapeIdA.index1);
-        auto entityB = m_shapeMap.at(event.shapeIdB.index1);
         removeCollision(entityA, entityB);
         removeCollision(entityB, entityA);
     }
+
+    // Skipping destroyed shapes above means a removed entity, or one whose body was removed (a death), never has its
+    // contacts end, so other bodies kept pointing at it: freed memory once it was removed, which collidingWith()
+    // handed out. Drop whatever isn't a body or tilemap any more
+    scene->entities.forEach<RigidBody2D>([&](RigidBody2D* rb, Entity* entity) {
+        std::erase_if(rb->m_collisions, [&](auto const& entry) { return !live.contains(entry.first); });
+    }, {}, {}, true);
 
     scene->entities.forEach<RigidBody2D>([&](RigidBody2D* rb, Entity* entity) {
         rb->updateTransform();
@@ -248,7 +279,9 @@ std::optional<Hit> Physics2D::raycast(const Ray &ray) {
     b2World_CastRay(m_world, FromVec(ray.origin), FromVec(ray.direction), filter, _raycast_callback, &hit);
 
     if (hit.fraction > 0) {
-        hg::Entity* hitEntity = m_shapeMap.find(hit.shapeId.index1) == m_shapeMap.end() ? nullptr : m_shapeMap.at(hit.shapeId.index1);
+        // Resolved now, not from a pointer saved at the last step: a shot fired after something was removed (a
+        // shotgun's first pellet killing what the second hits) handed back freed entities
+        hg::Entity* hitEntity = entityForShape(hit.shapeId);
         return Hit {hitEntity, hit.pt, hit.normal, (float)(ray.direction.magnitude() * (1.0 - hit.fraction))};
     }
 

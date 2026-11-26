@@ -6,7 +6,9 @@
 #include <cstdio>
 #include <iostream>
 #include <map>
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 
 using namespace hg::log;
 
@@ -20,7 +22,12 @@ namespace {
         std::map<int, Listener> listeners;
         int nextListener = 1;
         bool printToStdout = true;
+#ifdef _WIN32
+        // A Windows console only shows ANSI colours with virtual terminal processing turned on, so print plain text
+        bool colour = false;
+#else
         bool colour = isatty(fileno(stdout));
+#endif
     };
 
     // Made on first use, so logging from another static's constructor still works

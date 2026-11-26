@@ -12,3 +12,6 @@ Debug/
 Release/
 x64/
 lib-asan/
+# Visual Studio build on Windows
+build-vs/
+lib-debug/

@@ -53,13 +53,19 @@ namespace hg::physics {
 
     private:
 
-        std::unordered_map<int32_t, hg::Entity*> m_shapeMap;
+        // Each shape's entity, by the shape's index, as an id rather than a pointer: an entity removed between steps
+        // (picked up, killed, cleared by a script) would otherwise leave a dangling pointer here, and Box2D hands a
+        // freed shape's index to the next shape made. Look entities up with entityForShape, never directly
+        std::unordered_map<int32_t, utils::uuid_t> m_shapeMap;
 
         // Shapes of the static bodies built from tilemaps on play. They have no RigidBody2D, so they're kept here
         // and merged into m_shapeMap each step
-        std::unordered_map<int32_t, hg::Entity*> m_tilemapShapes;
+        std::unordered_map<int32_t, utils::uuid_t> m_tilemapShapes;
 
         void createTilemapBody(hg::Entity* entity);
+
+        // The live entity that owns shape, or null when it's gone or the index now belongs to another shape
+        hg::Entity* entityForShape(b2ShapeId shape);
 
         double m_elapsedTime = 0;
 
